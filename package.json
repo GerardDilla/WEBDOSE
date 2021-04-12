@@ -1,0 +1,24 @@
+{
+  "requires": true,
+  "lockfileVersion": 1,
+  "dependencies": {
+    "simple-pagination": "^1.0.0"
+  },
+  "name": "webdose_sched",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SDCASanchez/WEBDOSE_Sched.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SDCASanchez/WEBDOSE_Sched/issues"
+  },
+  "homepage": "https://github.com/SDCASanchez/WEBDOSE_Sched#readme"
+}
