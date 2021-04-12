@@ -4,10 +4,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Admission extends MY_Controller
 {
 
-  
+
   function __construct()
   {
-    echo 'test';
     parent::__construct();
     $this->load->library('set_views');
     $this->load->library("Excel");
