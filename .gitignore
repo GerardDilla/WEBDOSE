@@ -1,6 +1,6 @@
-# /vendor
+/vendor
 /user_guide
-# /system
-# /plugins
+/system
+/plugins
 /node_modules
-# /application/config
+/application/config
