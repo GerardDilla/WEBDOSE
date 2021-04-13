@@ -4,3 +4,10 @@
 #/plugins
 #/node_modules
 #/application/config
+/application/controllers
+/application/model
+/application/views
+/application/views
+/img
+/js
+/css
