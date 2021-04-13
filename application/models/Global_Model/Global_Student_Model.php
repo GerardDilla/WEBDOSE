@@ -14,6 +14,9 @@ class Global_Student_Model extends CI_Model{
 
         $query = $this->db->get();
 
+        // reset query
+        $this->db->reset_query();
+
         return $query->result_array();
     }
 }

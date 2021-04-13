@@ -178,9 +178,7 @@ class Executive extends MY_Controller  {
 
       $input = array(
         'searchkey' => $this->input->get_post('searchkey'),
-        'datefrom' => $this->input->get_post('datefrom'),
-        'status' => $this->input->get_post('status'),
-        'education' => $this->input->get_post('education')
+        'datefrom' => $this->input->get_post('datefrom')
       );
       $result = $this->Helpdesk_Model->getHelpdeskInquiries($input);
       echo json_encode(array('data' => $result));
@@ -189,16 +187,6 @@ class Executive extends MY_Controller  {
   
 
    //// ADMIN CREATE ACCOUNT  ///
-
-
-
-
-
-
-
- 
-
-
 
 
 }

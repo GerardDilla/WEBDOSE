@@ -14,7 +14,7 @@ class MY_Controller extends CI_Controller {
         
         $this->data['message'] = '';
 
-        $this->load->helper(array('form', 'language', 'url', 'date'));
+        $this->load->helper(array('form', 'language', 'url'));
 
         //$this->load->library('set_custom_session');
         $this->data['admin_data'] = NULL;

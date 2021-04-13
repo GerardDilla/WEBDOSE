@@ -23,28 +23,28 @@ class Shs_form extends Student
     private $CI;
     private $grade_passing_mark;
     private $array_division;
-    protected $approved_by;
-    protected $prepared_by;
-    protected $verified_by;
-    protected $released_by;
+    private $approved_by;
+    private $prepared_by;
+    private $verified_by;
+    private $released_by;
     private $max_row_page;
     private $page;
     private $date_string;
     protected $date_now;
-    protected $elementary_school_name;
-    protected $elementary_school_graduated;
-    protected $elementary_school_gen_average;
-    protected $secondary_school_name;
-    protected $secondary_school_graduated;
-    protected $secondary_school_gen_average;
-    protected $shs_year_graduated;
-    protected $admission_date;
-    protected $form_remarks;
-    protected $record_reference_no;
-    protected $entrance_data;
+    private $elementary_school_name;
+    private $elementary_school_graduated;
+    private $elementary_school_gen_average;
+    private $secondary_school_name;
+    private $secondary_school_graduated;
+    private $secondary_school_gen_average;
+    private $shs_year_graduated;
+    private $admission_date;
+    private $form_remarks;
+    private $record_reference_no;
+    private $entrance_data;
     private $pages;
     private $no_pages;
-    protected $graduation_status;
+    private $graduation_status;
 
     public function __construct($parameters)
     {

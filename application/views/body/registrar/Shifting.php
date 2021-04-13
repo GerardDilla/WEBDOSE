@@ -9,18 +9,18 @@
 		</div>
 		<!--/ MODULE TITLE-->
 
+		<?php if($this->session->flashdata('shift_message') || $this->session->flashdata('message')): ?>
+			<div class="alert bg-green alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">×</span>
+				</button>
+				<?php echo $this->session->flashdata('shift_message'); ?>
+				<?php echo $this->session->flashdata('message'); ?>
+			</div>
+		<?php endIf; ?>
 
 		<div class="row">
 
-			<?php if($this->session->flashdata('shift_message') || $this->session->flashdata('message')): ?>
-				<div class="alert bg-green alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">×</span>
-					</button>
-					<?php echo $this->session->flashdata('shift_message'); ?>
-					<?php echo $this->session->flashdata('message'); ?>
-				</div>
-			<?php endIf; ?>
 
 
 			<div class="col-md-4">

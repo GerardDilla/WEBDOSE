@@ -187,14 +187,21 @@
                                         </div>
                                     </div>  
 
-                                     <div class="row">
+
+                                    <?php 
+                                             $original_date =  $this->data['get_info'][0]['Birth_Date'];
+                                             $timestamp = strtotime($original_date);
+                                             $new_date = date("mm/dd/yyyy", $timestamp);
+                                    ?>
+
+                                     <div class="row"> 
                                             <div class="col-md-4">
                                                 <div class="form-line">
                                                 <p>
-                                                <b class="red">Birthdate: </b>
+                                                <b class="red">Birthdate</b>
                                                  </p>
-                                                <input id="date" type="date" class="form-control InfoEnabled" name="b-date"  value="<?php echo $this->data['get_info'][0]['Birth_Date']; ?>" disabled>
-                                                 
+                                                <input type="text"  class="form-control InfoEnabled datepicker2" value="<?php echo  $this->data['get_info'][0]['Birth_Date']; ?>" disabled>
+                                                <input type="date"  class="form-control InfoEnabled datepicker" name="b-date"  value="<?php echo  $this->data['get_info'][0]['Birth_Date']; ?>" style="display:none;">
                                                 </div>
 
                                          
@@ -251,7 +258,7 @@
                                            <p>
                                                     <b class="red">Gender: </b>
                                             </p>
-                                                    <select class="InfoEnabled" name="gender">  
+                                                    <select class="InfoEnabled" name="gender" >  
                                                         <option  selected><?php echo $this->data['get_info'][0]['Gender']; ?></option>    
                                                         <option>FEMALE</option>    
                                                         <option>MALE</option>   
@@ -687,4 +694,3 @@
 <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>node_modules/simple-pagination.js/simplePagination.css"/>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/advising.js"></script>
 
-	

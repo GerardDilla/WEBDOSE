@@ -970,3 +970,26 @@
   .theme-black .sidebar .legal .copyright a {
     color: #000 !important; }
 
+#table-header-freeze{
+  padding-top: 0;
+}
+#table-header-freeze thead th{
+  position: sticky;
+  top: 0;
+  background-color: #f2dede;
+}
+/* #table-header-freeze tbody{
+  position: relative;
+} */
+/* This is what we are focused on */
+/* .table-wrapper{
+  overflow-y: scroll;
+  height: 150px;
+}
+
+.table-wrapper th{
+    position: sticky;
+    top: 0;
+} */
+
+

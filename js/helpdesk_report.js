@@ -60,10 +60,6 @@ function AddFilters(){
             //$('.ActiveFilters').find("[data-type='Search Key']").remove();
         }
 
-        if(filter == 'Status'){
-            $('.ActiveFilters').find("[data-type='Status']").remove();
-        }
-
         //Removes filters with same value
         $('.ActiveFilters').find("[data-value='"+value+"']").remove();
        
@@ -71,10 +67,10 @@ function AddFilters(){
         if(value != ''){
             $('.ActiveFilters').append(filterOutput(filter,value));
         }
+        
 
     });
     showFiltersModal(0);
-    resetForm();
     FilterTable();
 
 }
@@ -185,52 +181,16 @@ function FilterTable(){
 
 }
 
-function resetForm(){
-
-    $('#searchkey').val('');
-    $('#datefrom').val('');
-    $('#dateto').val('');
-    $('#educationlevel option:first').prop('selected',true);
-    $('#status option:first').prop('selected',true);
-    $("#educationlevel").selectpicker('refresh');
-    $("#status").selectpicker('refresh');
-
-}
-
 function getFilters(){
 
     filters = {
         searchkey:[],
-        datefrom:[],
-        status:'',
-        education:[]
+        datefrom:[]
     }
     $('.Filter').each(function(index){
         console.log($(this).data('type')+' - '+$(this).data('value'));
         if($(this).data('type') == 'Search Key'){
             filters['searchkey'].push($(this).data('value'));
-        }
-        else if($(this).data('type') == 'Status'){
-
-            if($(this).data('value') == 'Resolved'){
-                filters['status'] = 1;
-            }else{
-                filters['status'] = 0;
-            }
-            
-        }
-        else if($(this).data('type') == 'Education'){
-
-            if($(this).data('value') == 'Higher Education'){
-                filters['education'].push(1);
-            }
-            else if($(this).data('value') == 'Senior Highschool'){
-                filters['education'].push(2);
-            }
-            else if($(this).data('value') == 'Basic Education'){
-                filters['education'].push(3);
-            }
-            
         }
         else if($(this).data('type') == 'Date Range'){
             filters['datefrom'] = filters['datefrom'].concat($(this).data('range').split(','));
@@ -249,8 +209,7 @@ function filterInputs(){
         'Date Range':$('#datefrom').val() == '' || $('#dateto').val() == '' ? '' : [$('#datefrom').val(),$('#dateto').val()],
         'Strand':'',
         'Program':'',
-        'Status':$('#status').val(),
-        'Education':$('#educationlevel').val(),
+        'Education':'',
         'Concern':''
     }
     output = {};
@@ -261,7 +220,7 @@ function filterInputs(){
         }else{
             value = row;
         }
-        if(row == '' || row == null){
+        if(row == ''){
 
             output[index] = '';
 

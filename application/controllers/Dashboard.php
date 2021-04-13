@@ -17,6 +17,7 @@ class Dashboard extends MY_Controller  {
         $this->perPage = 2;
 
         $this->load->model('Dashboard_Model');
+        $this->load->model('Executive_Model/HigherED');
 
     }	
  
@@ -314,7 +315,40 @@ class Dashboard extends MY_Controller  {
         $resultdata =  $this->Dashboard_Model->SHS_RESERVE($array)->result_array();
         echo json_encode($resultdata);
     }
-   
-   
+    // Enrollment tracker
+    public function Tracker_Inquiry(){
+        $this->data['get_legend']  = $this->Dashboard_Model->Get_legend()->result_array();
+        $programlist = $this->HigherED->Get_Course();
+  
+        $array = array(
+          'sy' =>$this->data['get_legend'][0]['School_Year'],
+          'sem' =>$this->data['get_legend'][0]['Semester'],
+        );
+  
+        //INITIALIZE ARRAY AND COUNTER FOR FOREACH
+        $LIST = array();
+        $count = 0;
+
+        $totalInquiry = $this->Dashboard_Model->Inquiry_Count($array);
+        $totalAdvising = $this->Dashboard_Model->Advising_Count($array);
+        $totalEnrolledStudent = $this->Dashboard_Model->Enrolled_Student_Count($array);
+
+        $totalAdvised = $totalAdvising - $totalEnrolledStudent;
+        $totalOngoing = $totalInquiry - $totalAdvising;
+        
+        foreach($programlist as $row){
+          $array['Program_Code'] = $row['Program_Code'];
+          $list[$count]['inquiry'] = $this->Dashboard_Model->Inquiry_Count($array);
+          $list[$count]['advising'] = $this->Dashboard_Model->Advising_Count($array);
+          $list[$count]['enrolled_student'] = $this->Dashboard_Model->Enrolled_Student_Count($array);
+          $list[$count]['totalAdvised'] = $totalAdvised;
+          $list[$count]['totalOngoing'] = $totalOngoing;
+          $count++;
+        }
+
+        $count = 0;
+        // $this->data['list'] = $list;
+        echo json_encode($list);
+      }
 }
 ?>

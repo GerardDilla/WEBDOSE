@@ -15,7 +15,7 @@ return $query->result_array();
 public function Get_Course(){
   $this->db->select('*');
   $this->db->from('Programs');
-  $this->db->Order_by('Program_Code',ASC);
+  $this->db->Order_by('Program_Code','ASC');
   $this->db->where('Program_Code !=','0');
   $this->db->where('Program_Code !=','N/A');
   $query = $this->db->get();

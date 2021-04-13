@@ -52,9 +52,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Admin';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-$route['SOA'] = 'StatementOfAccount';
-//$route['soa_download/(:num)/(:num)'] = 'studentsoa/soa_download/$1/$2';
-$route['soa_download/(:num)/(:num)'] = function ($student_no, $due_id)
-{
-    return 'studentsoa/soa_download/' . $student_no . '/' . $due_id;
-};

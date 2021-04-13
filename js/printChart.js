@@ -317,4 +317,44 @@ function print_chart7(){
     });
 }
 
+function print_chart_tracker(){
+
+
+    html2canvas(document.querySelector("#printMe_tracker")).then(canvas => {
+        //document.body.appendChild(canvas);
+        canvas.id = "printDashboard_Tracker";
+        document.getElementById("printMe_tracker").appendChild(canvas);
+
+        const dataUrl = document.getElementById('printDashboard_Tracker').toDataURL(); 
+
+        let windowContent = '<!DOCTYPE html>';
+        windowContent += '<html>';
+        windowContent += '<head>';
+        windowContent += '<title>Print Chart</title>';
+        windowContent += '</head>';
+        windowContent += '<body>';
+        windowContent += '<p style="text-align:center; font-weight: 900; font-size: 24px;">Enrollment Tracker Summary Report </p>';
+        windowContent += '<div style="margin-top: 150px;"></div>';
+        windowContent += '<div style="margin-left: 160px;">';
+        windowContent += '<img src="' + dataUrl + '" height="350" width="500">';
+        windowContent += '<script src="'+url+'js/temporary_regform.js"></script>';
+        windowContent += '</div>';
+        windowContent += '</body>';
+        windowContent += '</html>';
+        
+        const printWin = window.open('', '', 'width=' + screen.availWidth + ',height=' + screen.availHeight);
+        printWin.document.open();
+        printWin.document.write(windowContent); 
+        
+        printWin.document.addEventListener('load', function() {
+            printWin.focus();
+            printWin.print();
+            printWin.document.close();
+            printWin.close();         
+        }, true);
+        $('#printDashboard_Tracker').remove();
+ 
+    });
+}
+
 

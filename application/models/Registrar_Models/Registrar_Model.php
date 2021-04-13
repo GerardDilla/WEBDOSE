@@ -633,6 +633,25 @@ public function conflict_check($sched_code,$day,$st,$et){
 
     return $query->result_array();
   }
+
+  public function get_sched_info($sched_code)
+    {
+        $this->db->select('B.Sched_Code, B.Course_Code, B.SchoolYear, B.Semester, C.id AS sched_display_id, C.Start_Time, C.End_Time, C.Day, C.RoomID, R.Room, C.Instructor_ID, I.Instructor_Name');      
+        $this->db->from('Sections AS A');
+        $this->db->join('Sched AS B', 'A.Section_ID = B.Section_ID', 'inner');
+        $this->db->join('Sched_Display AS C', 'B.Sched_Code = C.Sched_Code' ,'inner');
+        $this->db->join('`Subject` AS E', 'E.Course_Code = B.Course_Code', 'inner');
+        $this->db->join('Room AS R', 'C.RoomID = R.ID', 'inner');
+        $this->db->join('Instructor AS I', 'I.ID = C.Instructor_ID', 'left');
+        $this->db->where('B.Valid', 1);
+        $this->db->where('C.Valid', 1);
+        $this->db->where('B.Sched_Code', $sched_code);
+
+        $query = $this->db->get();
+       
+
+        return $query->result_array();
+    }
                           
 }
 ?>

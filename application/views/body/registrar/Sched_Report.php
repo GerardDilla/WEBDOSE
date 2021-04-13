@@ -20,7 +20,7 @@
 						<?php
 						$options_programs[''] = 'All Programs';
 						foreach($this->data['programs'] as $prog_row){
-							$options_programs[$prog_row['Program_ID']] = $prog_row['Program_Code'];
+							$options_programs[$prog_row['Program_Code']] = $prog_row['Program_Code'];
 						}
 						
 						$attributes = 'id="program" tabindex="1" required class="form-control show-tick" data-live-search="true"';

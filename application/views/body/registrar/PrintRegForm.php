@@ -219,7 +219,7 @@ $Total_Fees = $Lab_Fees  + $Misc_Fee + $OF + $tuition;
 <div class="row" style="text-align: center;">
 		    <div class="col-md-12">
 			    <button class="btn btn-lg btn-success" id="printButton" onclick="printDiv('printElement')">Print</button>
-				<a class="btn btn-lg btn-danger" href="<?php echo base_url(); ?>index.php/Registrar/Forms"  id="CancelButton" >Cancel</a>
+				<a class="btn btn-lg btn-danger" href="<?php echo base_url(); ?>/index.php/Registrar/Forms"  id="CancelButton" >Cancel</a>
 			</div>
 		 </div>
 

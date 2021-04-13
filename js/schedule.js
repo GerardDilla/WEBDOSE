@@ -1,4 +1,4 @@
-function checker()
+ function checker()
 {
     //$( "#edit_pane" ).show();
    //$("#edit_sched_form")[0].reset();

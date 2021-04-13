@@ -61,7 +61,7 @@ class StudentRecords extends MY_Controller  {
 
         $this->form_approved_by = "SUE S. KALINAWAN, RN MAN";
         $this->form_prepared_by = strtoupper($this->admin_data['fullname']);
-        $this->form_verified_by = "";
+        $this->form_verified_by = "NN. LIBRANDA";
     }
 
     public function index()

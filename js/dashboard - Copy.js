@@ -16,6 +16,7 @@ $(document).ready(function(){
     SHS_FETCH_RESERVED_STUDENTS();
     OTHER_PROGRAMS();
     ShsStudents();
+    
      
     var Dashboard_url = $("#base_url").val(); 
 
@@ -94,10 +95,10 @@ var Dashboard_url = $("#base_url").val();
 $.ajax({
     url:Dashboard_url+"index.php/Dashboard/fecth_shs_reserved",
     success:function(data){
-          TotalReservedSHS = JSON.parse(data);
-         $('.TotalReservedSHS').html(TotalReservedSHS[0]['REF']); 
-         ReservationStudents(TotalReservedSHS);
-         ReservationTotalAll();
+        TotalReservedSHS = JSON.parse(data);
+        $('.TotalReservedSHS').html(TotalReservedSHS[0]['REF']); 
+        ReservationStudents(TotalReservedSHS);
+        ReservationTotalAll();
     }
 
 });
@@ -171,6 +172,25 @@ function SHS_FETCH_OLD_STUDENTS(){
     });
 }
 
+
+//BELL-BELL
+function Fetch_Enrollment_Tracker(){
+
+    var Dashboard_url = $("#base_url").val(); 
+   
+  
+        $.ajax({
+            url:Dashboard_url+"index.php/Dashboard/Tracker_Inquiry",
+                success:function(data){
+                    console.log(data);
+                    EnrollmentTrackerData = JSON.parse(data);
+                    // die(EnrollmentTrackerData);
+                //  $('.TotalNewSHSStudents').html(EnrollmentTrackerData[0]['REF']);
+                    EnrollmentTrackerPie(EnrollmentTrackerData);
+            }
+        });
+
+}
 
 //SHS FETCH NEW STUDENTS
 function SHS_Fetch_New_Students(){
@@ -519,6 +539,61 @@ function InquiryBED(){
                 data: [Shs,HIGHERED,BasicEd],
                 backgroundColor: colorHex,
                  
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                    position: 'left',
+            },
+        animation: {
+                animateScale: true,
+                animateRotate: true
+             },
+             plugins: {
+                labels: [
+                    {
+                      render: 'value',
+                      position: 'outside',
+                      fontSize: 14,
+                      fontStyle: 'bold',
+                      fontColor: '#000',
+                    },
+                    {
+                      render: 'percentage',
+                      fontSize: 14,
+                      fontStyle: 'bold',
+                      fontColor: '#fff',
+                     
+                    }
+                  ]
+                },
+           
+
+          }
+        
+    });
+}
+
+//BELL-BELL
+//PIE FOR Enrollment Tracker
+function EnrollmentTrackerPie(){
+    // var Shs  = TotalReservedSHS[0]['REF'];
+    
+    
+    // var BasicEd = TotalReservedBED[0]['REF'];
+    // var HigherEd = StudentReserved[0]['REF'];
+    let ctx = document.getElementById('myCharts_tracker').getContext('2d');
+    let labels = ['SHS','HIGHERED', 'BASICED'];
+    let colorHex = ['#E91E63', '#2196F3', '#4CAF50'];
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: [Shs,HigherEd,BasicEd],
+                backgroundColor: colorHex,
+         
             }]
         },
         options: {
@@ -1689,6 +1764,14 @@ function Summer_HED(){
     });
 
 
+
+    $.ajax({
+        url:Dashboard_url+"index.php/Dashboard/fecth_summer_advised",
+             success:function(data){
+                TotalSummerAdvised= JSON.parse(data);
+             $('.TotalSummerAdvised').html(TotalSummerAdvised[0]['REF']);
+        }
+    });
 
     $.ajax({
         url:Dashboard_url+"index.php/Dashboard/fecth_summer_advised",

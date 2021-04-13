@@ -168,9 +168,9 @@
 										<?php endForeach; ?>
 									</select>
 								</div>
-								<div class="col-sm-2 rowpointer" style="padding:0px" data-toggle="tooltip" title="VIEW SUBJECTS TAKEN / STATUS">
+								<div class="col-sm-2 rowpointer" style="padding:0px" data-toggle="tooltip" title="VIEW CURRICULUM OF STUDENT">
 									<button type="button" class="btn btn-info " style="padding:0; width:35px; height:34px;" onclick="show_curriculum()">
-										<i class="material-icons" style="font-size: 27px;">search</i>
+										<i class="material-icons" style="font-size: 27px;">info_outline</i>
 									</button>
 								</div>
 							</div>

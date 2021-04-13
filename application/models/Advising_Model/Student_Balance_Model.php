@@ -32,6 +32,7 @@ class Student_Balance_Model extends CI_Model{
 	public function GetTotalAndPaid($array){
 
 		$query = '
+		
 			SELECT 
 			SUM(`TOTAL`) as `TOTAL`,
 			SUM(`PAID`) as `PAID`

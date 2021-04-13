@@ -15,6 +15,7 @@ $(document).ready(function(){
     BED_FETCH_RESERVED_STUDENTS();
     SHS_FETCH_RESERVED_STUDENTS();
     OTHER_PROGRAMS();
+    Fetch_Enrollment_Tracker();
  
      
     var Dashboard_url = $("#base_url").val(); 
@@ -299,6 +300,26 @@ function Hed_Fetch_Reserved_Students(){
         }
     });
 
+}
+
+
+
+//BELL-BELL
+function Fetch_Enrollment_Tracker(){
+
+    var Dashboard_url = $("#base_url").val(); 
+   
+  
+        $.ajax({
+            url:Dashboard_url+"index.php/Dashboard/Tracker_Inquiry",
+                success:function(data){
+                    EnrollmentTrackerData = JSON.parse(data);
+                    // die(EnrollmentTrackerData);
+                //  $('.TotalNewSHSStudents').html(EnrollmentTrackerData[0]['REF']);
+                    EnrollmentTrackerPie(EnrollmentTrackerData);
+                    $('.EnrollmentTrackerSummary').html(EnrollmentTrackerData[0]['REF']);
+            }
+        });
 }
 
 
@@ -615,6 +636,65 @@ function OTHERPROGRAMS(result){
         
     });
 }
+
+
+//PIE FOR OTHERPROGRAMS
+//BELL-BELL
+//PIE FOR Enrollment Tracker
+function EnrollmentTrackerPie(EnrollmentTrackerData){
+    // var Shs  = EnrollmentTrackerData[0]['REF'];
+    // var inq = EnrollmentTrackerData[0]['inquiry'];
+    // var adv = EnrollmentTrackerData[0]['advising'];
+    var est = EnrollmentTrackerData[0]['enrolled_student'];
+    var tad = EnrollmentTrackerData[0]['totalAdvised'];
+    var tog = EnrollmentTrackerData[0]['totalOngoing'];
+    $('.EnrollmentTrackerSummary').html(tog+tad+est);
+    let ctx = document.getElementById('myCharts_tracker').getContext('2d');
+    let labels = ['Ongoing','Advised', 'Enrolled'];
+    let colorHex = ['#E91E63', '#2196F3', '#4CAF50'];
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: [tog,tad,est],
+                backgroundColor: colorHex,
+         
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'left',
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            },
+            plugins: {
+                labels: [
+                    {
+                      render: 'value',
+                      position: 'outside',
+                      fontSize: 14,
+                      fontStyle: 'bold',
+                      fontColor: '#000',
+                    },
+                    {
+                      render: 'percentage',
+                      fontSize: 14,
+                      fontStyle: 'bold',
+                      fontColor: '#fff',
+                     
+                    }
+                  ]
+                },
+          }
+        
+    });
+}
+
+
 //BAR CHART OF BASIC ED
 function BarBED(result){
     

@@ -1732,7 +1732,7 @@ function getBalance(){
     //OutstandingBalance
     $.ajax({
         
-        url: "https://stdominiccollege.edu.ph/SDCALMSv2/index.php/API/BalanceAPI",
+        url: "https://www.stdominiccollege.edu.ph/SDCALMSv2/index.php/API/BalanceAPI",
         type: 'GET',
         data: {
             Reference_Number: $('#OutstandingBalance').data('token')

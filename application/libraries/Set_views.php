@@ -443,17 +443,6 @@ class set_views
 	public function belltest(){
 
 		return 'body/Belltest';
+
 	}
-//////////////////////////// Accounting  TAB ////////////////////////
-
-public function send_soa()
-{
-	return 'body/Accounting/Soa_Send';
-}
-
-public function student_soa()
-{
-	return 'body/Accounting/Student_Soa';
-}
-
 }

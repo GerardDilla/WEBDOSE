@@ -8,6 +8,7 @@
         margin: 0 20px 0 0;
     }
 </style>
+
 <section id="top" class="content" style="background-color: #fff;">
     <!-- CONTENT GRID-->
     <div class="container-fluid">
@@ -181,6 +182,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
+                                                        <!-- <input type="text" id="search_search"> -->
                                                         <table class="table table-bordered" style="width: 1750px;" id="data_table_summary">
                                                             <thead>
                                                                 <tr>
@@ -203,7 +205,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="enrollment_summary_report_tbody">
-
+                                                            
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -487,8 +489,12 @@
     </div>
     <!--/CONTENT GRID-->
 </section>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> -->
+
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
 <script>
     $(function() {
         var data_enrollment = $("#enrollment_tracker_form").data("enrollment");
@@ -515,18 +521,23 @@
                 if (sy != 0 || sem != 0 || course != null) {
                     if (no_id_checker() == 'enrollment') {
                         get_enrollment_summary(data_enrollment, 'enrollment', sy, sem, course);
+                        // $data_table_var = $('#data_table_summary');
                     }
                     if (no_id_checker() == 'inquiry') {
                         get_enrollment_summary(data_inquiry, 'inquiry', sy, sem, course);
+                        // $data_table_var = $('#data_table_inquiry');
                     }
                     if (no_id_checker() == 'advised') {
                         get_enrollment_summary(data_advised, 'advised', sy, sem, course);
+                        // $data_table_var = $('#data_table_advised');
                     }
                     if (no_id_checker() == 'reserved') {
                         get_enrollment_summary(data_reserved, 'reserved', sy, sem, course);
+                        // $data_table_var = $('#data_table_reserved');
                     }
                     if (no_id_checker() == 'enrolled') {
                         get_enrollment_summary(data_enrolled, 'enrolled', sy, sem, course);
+                        // $data_table_var = $('#data_table_enrolled');
                     }
                 } else {
                     console.log('both 0');
@@ -600,18 +611,23 @@
         function get_enrollment_summary(data_url, no_id, sy, sem, course) {
             if (no_id == 'enrollment') {
                 $('#enrollment_preloader').show();
+                
             }
             if (no_id == 'inquiry') {
                 $('#inquiry_preloader').show();
+                
             }
             if (no_id == 'advised') {
                 $('#advised_preloader').show();
+                
             }
             if (no_id == 'reserved') {
                 $('#reserved_preloader').show();
+                
             }
             if (no_id == 'enrolled') {
                 $('#enrolled_preloader').show();
+                
             }
             $.ajax({
                 method: 'post',
@@ -655,7 +671,6 @@
                         searching: true,
                         responsive: false,
                     });
-
                 },
                 error: function() {
 

@@ -123,7 +123,7 @@ class EnrolledStudent_Model extends CI_Model{
         $this->db->where('Fees_Enrolled_College.semester',$array['sm']);
         $this->db->where('Fees_Enrolled_College.schoolyear',$array['sy']);
         $this->db->where('Fees_Enrolled_College.withdraw','0');
-        $this->db->order_by('Student_Info.Last_Name', 'ASC');
+        $this->db->order_by('Student_Info.Last_Names', 'ASC');
         $query = $this->db->get();
   
       if($query->num_rows()> 0){
@@ -132,6 +132,20 @@ class EnrolledStudent_Model extends CI_Model{
         return $query;
               }
               
+  }
+
+  public function get_student_list_by_sched_code($sched_code)
+  {
+    $this->db->select('*');
+    $this->db->from('EnrolledStudent_Subjects');
+    $this->db->where('Sched_Code', $sched_code);
+    $this->db->where('Dropped', 0);
+    $this->db->where('Cancelled', 0);
+
+    $query = $this->db->get();
+       
+    return $query->result_array();
+
   }
 
 

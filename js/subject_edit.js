@@ -422,7 +422,6 @@ function sched_info(sc){
                 errormessage('No Result','info');
                 return;
             }
-
         },
         fail: function(){
             errormessage('Error: request failed','warning','red');

@@ -143,7 +143,6 @@
                                         <th>Applied Semester</th>
                                         <th>DSWD Number</th>
                                         <th>Date Inquired</th>
-                                        <th> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -202,11 +201,6 @@
                                     <td><?php echo $row->Applied_Semester; ?></td>
                                     <td><?php echo $row->dswd_no ? $row->dswd_no : 'N/A'; ?></td>
                                     <td><?php echo $row->DateInquired; ?></td>
-
-                                    <!-- Download as pdf button -->
-                                    <td>
-                                          <button class="btn btn-sm btn-info inquiry_export"  data-referenceno="<?php echo $row->ref_no; ?>" >Download Inquiry Info</button>  
-                                    </td>
                                     <!--<td><?php echo $row->Rmk; ?></td>-->
                                    
                                  </tr>
@@ -247,37 +241,5 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>node_modules/simple-pagination.js/jquery.simplePagination.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>node_modules/simple-pagination.js/simplePagination.css"/>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/advising.js"></script>
-
-<script>
-
-
-$(document).ready(function(){
-
-    $('td .inquiry_export').click(function(){
-        //alert($(this).data('referenceno'));
-        refnum = $(this).data('referenceno');
-        //alert(refnum);
-        window.open("<?php echo base_url(); ?>index.php/Admission/HED_Student_Info_full/"+refnum);
-        /*
-        $.ajax({
-            method: "POST",
-            url: "<?php echo base_url(); ?>index.php/Admission/HED_Student_Info_full",
-			data: { refnum: refnum},
-            success: function(data){				
-					result = JSON.parse(data);
-                    console.log();
-                    	     
-			}
-        
-
-        });
-        */
-    });
-
-});
-
-
-
-</script>
 
 	

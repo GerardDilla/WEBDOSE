@@ -105,13 +105,6 @@ function display_student_info_result(arraySession){
         
         //row.append($("<td/>").text(result['Reference_Number']));
         row.append($("<td/>").text(result['First_Name']+" "+result['Middle_Name']+" "+result['Last_Name']));
-
-        row.append($("<td/>").append('\
-        <button class="btn btn-info btn-sm copybtn" data-clipboard-text="http://stdominiccollege.edu.ph/EnrollmentTracker/?rn='+result['Reference_Number']+'">\
-        <i class="material-icons">content_copy</i>\
-        </button>'
-        ));
-
         showtable.append(row);
 
     });

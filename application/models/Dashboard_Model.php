@@ -352,7 +352,7 @@ class Dashboard_Model extends CI_Model
 
       $this->db->select('*');
       $this->db->from('Programs');
-      $this->db->Order_by('Program_Code',ASC);
+      $this->db->Order_by('Program_Code','ASC');
       $this->db->where('Program_Code =','MBA');
       $this->db->or_where('Program_Code =','MAP');
       $this->db->or_where('Program_Code =','WSA');
@@ -373,7 +373,46 @@ class Dashboard_Model extends CI_Model
        $query = $this->db->get();
        return $query->num_rows();
      }
-     
-    
 
+
+    //Count all inquiry
+    public function Inquiry_Count($array){
+      $this->db->select('COUNT(
+        si.Reference_Number) as Ref_Num_si
+      ');
+      $this->db->from('Student_Info si');
+      $this->db->order_by('si.Reference_Number','DESC');
+      $this->db->join('Fees_Temp_College ftc', 'si.Reference_Number = ftc.Reference_Number', 'left');
+      $this->db->join('EnrolledStudent_Payments ep', 'si.Reference_Number = ep.Reference_Number', 'left');
+      $this->db->where('si.Applied_Semester', $array['sem']);
+      $this->db->where('si.Applied_SchoolYear', $array['sy']);
+      $query = $this->db->get();
+      return $query;
+    }
+    //Count all advising
+    public function Advising_Count($array){
+      $this->db->select('COUNT(*,
+        ftc.Course as Course_ftc
+      )');
+      $this->db->from('Fees_Temp_College ftc');
+      $this->db->order_by('id','DESC');
+      $this->db->join('Student_Info si', 'si.Reference_Number = ftc.Reference_Number', 'left');
+      $this->db->where('si.First_Name !=','');
+      $this->db->where('ftc.semester', $array['sem']);
+      $this->db->where('ftc.schoolyear', $array['sy']);
+      $query = $this->db->get();
+      return $query->num_rows();
+    }
+    //Count all enrolled student
+    public function Enrolled_Student_Count($array){
+      $this->db->select('COUNT(*)');
+      $this->db->from('EnrolledStudent_Payments ep');
+      $this->db->where('ep.valid',1);
+      $this->db->order_by('id','DESC');
+      $this->db->join('Student_Info si', 'si.Reference_Number = ep.Reference_Number', 'left');
+      $this->db->where('ep.Semester', $array['sem']);
+      $this->db->where('ep.SchoolYear', $array['sy']);
+      $query = $this->db->get();
+      return $query->num_rows();
+    }
 }

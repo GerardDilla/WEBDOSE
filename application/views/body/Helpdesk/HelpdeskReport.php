@@ -111,30 +111,7 @@
                             <span>To</span>
                             <input class="form-control date" id="dateto" name="dateto" type="date">
                         </div>
-                        <hr>
                     </div> 
-                    <div class="col-xs-12">
-                        <h4>Search by Education Level</h4>
-                        <select id="educationlevel" class="form-control show-tick" data-live-search="true" name="educationlevel">
-                            <option value="" disabled selected>
-                                Select Education Level
-                            </option>
-                            <option>Basic Education</option>
-                            <option>Senior Highschool</option>
-                            <option>Higher Education</option>
-                        </select>
-                        <br><br>
-                    </div>
-                    <div class="col-xs-12">
-                        <h4>Search by Status</h4>
-                        <select id="status" class="form-control show-tick" data-live-search="true" name="status">
-                            <option value="" disabled selected>
-                                Select Status
-                            </option>
-                            <option>Resolved</option>
-                            <option>Not Resolved</option>
-                        </select>
-                    </div>
                     
                 </div>
             </div>

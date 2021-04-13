@@ -1,5 +1,11 @@
 var addressUrl = $("#addressUrl").val();
 
+$( window ).on( "load", function() {
+    console.log( "window loaded" );
+    //var optionValue = $("#selectedSchoolYear").val();
+    //$("#selectSchoolYear").val(optionValue).find("option[value=" + optionValue +"]").attr('selected', true);;
+});
+
 $("#selectStudentSubmit").click(function(){
     //console.log("test");
     //alert("test");
@@ -177,8 +183,7 @@ $("#bedReservationInsertButton").click(function(){
     
     
     if ($("#referenceNoRes").val() && $("#schoolYearRes").val() && 
-    $("#paymentTypeRes").val() && $("#orNoRes").val() && $("#amountRes").val() && 
-    $("#gradeLevelRes").val()) 
+    $("#paymentTypeRes").val() && $("#orNoRes").val() && $("#amountRes").val()) 
     {
         //check OR number for duplication
        
@@ -226,7 +231,7 @@ $("#bedReservationInsertButton").click(function(){
 $("#bedMatriculationInsertButton").click(function(){
     
     
-    if ($("#referenceNo").val() && $("#gradeLevel").val() && $("#schoolYear").val() && 
+    if ($("#referenceNo").val() && $("#schoolYear").val() && 
     $("#paymentType").val() && $("#orNo").val() && $("#amount").val() && $("#transactionType").val()) 
     {
         //check OR number for duplication
