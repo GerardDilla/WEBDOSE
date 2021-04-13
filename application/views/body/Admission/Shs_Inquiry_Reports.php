@@ -67,7 +67,7 @@
         <div class="row">
              <div class="col-md-12">        
              <div class="body table-responsive" style="overflow:auto; max-height:400px">
-                            <table class="table table-bordered" style="width: 1750px;">
+                            <table class="table table-bordered" style="width: 1750px;" id="data_table_report_admission">
                                 <thead>
 
                                     <tr>
@@ -155,5 +155,12 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>node_modules/simple-pagination.js/jquery.simplePagination.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>node_modules/simple-pagination.js/simplePagination.css"/>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/advising.js"></script>
-
+<script>
+    $('#data_table_report_admission').DataTable().destroy();
+    $('#data_table_report_admission').DataTable({
+        paging: false,
+        searching: true,
+        responsive: false,
+    });
+</script>
 	
