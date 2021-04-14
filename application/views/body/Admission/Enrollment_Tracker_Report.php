@@ -314,7 +314,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_advising">
+                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_advised">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>

@@ -117,40 +117,6 @@
 
                             </div>
                         </div>
-<<<<<<< Updated upstream
-         
-        <div class="row">
-             <div class="col-md-12">        
-                        <div class="body table-responsive" style="overflow:auto; max-height:400px">
-                            <table class="table table-bordered" style="width: 1600px;">
-                                <thead>
-
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Reference_Number</th>
-                                        <th>Name</th>
-                                        <th>Program</th>
-                                        <th>Search Engine</th>
-                                        <th>Contact #</th>
-                                        <th>School Last Attended</th>
-                                        <th>Residence</th>
-                                        <th>Status </th>
-                                        <th>Remarks </th>
-                                        <th>Applied School Year</th>
-                                        <th>Applied Semester</th>
-                                        <th>DSWD Number</th>
-                                        <th>Date Inquired</th>
-                                        <th> </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <?php $count = 1; ?>
-                                <?php 
-                                         
-                                         foreach($this->data['get_inquiry'] as $row)  {
-
-                                            if($row->Others_Know_SDCA == NULL){
-=======
                     </div>
 
                     <div class="row">
@@ -183,74 +149,10 @@
                                         foreach ($this->data['get_inquiry'] as $row) {
 
                                             if ($row->Others_Know_SDCA == NULL) {
->>>>>>> Stashed changes
                                                 $OKS = 'N/A';
                                             } else {
                                                 $OKS = $row->Others_Know_SDCA;
                                             }
-<<<<<<< Updated upstream
-                                 ?>
-                                 <tr style="text-transform: uppercase;"> 
-                                   
-                                    <td><?php echo $count; ?></td>
-                                    <td><?php echo $row->ref_no; ?></td>
-                                    <td><?php echo $row->Last_Name; ?>, <?php echo $row->First_Name; ?> <?php echo $row->Middle_Name; ?></td>
-                                    <td>
-                                        <?php if($row->EXM_RF == NULL): ?>
-                                            <?php echo $row->Course_1st; ?>
-                                        <?php else: ?>
-                                            <?php echo $row->Course; ?>
-                                        <?php endIf; ?>
-                                    </td>
-                                    <td><?php echo $OKS; ?></td>
-                                    <td><?php echo $row->CP_No; ?></td>
-
-                                    <?php if($row->Transferee_Name == NULL || $row->Transferee_Name == 'N/A' || $row->Transferee_Name == '' || $row->Transferee_Name == '-'): ?>
-                                        <?php if($row->SHS_School_Name == NULL || $row->SHS_School_Name == 'N/A' || $row->SHS_School_Name == '' || $row->SHS_School_Name == '-'): ?>
-                                            <td><?php echo $row->Secondary_School_Name; ?></td>
-                                        <?php else: ?>
-                                            <td><?php echo $row->SHS_School_Name; ?></td>
-                                        <?php endIf; ?>
-                                    <?php else: ?>
-                                         <td><?php echo $row->Transferee_Name; ?></td>
-                                    <?php endIf; ?>
-                              
-                                    <td><?php echo $row->Address_City; ?>,   <?php echo $row->Address_Province; ?></td>
-                                    <td>
-                                        <?php if($row->Transferee_Name == NULL || $row->Transferee_Name == 'N/A' || $row->Transferee_Name == '' || $row->Transferee_Name == '-'): ?>
-                                            <?php echo 'New'; ?>
-                                        <?php else: ?>
-                                            <?php echo 'Transferee'; ?>
-                                        <?php endIf; ?>
-                                    </td>
-                                    <td>
-                                        <?php if($row->EXM_RF == NULL): ?>
-                                            <?php echo 'Follow Up'; ?>
-                                        <?php else: ?>
-                                            <?php echo 'With Exam'; ?>
-                                        <?php endIf; ?>
-                                    </td>
-                                    <td><?php echo $row->Applied_SchoolYear; ?></td>
-                                    <td><?php echo $row->Applied_Semester; ?></td>
-                                    <td><?php echo $row->dswd_no ? $row->dswd_no : 'N/A'; ?></td>
-                                    <td><?php echo $row->DateInquired; ?></td>
-
-                                    <!-- Download as pdf button -->
-                                    <td>
-                                          <button class="btn btn-sm btn-info inquiry_export"  data-referenceno="<?php echo $row->ref_no; ?>" >Download Inquiry Info</button>  
-                                    </td>
-                                    <!--<td><?php echo $row->Rmk; ?></td>-->
-                                   
-                                 </tr>
-
-                                 <?php $count++; ?>
-                                 <?php }?>
-
-                               
-                                       
-                                </tbody>
-                            </table>
-=======
                                         ?>
                                             <tr style="text-transform: uppercase;">
 
@@ -308,7 +210,6 @@
                                     </tbody>
                                 </table>
                             </div>
->>>>>>> Stashed changes
                         </div>
 
 
@@ -337,42 +238,6 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>node_modules/simple-pagination.js/jquery.simplePagination.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>node_modules/simple-pagination.js/simplePagination.css" />
 <script type="text/javascript" src="<?php echo base_url(); ?>js/advising.js"></script>
-<<<<<<< Updated upstream
-
-<script>
-
-
-$(document).ready(function(){
-
-    $('td .inquiry_export').click(function(){
-        //alert($(this).data('referenceno'));
-        refnum = $(this).data('referenceno');
-        //alert(refnum);
-        window.open("<?php echo base_url(); ?>index.php/Admission/HED_Student_Info_full/"+refnum);
-        /*
-        $.ajax({
-            method: "POST",
-            url: "<?php echo base_url(); ?>index.php/Admission/HED_Student_Info_full",
-			data: { refnum: refnum},
-            success: function(data){				
-					result = JSON.parse(data);
-                    console.log();
-                    	     
-			}
-        
-
-        });
-        */
-    });
-
-});
-
-
-
-</script>
-
-	
-=======
 <script>
     $('#data_table_report_admission').DataTable().destroy();
     $('#data_table_report_admission').DataTable({
@@ -381,4 +246,3 @@ $(document).ready(function(){
         responsive: false,
     });
 </script>
->>>>>>> Stashed changes
