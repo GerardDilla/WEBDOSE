@@ -56,13 +56,7 @@
                             <div class="row">
                                 <h5>Choose Filter:</h5>
                                 <br>
-                                <form id="enrollment_tracker_form" action="javascript:void(0);" method="post" 
-                                data-enrollment="<?php echo base_url(); ?>index.php/Admission/Enrollment_Summary_Report" 
-                                data-inquiry="<?php echo base_url(); ?>index.php/Admission/Tracker_Inquiry_Report" 
-                                data-advised="<?php echo base_url(); ?>index.php/Admission/Tracker_Advised_Report" 
-                                data-reserved="<?php echo base_url(); ?>index.php/Admission/Tracker_Reserved_Report" 
-                                data-enrolled="<?php echo base_url(); ?>index.php/Admission/Tracker_Enrolled_Report"
-                                data-excel="<?php echo base_url(); ?>index.php/Admission/Enrollment_Tracker_Excel">
+                                <form id="enrollment_tracker_form" action="javascript:void(0);" method="post" data-enrollment="<?php echo base_url(); ?>index.php/Admission/Enrollment_Summary_Report" data-inquiry="<?php echo base_url(); ?>index.php/Admission/Tracker_Inquiry_Report" data-advised="<?php echo base_url(); ?>index.php/Admission/Tracker_Advised_Report" data-reserved="<?php echo base_url(); ?>index.php/Admission/Tracker_Reserved_Report" data-enrolled="<?php echo base_url(); ?>index.php/Admission/Tracker_Enrolled_Report" data-excel="<?php echo base_url(); ?>index.php/Admission/Enrollment_Tracker_Excel">
                                     <!-- <div class="col-md-4" style="border-right:solid #ccc">
                                                                 <table>
                                                                     <tr>
@@ -187,7 +181,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;">
+                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_summary">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
@@ -254,7 +248,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;">
+                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_inquiry">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
@@ -320,7 +314,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;">
+                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_advised">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
@@ -386,7 +380,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;">
+                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_reserved">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
@@ -452,7 +446,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;">
+                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_enrolled">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
@@ -493,6 +487,8 @@
     </div>
     <!--/CONTENT GRID-->
 </section>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 <script>
     $(function() {
         var data_enrollment = $("#enrollment_tracker_form").data("enrollment");
@@ -517,73 +513,25 @@
                 course = course_check;
                 no_id_checer_old = no_id_checker();
                 if (sy != 0 || sem != 0 || course != null) {
-                    // if(count_enrollment == 0){
                     if (no_id_checker() == 'enrollment') {
                         get_enrollment_summary(data_enrollment, 'enrollment', sy, sem, course);
                     }
-                    // }else if(count_inquiry == 0){
                     if (no_id_checker() == 'inquiry') {
                         get_enrollment_summary(data_inquiry, 'inquiry', sy, sem, course);
                     }
-                    // }else if(count_advised == 0){
                     if (no_id_checker() == 'advised') {
                         get_enrollment_summary(data_advised, 'advised', sy, sem, course);
                     }
-                    // }else if(count_reserved == 0){
                     if (no_id_checker() == 'reserved') {
                         get_enrollment_summary(data_reserved, 'reserved', sy, sem, course);
                     }
-                    // }else if(count_enrolled == 0){
                     if (no_id_checker() == 'enrolled') {
                         get_enrollment_summary(data_enrolled, 'enrolled', sy, sem, course);
                     }
-                    // }else{
-                    // console.log('nooooo');
-                    // }
                 } else {
                     console.log('both 0');
                 }
             }
-            // if(sy_check != sy){
-            //     sy = sy_check;
-            //     // count_enrollment = 0;count_inquiry = 0;count_advised = 0;count_reserved = 0;count_enrolled = 0;
-            // }
-            // if(sem_check != sem){
-            //     sem = sem_check;
-            //     // count_enrollment = 0;count_inquiry = 0;count_advised = 0;count_reserved = 0;count_enrolled = 0;
-            // }
-            // if(course_check != course){
-            //     course = course_check;
-            //     // count_enrollment = 0;count_inquiry = 0;count_advised = 0;count_reserved = 0;count_enrolled = 0;
-            // }
-
-            // if(sy != 0 || sem != 0 || course != null){
-            //     if(count_enrollment == 0){
-            //         if(no_id_checker() == 'enrollment'){
-            //             console.log('load once Enrollment');
-            //         }
-            //     }else if(count_inquiry == 0){
-            //         if(no_id_checker() == 'inquiry'){
-            //             console.log('load once inquiry');
-            //         }
-            //     }else if(count_advised == 0){
-            //         if(no_id_checker() == 'advised'){
-            //             console.log('load once advised');
-            //         }
-            //     }else if(count_reserved == 0){
-            //         if(no_id_checker() == 'reserved'){
-            //             console.log('load once reserved');
-            //         }
-            //     }else if(count_enrolled == 0){
-            //         if(no_id_checker() == 'enrolled'){
-            //             console.log('load once enrolled');
-            //         }
-            //     }else{
-            //         console.log('nooooo');
-            //     }
-            // }else{
-            //     console.log('both 0');
-            // }
         });
         $(".enrollment_summary_report-tab").on('click', function() {
             $('.inquiry_report-tab').attr('id', 'inquiry_report-tab');
@@ -634,39 +582,14 @@
 
         function no_id_checker() {
             if (typeof attr_enrollment == typeof undefined || attr_enrollment == false) {
-                // count_enrollment = 1;
-                // count_inquiry = 0;
-                // count_advised = 0;
-                // count_reserved = 0;
-                // count_enrolled = 0;
                 return 'enrollment';
             } else if (typeof attr_inquiry == typeof undefined || attr_inquiry == false) {
-                // count_enrollment = 0;
-                // count_inquiry = 1;
-                // count_advised = 0;
-                // count_reserved = 0;
-                // count_enrolled = 0;
                 return 'inquiry';
             } else if (typeof attr_advised == typeof undefined || attr_advised == false) {
-                // count_enrollment = 0;
-                // count_inquiry = 0;
-                // count_advised = 1;
-                // count_reserved = 0;
-                // count_enrolled = 0;
                 return 'advised';
             } else if (typeof attr_reserved == typeof undefined || attr_reserved == false) {
-                // count_enrollment = 0;
-                // count_inquiry = 0;
-                // count_advised = 0;
-                // count_reserved = 1;
-                // count_enrolled = 0;
                 return 'reserved';
             } else if (typeof attr_enrolled == typeof undefined || attr_enrolled == false) {
-                // count_enrollment = 0;
-                // count_inquiry = 0;
-                // count_advised = 0;
-                // count_reserved = 0;
-                // count_enrolled = 1;
                 return 'enrolled';
             } else {
                 return 'error';
@@ -703,23 +626,35 @@
                     if (no_id == 'enrollment') {
                         html = html_enrollment_summary(data);
                         $('#enrollment_summary_report_tbody').html(html);
+                        $data_table_var = $('#data_table_summary');
                     }
                     if (no_id == 'inquiry') {
                         html = html_inquiry_summary(data);
                         $('#inquiry_report_tbody').html(html);
+                        $data_table_var = $('#data_table_inquiry');
                     }
                     if (no_id == 'advised') {
                         html = html_advised_summary(data);
                         $('#advised_report_tbody').html(html);
+                        $data_table_var = $('#data_table_advised');
                     }
                     if (no_id == 'reserved') {
                         html = html_reserved_summary(data);
                         $('#reserved_report_tbody').html(html);
+                        $data_table_var = $('#data_table_reserved');
                     }
                     if (no_id == 'enrolled') {
                         html = html_enrolled_summary(data);
                         $('#enrolled_report_tbody').html(html);
+                        $data_table_var = $('#data_table_enrolled');
                     }
+                    // datatable for searching and pagination
+                    $data_table_var.DataTable().destroy();
+                    $data_table_var.DataTable({
+                        paging: false,
+                        searching: true,
+                        responsive: false,
+                    });
 
                 },
                 error: function() {
@@ -755,78 +690,78 @@
                     '<tr>' +
                     '<td>' + x + '</td>' +
                     '<td>';
-                        if (data[i].Ref_Num_fec != null && data[i].Ref_Num_si != null && data[i].Ref_Num_ftc != null) {
-                            html += '<span style="color:Green">Enrolled</span>';
-                        } else if (data[i].Ref_Num_ftc != null) {
-                            html += '<span style="color:Blue">Payment</span>';
-                        } else {
-                            html += '<span style="color:Red">Advising</span>'
-                        }
+                if (data[i].Ref_Num_fec != null && data[i].Ref_Num_si != null && data[i].Ref_Num_ftc != null) {
+                    html += '<span style="color:Green">Enrolled</span>';
+                } else if (data[i].Ref_Num_ftc != null) {
+                    html += '<span style="color:Blue">Payment</span>';
+                } else {
+                    html += '<span style="color:Red">Advising</span>'
+                }
                 html +=
                     '</td>' +
                     '<td>';
                 html += data[i].Ref_Num_si;
-                        if (data[i].Std_Num_si != null && data[i].Std_Num_si != 0) {
-                            html += "<br>Std_No.: " + data[i].Std_Num_si;
-                        }
+                if (data[i].Std_Num_si != null && data[i].Std_Num_si != 0) {
+                    html += "<br>Std_No.: " + data[i].Std_Num_si;
+                }
                 html +=
                     '</td>' +
                     '<td>' +
-                        data[i].Last_Name +
-                        ",<br>" +
-                        data[i].First_Name +
-                        "<br>" +
-                        data[i].Middle_Name +
+                    data[i].Last_Name +
+                    ",<br>" +
+                    data[i].First_Name +
+                    "<br>" +
+                    data[i].Middle_Name +
                     '</td>' +
                     '<td>' +
-                        data[i].Gender +
+                    data[i].Gender +
                     '</td>' +
                     '<td>' +
-                        data[i].Nationality +
+                    data[i].Nationality +
                     '</td>' +
                     '<td>' +
-                        data[i].YearLevel +
+                    data[i].YearLevel +
                     '</td>' +
                     '<td>' +
-                        data[i].Course_1st +
+                    data[i].Course_1st +
                     '</td>' +
                     '<td>' +
-                        data[i].Course_2nd +
+                    data[i].Course_2nd +
                     '</td>' +
                     '<td>' +
-                        data[i].Course_3rd +
+                    data[i].Course_3rd +
                     '</td>' +
                     '<td>';
-                        if (data[i].Others_Know_SDCA == 'Come_All') {
-                            html += data[i].Others_Know_SDCA + '<br>Referral Name: ' + data[i].Referral_Name;
-                        } else {
-                            html += data[i].Others_Know_SDCA;
-                        }
+                if (data[i].Others_Know_SDCA == 'Come_All') {
+                    html += data[i].Others_Know_SDCA + '<br>Referral Name: ' + data[i].Referral_Name;
+                } else {
+                    html += data[i].Others_Know_SDCA;
+                }
                 html +=
                     '</td>' +
                     '<td>';
-                        if (data[i].Tel_No != null && data[i].CP_No != null) {
-                            html +=
-                                'Telephone: ' + data[i].Tel_No +
-                                '<br>' +
-                                'Cellphone: ' + data[i].CP_No;
-                        } else if (data[i].Tel_No != null) {
-                            html +=
-                                'Telephone: ' + data[i].Tel_No;
-                        } else if (data[i].CP_No != null) {
-                            html +=
-                                'Cellphone: ' + data[i].CP_No;
-                        }
+                if (data[i].Tel_No != null && data[i].CP_No != null) {
+                    html +=
+                        'Telephone: ' + data[i].Tel_No +
+                        '<br>' +
+                        'Cellphone: ' + data[i].CP_No;
+                } else if (data[i].Tel_No != null) {
+                    html +=
+                        'Telephone: ' + data[i].Tel_No;
+                } else if (data[i].CP_No != null) {
+                    html +=
+                        'Cellphone: ' + data[i].CP_No;
+                }
                 html +=
                     '</td>' +
                     '<td>' +
-                        data[i].Address_City + ', ' + data[i].Address_Province +
+                    data[i].Address_City + ', ' + data[i].Address_Province +
                     '</td>' +
                     '<td>' +
-                        data[i].Applied_SchoolYear +
+                    data[i].Applied_SchoolYear +
                     '</td>' +
                     '<td>' +
-                        data[i].Applied_Semester +
+                    data[i].Applied_Semester +
                     '</td>' +
                     '</tr>';
             }
@@ -843,64 +778,64 @@
                     '<tr>' +
                     '<td>' + x + '</td>' +
                     '<td>' +
-                        data[i].Ref_Num_si +
+                    data[i].Ref_Num_si +
                     '</td>' +
                     '<td>' +
-                        data[i].Last_Name +
+                    data[i].Last_Name +
                     ",<br>" +
-                        data[i].First_Name +
+                    data[i].First_Name +
                     "<br>" +
-                        data[i].Middle_Name +
+                    data[i].Middle_Name +
                     '</td>' +
                     '<td>' +
-                        data[i].Gender +
+                    data[i].Gender +
                     '</td>' +
                     '<td>' +
-                        data[i].Nationality +
+                    data[i].Nationality +
                     '</td>' +
                     '<td>' +
-                        data[i].YearLevel +
+                    data[i].YearLevel +
                     '</td>' +
                     '<td>' +
-                        data[i].Course_1st +
+                    data[i].Course_1st +
                     '</td>' +
                     '<td>' +
-                        data[i].Course_2nd +
+                    data[i].Course_2nd +
                     '</td>' +
                     '<td>' +
-                        data[i].Course_3rd +
+                    data[i].Course_3rd +
                     '</td>' +
                     '<td>';
-                        if (data[i].Others_Know_SDCA == 'Come_All') {
-                            html += data[i].Others_Know_SDCA + '<br>Referral Name: ' + data[i].Referral_Name;
-                        } else {
-                            html += data[i].Others_Know_SDCA;
-                        }
+                if (data[i].Others_Know_SDCA == 'Come_All') {
+                    html += data[i].Others_Know_SDCA + '<br>Referral Name: ' + data[i].Referral_Name;
+                } else {
+                    html += data[i].Others_Know_SDCA;
+                }
                 html +=
                     '</td>' +
                     '<td>';
-                        if (data[i].Tel_No != null && data[i].CP_No != null) {
-                            html +=
-                                'Telephone: ' + data[i].Tel_No +
-                                '<br>' +
-                                'Cellphone: ' + data[i].CP_No;
-                        } else if (data[i].Tel_No != null) {
-                            html +=
-                                'Telephone: ' + data[i].Tel_No;
-                        } else if (data[i].CP_No != null) {
-                            html +=
-                                'Cellphone: ' + data[i].CP_No;
-                        }
+                if (data[i].Tel_No != null && data[i].CP_No != null) {
+                    html +=
+                        'Telephone: ' + data[i].Tel_No +
+                        '<br>' +
+                        'Cellphone: ' + data[i].CP_No;
+                } else if (data[i].Tel_No != null) {
+                    html +=
+                        'Telephone: ' + data[i].Tel_No;
+                } else if (data[i].CP_No != null) {
+                    html +=
+                        'Cellphone: ' + data[i].CP_No;
+                }
                 html +=
                     '</td>' +
                     '<td>' +
-                        data[i].Address_City + ', ' + data[i].Address_Province +
+                    data[i].Address_City + ', ' + data[i].Address_Province +
                     '</td>' +
                     '<td>' +
-                        data[i].Applied_SchoolYear +
+                    data[i].Applied_SchoolYear +
                     '</td>' +
                     '<td>' +
-                        data[i].Applied_Semester +
+                    data[i].Applied_Semester +
                     '</td>' +
                     '</tr>';
             }
@@ -917,58 +852,58 @@
                     '<tr>' +
                     '<td>' + x + '</td>' +
                     '<td>' +
-                        data[i].Ref_Num_ftc +
+                    data[i].Ref_Num_ftc +
                     '</td>' +
                     '<td>' +
-                        data[i].Last_Name +
+                    data[i].Last_Name +
                     ",<br>" +
-                        data[i].First_Name +
+                    data[i].First_Name +
                     "<br>" +
-                        data[i].Middle_Name +
+                    data[i].Middle_Name +
                     '</td>' +
                     '<td>' +
-                        data[i].Gender +
+                    data[i].Gender +
                     '</td>' +
                     '<td>' +
-                        data[i].Nationality +
+                    data[i].Nationality +
                     '</td>' +
                     '<td>' +
-                        data[i].YearLevel +
+                    data[i].YearLevel +
                     '</td>' +
                     '<td>' +
-                        data[i].Course_ftc +
+                    data[i].Course_ftc +
                     '</td>' +
                     '<td>';
-                        if (data[i].Others_Know_SDCA == 'Come_All') {
-                            html += data[i].Others_Know_SDCA + '<br>Referral Name: ' + data[i].Referral_Name;
-                        } else {
-                            html += data[i].Others_Know_SDCA;
-                        }
+                if (data[i].Others_Know_SDCA == 'Come_All') {
+                    html += data[i].Others_Know_SDCA + '<br>Referral Name: ' + data[i].Referral_Name;
+                } else {
+                    html += data[i].Others_Know_SDCA;
+                }
                 html +=
                     '</td>' +
                     '<td>';
-                        if (data[i].Tel_No != null && data[i].CP_No != null) {
-                            html +=
-                                'Telephone: ' + data[i].Tel_No +
-                                '<br>' +
-                                'Cellphone: ' + data[i].CP_No;
-                        } else if (data[i].Tel_No != null) {
-                            html +=
-                                'Telephone: ' + data[i].Tel_No;
-                        } else if (data[i].CP_No != null) {
-                            html +=
-                                'Cellphone: ' + data[i].CP_No;
-                        }
+                if (data[i].Tel_No != null && data[i].CP_No != null) {
+                    html +=
+                        'Telephone: ' + data[i].Tel_No +
+                        '<br>' +
+                        'Cellphone: ' + data[i].CP_No;
+                } else if (data[i].Tel_No != null) {
+                    html +=
+                        'Telephone: ' + data[i].Tel_No;
+                } else if (data[i].CP_No != null) {
+                    html +=
+                        'Cellphone: ' + data[i].CP_No;
+                }
                 html +=
                     '</td>' +
                     '<td>' +
-                        data[i].Address_City + ', ' + data[i].Address_Province +
+                    data[i].Address_City + ', ' + data[i].Address_Province +
                     '</td>' +
                     '<td>' +
-                        data[i].Applied_SchoolYear +
+                    data[i].Applied_SchoolYear +
                     '</td>' +
                     '<td>' +
-                        data[i].Applied_Semester +
+                    data[i].Applied_Semester +
                     '</td>' +
                     '</tr>';
             }
@@ -985,58 +920,58 @@
                     '<tr>' +
                     '<td>' + x + '</td>' +
                     '<td>' +
-                        data[i].Ref_No_rf +
+                    data[i].Ref_No_rf +
                     '</td>' +
                     '<td>' +
-                            data[i].Last_Name +
-                        ",<br>" +
-                            data[i].First_Name +
-                        "<br>" +
-                            data[i].Middle_Name +
+                    data[i].Last_Name +
+                    ",<br>" +
+                    data[i].First_Name +
+                    "<br>" +
+                    data[i].Middle_Name +
                     '</td>' +
                     '<td>' +
-                        data[i].Gender +
+                    data[i].Gender +
                     '</td>' +
                     '<td>' +
-                        data[i].Nationality +
+                    data[i].Nationality +
                     '</td>' +
                     '<td>' +
-                        data[i].YearLevel +
+                    data[i].YearLevel +
                     '</td>' +
                     '<td>' +
-                        data[i].Course_si +
+                    data[i].Course_si +
                     '</td>' +
                     '<td>';
-                        if (data[i].Others_Know_SDCA == 'Come_All') {
-                            html += data[i].Others_Know_SDCA + '<br>Referral Name: ' + data[i].Referral_Name;
-                        } else {
-                            html += data[i].Others_Know_SDCA;
-                        }
+                if (data[i].Others_Know_SDCA == 'Come_All') {
+                    html += data[i].Others_Know_SDCA + '<br>Referral Name: ' + data[i].Referral_Name;
+                } else {
+                    html += data[i].Others_Know_SDCA;
+                }
                 html +=
                     '</td>' +
                     '<td>';
-                        if (data[i].Tel_No != null && data[i].CP_No != null) {
-                            html +=
-                                'Telephone: ' + data[i].Tel_No +
-                                '<br>' +
-                                'Cellphone: ' + data[i].CP_No;
-                        } else if (data[i].Tel_No != null) {
-                            html +=
-                                'Telephone: ' + data[i].Tel_No;
-                        } else if (data[i].CP_No != null) {
-                            html +=
-                                'Cellphone: ' + data[i].CP_No;
-                        }
+                if (data[i].Tel_No != null && data[i].CP_No != null) {
+                    html +=
+                        'Telephone: ' + data[i].Tel_No +
+                        '<br>' +
+                        'Cellphone: ' + data[i].CP_No;
+                } else if (data[i].Tel_No != null) {
+                    html +=
+                        'Telephone: ' + data[i].Tel_No;
+                } else if (data[i].CP_No != null) {
+                    html +=
+                        'Cellphone: ' + data[i].CP_No;
+                }
                 html +=
                     '</td>' +
                     '<td>' +
-                        data[i].Address_City + ', ' + data[i].Address_Province +
+                    data[i].Address_City + ', ' + data[i].Address_Province +
                     '</td>' +
                     '<td>' +
-                        data[i].Applied_SchoolYear +
+                    data[i].Applied_SchoolYear +
                     '</td>' +
                     '<td>' +
-                        data[i].Applied_Semester +
+                    data[i].Applied_Semester +
                     '</td>' +
                     '</tr>';
             }
@@ -1053,58 +988,58 @@
                     '<tr>' +
                     '<td>' + x + '</td>' +
                     '<td>' +
-                        data[i].Reference_Number +
+                    data[i].Reference_Number +
                     '</td>' +
                     '<td>' +
-                        data[i].Last_Name +
-                        ",<br>" +
-                        data[i].First_Name +
-                        "<br>" +
-                        data[i].Middle_Name +
+                    data[i].Last_Name +
+                    ",<br>" +
+                    data[i].First_Name +
+                    "<br>" +
+                    data[i].Middle_Name +
                     '</td>' +
                     '<td>' +
-                        data[i].Gender +
+                    data[i].Gender +
                     '</td>' +
                     '<td>' +
-                        data[i].Nationality +
+                    data[i].Nationality +
                     '</td>' +
                     '<td>' +
-                        data[i].YearLevel +
+                    data[i].YearLevel +
                     '</td>' +
                     '<td>' +
-                        data[i].course +
+                    data[i].course +
                     '</td>' +
                     '<td>';
-                        if (data[i].Others_Know_SDCA == 'Come_All') {
-                            html += data[i].Others_Know_SDCA + '<br>Referral Name: ' + data[i].Referral_Name;
-                        } else {
-                            html += data[i].Others_Know_SDCA;
-                        }
+                if (data[i].Others_Know_SDCA == 'Come_All') {
+                    html += data[i].Others_Know_SDCA + '<br>Referral Name: ' + data[i].Referral_Name;
+                } else {
+                    html += data[i].Others_Know_SDCA;
+                }
                 html +=
                     '</td>' +
                     '<td>';
-                        if (data[i].Tel_No != null && data[i].CP_No != null) {
-                            html +=
-                                'Telephone: ' + data[i].Tel_No +
-                                '<br>' +
-                                'Cellphone: ' + data[i].CP_No;
-                        } else if (data[i].Tel_No != null) {
-                            html +=
-                                'Telephone: ' + data[i].Tel_No;
-                        } else if (data[i].CP_No != null) {
-                            html +=
-                                'Cellphone: ' + data[i].CP_No;
-                        }
+                if (data[i].Tel_No != null && data[i].CP_No != null) {
+                    html +=
+                        'Telephone: ' + data[i].Tel_No +
+                        '<br>' +
+                        'Cellphone: ' + data[i].CP_No;
+                } else if (data[i].Tel_No != null) {
+                    html +=
+                        'Telephone: ' + data[i].Tel_No;
+                } else if (data[i].CP_No != null) {
+                    html +=
+                        'Cellphone: ' + data[i].CP_No;
+                }
                 html +=
                     '</td>' +
                     '<td>' +
-                        data[i].Address_City + ', ' + data[i].Address_Province +
+                    data[i].Address_City + ', ' + data[i].Address_Province +
                     '</td>' +
                     '<td>' +
-                        data[i].Applied_SchoolYear +
+                    data[i].Applied_SchoolYear +
                     '</td>' +
                     '<td>' +
-                        data[i].Applied_Semester +
+                    data[i].Applied_Semester +
                     '</td>' +
                     '</tr>';
             }
@@ -1114,41 +1049,41 @@
         //For Excel
         $("#enrollment_summary_excel").on('click', function() {
             load_new_data();
-            if(sy_check != 0 || sem_check != 0 || course_check != null){
-                window.open(data_excel+'/'+sy_check+'/'+sem_check+'/'+course_check+'/Enrollment_Tracker');
-            }else{
+            if (sy_check != 0 || sem_check != 0 || course_check != null) {
+                window.open(data_excel + '/' + sy_check + '/' + sem_check + '/' + course_check + '/Enrollment_Tracker');
+            } else {
                 console.log('No data');
             }
         });
         $("#inquiry_excel").on('click', function() {
             load_new_data();
-            if(sy_check != 0 || sem_check != 0 || course_check != null){
-                window.open(data_excel+'/'+sy_check+'/'+sem_check+'/'+course_check+'/Inquiry');
-            }else{
+            if (sy_check != 0 || sem_check != 0 || course_check != null) {
+                window.open(data_excel + '/' + sy_check + '/' + sem_check + '/' + course_check + '/Inquiry');
+            } else {
                 console.log('No data');
             }
         });
         $("#advised_excel").on('click', function() {
             load_new_data();
-            if(sy_check != 0 || sem_check != 0 || course_check != null){
-                window.open(data_excel+'/'+sy_check+'/'+sem_check+'/'+course_check+'/Advised');
-            }else{
+            if (sy_check != 0 || sem_check != 0 || course_check != null) {
+                window.open(data_excel + '/' + sy_check + '/' + sem_check + '/' + course_check + '/Advised');
+            } else {
                 console.log('No data');
             }
         });
         $("#reserved_excel").on('click', function() {
             load_new_data();
-            if(sy_check != 0 || sem_check != 0 || course_check != null){
-                window.open(data_excel+'/'+sy_check+'/'+sem_check+'/'+course_check+'/Reserved');
-            }else{
+            if (sy_check != 0 || sem_check != 0 || course_check != null) {
+                window.open(data_excel + '/' + sy_check + '/' + sem_check + '/' + course_check + '/Reserved');
+            } else {
                 console.log('No data');
             }
         });
         $("#enrolled_excel").on('click', function() {
             load_new_data();
-            if(sy_check != 0 || sem_check != 0 || course_check != null){
-                window.open(data_excel+'/'+sy_check+'/'+sem_check+'/'+course_check+'/Enrolled');
-            }else{
+            if (sy_check != 0 || sem_check != 0 || course_check != null) {
+                window.open(data_excel + '/' + sy_check + '/' + sem_check + '/' + course_check + '/Enrolled');
+            } else {
                 console.log('No data');
             }
         });
