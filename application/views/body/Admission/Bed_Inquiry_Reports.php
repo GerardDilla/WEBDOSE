@@ -1,3 +1,14 @@
+<style>
+    .dataTables_filter,
+    .dataTables_info {
+        display: none;
+    }
+
+    #datatbable_search_button {
+        position: relative;
+        top: 33px;
+    }
+</style>
 <section id="top" class="content" style="background-color: #fff;">
 
     <!-- CONTENT GRID-->
@@ -96,9 +107,20 @@
                                             <button class="btn btn-danger" type="submit" name="search_button" value="search_button"> Search </button>
                                             <button class="btn btn-success" type="submit" name="export" value="Export"> Excel </button>
                                         </div>
+                                    </div>
+                                </div>
                             </form>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <label for="datatbable_search">Search on Table</label>
+                                <input type="text" id="datatbable_search" class="form-control" placeholder="Search">
+                            </div>
+                            <div class="col-md-4">
+                                <button id="datatbable_search_button" class="btn btn-info">Table Search</button>
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -184,9 +206,12 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>js/advising.js"></script>
 <script>
     $('#data_table_report_admission').DataTable().destroy();
-    $('#data_table_report_admission').DataTable({
+    var table = $('#data_table_report_admission').DataTable({
         paging: false,
-        searching: true,
+        // searching: true,
         responsive: false,
+    });
+    $('#datatbable_search_button').on('keyup click', function() {
+        table.search($('#datatbable_search').val()).draw();
     });
 </script>
