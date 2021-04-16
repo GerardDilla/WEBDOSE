@@ -1,13 +1,19 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
+
 class Registrar extends MY_Controller
 {
   function __construct()
   {
     parent::__construct();
     $this->load->library('set_views');
-    $this->load->library("Excel");
+    // $this->load->library("Excel");
     $this->load->library("DateConverter");
     $this->load->model('Registrar_Models/Room_Model');
     $this->load->model('Registrar_Models/Registrar_Model');
@@ -1113,12 +1119,12 @@ class Registrar extends MY_Controller
     $this->data['get_user']       = $this->Ched_Report_Model->Get_user();
     $this->data['legend']         = $this->Enroll_Summary_Model->Get_Legend();
 
-     $sy         = $this->input->post('sy');
-     $sm         = $this->input->post('sem');
-     $major      = $this->input->post('mjr');
-     $program    = $this->input->post('course');
-     $Yl         = $this->input->post('year_lvl');
-     $submit     = $this->input->post('search_button');
+    $sy         = $this->input->post('sy');
+    $sm         = $this->input->post('sem');
+    $major      = $this->input->post('mjr');
+    $program    = $this->input->post('course');
+    $Yl         = $this->input->post('year_lvl');
+    $submit     = $this->input->post('search_button');
 
     // $sy         = '2020-2021';
     // $sm         = 'FIRST';
@@ -1208,17 +1214,17 @@ class Registrar extends MY_Controller
     $Yl         = $this->session->userdata('Yl');
     $submit     = $this->session->userdata('submit');
 
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
 
     // MERGE CELLS
-    $cell_merge = array (
-      'C2:F2','C3:F3','C4:F4','C5:F5',
+    $cell_merge = array(
+      'C2:F2', 'C3:F3', 'C4:F4', 'C5:F5',
       'A7:F7',
-      'A8:A9','B8:B9','C8:C9','D8:D9','E8:E9','F8:F9','G8:G9','H8:H9','I8:I9','J8:J9','K8:K9',
-      'L8:N8','O8:Q8','R8:T8','U8:W8','X8:Z8','AA8:AC8','AD8:AF8','AG8:AI8','AJ8:AL8','AM8:AO8','AP8:AR8','AS8:AU8','AV8:AV9'
+      'A8:A9', 'B8:B9', 'C8:C9', 'D8:D9', 'E8:E9', 'F8:F9', 'G8:G9', 'H8:H9', 'I8:I9', 'J8:J9', 'K8:K9',
+      'L8:N8', 'O8:Q8', 'R8:T8', 'U8:W8', 'X8:Z8', 'AA8:AC8', 'AD8:AF8', 'AG8:AI8', 'AJ8:AL8', 'AM8:AO8', 'AP8:AR8', 'AS8:AU8', 'AV8:AV9'
     );
-    foreach($cell_merge as $merge){
+    foreach ($cell_merge as $merge) {
       $object->setActiveSheetIndex(0)->mergeCells($merge);
     }
 
@@ -1279,27 +1285,27 @@ class Registrar extends MY_Controller
     // SET FREEZE GRID
     $object->getActiveSheet()->freezePane("L10");
 
-    
+
 
     // SET STYLE
     // Whole Design
-    $align_and_border = array (
-      'font' => array (
-          'bold'  =>  true,
+    $align_and_border = array(
+      'font' => array(
+        'bold'  =>  true,
       ),
-      'alignment' => array (
-        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+      'alignment' => array(
+        'horizontal' => 'center',
+        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
         'wrap' => true
       ),
-      'borders' => array (
-        'allborders' => array (
-            'style' => PHPExcel_Style_Border::BORDER_MEDIUM,
+      'borders' => array(
+        'allborders' => array(
+          'style' => Border::BORDER_MEDIUM,
         )
       )
     );
     // Array Colors For Subject
-    $color_course = array (
+    $color_course = array(
       'sub_1' => 'FDE9D9',
       'sub_2' => 'B7DEE8',
       'sub_3' => 'CCC0DA',
@@ -1313,150 +1319,149 @@ class Registrar extends MY_Controller
       'sub_11' => 'B7DEE8',
       'sub_12' => 'DAEEF3',
     );
-    
+
     // Bold
-    $cell_bold = array (
-      'B2','B3','B4','B5',
+    $cell_bold = array(
+      'B2', 'B3', 'B4', 'B5',
       'A7',
-      
+
     );
-    foreach($cell_bold as $bold){
+    foreach ($cell_bold as $bold) {
       $object->getActiveSheet()->getStyle($bold)->getFont()->setBold(true);
     }
-    
+
     // Set Border
     //** border style
     $allBorder = array(
       'borders' => array(
         'allborders' => array(
-          'style' => PHPExcel_Style_Border::BORDER_THIN
+          'style' => Border::BORDER_THIN
         )
       )
     );
     $bottomBorder = array(
       'borders' => array(
         'bottom' => array(
-          'style' => PHPExcel_Style_Border::BORDER_THIN
+          'style' => Border::BORDER_THIN
         )
       )
     );
 
     //** border bottom
-    $cell_border_bottom = array (
-      'C2:F2','C3:F3','C4:F4','C5:F5'
+    $cell_border_bottom = array(
+      'C2:F2', 'C3:F3', 'C4:F4', 'C5:F5'
     );
-    foreach($cell_border_bottom as $border_bottom){
+    foreach ($cell_border_bottom as $border_bottom) {
       $object->getActiveSheet()->getStyle($border_bottom)->applyFromArray($bottomBorder);
     }
-    
+
 
     // SET VALUE TO CELL
     $object->getActiveSheet()
-      ->setCellValue('B2','HEI:')
-      ->setCellValue('B3','Address:')
-      ->setCellValue('B4','Academic Year:')
-      ->setCellValue('B5','Term:')
-      ->setCellValue('C2','ST. DOMINIC COLLEGE OF ASIA')
-      ->setCellValue('C3','St. DominicComplex E. Aguinaldo Highway, Talaba, 4, Bacoor City, Cavite')
-      ->setCellValue('C4',$sy)
-      ->setCellValue('C5',$sm.' Semester')
-      ->setCellValue('A7','Instruction: Please DO NOT INSERT or DELETE COLUMNS; insert or delete rows as necessary.')
+      ->setCellValue('B2', 'HEI:')
+      ->setCellValue('B3', 'Address:')
+      ->setCellValue('B4', 'Academic Year:')
+      ->setCellValue('B5', 'Term:')
+      ->setCellValue('C2', 'ST. DOMINIC COLLEGE OF ASIA')
+      ->setCellValue('C3', 'St. DominicComplex E. Aguinaldo Highway, Talaba, 4, Bacoor City, Cavite')
+      ->setCellValue('C4', $sy)
+      ->setCellValue('C5', $sm . ' Semester')
+      ->setCellValue('A7', 'Instruction: Please DO NOT INSERT or DELETE COLUMNS; insert or delete rows as necessary.')
       // Table Headers
-      ->setCellValue('A8','Count')
-      ->setCellValue('B8','Student No.')
-      ->setCellValue('C8','Surname')
-      ->setCellValue('D8','First Name')
-      ->setCellValue('E8','Middle Name')
-      ->setCellValue('F8','Suffix
+      ->setCellValue('A8', 'Count')
+      ->setCellValue('B8', 'Student No.')
+      ->setCellValue('C8', 'Surname')
+      ->setCellValue('D8', 'First Name')
+      ->setCellValue('E8', 'Middle Name')
+      ->setCellValue('F8', 'Suffix
       (Jr., I, II, III)')
-      ->setCellValue('G8','Sex')
-      ->setCellValue('H8','Nationality')
-      ->setCellValue('I8','Year Level')
-      ->setCellValue('J8','Program')
-      ->setCellValue('K8','Major')
+      ->setCellValue('G8', 'Sex')
+      ->setCellValue('H8', 'Nationality')
+      ->setCellValue('I8', 'Year Level')
+      ->setCellValue('J8', 'Program')
+      ->setCellValue('K8', 'Major')
       //
-      ->setCellValue('L8','Course / Subject 1')
-      ->setCellValue('L9','Course Code')
-      ->setCellValue('M9','Course Description or Descriptive Title')
-      ->setCellValue('N9','Units')
+      ->setCellValue('L8', 'Course / Subject 1')
+      ->setCellValue('L9', 'Course Code')
+      ->setCellValue('M9', 'Course Description or Descriptive Title')
+      ->setCellValue('N9', 'Units')
 
-      ->setCellValue('O8','Course / Subject 2')
-      ->setCellValue('O9','Course Code')
-      ->setCellValue('P9','Course Description or Descriptive Title')
-      ->setCellValue('Q9','Units')
+      ->setCellValue('O8', 'Course / Subject 2')
+      ->setCellValue('O9', 'Course Code')
+      ->setCellValue('P9', 'Course Description or Descriptive Title')
+      ->setCellValue('Q9', 'Units')
 
-      ->setCellValue('R8','Course / Subject 3')
-      ->setCellValue('R9','Course Code')
-      ->setCellValue('S9','Course Description or Descriptive Title')
-      ->setCellValue('T9','Units')
+      ->setCellValue('R8', 'Course / Subject 3')
+      ->setCellValue('R9', 'Course Code')
+      ->setCellValue('S9', 'Course Description or Descriptive Title')
+      ->setCellValue('T9', 'Units')
 
-      ->setCellValue('U8','Course / Subject 4')
-      ->setCellValue('U9','Course Code')
-      ->setCellValue('V9','Course Description or Descriptive Title')
-      ->setCellValue('W9','Units')
+      ->setCellValue('U8', 'Course / Subject 4')
+      ->setCellValue('U9', 'Course Code')
+      ->setCellValue('V9', 'Course Description or Descriptive Title')
+      ->setCellValue('W9', 'Units')
 
-      ->setCellValue('X8','Course / Subject 5')
-      ->setCellValue('X9','Course Code')
-      ->setCellValue('Y9','Course Description or Descriptive Title')
-      ->setCellValue('Z9','Units')
+      ->setCellValue('X8', 'Course / Subject 5')
+      ->setCellValue('X9', 'Course Code')
+      ->setCellValue('Y9', 'Course Description or Descriptive Title')
+      ->setCellValue('Z9', 'Units')
 
-      ->setCellValue('AA8','Course / Subject 6')
-      ->setCellValue('AA9','Course Code')
-      ->setCellValue('AB9','Course Description or Descriptive Title')
-      ->setCellValue('AC9','Units')
+      ->setCellValue('AA8', 'Course / Subject 6')
+      ->setCellValue('AA9', 'Course Code')
+      ->setCellValue('AB9', 'Course Description or Descriptive Title')
+      ->setCellValue('AC9', 'Units')
 
-      ->setCellValue('AD8','Course / Subject 7')
-      ->setCellValue('AD9','Course Code')
-      ->setCellValue('AE9','Course Description or Descriptive Title')
-      ->setCellValue('AF9','Units')
+      ->setCellValue('AD8', 'Course / Subject 7')
+      ->setCellValue('AD9', 'Course Code')
+      ->setCellValue('AE9', 'Course Description or Descriptive Title')
+      ->setCellValue('AF9', 'Units')
 
-      ->setCellValue('AG8','Course / Subject 8')
-      ->setCellValue('AG9','Course Code')
-      ->setCellValue('AH9','Course Description or Descriptive Title')
-      ->setCellValue('AI9','Units')
+      ->setCellValue('AG8', 'Course / Subject 8')
+      ->setCellValue('AG9', 'Course Code')
+      ->setCellValue('AH9', 'Course Description or Descriptive Title')
+      ->setCellValue('AI9', 'Units')
 
-      ->setCellValue('AJ8','Course / Subject 9')
-      ->setCellValue('AJ9','Course Code')
-      ->setCellValue('AK9','Course Description or Descriptive Title')
-      ->setCellValue('AL9','Units')
+      ->setCellValue('AJ8', 'Course / Subject 9')
+      ->setCellValue('AJ9', 'Course Code')
+      ->setCellValue('AK9', 'Course Description or Descriptive Title')
+      ->setCellValue('AL9', 'Units')
 
-      ->setCellValue('AM8','Course / Subject 10')
-      ->setCellValue('AM9','Course Code')
-      ->setCellValue('AN9','Course Description or Descriptive Title')
-      ->setCellValue('AO9','Units')
+      ->setCellValue('AM8', 'Course / Subject 10')
+      ->setCellValue('AM9', 'Course Code')
+      ->setCellValue('AN9', 'Course Description or Descriptive Title')
+      ->setCellValue('AO9', 'Units')
 
-      ->setCellValue('AP8','Course / Subject 11')
-      ->setCellValue('AP9','Course Code')
-      ->setCellValue('AQ9','Course Description or Descriptive Title')
-      ->setCellValue('AR9','Units')
+      ->setCellValue('AP8', 'Course / Subject 11')
+      ->setCellValue('AP9', 'Course Code')
+      ->setCellValue('AQ9', 'Course Description or Descriptive Title')
+      ->setCellValue('AR9', 'Units')
 
-      ->setCellValue('AS8','Course / Subject 12')
-      ->setCellValue('AS9','Course Code')
-      ->setCellValue('AT9','Course Description or Descriptive Title')
-      ->setCellValue('AU9','Units')
-      
-      ->setCellValue('AV8','Total Units')
-      ;
-    
+      ->setCellValue('AS8', 'Course / Subject 12')
+      ->setCellValue('AS9', 'Course Code')
+      ->setCellValue('AT9', 'Course Description or Descriptive Title')
+      ->setCellValue('AU9', 'Units')
 
-      // Table Header
+      ->setCellValue('AV8', 'Total Units');
+
+
+    // Table Header
     $table_header = array(
       // 'A8:A9','B8:B9','C8:C9','D8:D9','E8:E9','F8:F9','G8:G9','H8:H9','I8:I9','J8:J9','K8:K9',
-      'A8:K8','A9:K9',
+      'A8:K8', 'A9:K9',
       'L8:AV9'
     );
-    foreach($table_header as $header){
+    foreach ($table_header as $header) {
       $object->getActiveSheet()->getStyle($header)->applyFromArray($align_and_border);
     }
 
     // SET CELL ALIGNMENT
     $cell_on_left = array(
-      'B2','B3','B4','B5',
-      'C2','C3','C4','C5'
+      'B2', 'B3', 'B4', 'B5',
+      'C2', 'C3', 'C4', 'C5'
     );
-    foreach($cell_on_left as $left){
+    foreach ($cell_on_left as $left) {
       $object->getActiveSheet()->getStyle($left)->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        ->setHorizontal('left');
     }
 
     $student_data = $this->Ched_Report_Model->Get_students($sy, $sm, $major, $program, $Yl, $submit);
@@ -1519,30 +1524,33 @@ class Registrar extends MY_Controller
         // Total of teh Units
         $subject_name_col_start = 47;
         // Add all in Total units Column
-        $object->getActiveSheet()->setCellValueByColumnAndRow($subject_name_col_start,$excel_row, 
-        "=N".$excel_row."+Q".$excel_row."+T".$excel_row."+W".$excel_row."+Z".$excel_row."+AC".$excel_row."+AF".$excel_row."+AI".
-        $excel_row."+AL".$excel_row."+AO".$excel_row."+AR".$excel_row."+AU".$excel_row);
+        $object->getActiveSheet()->setCellValueByColumnAndRow(
+          $subject_name_col_start,
+          $excel_row,
+          "=N" . $excel_row . "+Q" . $excel_row . "+T" . $excel_row . "+W" . $excel_row . "+Z" . $excel_row . "+AC" . $excel_row . "+AF" . $excel_row . "+AI" .
+            $excel_row . "+AL" . $excel_row . "+AO" . $excel_row . "+AR" . $excel_row . "+AU" . $excel_row
+        );
       }
     }
     // SET FILTERS
-    $object->getActiveSheet()->setAutoFilter('A9:AV'.$excel_row);
+    $object->getActiveSheet()->setAutoFilter('A9:AV' . $excel_row);
     // Table Data Border
-      $object->getActiveSheet()->getStyle("A10:AV".$excel_row)->applyFromArray($allBorder);
+    $object->getActiveSheet()->getStyle("A10:AV" . $excel_row)->applyFromArray($allBorder);
     // Set Colors To Subjects
-    $object->getActiveSheet()->getStyle('L8:N'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_1']);
-    $object->getActiveSheet()->getStyle('O8:Q'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_2']);
-    $object->getActiveSheet()->getStyle('R8:T'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_3']);
-    $object->getActiveSheet()->getStyle('U8:W'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_4']);
-    $object->getActiveSheet()->getStyle('X8:Z'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_5']);
-    $object->getActiveSheet()->getStyle('AA8:AC'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_6']);
-    $object->getActiveSheet()->getStyle('AD8:AF'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_7']);
-    $object->getActiveSheet()->getStyle('AG8:AI'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_8']);
-    $object->getActiveSheet()->getStyle('AJ8:AL'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_9']);
-    $object->getActiveSheet()->getStyle('AM8:AO'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_10']);
-    $object->getActiveSheet()->getStyle('AP8:AR'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_11']);
-    $object->getActiveSheet()->getStyle('AS8:AU'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_12']);
+    $object->getActiveSheet()->getStyle('L8:N' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_1']);
+    $object->getActiveSheet()->getStyle('O8:Q' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_2']);
+    $object->getActiveSheet()->getStyle('R8:T' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_3']);
+    $object->getActiveSheet()->getStyle('U8:W' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_4']);
+    $object->getActiveSheet()->getStyle('X8:Z' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_5']);
+    $object->getActiveSheet()->getStyle('AA8:AC' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_6']);
+    $object->getActiveSheet()->getStyle('AD8:AF' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_7']);
+    $object->getActiveSheet()->getStyle('AG8:AI' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_8']);
+    $object->getActiveSheet()->getStyle('AJ8:AL' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_9']);
+    $object->getActiveSheet()->getStyle('AM8:AO' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_10']);
+    $object->getActiveSheet()->getStyle('AP8:AR' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_11']);
+    $object->getActiveSheet()->getStyle('AS8:AU' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($color_course['sub_12']);
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="Student_Data.xls"');
     $object_writer->save('php://output');
@@ -1565,7 +1573,7 @@ class Registrar extends MY_Controller
     $submit     = $this->session->userdata('submit');
 
 
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
 
 
 
@@ -1573,11 +1581,11 @@ class Registrar extends MY_Controller
     $object->getActiveSheet()->mergeCells('A1:Z1');
     $object->getActiveSheet()->setCellValue('A1', 'ENROLLMENT LIST');
     $object->getActiveSheet()->getStyle('A1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A2:Z2');
     $object->getActiveSheet()->setCellValue('A2', 'School Year:' . $sy . ' Semester:' . $sm . '');
     $object->getActiveSheet()->getStyle('A2')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('N3', 'COURSE: ' . $program . ' Major in ' . $major . '');
     $object->getActiveSheet()->mergeCells('A3:M3');
     $object->getActiveSheet()->setCellValue('A3', 'SCHOOL  : ST. DOMINIC COLLEGE OF ASIA ');
@@ -1681,7 +1689,7 @@ class Registrar extends MY_Controller
         $object->getActiveSheet()->setCellValueByColumnAndRow($unit_col_start, $excel_row, $row['Course_Lab_Unit'] + $row['Course_Lec_Unit']);
       }
     }
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="Student_Data.xls"');
     $object_writer->save('php://output');
@@ -1896,7 +1904,7 @@ class Registrar extends MY_Controller
     //Logs
     $this->Others_Model->insert_logs($this->array_logs);
 
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $table_columns = array("Sched Code", "Subject Code", "Subject Title", "Section", "Lec Unit", "Lab Unit", "Total Slot", "Remaining Slot", "Enrolled", "Day", "Time", "Room", "Instructor");
 
@@ -1947,7 +1955,7 @@ class Registrar extends MY_Controller
       $excel_row++;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     /*
           header('Content-Type: application/vnd.ms-excel');
           header('Content-Disposition: attachment;filename="Schedule_Report.xls"');
@@ -2107,7 +2115,7 @@ class Registrar extends MY_Controller
   public function Enroll_summary_Excell()
   {
 
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $table_columns = array("#", "Course", "NEW", "OLD", "WITHDRAW", "TOTAL", "ENLISTED", "FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH");
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(50);
@@ -2254,7 +2262,7 @@ class Registrar extends MY_Controller
       $count = $count + 1;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="Enrollment_Summary.xls"');
     $object_writer->save('php://output');
@@ -2880,7 +2888,7 @@ class Registrar extends MY_Controller
     }
 
 
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $object->getActiveSheet()->mergeCells('A1:E1');
     $object->getActiveSheet()->setCellValue('A1', 'OFFICIAL CLASS LIST');
@@ -2919,14 +2927,14 @@ class Registrar extends MY_Controller
     $array = array('A1', 'A12', 'B12', 'C12', 'D12', 'E12');
     foreach ($array  as $columnID) {
       $object->getActiveSheet()->getStyle($columnID)->getAlignment()
-        ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        ->setHorizontal('center');
     }
 
     // SIZE OF COLUMN
     $array = array('B4', 'B7');
     foreach ($array  as $columnID) {
       $object->getActiveSheet()->getStyle($columnID)->getAlignment()
-        ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        ->setHorizontal('left');
     }
 
 
@@ -2947,7 +2955,7 @@ class Registrar extends MY_Controller
     $excel_row = 13;
     foreach ($this->data['ClassList']  as $row) {
       $object->setActiveSheetIndex()->getStyle('' . $excel_row . '')->getAlignment()
-        ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        ->setHorizontal('left');
       $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $count);
       $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->Student_Number);
       $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->Last_Name . ' ,' . $row->First_Name . ' ' . $row->Midde_Name));
@@ -2959,7 +2967,7 @@ class Registrar extends MY_Controller
       $count = $count + 1;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="Sched Code(' . $sc . ').xls"');
     $object_writer->save('php://output');
@@ -3047,7 +3055,7 @@ class Registrar extends MY_Controller
     );
 
     $this->load->library("Excel");
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $table_columns = array("#", "NAME", "STUDENT NUMBER", "GRADE LEVEL", "STRAND", "GENDER", "ADDRESS", "CONTACT NUMBER", "BIRTHDAY", "NATIONALITY");
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(40);
     $object->getActiveSheet()->getColumnDimension('C')->setWidth(25);
@@ -3079,7 +3087,7 @@ class Registrar extends MY_Controller
     $count = 1;
     foreach ($employee_data->result_array() as $row) {
       $object->getActiveSheet()->getStyle('' . $excel_row . '')->getAlignment()
-        ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        ->setHorizontal('left');
       $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row,  $count);
       $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper($row['Last_Name'] . ' ' . $row['First_Name'] . ' ' . $row['Middle_Name']));
       $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  $row['Student_number']);
@@ -3094,7 +3102,7 @@ class Registrar extends MY_Controller
       $excel_row++;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="StudentShs_Data.xls"');
     $object_writer->save('php://output');
@@ -3151,7 +3159,7 @@ class Registrar extends MY_Controller
 
 
     $this->load->library("Excel");
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $table_columns = array("#", "NAME", "STUDENT NUMBER", "GRADE LEVEL", "GENDER", "ADDRESS", "CONTACT NUMBER", "BIRTHDAY", "NATIONALITY");
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(40);
     $object->getActiveSheet()->getColumnDimension('C')->setWidth(25);
@@ -3183,7 +3191,7 @@ class Registrar extends MY_Controller
     $count = 1;
     foreach ($employee_data->result_array() as $row) {
       $object->getActiveSheet()->getStyle('' . $excel_row . '')->getAlignment()
-        ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        ->setHorizontal('left');
       $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row,  $count);
       $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper($row['Last_Name'] . ' ' . $row['First_Name'] . ' ' . $row['Middle_Name']));
       $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  $row['Student_number']);
@@ -3197,7 +3205,7 @@ class Registrar extends MY_Controller
       $excel_row++;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="StudentBED_Data.xls"');
     $object_writer->save('php://output');
@@ -3290,7 +3298,7 @@ class Registrar extends MY_Controller
     );
 
     $this->load->library("Excel");
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $table_columns = array("#", "NAME", "STUDENT NUMBER", "COURSE", "GENDER", "ADDRESS", "APPLIED STATUS", "YEAR", "CONTACT NUMBER", "HIGH SCHOOL", "LAST SCHOOL ATTENDED", "CURICULUM", "BIRTHDAY", "NATIONALITY");
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(40);
     $object->getActiveSheet()->getColumnDimension('C')->setWidth(25);
@@ -3331,7 +3339,7 @@ class Registrar extends MY_Controller
     $count = 1;
     foreach ($employee_data as $row) {
       $object->getActiveSheet()->getStyle('' . $excel_row . '')->getAlignment()
-        ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        ->setHorizontal('left');
       $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row,  $count);
       $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper($row['Last_Name'] . ',' . $row['First_Name'] . '' . $row['Middle_Name']));
       $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  $row['Student_Number']);
@@ -3361,7 +3369,7 @@ class Registrar extends MY_Controller
       $excel_row++;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="Student_Data.xls"');
     $object_writer->save('php://output');
@@ -3425,7 +3433,7 @@ class Registrar extends MY_Controller
 
 
     $this->load->library("Excel");
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $table_columns = array("#", "NAME", "STUDENT NUMBER", "COURSE", "GENDER", "ADDRESS", "APPLIED STATUS", "YEAR", "CONTACT NUMBER", "HIGH SCHOOL", "LAST SCHOOL ATTENDED", "CURICULUM", "BIRTHDAY", "NATIONALITY");
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(40);
     $object->getActiveSheet()->getColumnDimension('C')->setWidth(25);
@@ -3466,7 +3474,7 @@ class Registrar extends MY_Controller
     $count = 1;
     foreach ($employee_data->result_array() as $row) {
       $object->getActiveSheet()->getStyle('' . $excel_row . '')->getAlignment()
-        ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        ->setHorizontal('left');
       $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row,  $count);
       $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper($row['Last_Name'] . ',' . $row['First_Name'] . '' . $row['Middle_Name']));
       $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  $row['Student_Number']);
@@ -3496,7 +3504,7 @@ class Registrar extends MY_Controller
       $excel_row++;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="Student_Data.xls"');
     $object_writer->save('php://output');

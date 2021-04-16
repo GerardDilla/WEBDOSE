@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
+
 class Admission extends MY_Controller
 {
 
@@ -9,7 +15,7 @@ class Admission extends MY_Controller
   {
     parent::__construct();
     $this->load->library('set_views');
-    $this->load->library("Excel");
+    // $this->load->library("Excel");
     $this->load->library('form_validation');
     $this->load->model('Admission_Model/Basiced_Inquiry_Model');
     $this->load->model('Admission_Model/Shs_Model');
@@ -124,49 +130,49 @@ class Admission extends MY_Controller
 
     $count = 0;
     $this->data['list'] = $list;
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $object->getActiveSheet()->getStyle('A1:H1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A1:H1');
     $object->getActiveSheet()->setCellValue('A1', 'Basic Education Enrollment Summary');
     $object->getActiveSheet()->getStyle('A2:H2')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A2:H2');
     $object->getActiveSheet()->setCellValue('A2', 'SCHOOLYEAR ' . $array['sy'] . ' ');
     $object->getActiveSheet()->getStyle('A3:E3')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A3:E3');
     $object->getActiveSheet()->setCellValue('A3', 'NEW STUDENTS');
     $object->getActiveSheet()->mergeCells('G3:H3');
     $object->getActiveSheet()->getColumnDimension('G')->setWidth(20);
     $object->getActiveSheet()->getColumnDimension('H')->setWidth(20);
     $object->getActiveSheet()->getStyle('G3:H3')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('G3', 'CONTINUING STUDENTS');
     $object->getActiveSheet()->getStyle('A4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->getColumnDimension('A')->setWidth(20);
     $object->getActiveSheet()->setCellValue('A4', 'LEVEL');
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(20);
     $object->getActiveSheet()->setCellValue('B4', 'INQUIRY');
     $object->getActiveSheet()->getColumnDimension('C')->setWidth(20);
     $object->getActiveSheet()->getStyle('C4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('C4', 'TEST TAKERS');
     $object->getActiveSheet()->getColumnDimension('D')->setWidth(20);
     $object->getActiveSheet()->getStyle('D4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('D4', 'RESERVED');
     $object->getActiveSheet()->getColumnDimension('E')->setWidth(20);
     $object->getActiveSheet()->getStyle('E4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('E4', 'ENROLLED');
     $object->getActiveSheet()->getStyle('G4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('G4', 'RESERVED');
     $object->getActiveSheet()->getStyle('H4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('H4', 'ENROLLED');
     $column = 0;
     foreach ($table_columns as $field) {
@@ -189,7 +195,7 @@ class Admission extends MY_Controller
       $count = $count + 1;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="BasicEdEnrollmentSummary.xls"');
     $object_writer->save('php://output');
@@ -282,54 +288,54 @@ class Admission extends MY_Controller
 
     $count = 0;
     $this->data['list'] = $list;
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $object->getActiveSheet()->getStyle('A1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A1:H1');
     $object->getActiveSheet()->setCellValue('A1', '  Senior High School  Enrollment Summary');
     $object->getActiveSheet()->mergeCells('A2:D2');
     $object->getActiveSheet()->getStyle('A2')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('A2', 'SCHOOLYEAR ' . $array['sy'] . ' ');
     $object->getActiveSheet()->mergeCells('E2:H2');
     $object->getActiveSheet()->getStyle('E2')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('E2', '' . $array['gradlvl'] . ' ');
     $object->getActiveSheet()->getStyle('A3')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A3:E3');
     $object->getActiveSheet()->setCellValue('A3', 'NEW STUDENTS');
     $object->getActiveSheet()->getStyle('G3')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('G3:H3');
     $object->getActiveSheet()->setCellValue('G3', 'CONTINUING STUDENTS');
     $object->getActiveSheet()->getColumnDimension('A')->setWidth(20);
     $object->getActiveSheet()->getStyle('A4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('A4', 'STRAND');
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(20);
     $object->getActiveSheet()->getStyle('B4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('B4', 'INQUIRY');
     $object->getActiveSheet()->getStyle('C4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->getColumnDimension('C')->setWidth(20);
     $object->getActiveSheet()->setCellValue('C4', 'TEST TAKERS');
     $object->getActiveSheet()->getStyle('D4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->getColumnDimension('D')->setWidth(20);
     $object->getActiveSheet()->setCellValue('D4', 'RESERVED');
     $object->getActiveSheet()->getStyle('E4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->getColumnDimension('E')->setWidth(20);
     $object->getActiveSheet()->setCellValue('E4', 'ENROLLED');
     $object->getActiveSheet()->getStyle('G4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->getColumnDimension('G')->setWidth(20);
     $object->getActiveSheet()->setCellValue('G4', 'RESERVED');
     $object->getActiveSheet()->getStyle('H4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->getColumnDimension('H')->setWidth(20);
     $object->getActiveSheet()->setCellValue('H4', 'ENROLLED');
     $column = 0;
@@ -353,7 +359,7 @@ class Admission extends MY_Controller
       $count = $count + 1;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="ShSEnrollmentSummary.xls"');
     $object_writer->save('php://output');
@@ -436,6 +442,23 @@ class Admission extends MY_Controller
     $this->render($this->set_views->ad_inquiry_reports_hed());
   }
 
+  public function testspreadsheet()
+  {
+
+    // require 'vendor/autoload.php';
+    // use PhpOffice\PhpSpreadsheet\Spreadsheet;
+    // use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+    $sheet->setCellValue('A1', 'Hello World !');
+
+    $writer = new Xlsx($spreadsheet);
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment;filename="teststes.xlsx"');
+    header('Cache-Control: max-age=0');
+    $writer->save('hello world.xlsx');
+  }
   //HED Excel Reports
   public function HED_Inquiry_Excel()
   {
@@ -466,10 +489,10 @@ class Admission extends MY_Controller
     $this->data['get_inquiry']  = $this->Inquiry_Reports_Model->Select_HED_Inquiry($array);
 
 
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $object->getActiveSheet()->getStyle('A1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A1:I1');
     $object->getActiveSheet()->setCellValue('A1', 'Higher Edcuation Inquiry');
     $object->getActiveSheet()->setCellValue('A2', '#');
@@ -551,8 +574,7 @@ class Admission extends MY_Controller
       $excel_row++;
       $count = $count + 1;
     }
-
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="HedInquiryExcel.xls"');
     $object_writer->save('php://output');
@@ -624,10 +646,10 @@ class Admission extends MY_Controller
     $this->data['get_inquiry']  = $this->Inquiry_Reports_Model->Select_SHS_Inquiry($array);
 
 
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $object->getActiveSheet()->getStyle('A1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A1:J1');
     $object->getActiveSheet()->setCellValue('A1', 'Senior High School Inquiry');
     $object->getActiveSheet()->setCellValue('A2', '#');
@@ -684,7 +706,7 @@ class Admission extends MY_Controller
       $count = $count + 1;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="SHSInquiryExcel.xls"');
     $object_writer->save('php://output');
@@ -755,10 +777,10 @@ class Admission extends MY_Controller
     $this->data['get_inquiry']  = $this->Inquiry_Reports_Model->Select_SHS_Inquiry($array);
 
 
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $object->getActiveSheet()->getStyle('A1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A1:J1');
     $object->getActiveSheet()->setCellValue('A1', 'Senior High School Inquiry');
     $object->getActiveSheet()->setCellValue('A2', '#');
@@ -815,7 +837,7 @@ class Admission extends MY_Controller
       $count = $count + 1;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="SHSInquiryExcel.xls"');
     $object_writer->save('php://output');
@@ -1304,8 +1326,8 @@ class Admission extends MY_Controller
     );
 
 
-    $this->load->library("Excel");
-    $object = new PHPExcel();
+    // $this->load->library("Excel");
+    $object = new Spreadsheet();
     $table_columns = array("#", "NAME", "STUDENT NUMBER", "COURSE", "GENDER", "ADDRESS", "APPLIED STATUS", "YEAR", "CONTACT NUMBER", "HIGH SCHOOL", "TRANFERED SCHOOL ", "CURICULUM", "BIRTHDAY", "NATIONALITY");
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(40);
     $object->getActiveSheet()->getColumnDimension('C')->setWidth(25);
@@ -1461,7 +1483,7 @@ class Admission extends MY_Controller
   // Enrollment Summary Excel
   public function enrollment_summary_excel($seperate, $tab)
   {
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     // SET FREEZE GRID
     $object->getActiveSheet()->freezePane("A3");
     // SET MERGE
@@ -1488,7 +1510,7 @@ class Admission extends MY_Controller
     $object->getActiveSheet()->getColumnDimension('T')->setWidth(10);
     // SET DATA CENTER
     $object->getActiveSheet()->getStyle('A1:T2')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     // SET DATA TO BOLD
     $object->getActiveSheet()->getStyle('A2:T2')->getFont()->setBold(true);
 
@@ -1518,7 +1540,7 @@ class Admission extends MY_Controller
       ->setCellValue('T2', 'Semester');
     $color_background = array(
       'fill' => array(
-        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'type' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
         'color' => array('rgb' => 'FF0000')
       )
     );
@@ -1531,13 +1553,13 @@ class Admission extends MY_Controller
       $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row,  $count);
       if ($laman['Ref_Num_fec'] != null && $laman['Ref_Num_si'] != null && $laman['Ref_Num_ftc'] != null) {
         $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper('Enrolled'));
-        $object->getActiveSheet()->getStyle('B' . $excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('75ff69');
+        $object->getActiveSheet()->getStyle('B' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('75ff69');
       } else if ($laman['Ref_Num_ftc'] != null) {
         $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper('Payment'));
-        $object->getActiveSheet()->getStyle('B' . $excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('36cdff');
+        $object->getActiveSheet()->getStyle('B' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('36cdff');
       } else {
         $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper('Avising'));
-        // $object->getActiveSheet()->getStyle('B'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('FF0000');
+        // $object->getActiveSheet()->getStyle('B'.$excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('FF0000');
       }
       $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper($laman['Ref_Num_si']));
       $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row,  strtoupper($laman['Std_Num_si']));
@@ -1573,7 +1595,7 @@ class Admission extends MY_Controller
       $count++;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="' . $tab . '_Student_Data.xls"');
     $object_writer->save('php://output');
@@ -1582,7 +1604,7 @@ class Admission extends MY_Controller
   // Static Design
   public function excel_summary_static_design()
   {
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     // SET FREEZE GRID
     $object->getActiveSheet()->freezePane("A3");
     // Set WIDTH
@@ -1603,7 +1625,7 @@ class Admission extends MY_Controller
     $object->getActiveSheet()->getColumnDimension('P')->setWidth(12);
     // SET DATA CENTER
     $object->getActiveSheet()->getStyle('A1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     // SET DATA TO BOLD
     $object->getActiveSheet()->getStyle('A2:P2')->getFont()->setBold(true);
 
@@ -1680,7 +1702,7 @@ class Admission extends MY_Controller
       $count++;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="' . $tab . '_Student_Data.xls"');
     $object_writer->save('php://output');

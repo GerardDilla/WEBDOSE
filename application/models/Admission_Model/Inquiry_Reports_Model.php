@@ -159,4 +159,3 @@ public function Select_BED_Inquiry($array){
 
 
 }
-?>
