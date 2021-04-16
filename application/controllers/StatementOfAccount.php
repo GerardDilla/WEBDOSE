@@ -2,9 +2,10 @@
 
 use SebastianBergmann\CodeCoverage\Report\Html\Renderer;
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class StatementOfAccount extends MY_Controller  {
+class StatementOfAccount extends MY_Controller
+{
 
     protected $admin_data;
     protected $school_year;
@@ -15,12 +16,12 @@ class StatementOfAccount extends MY_Controller  {
     protected $due_date;
     protected $date_time;
 
-    public function __construct() 
+    public function __construct()
     {
         header('Access-Control-Allow-Origin: *');
-		header('Access-Control-Allow-Methods: GET, POST');
+        header('Access-Control-Allow-Methods: GET, POST');
         header('Access-Control-Request-Headers: Content-Type');
-        
+
         parent::__construct();
         $this->load->library('set_views');
         $this->load->library('session');
@@ -28,7 +29,7 @@ class StatementOfAccount extends MY_Controller  {
         $this->load->library("email");
 
         $this->load->library('form_validation');
-        
+
         //$this->load->model('');
         $this->load->model('Global_Model/Global_Program_Model');
         //$this->load->model('Account_Model/Logs_Model');
@@ -42,9 +43,17 @@ class StatementOfAccount extends MY_Controller  {
         $this->admin_data = $this->set_custom_session->admin_session();
 
         #email config
-        $config['protocol'] = 'sendmail';
-        //$config['charset'] = 'iso-8859-1';
-        //$config['wordwrap'] = TRUE;
+        $config['protocol']    = 'smtp';
+        $config['smtp_host']    = 'ssl://smtp.gmail.com';
+        $config['smtp_port']    = '465';
+        $config['smtp_timeout'] = '7';
+        $config['smtp_user']    = 'webmailer@sdca.edu.ph';
+        //$config['smtp_pass']    = 'dgojehpfiftlzoqy';
+        $config['smtp_pass']    = 'sdca2017';
+        $config['charset']    = 'utf-8';
+        $config['newline']    = "\r\n";
+        $config['mailtype'] = 'html';
+        $config['validation'] = TRUE;
 
         $this->email->initialize($config);
 
@@ -53,7 +62,6 @@ class StatementOfAccount extends MY_Controller  {
         $datestring = "%Y-%m-%d";
         $time = time();
         $this->date_time = mdate($datestring, $time);
-        
     }
 
     public function index()
@@ -73,9 +81,9 @@ class StatementOfAccount extends MY_Controller  {
 
         #check if the form is complete
         $form_checker = $this->form_check();
-        
+
         if ($form_checker == 0) {
-            $this->session->set_flashdata('message_error','Data not found.');
+            $this->session->set_flashdata('message_error', 'Data not found.');
             redirect('SOA');
         }
 
@@ -86,10 +94,10 @@ class StatementOfAccount extends MY_Controller  {
             'user_id' => $this->admin_data['userid'],
             'date_sent' => $this->date_time
         );
-        $insert_output_id = $this->Student_Model->inset_soa_due_data($array_data); 
+        $insert_output_id = $this->Student_Model->inset_soa_due_data($array_data);
         if ($insert_output_id == "") {
             # code...
-            $this->session->set_flashdata('message_error','Batch email not sent. Please contact MIS office.');
+            $this->session->set_flashdata('message_error', 'Batch email not sent. Please contact MIS office.');
             redirect('SOA');
         }
 
@@ -102,21 +110,19 @@ class StatementOfAccount extends MY_Controller  {
             $this->email->to($student['Email']);
             $this->email->from($this->school_email);
             $this->email->subject('Here is your info');
-            $this->email->message('Hi '.$student['First_Name'].' '.$student['Middle_Name'].' '.$student['Last_Name'].' '.' Here is the info you requested. https://stdominiccollege.edu.ph/WEBDOSE/index.php/soa_download/'.$student['Student_Number'].'/'.$insert_output_id);
+            $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. https://stdominiccollege.edu.ph/WEBDOSE/index.php/soa_download/' . $student['Student_Number'] . '/' . $insert_output_id);
             $this->email->send();
         }
 
         $this->session->set_flashdata('message_success', 'Email Sent');
         redirect('SOA');
-
     }
 
     protected function form_check()
     {
         if (!$this->program_code || !$this->semester || !$this->school_year || !$this->term || !$this->due_date) {
             $output = 0;
-        }
-        else {
+        } else {
             $output = 1;
         }
 
@@ -125,13 +131,13 @@ class StatementOfAccount extends MY_Controller  {
 
     public function sample_output()
     {
-        
+
         $student_no = 20170223; //20180029;
         $semester = "second";
-        $school_year = "2020-2021";//"2018-2019";
+        $school_year = "2020-2021"; //"2018-2019";
         $due_date = "2021-03-22";
         $student_info = $this->Global_Student_Model->get_student_info_by_student_no($student_no);
-        
+
         $array_params = array(
             'student_info' => $student_info[0],
             'student_type' => "HED",
@@ -150,7 +156,7 @@ class StatementOfAccount extends MY_Controller  {
         $array_enrolled_fees = $this->Global_Fees_Model->get_enrolled_fees($array_info);
         //$this->soa->set_enrolled_fees_data($array_enrolled_fees[0]);
         $array_params['enrolled_fees'] = $array_enrolled_fees[0];
-        
+
         #get Scholarship discount
         $scholarship_discount = $this->Fees_Model->get_scholarship_discount($array_enrolled_fees[0]['id']);
         $array_params['scholarship_discount'] = $scholarship_discount;
@@ -173,20 +179,10 @@ class StatementOfAccount extends MY_Controller  {
 
         #call soa class
         $this->load->library('Accounting/soa', $array_params);
-        
+
         $this->soa->export();
         //$this->soa->test();
 
-        
-
-        
-        
-       
-
-
-
-
-        
     }
 
     public function send_mail_test()
@@ -211,47 +207,22 @@ class StatementOfAccount extends MY_Controller  {
 
         #get student list by Program
         //$array_students = $this->Student_Model->get_student_list_by_program($this->program_code, $this->semester, $this->school_year);
-        /*
+
         $array_students = array(
+
             array(
-                'First_Name' => 'aldren',
-                'Middle_Name' => 'B.',
-                'Last_Name' => 'Sanchez',
-                'Email' => 'aldrensanchez@sdca.edu.ph'
-            ),
-            array(
-                'First_Name' => 'Gerhard ',
-                'Middle_Name' => 'p.',
-                'Last_Name' => 'Dilla',
+                'First_Name' => 'juan',
+                'Middle_Name' => 'D.',
+                'Last_Name' => 'Cruz 2',
                 'Email' => 'gpdilla@sdca.edu.ph'
             ),
             array(
-                'First_Name' => 'Charles',
-                'Middle_Name' => ' ',
-                'Last_Name' => 'Limuel',
-                'Email' => 'charleslimuel08@sdca.edu.ph'
+                'First_Name' => 'juan',
+                'Middle_Name' => 'D.',
+                'Last_Name' => 'Cruz 2',
+                'Email' => 'gerarddilla@gmail.com'
             ),
-        );
-        */
-        $array_students = array(
-            array(
-                'First_Name' => 'aldren',
-                'Middle_Name' => 'B.',
-                'Last_Name' => 'Sanchez',
-                'Email' => 'aldrensanchez55.games@gmail.com'
-            ),
-            array(
-                'First_Name' => 'aldren',
-                'Middle_Name' => 'B.',
-                'Last_Name' => 'Sanchez 2',
-                'Email' => 'gpdilla@sdca.edu.ph'
-            ),
-            array(
-                'First_Name' => 'aldren',
-                'Middle_Name' => 'B.',
-                'Last_Name' => 'Sanchez 3',
-                'Email' => 'albs55@yahoo.com'
-            ),
+
         );
         //print_r($array_students);
         //return;
@@ -259,10 +230,9 @@ class StatementOfAccount extends MY_Controller  {
         foreach ($array_students as $key => $student) {
             $this->email->clear();
             $this->email->to($student['Email']);
-            $this->email->cc('aldrensanchez@sdca.edu.ph');
             $this->email->from($this->school_email);
             $this->email->subject('Here is your info');
-            $this->email->message('Hi '.$student['First_Name'].' '.$student['Middle_Name'].' '.$student['Last_Name'].' '.'https://stdominiccollege.edu.ph/WEBDOSE/index.php/soa_download/'. $student_no . '/' . $due_id );
+            $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . 'https://stdominiccollege.edu.ph/WEBDOSE/index.php/soa_download/' . $student_no . '/' . $due_id);
             $this->email->send();
             //$this->email->send(FALSE);
             //$this->email->print_debugger(array('headers'));
@@ -276,8 +246,6 @@ class StatementOfAccount extends MY_Controller  {
     {
         $f = new NumberFormatter("en", NumberFormatter::SPELLOUT);
         echo $f->format(1432);
-
-       
     }
 
     public function test()
@@ -287,7 +255,7 @@ class StatementOfAccount extends MY_Controller  {
         $school_year = $this->input->post('school_year');
         $due_date = $this->input->post('due_date');
         $student_info = $this->Global_Student_Model->get_student_info_by_student_no($student_no);
-        
+
         $array_params = array(
             'student_info' => $student_info[0],
             'student_type' => "HED",
@@ -306,7 +274,7 @@ class StatementOfAccount extends MY_Controller  {
         $array_enrolled_fees = $this->Global_Fees_Model->get_enrolled_fees($array_info);
         //$this->soa->set_enrolled_fees_data($array_enrolled_fees[0]);
         $array_params['enrolled_fees'] = $array_enrolled_fees[0];
-        
+
         #get Scholarship discount
         $scholarship_discount = $this->Fees_Model->get_scholarship_discount($array_enrolled_fees[0]['id']);
         $array_params['scholarship_discount'] = $scholarship_discount;
@@ -329,7 +297,7 @@ class StatementOfAccount extends MY_Controller  {
 
         #call soa class
         $this->load->library('Accounting/soa', $array_params);
-        
+
         $this->soa->export();
     }
 
@@ -339,7 +307,7 @@ class StatementOfAccount extends MY_Controller  {
         $semester = "second";
         $school_year = "2018-2019";
         $student_info = $this->Global_Student_Model->get_student_info_by_student_no($student_no);
-        
+
         $array_params = array(
             'student_info' => $student_info[0],
             'student_type' => "HED"
@@ -356,7 +324,7 @@ class StatementOfAccount extends MY_Controller  {
         $array_enrolled_fees = $this->Global_Fees_Model->get_enrolled_fees($array_info);
         //$this->soa->set_enrolled_fees_data($array_enrolled_fees[0]);
         $array_params['enrolled_fees'] = $array_enrolled_fees[0];
-        
+
         #get Scholarship discount
         $scholarship_discount = $this->Fees_Model->get_scholarship_discount($array_enrolled_fees[0]['id']);
         $array_params['scholarship_discount'] = $scholarship_discount;
@@ -367,20 +335,20 @@ class StatementOfAccount extends MY_Controller  {
 
         #call soa class
         $this->load->library('Accounting/soa', $array_params);
-        
+
         $this->soa->reader();
     }
 
 
     public function soa_api()
     {
-        
+
         $student_no = $this->input->get_post('student_no');
         $semester = $this->input->get_post('semester');
         $school_year = $this->input->get_post('school_year');
 
         $student_info = $this->Global_Student_Model->get_student_info_by_student_no($student_no);
-        
+
         $array_params = array(
             'student_info' => $student_info[0],
             'student_type' => "HED"
@@ -397,7 +365,7 @@ class StatementOfAccount extends MY_Controller  {
         $array_enrolled_fees = $this->Global_Fees_Model->get_enrolled_fees($array_info);
         //$this->soa->set_enrolled_fees_data($array_enrolled_fees[0]);
         $array_params['enrolled_fees'] = $array_enrolled_fees[0];
-        
+
         #get Scholarship discount
         $scholarship_discount = $this->Fees_Model->get_scholarship_discount($array_enrolled_fees[0]['id']);
         $array_params['scholarship_discount'] = $scholarship_discount;
@@ -412,17 +380,15 @@ class StatementOfAccount extends MY_Controller  {
 
         #call soa class
         $this->load->library('Accounting/soa', $array_params);
-        
-        $this->soa->export();
 
-        
+        $this->soa->export();
     }
 
     public function email_test()
     {
         $this->email->from($this->school_email, 'Your Name');
-        $this->email->to('aldrensanchez@sdca.edu.ph');
-        
+        $this->email->to('gpdilla@sdca.edu.ph');
+
 
         $this->email->subject('Email Test');
         $this->email->message('Testing the email class.');
@@ -430,6 +396,4 @@ class StatementOfAccount extends MY_Controller  {
         $this->email->send();
         echo $this->email->print_debugger();
     }
-
-    
 }
