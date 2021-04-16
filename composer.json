@@ -14,7 +14,8 @@
 		"php": ">=5.2.4",
 		"phpoffice/phpspreadsheet": "^1.14",
 		"mpdf/mpdf": "^8.0",
-		"tnkemdilim/money-to-words-converter": "^2.0"
+		"tnkemdilim/money-to-words-converter": "^2.0",
+		"ext-gd": "*"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
