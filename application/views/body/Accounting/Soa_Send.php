@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="<?php echo base_url('css/iziModal.min.css'); ?>">
+<link rel="stylesheet" href="<?php echo base_url('plugins/waitme/waitMe.min.css'); ?>">
 <section  id="top" class="content" style="background-color: #fff;">
     <!-- CONTENT GRID-->
     <div class="container-fluid">
@@ -30,6 +32,8 @@
                             <b class="black">School Year</b>
                             <select name="schoolYear" id="schoolYear" class="form-control show-tick"  data-live-search="true" tabindex="-98">
                                 <option value="<?php echo $this->data['array_adivsing_term']['School_Year']; ?>" selected> <?php echo $this->data['array_adivsing_term']['School_Year'];  ?></option>
+                                <option value="2019-2020">2020-2019</option>
+                                <option value="2020-2021">2020-2021</option>
                             </select>
                         </div>
                         <br>
@@ -38,6 +42,8 @@
                         <div class="form-line vertical_gap">
                             <b class="black">Semester</b>
                             <select name="semester" id="semester" class="form-control show-tick"  data-live-search="true" tabindex="-98">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
                                 <option value="<?php echo $this->data['array_adivsing_term']['Semester']; ?>" selected> <?php echo $this->data['array_adivsing_term']['Semester'];  ?></option>
                             </select>
                         </div>
@@ -95,6 +101,48 @@
         
 
 </section>
-
+<div id="modal" data-izimodal-group="" data-izimodal-loop="" style="display:none;" data-izimodal-title="">
+</div>
+<script src="<?php echo base_url('plugins/waitme/waitMe.min.js');?>"></script>
+<script src="<?php echo base_url('js/iziModal.min.js'); ?>"></script>
 <input type="hidden" id="addressUrl" value="<?php echo site_url().'/StatementOfAccount'; ?>"/>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/soa.js"></script>
+<script>
+$("#sendButton").click(function(){
+$('body').waitMe({
+    effect : 'stretch',
+    text : 'Please wait...',
+    bg : 'rgba(255,255,255,0.7)',
+    color : '#000',
+    maxSize : '',
+    waitTime : -1,
+    textPos : 'vertical',
+    fontSize : '',
+    source : '',
+    onClose : function() {}
+});
+$.ajax({
+        url: "<?php echo base_url();?>index.php/StatementOfAccount/getEmailData",
+        method: 'get',
+        dataType:'json',
+        data:{
+            programCode:$('#programCode').val(),
+            semester:$('#semester').val(),
+            schoolYear:$('#schoolYear').val()
+        },
+        success: function(response) {
+            storagedata.changeVal('data',response);
+            console.log(response);
+            for(var x=1;x<=response.total_page;++x){
+                console.log(`page ${x}`);
+            }
+            $('body').waitMe('hide');
+            $('#modal').iziModal('open');
+            $('#modal').iziModal('setTitle',"Sending...      <span align='right'>10%</span>")
+        },
+        error: function(response) {
+            // reject(response);
+        }
+    });
+});
+</script>
