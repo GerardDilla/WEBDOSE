@@ -643,33 +643,48 @@
                 },
                 dataType: 'json',
                 success: function(data) {
+                    
                     if (no_id == 'enrollment') {
+                        $data_table_var = $('#data_table_summary');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_enrollment_summary(data);
                         $('#enrollment_summary_report_tbody').html(html);
-                        $data_table_var = $('#data_table_summary');
                     }
                     if (no_id == 'inquiry') {
+                        $data_table_var = $('#data_table_inquiry');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_inquiry_summary(data);
                         $('#inquiry_report_tbody').html(html);
-                        $data_table_var = $('#data_table_inquiry');
+                        
                     }
                     if (no_id == 'advised') {
+                        $data_table_var = $('#data_table_advised');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_advised_summary(data);
                         $('#advised_report_tbody').html(html);
-                        $data_table_var = $('#data_table_advised');
+                        
                     }
                     if (no_id == 'reserved') {
+                        $data_table_var = $('#data_table_reserved');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_reserved_summary(data);
                         $('#reserved_report_tbody').html(html);
-                        $data_table_var = $('#data_table_reserved');
+                        
                     }
                     if (no_id == 'enrolled') {
+                        $data_table_var = $('#data_table_enrolled');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_enrolled_summary(data);
                         $('#enrolled_report_tbody').html(html);
-                        $data_table_var = $('#data_table_enrolled');
+                        
                     }
                     // datatable for searching and pagination
-                    // $data_table_var.DataTable().destroy();
+                    
                     $data_table_var.DataTable({
                         paging: false,
                         searching: true,
@@ -1122,13 +1137,16 @@
                 },
                 dataType: 'json',
                 success: function(data) {
+                    $data_table_var = $('#data_table_summary');
+                    $data_table_var.DataTable().destroy();
+                    // $data_table_var.DataTable().clear();
+                    // $('#data_table_summary tbody').empty();
+
                     $('#enrollment_preloader').show();
                     html = html_enrollment_summary(data);
                     $('#enrollment_summary_report_tbody').html(html);
                     $.fn.dataTable.ext.errMode = 'none';
-                    $data_table_var = $('#data_table_summary');
-                    // $data_table_var.DataTable().destroy();
-                    // $data_table_var.DataTable().clear();
+                    
                     $data_table_var.DataTable({
                         paging: false,
                         searching: true,
