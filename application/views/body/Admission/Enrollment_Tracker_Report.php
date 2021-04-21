@@ -7,12 +7,22 @@
         float: right;
         margin: 0 20px 0 0;
     }
+
+    .like_search_div {
+        position: absolute;
+        /* top:-100px; */
+    }
+
+    .like_search_button {
+        position: inherit;
+        top: 10px;
+    }
 </style>
 <section id="top" class="content" style="background-color: #fff;">
     <!-- CONTENT GRID-->
     <div class="container-fluid">
         <!-- MODULE TITLE-->
-        <div class="block-header">
+        <div class="block-header" id="base_url_js" data-baseurljs="<?php echo base_url(); ?>">
             <h1>Enrollment Tracker Report</h1>
         </div>
         <!--/ MODULE TITLE-->
@@ -51,6 +61,7 @@
                     <!-- /CONTENT TABS -->
                     <div class="tab-content">
                         <div class="col-md-6">
+
                         </div>
                         <div class="col-md-6">
                             <div class="row">
@@ -151,7 +162,16 @@
                     <div class="tab-content" id="">
                         <!--FIRST TAB-->
                         <div class="tab-pane fade active in" id="enrollment_summary_report" role="tabpanel" aria-labelledby="enrollment_summary_report-tab">
-
+                            <div class="col-md-6 like_search_div">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="search" id="single_search_text">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button">
+                                </div>
+                                <br>
+                            </div>
+                            <br><br><br><br><br>
                             <div class="row clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="card">
@@ -649,7 +669,7 @@
                         $data_table_var = $('#data_table_enrolled');
                     }
                     // datatable for searching and pagination
-                    $data_table_var.DataTable().destroy();
+                    // $data_table_var.DataTable().destroy();
                     $data_table_var.DataTable({
                         paging: false,
                         searching: true,
@@ -1087,5 +1107,41 @@
                 console.log('No data');
             }
         });
+
+
+        $('#single_search_button').on('click', function() {
+            $('#enrollment_summary_report_tbody').empty();
+            search = $('#single_search_text').val();
+            base_url = $('#base_url_js').data('baseurljs');
+            // alert('asdsadas');
+            $.ajax({
+                method: 'POST',
+                url: base_url + "index.php/Admission/single_search",
+                data: {
+                    search_text: search
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $('#enrollment_preloader').show();
+                    html = html_enrollment_summary(data);
+                    $('#enrollment_summary_report_tbody').html(html);
+                    $.fn.dataTable.ext.errMode = 'none';
+                    $data_table_var = $('#data_table_summary');
+                    // $data_table_var.DataTable().destroy();
+                    // $data_table_var.DataTable().clear();
+                    $data_table_var.DataTable({
+                        paging: false,
+                        searching: true,
+                        responsive: false,
+                        // destroy: true,
+                    });
+
+
+                },
+                complete: function() {
+                    $('#enrollment_preloader').hide();
+                }
+            })
+        })
     });
 </script>
