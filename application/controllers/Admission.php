@@ -1362,13 +1362,6 @@ class Admission extends MY_Controller
     echo json_encode($this->data['Enrollment_Summary_Report_List']);
   }
 
-  public function single_search()
-  {
-    $data = $this->input->post('search_text');
-    $single_search = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Like_Search($data);
-    echo json_encode($single_search);
-  }
-
   //* Get all Inquiries in higher education
   public function Tracker_Inquiry_Report()
   {
@@ -1686,5 +1679,40 @@ class Admission extends MY_Controller
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="' . $tab . '_Student_Data.xls"');
     $object_writer->save('php://output');
+  }
+
+  public function single_search_summary()
+  {
+    $data = $this->input->post('search_text');
+    $single_search = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Like_Search($data);
+    echo json_encode($single_search);
+  }
+
+  public function single_search_inquiry()
+  {
+    $data = $this->input->post('search_text');
+    $single_search = $this->Enrollment_Tracker_Report_Model->Inquiry_List_Like_Search($data);
+    echo json_encode($single_search);
+  }
+
+  public function single_search_advised()
+  {
+    $data = $this->input->post('search_text');
+    $single_search = $this->Enrollment_Tracker_Report_Model->Advised_List_Like_Search($data);
+    echo json_encode($single_search);
+  }
+
+  public function single_search_reserved()
+  {
+    $data = $this->input->post('search_text');
+    $single_search = $this->Enrollment_Tracker_Report_Model->Highered_Reserved_Like_Search($data);
+    echo json_encode($single_search);
+  }
+
+  public function single_search_enrolled()
+  {
+    $data = $this->input->post('search_text');
+    $single_search = $this->Enrollment_Tracker_Report_Model->Enrolled_Student_List_Like_Search($data);
+    echo json_encode($single_search);
   }
 }//end class
