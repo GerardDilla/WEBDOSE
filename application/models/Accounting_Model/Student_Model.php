@@ -46,7 +46,7 @@ class Student_Model extends CI_Model {
 
         return $output;
     }
-    
+
     public function get_soa_due_date($due_id)
     {
         $this->db->select('*');

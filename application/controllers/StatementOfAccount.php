@@ -15,7 +15,7 @@ class StatementOfAccount extends MY_Controller
     protected $school_email;
     protected $due_date;
     protected $date_time;
-
+    protected $per_page;
     public function __construct()
     {
         header('Access-Control-Allow-Origin: *');
@@ -33,7 +33,6 @@ class StatementOfAccount extends MY_Controller
         // $this->load->library('email');
         // $this->load->library('sdca_mailer', array('email' => $this->email, 'load' => $this->load));
 
-        //$this->load->model('');
         $this->load->model('Global_Model/Global_Program_Model');
         //$this->load->model('Account_Model/Logs_Model');
         $this->load->model('Accounting_Model/Student_Model');
@@ -51,7 +50,7 @@ class StatementOfAccount extends MY_Controller
         $config['smtp_port']    = '465';
         $config['smtp_timeout'] = '7';
         $config['smtp_user']    = 'webmailer@sdca.edu.ph';
-        //$config['smtp_pass']    = 'dgojehpfiftlzoqy';
+        // $config['smtp_pass']    = 'dgojehpfiftlzoqy';
         $config['smtp_pass']    = 'sdca2017';
         $config['charset']    = 'utf-8';
         $config['newline']    = "\r\n";
@@ -112,6 +111,7 @@ class StatementOfAccount extends MY_Controller
         $email_success_count = 0;
         $email_error_count = 0;
         $per_page = 50;
+        
         // echo  'program code: '.$this->program_code.'<br>school_year: '.$this->school_year.'<br>semester: '.$this->semester; exit;
         $sample_array = array();
         $less = $total_email%$per_page;
@@ -133,8 +133,8 @@ class StatementOfAccount extends MY_Controller
             // $this->email->to($student['Email']);
             // $this->email->from($this->school_email);
             // $this->email->subject('Here is your info');
-            $this->email->to('jhonnormanfabregas@gmail.com');
-            $this->email->from('jfabregas@sdca.edu.ph');
+            $this->email->to('jhonnormancorpuz@gmail.com');
+            $this->email->from('jhonnormanfabregas@gmail.ph','St. Dominic College of Asia');
             $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$this->program_code);
             $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. https://stdominiccollege.edu.ph/WEBDOSE/index.php/soa_download/' . $student['Student_Number'] . '/' . $insert_output_id);
             if($this->email->send()){
@@ -161,24 +161,45 @@ class StatementOfAccount extends MY_Controller
         $total_email = count($array_students);
         $email_success_count = 0;
         $email_error_count = 0;
-        $per_page = 30;
-        $less = $total_email%$per_page;
+        $this->per_page = 5;
+        $less = $total_email%$this->per_page;
         if($less==0){
-            $count_page = $total_email/$per_page;
+            $count_page = $total_email/$this->per_page;
         }
         else{
             $total_email_with_less = $total_email-$less;
 
-            $count_page = ($total_email_with_less/$per_page) + 1;
+            $count_page = ($total_email_with_less/$this->per_page) + 1;
         }
-        echo json_encode(array('total'=>$total_email,'per_page'=>$per_page,'less'=>$less,'total_page'=>$count_page));
+        echo json_encode(array('total'=>$total_email,'per_page'=>$this->per_page,'less'=>$less,'total_page'=>$count_page));
         // exit;
     }
     public function batchSend(){
-        $this->program_code = $this->input->get('programCode');
-        $this->semester = $this->input->get('semester');
-        $this->school_year = $this->input->get('schoolYear');
-        $array_students = $this->Student_Model->get_student_list_by_program($this->program_code, $this->semester, $this->school_year);
+        $page = $this->input->get('page');
+        $per_page = $this->input->get('per_page');
+        $offset = ($page-1)*$per_page;
+        $program_code = $this->input->get('programCode');
+        $semester = $this->input->get('semester');
+        $school_year = $this->input->get('schoolYear');
+        $array_students = $this->Student_Model->getStudentListPaginated($program_code, $semester, $school_year,$per_page,$offset);
+        foreach ($array_students as $key => $student) {
+            $this->email->clear();
+            // $this->email->to($student['Email']);
+            // $this->email->from($this->school_email);
+            // $this->email->subject('Here is your info');
+            $this->email->to('jhonnormanfabregas@gmail.com');
+            $this->email->from('jfabregas@sdca.edu.ph');
+            $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$program_code.' - PAGE:'.$page);
+            $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. https://stdominiccollege.edu.ph/WEBDOSE/index.php/soa_download/' . $student['Student_Number'] . '/' . $insert_output_id);
+            if($this->email->send()){
+                ++$email_success_count;
+                // echo '<pre>'.print_r($student,1).'</pre><br>';
+            }
+            else{
+                ++$email_error_count;
+            }
+        }
+        echo json_encode('success');
     }
     protected function form_check()
     {
