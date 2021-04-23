@@ -145,7 +145,7 @@
                 count +
                 '</td>' +
                 '<td><a target="_blank" href="https://drive.google.com/drive/folders/' + value['gdrive_id'] + '">' +
-                '<button class="btn btn-lrg btn-info">Button</button>' +
+                '<button class="btn btn-lrg btn-info">View in GDrive</button>' +
                 '</a>' +
                 '</td>' +
                 '<td>' +
