@@ -1693,6 +1693,23 @@ class Cashier extends MY_Controller  {
        
     }
 
+    public function proof_of_payment(){
+        $this->render($this->set_views->proof_of_payment());
+    }
+
+    public function proof_of_payment_ajax(){
+        $array = array(
+            'from'=>$this->input->post('from'),
+            'to'=>$this->input->post('to'),
+        );
+        // $array = array(
+        //     'from'=>'2019-04-04',
+        //     'to'=>'2021-04-04',
+        // );
+        $proofs = $this->Fees_Model->proof_of_payment($array);
+        echo json_encode($proofs);
+    }
+
     
        
         

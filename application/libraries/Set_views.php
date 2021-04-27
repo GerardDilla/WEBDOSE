@@ -421,6 +421,10 @@ class set_views
 		return 'body/Helpdesk/HelpdeskReport';
 	}
 
+	public function proof_of_payment(){
+		return 'body/Cashier/ProofOfPayment';
+	}
+
 	//////////////////////////// User Accessibility  TAB ////////////////////////
 	public function user_accessibility()
 	{
