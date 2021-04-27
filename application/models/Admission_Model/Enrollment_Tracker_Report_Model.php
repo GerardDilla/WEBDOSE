@@ -15,7 +15,8 @@ class Enrollment_Tracker_Report_Model extends CI_Model
             si.Course_1st, si.Course_2nd, si.Course_3rd,
             si.Others_Know_SDCA, si.Tel_No, si.CP_No,
             si.Address_City, si.Address_Province,
-            si.Applied_SchoolYear, si.Applied_Semester
+            si.Applied_SchoolYear, si.Applied_Semester,
+            si.SHS_School_Name
         ');
         $this->db->from('Student_Info si');
         $this->db->order_by('si.Reference_Number', 'DESC');
@@ -53,7 +54,8 @@ class Enrollment_Tracker_Report_Model extends CI_Model
             si.Course_1st,si.Course_2nd,si.Course_3rd,
             si.Others_Know_SDCA,si.Tel_No,si.CP_No,
             si.Address_City,si.Address_Province,
-            si.Applied_SchoolYear,si.Applied_Semester
+            si.Applied_SchoolYear,si.Applied_Semester,
+            si.SHS_School_Name
         ');
         $this->db->from('Student_Info si');
         $this->db->order_by('si.Reference_Number', 'DESC');
@@ -89,7 +91,8 @@ class Enrollment_Tracker_Report_Model extends CI_Model
             si.Course_1st,si.Course_2nd,si.Course_3rd,
             si.Others_Know_SDCA,si.Tel_No,si.CP_No,
             si.Address_City,si.Address_Province,
-            si.Applied_SchoolYear,si.Applied_Semester
+            si.Applied_SchoolYear,si.Applied_Semester,
+            si.SHS_School_Name
         ');
         $this->db->from('Fees_Temp_College ftc');
 
@@ -117,7 +120,9 @@ class Enrollment_Tracker_Report_Model extends CI_Model
     {
         // die($array['sem']);
         // die(json_encode($array));
-        $this->db->select('*');
+        $this->db->select('*,
+        si.Student_Number as Std_Num_si,
+        ');
         // $this->db->from('EnrolledStudent_Payments ep');
         $this->db->from('Fees_Enrolled_College fec');
         $this->db->order_by('id', 'DESC');
@@ -143,10 +148,11 @@ class Enrollment_Tracker_Report_Model extends CI_Model
         $this->db->select('*,
             rf.Reference_No as Ref_No_rf,
             si.Course as Course_si,
+            si.Student_Number as Std_Num_si,
         ');
         $this->db->from('ReservationFee rf');
         $this->db->join('Student_Info si', 'rf.`Reference_No` = si.`Reference_Number`', 'LEFT');
-        $this->db->join('EnrolledStudent_Payments ep', 'rf.Reference_No = ep.Reference_Number', 'left');
+        $this->db->join('EnrolledStudent_Payments ep', 'rf.Reference_No = ep.Reference_Number', 'LEFT');
         $this->db->join('Fees_Enrolled_College fec', 'rf.Reference_No = fec.Reference_Number', 'LEFT');
         //   $this->db->where('rf.semester', $array['sem']);
         //   $this->db->where('rf.schoolyear', $array['sy']);

@@ -172,7 +172,7 @@
                                     <input type="text" class="form-control" placeholder="search" id="single_search_text_summary">
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_summary">
+                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_summary">
                                 </div>
                                 <br>
                             </div>
@@ -212,6 +212,7 @@
                                                                     <th>#</th>
                                                                     <th>Tracker Status</th>
                                                                     <th>Reference Number</th>
+                                                                    <th>Student Number</th>
                                                                     <th>Name</th>
                                                                     <th>Gender</th>
                                                                     <th>Nationality</th>
@@ -220,8 +221,9 @@
                                                                     <th>Second Choice</th>
                                                                     <th>Third Choice</th>
                                                                     <th>Search Engine</th>
-                                                                    <th>Contact #</th>
-                                                                    <!-- <th>School Last Attended</th> -->
+                                                                    <th>Cellphone Number</th>
+                                                                    <th>Telephone Number</th>
+                                                                    <th>School Last Attended</th>
                                                                     <th>Residence</th>
                                                                     <th>Applied School Year</th>
                                                                     <th>Applied Semester</th>
@@ -248,7 +250,7 @@
                                     <input type="text" class="form-control" placeholder="search" id="single_search_text_inquiry">
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_inquiry">
+                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_inquiry">
                                 </div>
                                 <br>
                             </div>
@@ -287,6 +289,7 @@
                                                                 <tr>
                                                                     <th>#</th>
                                                                     <th>Reference Number</th>
+                                                                    <th>Student Number</th>
                                                                     <th>Name</th>
                                                                     <th>Gender</th>
                                                                     <th>Nationality</th>
@@ -295,8 +298,9 @@
                                                                     <th>Second Choice</th>
                                                                     <th>Third Choice</th>
                                                                     <th>Search Engine</th>
-                                                                    <th>Contact #</th>
-                                                                    <!-- <th>School Last Attended</th> -->
+                                                                    <th>Cellphone Number</th>
+                                                                    <th>Telephone Number</th>
+                                                                    <th>School Last Attended</th>
                                                                     <th>Residence</th>
                                                                     <th>Applied School Year</th>
                                                                     <th>Applied Semester</th>
@@ -323,7 +327,7 @@
                                     <input type="text" class="form-control" placeholder="search" id="single_search_text_advising">
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_advising">
+                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_advising">
                                 </div>
                                 <br>
                             </div>
@@ -362,14 +366,16 @@
                                                                 <tr>
                                                                     <th>#</th>
                                                                     <th>Reference Number</th>
+                                                                    <th>Student Number</th>
                                                                     <th>Name</th>
                                                                     <th>Gender</th>
                                                                     <th>Nationality</th>
                                                                     <th>YearLevel</th>
                                                                     <th>Course</th>
                                                                     <th>Search Engine</th>
-                                                                    <th>Contact #</th>
-                                                                    <!-- <th>School Last Attended</th> -->
+                                                                    <th>Cellphone Number</th>
+                                                                    <th>Telephone Number</th>
+                                                                    <th>School Last Attended</th>
                                                                     <th>Residence</th>
                                                                     <th>Applied School Year</th>
                                                                     <th>Applied Semester</th>
@@ -398,7 +404,7 @@
                                     <input type="text" class="form-control" placeholder="search" id="single_search_text_reserved">
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_reserved">
+                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_reserved">
                                 </div>
                                 <br>
                             </div>
@@ -437,14 +443,16 @@
                                                                 <tr>
                                                                     <th>#</th>
                                                                     <th>Reference Number</th>
+                                                                    <th>Student Number</th>
                                                                     <th>Name</th>
                                                                     <th>Gender</th>
                                                                     <th>Nationality</th>
                                                                     <th>YearLevel</th>
                                                                     <th>Course</th>
                                                                     <th>Search Engine</th>
-                                                                    <th>Contact #</th>
-                                                                    <!-- <th>School Last Attended</th> -->
+                                                                    <th>Cellphone Number</th>
+                                                                    <th>Telephone Number</th>
+                                                                    <th>School Last Attended</th>
                                                                     <th>Residence</th>
                                                                     <th>Applied School Year</th>
                                                                     <th>Applied Semester</th>
@@ -473,7 +481,7 @@
                                     <input type="text" class="form-control" placeholder="search" id="single_search_text_enrolled">
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_enrolled">
+                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_enrolled">
                                 </div>
                                 <br>
                             </div>
@@ -512,14 +520,16 @@
                                                                 <tr>
                                                                     <th>#</th>
                                                                     <th>Reference Number</th>
+                                                                    <th>Student Number</th>
                                                                     <th>Name</th>
                                                                     <th>Gender</th>
                                                                     <th>Nationality</th>
                                                                     <th>YearLevel</th>
                                                                     <th>Course</th>
                                                                     <th>Search Engine</th>
-                                                                    <th>Contact #</th>
-                                                                    <!-- <th>School Last Attended</th> -->
+                                                                    <th>Cellphone Number</th>
+                                                                    <th>Telephone Number</th>
+                                                                    <th>School Last Attended</th>
                                                                     <th>Residence</th>
                                                                     <th>Applied School Year</th>
                                                                     <th>Applied Semester</th>
@@ -783,12 +793,11 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>';
-                html += data[i].Ref_Num_si;
-                if (data[i].Std_Num_si != null && data[i].Std_Num_si != 0) {
-                    html += "<br>Std_No.: " + data[i].Std_Num_si;
-                }
-                html +=
+                    '<td>'+
+                    data[i].Ref_Num_si +
+                    '</td>' +
+                    '<td>'+
+                    data[i].Std_Num_si +
                     '</td>' +
                     '<td>' +
                     data[i].Last_Name +
@@ -823,20 +832,14 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>';
-                if (data[i].Tel_No != null && data[i].CP_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No +
-                        '<br>' +
-                        'Cellphone: ' + data[i].CP_No;
-                } else if (data[i].Tel_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No;
-                } else if (data[i].CP_No != null) {
-                    html +=
-                        'Cellphone: ' + data[i].CP_No;
-                }
-                html +=
+                    '<td>' +
+                    data[i].CP_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].Tel_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].SHS_School_Name +
                     '</td>' +
                     '<td>' +
                     data[i].Address_City + ', ' + data[i].Address_Province +
@@ -864,6 +867,9 @@
                     '<td>' +
                     data[i].Ref_Num_si +
                     '</td>' +
+                    '<td>'+
+                    data[i].Std_Num_si +
+                    '</td>' +
                     '<td>' +
                     data[i].Last_Name +
                     ",<br>" +
@@ -897,20 +903,14 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>';
-                if (data[i].Tel_No != null && data[i].CP_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No +
-                        '<br>' +
-                        'Cellphone: ' + data[i].CP_No;
-                } else if (data[i].Tel_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No;
-                } else if (data[i].CP_No != null) {
-                    html +=
-                        'Cellphone: ' + data[i].CP_No;
-                }
-                html +=
+                    '<td>' +
+                    data[i].CP_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].Tel_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].SHS_School_Name +
                     '</td>' +
                     '<td>' +
                     data[i].Address_City + ', ' + data[i].Address_Province +
@@ -937,6 +937,9 @@
                     '<td>' + x + '</td>' +
                     '<td>' +
                     data[i].Ref_Num_ftc +
+                    '</td>' +
+                    '<td>'+
+                    data[i].Std_Num_si +
                     '</td>' +
                     '<td>' +
                     data[i].Last_Name +
@@ -965,20 +968,14 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>';
-                if (data[i].Tel_No != null && data[i].CP_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No +
-                        '<br>' +
-                        'Cellphone: ' + data[i].CP_No;
-                } else if (data[i].Tel_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No;
-                } else if (data[i].CP_No != null) {
-                    html +=
-                        'Cellphone: ' + data[i].CP_No;
-                }
-                html +=
+                    '<td>' +
+                    data[i].CP_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].Tel_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].SHS_School_Name +
                     '</td>' +
                     '<td>' +
                     data[i].Address_City + ', ' + data[i].Address_Province +
@@ -1005,6 +1002,9 @@
                     '<td>' + x + '</td>' +
                     '<td>' +
                     data[i].Ref_No_rf +
+                    '</td>' +
+                    '<td>'+
+                    data[i].Std_Num_si +
                     '</td>' +
                     '<td>' +
                     data[i].Last_Name +
@@ -1033,20 +1033,14 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>';
-                if (data[i].Tel_No != null && data[i].CP_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No +
-                        '<br>' +
-                        'Cellphone: ' + data[i].CP_No;
-                } else if (data[i].Tel_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No;
-                } else if (data[i].CP_No != null) {
-                    html +=
-                        'Cellphone: ' + data[i].CP_No;
-                }
-                html +=
+                    '<td>' +
+                    data[i].CP_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].Tel_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].SHS_School_Name +
                     '</td>' +
                     '<td>' +
                     data[i].Address_City + ', ' + data[i].Address_Province +
@@ -1073,6 +1067,9 @@
                     '<td>' + x + '</td>' +
                     '<td>' +
                     data[i].Reference_Number +
+                    '</td>' +
+                    '<td>'+
+                    data[i].Std_Num_si +
                     '</td>' +
                     '<td>' +
                     data[i].Last_Name +
@@ -1101,20 +1098,14 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>';
-                if (data[i].Tel_No != null && data[i].CP_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No +
-                        '<br>' +
-                        'Cellphone: ' + data[i].CP_No;
-                } else if (data[i].Tel_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No;
-                } else if (data[i].CP_No != null) {
-                    html +=
-                        'Cellphone: ' + data[i].CP_No;
-                }
-                html +=
+                    '<td>' +
+                    data[i].CP_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].Tel_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].SHS_School_Name +
                     '</td>' +
                     '<td>' +
                     data[i].Address_City + ', ' + data[i].Address_Province +
