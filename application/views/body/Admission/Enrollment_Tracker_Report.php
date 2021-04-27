@@ -1087,5 +1087,14 @@
                 console.log('No data');
             }
         });
+
+
+        function datatable($data_table_var) {
+            $data_table_var.DataTable({
+                paging: false,
+                searching: true,
+                responsive: false,
+            });
+        }
     });
 </script>
