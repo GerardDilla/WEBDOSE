@@ -1348,17 +1348,12 @@ class Admission extends MY_Controller
   //* Enrollment tracker get all report
   public function Enrollment_Summary_Report()
   {
-    // $this->data['get_sy']      = $this->Inquiry_Reports_Model->Select_Legends()->result_array();
-    // $this->data['get_course']  = $this->Inquiry_Reports_Model->Select_Course();
-    // foreach($this->data['get_sy'] as $row)  {
-    //   $this->data['schoolyear']  =  $row['SchoolYear'];
-    //   $this->data['semester'] =  $row['Semester'];
-    // }
     $array = array(
       'sy' => $this->input->post('sy'),
       'sem' => $this->input->post('sem'),
       'course' => $this->input->post('course'),
     );
+
     // $this->data['get_sy'][0]['SchoolYear'];
     if (isset($array['sy']) || isset($array['sy']) || isset($array['sy'])) {
       $this->data['Enrollment_Summary_Report_List'] = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Report_List($array);
@@ -1684,5 +1679,40 @@ class Admission extends MY_Controller
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="' . $tab . '_Student_Data.xls"');
     $object_writer->save('php://output');
+  }
+
+  public function single_search_summary()
+  {
+    $data = $this->input->post('search_text');
+    $single_search = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Like_Search($data);
+    echo json_encode($single_search);
+  }
+
+  public function single_search_inquiry()
+  {
+    $data = $this->input->post('search_text');
+    $single_search = $this->Enrollment_Tracker_Report_Model->Inquiry_List_Like_Search($data);
+    echo json_encode($single_search);
+  }
+
+  public function single_search_advised()
+  {
+    $data = $this->input->post('search_text');
+    $single_search = $this->Enrollment_Tracker_Report_Model->Advised_List_Like_Search($data);
+    echo json_encode($single_search);
+  }
+
+  public function single_search_reserved()
+  {
+    $data = $this->input->post('search_text');
+    $single_search = $this->Enrollment_Tracker_Report_Model->Highered_Reserved_Like_Search($data);
+    echo json_encode($single_search);
+  }
+
+  public function single_search_enrolled()
+  {
+    $data = $this->input->post('search_text');
+    $single_search = $this->Enrollment_Tracker_Report_Model->Enrolled_Student_List_Like_Search($data);
+    echo json_encode($single_search);
   }
 }//end class

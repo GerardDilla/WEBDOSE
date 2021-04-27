@@ -7,12 +7,22 @@
         float: right;
         margin: 0 20px 0 0;
     }
+
+    .like_search_div {
+        position: absolute;
+        /* top:-100px; */
+    }
+
+    .like_search_button {
+        position: inherit;
+        top: 10px;
+    }
 </style>
 <section id="top" class="content" style="background-color: #fff;">
     <!-- CONTENT GRID-->
     <div class="container-fluid">
         <!-- MODULE TITLE-->
-        <div class="block-header">
+        <div class="block-header" id="base_url_js" data-baseurljs="<?php echo base_url(); ?>">
             <h1>Enrollment Tracker Report</h1>
         </div>
         <!--/ MODULE TITLE-->
@@ -51,6 +61,7 @@
                     <!-- /CONTENT TABS -->
                     <div class="tab-content">
                         <div class="col-md-6">
+
                         </div>
                         <div class="col-md-6">
                             <div class="row">
@@ -151,7 +162,16 @@
                     <div class="tab-content" id="">
                         <!--FIRST TAB-->
                         <div class="tab-pane fade active in" id="enrollment_summary_report" role="tabpanel" aria-labelledby="enrollment_summary_report-tab">
-
+                            <div class="col-md-6 like_search_div">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_summary">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_summary">
+                                </div>
+                                <br>
+                            </div>
+                            <br><br><br><br><br>
                             <div class="row clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="card">
@@ -218,7 +238,16 @@
                         <!--/FIRST TAB-->
                         <!--SECOND TAB-->
                         <div class="tab-pane fade active" id="inquiry_report" role="tabpanel" aria-labelledby="inquiry_report-tab">
-
+                            <div class="col-md-6 like_search_div">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_inquiry">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_inquiry">
+                                </div>
+                                <br>
+                            </div>
+                            <br><br><br><br><br>
                             <div class="row clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="card">
@@ -284,7 +313,16 @@
                         <!--/SECOND TAB-->
                         <!--THIRD TAB END-->
                         <div class="tab-pane fade" id="adviced_report" role="tabpanel" aria-labelledby="adviced_report-tab">
-
+                            <div class="col-md-6 like_search_div">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_advising">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_advising">
+                                </div>
+                                <br>
+                            </div>
+                            <br><br><br><br><br>
                             <div class="row clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="card">
@@ -350,7 +388,16 @@
                         <!--/THIRD TAB END-->
                         <!--FOURTH TAB END-->
                         <div class="tab-pane fade" id="reserved_report" role="tabpanel" aria-labelledby="reserved_report-tab">
-
+                            <div class="col-md-6 like_search_div">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_reserved">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_reserved">
+                                </div>
+                                <br>
+                            </div>
+                            <br><br><br><br><br>
                             <div class="row clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="card">
@@ -416,7 +463,16 @@
                         <!--/FOURTH TAB END-->
                         <!--FIFTH TAB END-->
                         <div class="tab-pane fade" id="enrolled_student_report" role="tabpanel" aria-labelledby="enrolled_student_report-tab">
-
+                            <div class="col-md-6 like_search_div">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_enrolled">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_enrolled">
+                                </div>
+                                <br>
+                            </div>
+                            <br><br><br><br><br>
                             <div class="row clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="card">
@@ -623,33 +679,44 @@
                 },
                 dataType: 'json',
                 success: function(data) {
+
                     if (no_id == 'enrollment') {
+                        $data_table_var = $('#data_table_summary');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_enrollment_summary(data);
                         $('#enrollment_summary_report_tbody').html(html);
-                        $data_table_var = $('#data_table_summary');
                     }
                     if (no_id == 'inquiry') {
+                        $data_table_var = $('#data_table_inquiry');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_inquiry_summary(data);
                         $('#inquiry_report_tbody').html(html);
-                        $data_table_var = $('#data_table_inquiry');
                     }
                     if (no_id == 'advised') {
+                        $data_table_var = $('#data_table_advised');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_advised_summary(data);
                         $('#advised_report_tbody').html(html);
-                        $data_table_var = $('#data_table_advised');
                     }
                     if (no_id == 'reserved') {
+                        $data_table_var = $('#data_table_reserved');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_reserved_summary(data);
                         $('#reserved_report_tbody').html(html);
-                        $data_table_var = $('#data_table_reserved');
                     }
                     if (no_id == 'enrolled') {
+                        $data_table_var = $('#data_table_enrolled');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_enrolled_summary(data);
                         $('#enrolled_report_tbody').html(html);
-                        $data_table_var = $('#data_table_enrolled');
                     }
                     // datatable for searching and pagination
-                    $data_table_var.DataTable().destroy();
+
                     $data_table_var.DataTable({
                         paging: false,
                         searching: true,
@@ -1088,6 +1155,147 @@
             }
         });
 
+        $.fn.dataTable.ext.errMode = 'none';
+        // Enrollment summary
+        $('#single_search_button_summary').on('click', function() {
+            $('#enrollment_summary_report_tbody').empty();
+            search = $('#single_search_text_summary').val();
+            base_url = $('#base_url_js').data('baseurljs');
+            // alert('asdsadas');
+            $.ajax({
+                method: 'POST',
+                url: base_url + "index.php/Admission/single_search_summary",
+                data: {
+                    search_text: search
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $data_table_var = $('#data_table_summary');
+                    $data_table_var.DataTable().destroy();
+
+                    $('#enrollment_preloader').show();
+                    html = html_enrollment_summary(data);
+                    $('#enrollment_summary_report_tbody').html(html);
+
+                    datatable($data_table_var);
+                },
+                complete: function() {
+                    $('#enrollment_preloader').hide();
+                }
+            })
+        })
+        // Inquiry
+        $('#single_search_button_inquiry').on('click', function() {
+            $('#inquiry_report_tbody').empty();
+            search = $('#single_search_text_inquiry').val();
+            base_url = $('#base_url_js').data('baseurljs');
+            // alert('asdsadas');
+            $.ajax({
+                method: 'POST',
+                url: base_url + "index.php/Admission/single_search_inquiry",
+                data: {
+                    search_text: search
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $data_table_var = $('#data_table_inquiry');
+                    $data_table_var.DataTable().destroy();
+
+                    $('#inquiry_preloader').show();
+                    html = html_inquiry_summary(data);
+                    $('#inquiry_report_tbody').html(html);
+
+                    datatable($data_table_var);
+                },
+                complete: function() {
+                    $('#inquiry_preloader').hide();
+                }
+            })
+        })
+        // Advising
+        $('#single_search_button_advising').on('click', function() {
+            $('#advised_report_tbody').empty();
+            search = $('#single_search_text_advising').val();
+            base_url = $('#base_url_js').data('baseurljs');
+            // alert('asdsadas');
+            $.ajax({
+                method: 'POST',
+                url: base_url + "index.php/Admission/single_search_advised",
+                data: {
+                    search_text: search
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $data_table_var = $('#data_table_advised');
+                    $data_table_var.DataTable().destroy();
+
+                    $('#advised_preloader').show();
+                    html = html_advised_summary(data);
+                    $('#advised_report_tbody').html(html);
+
+                    datatable($data_table_var);
+                },
+                complete: function() {
+                    $('#advised_preloader').hide();
+                }
+            })
+        })
+        // Reserved
+        $('#single_search_button_reserved').on('click', function() {
+            $('#reserved_report_tbody').empty();
+            search = $('#single_search_text_reserved').val();
+            base_url = $('#base_url_js').data('baseurljs');
+            // alert('asdsadas');
+            $.ajax({
+                method: 'POST',
+                url: base_url + "index.php/Admission/single_search_reserved",
+                data: {
+                    search_text: search
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $data_table_var = $('#data_table_reserved');
+                    $data_table_var.DataTable().destroy();
+
+                    $('#reserved_preloader').show();
+                    html = html_reserved_summary(data);
+                    $('#reserved_report_tbody').html(html);
+
+                    datatable($data_table_var);
+                },
+                complete: function() {
+                    $('#reserved_preloader').hide();
+                }
+            })
+        })
+        // Enrolled
+        $('#single_search_button_enrolled').on('click', function() {
+            $('#enrolled_report_tbody').empty();
+            search = $('#single_search_text_enrolled').val();
+            base_url = $('#base_url_js').data('baseurljs');
+            // alert('asdsadas');
+            $.ajax({
+                method: 'POST',
+                url: base_url + "index.php/Admission/single_search_enrolled",
+                data: {
+                    search_text: search
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $data_table_var = $('#data_table_enrolled');
+                    $data_table_var.DataTable().destroy();
+
+                    $('#enrolled_preloader').show();
+                    html = html_enrolled_summary(data);
+                    $('#enrolled_report_tbody').html(html);
+
+                    datatable($data_table_var);
+                },
+                complete: function() {
+                    $('#enrolled_preloader').hide();
+                }
+            })
+        })
 
         function datatable($data_table_var) {
             $data_table_var.DataTable({
