@@ -1681,38 +1681,38 @@ class Admission extends MY_Controller
     $object_writer->save('php://output');
   }
 
-  public function single_search_summary()
-  {
-    $data = $this->input->post('search_text');
-    $single_search = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Like_Search($data);
-    echo json_encode($single_search);
-  }
+  // public function single_search_summary()
+  // {
+  //   $data = $this->input->post('search_text');
+  //   $single_search = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Like_Search($data);
+  //   echo json_encode($single_search);
+  // }
 
-  public function single_search_inquiry()
-  {
-    $data = $this->input->post('search_text');
-    $single_search = $this->Enrollment_Tracker_Report_Model->Inquiry_List_Like_Search($data);
-    echo json_encode($single_search);
-  }
+  // public function single_search_inquiry()
+  // {
+  //   $data = $this->input->post('search_text');
+  //   $single_search = $this->Enrollment_Tracker_Report_Model->Inquiry_List_Like_Search($data);
+  //   echo json_encode($single_search);
+  // }
 
-  public function single_search_advised()
-  {
-    $data = $this->input->post('search_text');
-    $single_search = $this->Enrollment_Tracker_Report_Model->Advised_List_Like_Search($data);
-    echo json_encode($single_search);
-  }
+  // public function single_search_advised()
+  // {
+  //   $data = $this->input->post('search_text');
+  //   $single_search = $this->Enrollment_Tracker_Report_Model->Advised_List_Like_Search($data);
+  //   echo json_encode($single_search);
+  // }
 
-  public function single_search_reserved()
-  {
-    $data = $this->input->post('search_text');
-    $single_search = $this->Enrollment_Tracker_Report_Model->Highered_Reserved_Like_Search($data);
-    echo json_encode($single_search);
-  }
+  // public function single_search_reserved()
+  // {
+  //   $data = $this->input->post('search_text');
+  //   $single_search = $this->Enrollment_Tracker_Report_Model->Highered_Reserved_Like_Search($data);
+  //   echo json_encode($single_search);
+  // }
 
-  public function single_search_enrolled()
-  {
-    $data = $this->input->post('search_text');
-    $single_search = $this->Enrollment_Tracker_Report_Model->Enrolled_Student_List_Like_Search($data);
-    echo json_encode($single_search);
-  }
+  // public function single_search_enrolled()
+  // {
+  //   $data = $this->input->post('search_text');
+  //   $single_search = $this->Enrollment_Tracker_Report_Model->Enrolled_Student_List_Like_Search($data);
+  //   echo json_encode($single_search);
+  // }
 }//end class
