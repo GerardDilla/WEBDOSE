@@ -1,15 +1,15 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class User_accessibility
 {
-    protected $CI; 
+    protected $CI;
     private $module;
 
-	public function __construct()
+    public function __construct()
     {
         // Do something with $params
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
         $this->CI->load->library('session');
         $this->CI->load->helper('url');
         $this->CI->load->model('Account_Model/User_Accessibility_Model');
@@ -21,22 +21,21 @@ class User_accessibility
             'admission' => 3,
             'executive' => 6,
             'cashier' => 7,
-            'program_chair' => 8
+            'program_chair' => 8,
+            'accounting' => 9
         );
-
     }
 
     public function module_admin_access($user_id)
     {
         $array_data = array(
-            'user_id' => $user_id, 
+            'user_id' => $user_id,
             'module_id' => $this->module['admin']
         );
 
         $output = $this->CI->User_Accessibility_Model->get_module_access($array_data);
 
-        if ($output == 0) 
-        {
+        if ($output == 0) {
             redirect('Advising');
         }
     }
@@ -44,14 +43,27 @@ class User_accessibility
     public function module_registrar_access($user_id)
     {
         $array_data = array(
-            'user_id' => $user_id, 
+            'user_id' => $user_id,
             'module_id' => $this->module['registrar']
         );
 
         $output = $this->CI->User_Accessibility_Model->get_module_access($array_data);
 
-        if ($output == 0) 
-        {
+        if ($output == 0) {
+            redirect('Advising');
+        }
+    }
+
+    public function module_accounting_access($user_id)
+    {
+        $array_data = array(
+            'user_id' => $user_id,
+            'module_id' => $this->module['program_chair']
+        );
+
+        $output = $this->CI->User_Accessibility_Model->get_module_access($array_data);
+
+        if ($output == 0) {
             redirect('Advising');
         }
     }
@@ -59,32 +71,30 @@ class User_accessibility
     public function module_program_chair_access($user_id)
     {
         $array_data = array(
-            'user_id' => $user_id, 
+            'user_id' => $user_id,
             'module_id' => $this->module['program_chair']
         );
 
         $output = $this->CI->User_Accessibility_Model->get_module_access($array_data);
 
-        if ($output == 0) 
-        {
+        if ($output == 0) {
             redirect('Advising');
         }
     }
-    
+
     public function module_advising_access($user_id)
     {
-        
+
         $array_data = array(
-            'user_id' => $user_id, 
+            'user_id' => $user_id,
             'module_id' => $this->module['advising']
         );
 
         $output = $this->CI->User_Accessibility_Model->get_module_access($array_data);
-        
-        if ($output == 0 ) 
-        {
+
+        if ($output == 0) {
             # code...
-            
+
             redirect('Registrar/Create_Sched');
         }
     }
@@ -92,50 +102,47 @@ class User_accessibility
     public function module_cashier_access($user_id)
     {
         $array_data = array(
-            'user_id' => $user_id, 
+            'user_id' => $user_id,
             'module_id' => $this->module['cashier']
         );
 
         $output = $this->CI->User_Accessibility_Model->get_module_access($array_data);
 
-        if ($output == 0) 
-        {
+        if ($output == 0) {
             redirect('Registrar/Create_Sched');
         }
     }
 
     public function module_admission_access($user_id)
     {
-        
+
         $array_data = array(
-            'user_id' => $user_id, 
+            'user_id' => $user_id,
             'module_id' => $this->module['admission']
         );
 
         $output = $this->CI->User_Accessibility_Model->get_module_access($array_data);
-        
-        if ($output == 0 ) 
-        {
+
+        if ($output == 0) {
             # code...
-            
+
             redirect('Registrar/Create_Sched');
         }
     }
 
     public function module_executive_access($user_id)
     {
-        
+
         $array_data = array(
-            'user_id' => $user_id, 
+            'user_id' => $user_id,
             'module_id' => $this->module['executive']
         );
 
         $output = $this->CI->User_Accessibility_Model->get_module_access($array_data);
-        
-        if ($output == 0 ) 
-        {
+
+        if ($output == 0) {
             # code...
-            
+
             redirect('Executive/enrollment_report');
         }
     }
@@ -151,21 +158,16 @@ class User_accessibility
 
         $array_output = array();
 
-        if ($output) 
-        {
+        if ($output) {
             # code...
-            foreach ($output as $key => $module) 
-            {
+            foreach ($output as $key => $module) {
                 # code...
                 $array_output[] = $module['parent_module_id'];
-                
             }
         }
 
-       
+
 
         return $array_output;
     }
-
-    
 }
