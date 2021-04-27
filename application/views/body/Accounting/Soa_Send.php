@@ -31,7 +31,7 @@
                     <div class="input-group">
                         <div class="form-line vertical_gap">
                             <b class="black">School Year</b>
-                            <select name="schoolYear" id="schoolYear" class="form-control show-tick"  data-live-search="true" tabindex="1" style="z-index:101">
+                            <select name="schoolYear" id="schoolYear" class="form-control show-tick"  data-live-search="true" tabindex="1" style="z-index:1001">
                                 <option value="<?php echo $this->data['array_adivsing_term']['School_Year']; ?>" selected> <?php echo $this->data['array_adivsing_term']['School_Year'];  ?></option>
                                 <option value="2019-2020">2020-2019</option>
                                 <option value="2020-2021">2020-2021</option>
@@ -42,7 +42,7 @@
                         <br>
                         <div class="form-line vertical_gap">
                             <b class="black">Semester</b>
-                            <select name="semester" id="semester" class="form-control show-tick"  data-live-search="true" tabindex="-98">
+                            <select name="semester" id="semester" class="form-control show-tick"  data-live-search="true" tabindex="-98" style="z-index:99">
                                 <!-- <option value="1">1</option>
                                 <option value="2">2</option> -->
                                 <option value="<?php echo $this->data['array_adivsing_term']['Semester']; ?>" selected> <?php echo $this->data['array_adivsing_term']['Semester'];  ?></option>
@@ -51,12 +51,15 @@
                         <br>
                         <br>
                         <br>
-                        <div class="form-line vertical_gap">
+                        <br>
+                        <br>
+                        <!-- <br> -->
+                        <!-- <div class="form-line vertical_gap">
                             <b class="black">Term</b>
                             <select name="term" id="term" class="form-control show-tick"  data-live-search="true" tabindex="-98">
                                 <option value="<?php echo $this->data['array_adivsing_term']['Term']; ?>" selected> <?php echo $this->data['array_adivsing_term']['Term'];  ?></option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
 				</div>
                 <!-- /ACADEMIC TERM -->
@@ -66,13 +69,14 @@
 				<div class="SBorder vertical_gap">
                     <h4>Due Date and Program</h4><hr>
                     <div class="input-group">
-                        <div class="form-line vertical_gap">
+                    <!-- <br>
+                        <br>
+                        <br> -->
+                        <!-- <div class="form-line vertical_gap">
                             <b class="black">Due Date</b>
                             <input type="date" id="dueDate" name="dueDate" class="form-control show-tick" />
-                        </div>
-                        <br>
-                        <br>
-                        <br>
+                        </div> -->
+                       
                         <div class="form-line vertical_gap">
                             <b class="black">Program</b>
                             <select name="programCode" id="programCode" class="form-control show-tick"  data-live-search="true" tabindex="-98">
@@ -83,6 +87,11 @@
                                 
                             </select>
                         </div>
+                        <!-- <br> -->
+                        <br>
+                        <br>
+                        <br>
+                        <br>
                         <br>
                         <br>
                         <br>
@@ -154,7 +163,8 @@ async function batchSend(page,per_page,total_page){
                 per_page:per_page,
                 programCode:$('#programCode').val(),
                 semester:$('#semester').val(),
-                schoolYear:$('#schoolYear').val()
+                schoolYear:$('#schoolYear').val(),
+                due_date:$('#dueDate').val(),
             },
             success: function(response) {
                 getPercentage(page,total_page);

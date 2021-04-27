@@ -56,6 +56,7 @@ class StatementOfAccount extends MY_Controller
         $config['newline']    = "\r\n";
         $config['mailtype'] = 'html';
         $config['validation'] = TRUE;
+        // $config['wordwrap'] = TRUE;
 
         $this->email->initialize($config);
 
@@ -136,7 +137,7 @@ class StatementOfAccount extends MY_Controller
             $this->email->to('jhonnormancorpuz@gmail.com');
             $this->email->from('jhonnormanfabregas@gmail.ph','St. Dominic College of Asia');
             $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$this->program_code);
-            $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. https://stdominiccollege.edu.ph/WEBDOSE/index.php/soa_download/' . $student['Student_Number'] . '/' . $insert_output_id);
+            $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. http://localhost/WEBDOSE/index.php/soa_downloadpdf/(:any)/(:any)/(:any)/(:any)/' . $student['Student_Number'] . '/' . $insert_output_id);
             if($this->email->send()){
                 ++$email_success_count;
                 echo '<pre>'.print_r($student,1).'</pre><br>';
@@ -181,19 +182,22 @@ class StatementOfAccount extends MY_Controller
         $program_code = $this->input->get('programCode');
         $semester = $this->input->get('semester');
         $school_year = $this->input->get('schoolYear');
+        $due_date = $this->input->get('due_date');
         $array_students = $this->Student_Model->getStudentListPaginated($program_code, $semester, $school_year,$per_page,$offset);
         foreach ($array_students as $key => $student) {
             $this->email->clear();
             // $this->email->to($student['Email']);
             // $this->email->from($this->school_email);
             // $this->email->subject('Here is your info');
+            // $ref_no = "",$sem="",$sy="",$due =""
             $this->email->to('jhonnormanfabregas@gmail.com');
             $this->email->from('jfabregas@sdca.edu.ph');
             $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$program_code.' - PAGE:'.$page);
-            $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. https://stdominiccollege.edu.ph/WEBDOSE/index.php/soa_download/' . $student['Student_Number'] . '/' . $insert_output_id);
+            // $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. http://localhost/WEBDOSE/index.php/soa_downloadpdf/'.$student['Reference_Number'].'/'.$semester.'/'.$school_year.'/' . $student['Student_Number'] . '/' . $insert_output_id);
+            // $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. {wrap}http://[::1]/WEBDOSE/index.php/StatementOfAccount/soa?ref_no='.$student['Reference_Number'].'&sem='.$semester.'&sy='.$school_year.'&due=' . $due_date .'{/wrap}');
+            $this->email->message($this->load->view('body/Accounting/EmailSoa',array('student'=>$student,'link'=>'http://[::1]/WEBDOSE/index.php/StatementOfAccount/soa?ref_no='.$student['Reference_Number'].'&sem='.$semester.'&sy='.$school_year.'&due=' . $due_date),true));
             if($this->email->send()){
                 ++$email_success_count;
-                // echo '<pre>'.print_r($student,1).'</pre><br>';
             }
             else{
                 ++$email_error_count;
@@ -212,15 +216,21 @@ class StatementOfAccount extends MY_Controller
         return $output;
     }
 
-    public function sample_output()
+    public function soa()
     {
-
-        $student_no = 20170223; //20180029;
-        $semester = "second";
-        $school_year = "2020-2021"; //"2018-2019";
-        $due_date = "2021-03-22";
+        // $student_no = 20170223; //20180029;
+        // $semester = "second";
+        // $school_year = "2020-2021"; //"2018-2019";
+        // $due_date = "2021-03-22";
+        $ref_no = $this->input->get('ref_no'); //20180029;
+        $semester = $this->input->get('sem');
+        $school_year = $this->input->get('sy'); //"2018-2019";
+        $due_date = $this->input->get('due');
+        
+        // echo '<pre>'.print_r(array('student_no'=>$student_no,'semester'=>$semester,'school_year'=>$school_year,'due_date'=>$due_date),1).'</pre>';
+        // exit;
+        $student_no = $this->Student_Model->getStudentNumber($ref_no)['Student_Number'];
         $student_info = $this->Global_Student_Model->get_student_info_by_student_no($student_no);
-
         $array_params = array(
             'student_info' => $student_info[0],
             'student_type' => "HED",

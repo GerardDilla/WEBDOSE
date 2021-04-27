@@ -12,7 +12,7 @@ class User_verification extends CI_Model{
         $this->db->select('UserName');
         $this->db->where('UserName',$credentials['username']);
         $this->db->where('Password',$credentials['password']);
-        $this->db->where('AES_DECRYPT(`Password`, \''.$credentials['password'].'\') = \''.$credentials['password'].'\'');
+        // $this->db->where('AES_DECRYPT(`Password`, \''.$credentials['password'].'\') = \''.$credentials['password'].'\'');
         $this->db->where('tabValid',1);
         $this->db->from('Users');
         $query = $this->db->get();
