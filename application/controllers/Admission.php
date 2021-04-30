@@ -1715,4 +1715,39 @@ class Admission extends MY_Controller
   //   $single_search = $this->Enrollment_Tracker_Report_Model->Enrolled_Student_List_Like_Search($data);
   //   echo json_encode($single_search);
   // }
+  public function Count_Tally(){
+    // $array = array(
+    //   'from' => '2021-01-01',
+    //   'to' => '2021-12-30'
+    // );
+    $array = array(
+      'from' => $this->input->post('from'),
+      'to' => $this->input->post('to')
+    );
+    $transactions = $this->Enrollment_Tracker_Report_Model->Get_Transaction_log($array);
+    // die(json_encode($transactions));
+    $programs = $this->Enrollment_Tracker_Report_Model->Get_All_Programs();
+    $program_array = array();
+    foreach($programs as $program ){
+      $counting = 0;
+      foreach($transactions as $transaction){
+        if($program['Program_Code'] == $transaction['Course']){
+          $counting +=1;
+          // echo $counting;
+        }
+      }
+      // $data[$state][] = $state;
+      // $program_array[$program['Program_Code']];
+      $program_array[$program['Program_Code']][]= $counting;
+    }
+    die(json_encode($program_array));
+  }
+  // Enrollment Tally Report Landing page
+  public function Enrollment_Tally_Report()
+  {
+    $this->data['get_sy'] = $this->Inquiry_Reports_Model->Select_Legends()->result_array();
+    $this->data['get_course']  = $this->Inquiry_Reports_Model->Select_Course();
+
+    $this->render($this->set_views->Enrollment_Tally_Report());
+  }
 }//end class

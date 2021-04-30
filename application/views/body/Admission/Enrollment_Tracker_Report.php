@@ -62,6 +62,11 @@
                                 <h5>Enrolled Student Report</h5>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="tally_student_report-tab nav-link" id="tally_student_report-tab" data-toggle="tab" href="#tally_student_report" role="tab" aria-controls="tally_student_report" aria-selected="false">
+                                <h5>Tally Student Report</h5>
+                            </a>
+                        </li>
                     </ul>
                     <!-- /CONTENT TABS -->
                     <div class="tab-content">
@@ -206,7 +211,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_summary">
+                                                        <table class="table table-bordered" id="data_table_summary">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
@@ -284,7 +289,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_inquiry">
+                                                        <table class="table table-bordered" id="data_table_inquiry">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
@@ -361,7 +366,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_advised">
+                                                        <table class="table table-bordered" id="data_table_advised">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
@@ -438,7 +443,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_reserved">
+                                                        <table class="table table-bordered" id="data_table_reserved">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
@@ -515,7 +520,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_enrolled">
+                                                        <table class="table table-bordered" id="data_table_enrolled">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
@@ -547,9 +552,69 @@
                                 </div>
                             </div>
                             <!--/CONTENT GRID-->
-
                         </div>
                         <!--/FIFTH TAB END-->
+                        <!--SIXTH TAB END-->
+                        <div class="tab-pane fade" id="tally_student_report" role="tabpanel" aria-labelledby="tally_student_report-tab">
+                            <div class="col-md-6 like_search_div">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_tally">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_tally">
+                                </div>
+                                <br>
+                            </div>
+                            <br><br><br><br><br>
+                            <div class="row clearfix">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="card">
+                                        <div class="header">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h2>
+                                                        Tally Student Report <br>
+                                                    </h2>
+                                                </div>
+                                                <button class="btn btn-lg  btn-success excel_button_right" id="tally_excel" type="submit" name="export" value="Export"> Export </button>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="display_hidden" id="tally_preloader">
+                                                    <div class="preloader pl-size-sm ">
+                                                        <div class="spinner-layer pl-red">
+                                                            <div class="circle-clipper left">
+                                                                <div class="circle"></div>
+                                                            </div>
+                                                            <div class="circle-clipper right">
+                                                                <div class="circle"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    Loading Data ...
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
+                                                        <table class="table table-bordered" id="data_table_tally">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/CONTENT GRID-->
+                        </div>
+                        <!--/SIXTH TAB END-->
                     </div>
                     <!-- /CONTENT START -->
                 </div>
@@ -793,10 +858,10 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>'+
+                    '<td>' +
                     data[i].Ref_Num_si +
                     '</td>' +
-                    '<td>'+
+                    '<td>' +
                     data[i].Std_Num_si +
                     '</td>' +
                     '<td>' +
@@ -867,7 +932,7 @@
                     '<td>' +
                     data[i].Ref_Num_si +
                     '</td>' +
-                    '<td>'+
+                    '<td>' +
                     data[i].Std_Num_si +
                     '</td>' +
                     '<td>' +
@@ -938,7 +1003,7 @@
                     '<td>' +
                     data[i].Ref_Num_ftc +
                     '</td>' +
-                    '<td>'+
+                    '<td>' +
                     data[i].Std_Num_si +
                     '</td>' +
                     '<td>' +
@@ -1003,7 +1068,7 @@
                     '<td>' +
                     data[i].Ref_No_rf +
                     '</td>' +
-                    '<td>'+
+                    '<td>' +
                     data[i].Std_Num_si +
                     '</td>' +
                     '<td>' +
@@ -1068,7 +1133,7 @@
                     '<td>' +
                     data[i].Reference_Number +
                     '</td>' +
-                    '<td>'+
+                    '<td>' +
                     data[i].Std_Num_si +
                     '</td>' +
                     '<td>' +
@@ -1162,76 +1227,6 @@
                 console.log('No data');
             }
         });
-        // // Reserved
-        // $('#single_search_button_reserved').on('click', function() {
-        //     $('#reserved_report_tbody').empty();
-        //     search = $('#single_search_text_reserved').val();
-        //     base_url = $('#base_url_js').data('baseurljs');
-        //     // alert('asdsadas');
-        //     $.ajax({
-        //         method: 'POST',
-        //         url: base_url + "index.php/Admission/single_search_reserved",
-        //         data: {
-        //             search_text: search
-        //         },
-        //         dataType: 'json',
-        //         success: function(data) {
-        //             $data_table_var = $('#data_table_reserved');
-        //             $data_table_var.DataTable().destroy();
-
-        //             $('#reserved_preloader').show();
-        //             html = html_reserved_summary(data);
-        //             $('#reserved_report_tbody').html(html);
-
-        //             datatable($data_table_var);
-        //         },
-        //         complete: function() {
-        //             $('#reserved_preloader').hide();
-        //         }
-        //     })
-        // })
-        // // Enrolled
-        // $('#single_search_button_enrolled').on('click', function() {
-        //     $('#enrolled_report_tbody').empty();
-        //     search = $('#single_search_text_enrolled').val();
-        //     base_url = $('#base_url_js').data('baseurljs');
-        //     // alert('asdsadas');
-        //     $.ajax({
-        //         method: 'POST',
-        //         url: base_url + "index.php/Admission/single_search_enrolled",
-        //         data: {
-        //             search_text: search
-        //         },
-        //         dataType: 'json',
-        //         success: function(data) {
-        //             $data_table_var = $('#data_table_enrolled');
-        //             $data_table_var.DataTable().destroy();
-
-        //             $('#enrolled_preloader').show();
-        //             html = html_enrolled_summary(data);
-        //             $('#enrolled_report_tbody').html(html);
-
-        //             datatable($data_table_var);
-        //         },
-        //         complete: function() {
-        //             $('#enrolled_preloader').hide();
-        //         }
-        //     })
-        // })
-        function error_modal(title, msg) {
-            iziToast.show({
-                position: 'center',
-                color: 'red',
-                title: title,
-                message: msg
-            });
-        }
-        // iziToast.show({
-        //     position: 'center',
-        //     color: 'red',
-        //     title: 'title',
-        //     message: 'msg'
-        // });
 
         $("#single_search_button_summary").on('click', function() {
             if (check_filter_summary != '') {
@@ -1278,6 +1273,15 @@
                 paging: false,
                 searching: true,
                 responsive: false,
+            });
+        }
+
+        function error_modal(title, msg) {
+            iziToast.show({
+                position: 'center',
+                color: 'red',
+                title: title,
+                message: msg
             });
         }
     });
