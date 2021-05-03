@@ -103,7 +103,7 @@
                                                                     </tr>
                                                                 </table>
                                                             </div> -->
-                                    <div class="col-md-4" style="border-right:solid #ccc">
+                                    <div class="col-md-5" style="border-right:solid #ccc">
 
                                         <?php
                                         //SchoolYear Select
@@ -161,7 +161,7 @@
 
 
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <button type="submit" id="enrollment_summary_filter" name="search_button" class="btn btn-lg btn-danger"> Search </button>
                                     </div>
                                 </form>
@@ -638,6 +638,7 @@
         var sy = $("#sy_enrollment_tracker").val();
         var sem = $("#sem_enrollment_tracker").val();
         var course = $("#course_enrollment_tracker").val();
+        console.log(sy + " " + sem+ " " + course);
         var sy_check, sem_check, course_check;
         var no_id_checer_old = no_id_checker();
         var attr_enrollment, attr_inquiry, attr_advised, attr_reserved, attr_enrolled;

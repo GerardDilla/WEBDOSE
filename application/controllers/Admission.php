@@ -1715,39 +1715,106 @@ class Admission extends MY_Controller
   //   $single_search = $this->Enrollment_Tracker_Report_Model->Enrolled_Student_List_Like_Search($data);
   //   echo json_encode($single_search);
   // }
-  public function Count_Tally(){
-    // $array = array(
-    //   'from' => '2021-01-01',
-    //   'to' => '2021-12-30'
-    // );
-    $array = array(
-      'from' => $this->input->post('from'),
-      'to' => $this->input->post('to')
-    );
-    $transactions = $this->Enrollment_Tracker_Report_Model->Get_Transaction_log($array);
-    // die(json_encode($transactions));
-    $programs = $this->Enrollment_Tracker_Report_Model->Get_All_Programs();
-    $program_array = array();
-    foreach($programs as $program ){
-      $counting = 0;
-      foreach($transactions as $transaction){
-        if($program['Program_Code'] == $transaction['Course']){
-          $counting +=1;
-          // echo $counting;
-        }
-      }
-      // $data[$state][] = $state;
-      // $program_array[$program['Program_Code']];
-      $program_array[$program['Program_Code']][]= $counting;
-    }
-    die(json_encode($program_array));
-  }
+
+
+  // public function Count_Tally(){
+  //   // $array = array(
+  //   //   'from' => '2021-01-01',
+  //   //   'to' => '2021-12-30'
+  //   // );
+  //   $array = array(
+  //     'from' => $this->input->post('from'),
+  //     'to' => $this->input->post('to')
+  //   );
+  //   $transactions = $this->Enrollment_Tracker_Report_Model->Get_Transaction_log($array);
+  //   $programs = $this->Enrollment_Tracker_Report_Model->Get_All_Programs();
+  //   $program_array = array();
+  //   foreach($programs as $program ){
+  //     $counting = 0;
+  //     foreach($transactions as $transaction){
+  //       if($program['Program_Code'] == $transaction['Course']){
+  //         $counting +=1;
+  //       }
+  //     }
+  //     $program_array[$program['Program_Code']][]= $counting;
+  //   }
+  //   die(json_encode($program_array));
+  // }
   // Enrollment Tally Report Landing page
   public function Enrollment_Tally_Report()
   {
-    $this->data['get_sy'] = $this->Inquiry_Reports_Model->Select_Legends()->result_array();
+    // $this->data['get_sy'] = $this->Inquiry_Reports_Model->Select_Legends()->result_array();
     $this->data['get_course']  = $this->Inquiry_Reports_Model->Select_Course();
+    $this->data['get_province'] = $this->Enrollment_Tracker_Report_Model->Get_All_Province();
 
     $this->render($this->set_views->Enrollment_Tally_Report());
+  }
+
+  public function Count_Program_Tally()
+  {
+    // $array = array(
+    //   'sy' => '2019-2020',
+    //   'sem' => '0',
+    //   'course' => '',
+    // );
+    $array = array(
+      'sy' => $this->input->post('sy'),
+      'sem' => $this->input->post('sem'),
+      // 'course' => $this->input->post('course'),
+    );
+    $students = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Report_List($array);
+    $reserved_students = $this->Enrollment_Tracker_Report_Model->Highered_Reserved($array);
+    // die(json_encode($students));
+    $programs = $this->Enrollment_Tracker_Report_Model->Get_All_Programs();
+    $program_array = array();
+    foreach ($programs as $program) {
+      $inquiry_count = 0;
+      $advising_count = 0;
+      $reserved_count = 0;
+      $enrolled_count = 0;
+      foreach ($students as $student) {
+        if ($program['Program_Code'] == $student['Course_1st']) {
+          $inquiry_count += 1;
+        // }
+        // if ($program['Program_Code'] == $student['Course']) {
+          if ($student['Ref_Num_fec'] != null && $student['Ref_Num_si'] != null && $student['Ref_Num_ftc'] != null) {
+            $enrolled_count += 1;
+          }
+          if ($student['Ref_Num_fec'] != null && $student['Ref_Num_si'] != null && $student['Ref_Num_ftc'] != null) {
+          } else if ($student['[Ref_Num_ftc'] != null) {
+            $advising_count += 1;
+          }
+        }
+      }
+      foreach ($reserved_students as $reserved_student) {
+        if ($program['Program_Code'] == $reserved_student['Course_1st']) {
+          $reserved_count += 1;
+        }
+      }
+      $counted_array = array($inquiry_count, $advising_count, $reserved_count, $enrolled_count);
+      $program_array[$program['Program_Code']][] = $counted_array;
+    }
+    echo json_encode($program_array);
+  }
+  public function Count_City_Tally()
+  {
+    // $prov_code = $this->input->post('prov_code');
+    // $prov_code = '1013';
+    $array = array(
+      'sy' => '2021-2022',
+      'sem' => '0',
+      // 'prov_desc' => 'BUKIDNON',
+    );
+    // $array = array(
+    //   'sy' => $this->input->post('sy'),
+    //   'sem' => $this->input->post('sem'),
+    //   // 'prov_desc' => $this->input->post('prov_desc'),
+    // );
+    $students = $this->Enrollment_Tracker_Report_Model->City_Tally($array);
+    // foreach ($students as $student) {
+    //   echo $student['Address_City'] . " : " . $student['count_student'];
+    // }
+    // die();
+    echo json_encode($students);
   }
 }//end class
