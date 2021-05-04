@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+// require_once "vendor/autoload.php";
 class Admission extends MY_Controller
 {
 
@@ -10,6 +10,7 @@ class Admission extends MY_Controller
     parent::__construct();
     $this->load->library('set_views');
     $this->load->library("Excel");
+    $this->load->library('Phpword');
     $this->load->library('form_validation');
     $this->load->model('Admission_Model/Basiced_Inquiry_Model');
     $this->load->model('Admission_Model/Shs_Model');
@@ -1775,8 +1776,8 @@ class Admission extends MY_Controller
       foreach ($students as $student) {
         if ($program['Program_Code'] == $student['Course_1st']) {
           $inquiry_count += 1;
-        // }
-        // if ($program['Program_Code'] == $student['Course']) {
+          // }
+          // if ($program['Program_Code'] == $student['Course']) {
           if ($student['Ref_Num_fec'] != null && $student['Ref_Num_si'] != null && $student['Ref_Num_ftc'] != null) {
             $enrolled_count += 1;
           }
@@ -1795,26 +1796,155 @@ class Admission extends MY_Controller
       $program_array[$program['Program_Code']][] = $counted_array;
     }
     echo json_encode($program_array);
+    return $program_array;
   }
   public function Count_City_Tally()
   {
     // $prov_code = $this->input->post('prov_code');
     // $prov_code = '1013';
-    $array = array(
-      'sy' => '2021-2022',
-      'sem' => '0',
-      // 'prov_desc' => 'BUKIDNON',
-    );
     // $array = array(
-    //   'sy' => $this->input->post('sy'),
-    //   'sem' => $this->input->post('sem'),
-    //   // 'prov_desc' => $this->input->post('prov_desc'),
+    //   'sy' => '2021-2022',
+    //   'sem' => '0',
+    //   // 'prov_desc' => 'BUKIDNON',
     // );
+    $array = array(
+      'sy' => $this->input->post('sy'),
+      'sem' => $this->input->post('sem'),
+      // 'prov_desc' => $this->input->post('prov_desc'),
+    );
     $students = $this->Enrollment_Tracker_Report_Model->City_Tally($array);
     // foreach ($students as $student) {
     //   echo $student['Address_City'] . " : " . $student['count_student'];
     // }
     // die();
     echo json_encode($students);
+  }
+
+  public function word_test()
+  {
+    // $sy = $this->input->post('sy');
+    // $sem =  $this->input->post('sem');
+    $sy = '2021-2022';
+    $sem =  'FIRST';
+    $phpWord = new \PhpOffice\PhpWord\PhpWord();
+    // $phpWord->getCompatibility()->setOoxmlVersion(14);
+    // $phpWord->getCompatibility()->setOoxmlVersion(15);
+    $section = $phpWord->addSection();
+    $center_align = array(
+      'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER
+    );
+    $bold_text = array(
+      'name' => 'Arial',
+      'size' => 12,
+      'bold' => true,
+    );
+    $table_header = array(
+      'name' => 'Arial',
+      'size' => 9,
+      'bold' => true,
+    );
+    $tableStyle = [
+      // 'borderSize' => 6,
+      'align' => 'center'
+    ];
+    $cell_tableStyle = [
+      'borderSize' => 6,
+    ];
+    $table_header_bottom = [
+      // 'borderTopSize' => 6,
+      'borderRightSize' => 6,
+      'borderBottomSize' => 6,
+      'borderLeftSize' => 6,
+      'gridSpan' => 5
+    ];
+    $table_header_top = [
+      'borderTopSize' => 6,
+      'borderRightSize' => 6,
+      // 'borderBottomSize' => 6,
+      'borderLeftSize' => 6,
+      'gridSpan' => 5
+    ];
+    $date_today = date("F j, Y");
+
+    $image = $section->addTable();
+    $image->addRow();
+    // $table->addCell(4500)->addText('This is the header.');
+    $image->addCell(5000)->addImage(
+      base_url() . '/img/word_header.jpg',
+      array(
+        'width'  => 450,
+        'height' => 60,
+        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER
+      )
+    );
+    // $table->addRow();
+
+    $section->addText(
+      'ENROLLMENT STATUS REPORT',
+      $bold_text,
+      $center_align
+    );
+
+    $section->addText(
+      'As of ' . $date_today,
+      array(
+        'name' => 'Arial',
+        'size' => 10
+      ),
+      $center_align
+    );
+
+    $phpWord->addTableStyle('myTable', $tableStyle);
+    $table = $section->addTable(
+      'myTable'
+    );
+
+    $cellRowSpan = array('vMerge' => 'restart');
+    $cellRowContinue = array('vMerge' => 'continue');
+    $cellColSpan = array('gridSpan' => 2);
+
+    $table->addRow();
+    $table_title_top = 'Higher Education AY ' . $sy ;
+    $table->addCell(null, $table_header_top)->addText($table_title_top, $bold_text, $center_align);
+
+    $table->addRow();
+    $table_title_bottom = ' 1st semester';
+    $table->addCell(null,$table_header_bottom)->addText($table_title_bottom, array(
+      'name' => 'Arial',
+      'size' => 10
+    ), $center_align);
+
+    $table->addRow();
+    $table->addCell(null, $cell_tableStyle)->addText('Course', $table_header, $center_align);
+    $table->addCell(null, $cell_tableStyle);
+    $table->addCell(null, $cell_tableStyle);
+    $table->addCell(null, $cell_tableStyle);
+    $table->addCell(null, $cell_tableStyle);
+
+
+    $table->addRow();
+    $table->addCell(2000);
+    $table->addCell(2000);
+    $table->addCell(2000);
+    $table->addCell(2000);
+    $table->addCell(2000);
+
+
+    // Saving the document as OOXML file...
+
+    // $objWriter->save('helloWorld.docx');
+    // header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    // header('Expires: 0');
+    // header("Cache-Control: public");
+    // header("Content-Description: File Transfer");
+    // header("Content-Transfer-Encoding: binary");
+    // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Content-Disposition: attachment;filename="test.docx"');
+    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+    // die($objWriter); 
+    $objWriter->save('php://output');
+    exit;
+    // echo 'End';
   }
 }//end class
