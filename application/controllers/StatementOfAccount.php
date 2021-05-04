@@ -15,7 +15,7 @@ class StatementOfAccount extends MY_Controller
     protected $school_email;
     protected $due_date;
     protected $date_time;
-
+    protected $per_page;
     public function __construct()
     {
         header('Access-Control-Allow-Origin: *');
@@ -30,7 +30,9 @@ class StatementOfAccount extends MY_Controller
 
         $this->load->library('form_validation');
 
-        //$this->load->model('');
+        // $this->load->library('email');
+        // $this->load->library('sdca_mailer', array('email' => $this->email, 'load' => $this->load));
+
         $this->load->model('Global_Model/Global_Program_Model');
         //$this->load->model('Account_Model/Logs_Model');
         $this->load->model('Accounting_Model/Student_Model');
@@ -48,7 +50,7 @@ class StatementOfAccount extends MY_Controller
         $config['smtp_port']    = '465';
         $config['smtp_timeout'] = '7';
         $config['smtp_user']    = 'webmailer@sdca.edu.ph';
-        //$config['smtp_pass']    = 'dgojehpfiftlzoqy';
+        // $config['smtp_pass']    = 'dgojehpfiftlzoqy';
         $config['smtp_pass']    = 'sdca2017';
         $config['charset']    = 'utf-8';
         $config['newline']    = "\r\n";
@@ -80,12 +82,12 @@ class StatementOfAccount extends MY_Controller
         $this->due_date = $this->input->post('dueDate');
 
         #check if the form is complete
-        $form_checker = $this->form_check();
+        // $form_checker = $this->form_check();
 
-        if ($form_checker == 0) {
-            $this->session->set_flashdata('message_error', 'Data not found.');
-            redirect('SOA');
-        }
+        // if ($form_checker == 0) {
+        //     $this->session->set_flashdata('message_error', 'Data not found.');
+        //     redirect('SOA');
+        // }
 
         #save due date
         $array_data = array(
@@ -94,30 +96,111 @@ class StatementOfAccount extends MY_Controller
             'user_id' => $this->admin_data['userid'],
             'date_sent' => $this->date_time
         );
-        $insert_output_id = $this->Student_Model->inset_soa_due_data($array_data);
-        if ($insert_output_id == "") {
-            # code...
-            $this->session->set_flashdata('message_error', 'Batch email not sent. Please contact MIS office.');
-            redirect('SOA');
-        }
+        // $insert_output_id = $this->Student_Model->inset_soa_due_data($array_data);
+        // if ($insert_output_id == "") {
+        //     $this->session->set_flashdata('message_error', 'Batch email not sent. Please contact MIS office.');
+        //     redirect('SOA');
+        // }
 
         #get student list by Program
-        $array_students = $this->Student_Model->get_student_list_by_program($this->program_code, $this->semester, $this->school_year);
 
-        #batch email
+        $array_students = $this->Student_Model->get_student_list_by_program($this->program_code, $this->semester, $this->school_year);
+        $sample_students = $this->Student_Model->get_student_id('10','10');
+        $total_email = count($array_students);
+        // $total_email = 256;
+        $email_success_count = 0;
+        $email_error_count = 0;
+        $per_page = 50;
+        
+        // echo  'program code: '.$this->program_code.'<br>school_year: '.$this->school_year.'<br>semester: '.$this->semester; exit;
+        $sample_array = array();
+        $less = $total_email%$per_page;
+        
+        if($less==0){
+            $count_page = $total_email/$per_page;
+        }
+        else{
+            $total_email_with_less = $total_email-$less;
+
+            $count_page = ($total_email_with_less/$per_page) + 1;
+        }
+        // echo $count_page;
+        // echo '<pre>'.print_r($array_students,1).'</pre>';
+        // echo json_encode(array('total'=>$total_email,'success'=>$email_success_count,'error'=>$email_success_count,'less'=>$total_email%$per_page,'total_page'=>$count_page));
+        // exit;
         foreach ($array_students as $key => $student) {
             $this->email->clear();
-            $this->email->to($student['Email']);
-            $this->email->from($this->school_email);
-            $this->email->subject('Here is your info');
+            // $this->email->to($student['Email']);
+            // $this->email->from($this->school_email);
+            // $this->email->subject('Here is your info');
+            $this->email->to('jhonnormancorpuz@gmail.com');
+            $this->email->from('jhonnormanfabregas@gmail.ph','St. Dominic College of Asia');
+            $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$this->program_code);
             $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. https://stdominiccollege.edu.ph/WEBDOSE/index.php/soa_download/' . $student['Student_Number'] . '/' . $insert_output_id);
-            $this->email->send();
+            if($this->email->send()){
+                ++$email_success_count;
+                echo '<pre>'.print_r($student,1).'</pre><br>';
+            }
+            else{
+                ++$email_error_count;
+            }
         }
-
+        echo json_encode(array('total'=>$total_email,'success'=>$email_success_count,'error'=>$email_error_count));
+        
+        exit;
         $this->session->set_flashdata('message_success', 'Email Sent');
-        redirect('SOA');
+        // redirect('SOA');
     }
+    // public function 
+    public function getEmailData(){
+        $this->program_code = $this->input->get('programCode');
+        $this->semester = $this->input->get('semester');
+        $this->school_year = $this->input->get('schoolYear');
+        $array_students = $this->Student_Model->get_student_list_by_program($this->program_code, $this->semester, $this->school_year);
+        // $total_email = 256;
+        $total_email = count($array_students);
+        $email_success_count = 0;
+        $email_error_count = 0;
+        $this->per_page = 5;
+        $less = $total_email%$this->per_page;
+        if($less==0){
+            $count_page = $total_email/$this->per_page;
+        }
+        else{
+            $total_email_with_less = $total_email-$less;
 
+            $count_page = ($total_email_with_less/$this->per_page) + 1;
+        }
+        echo json_encode(array('total'=>$total_email,'per_page'=>$this->per_page,'less'=>$less,'total_page'=>$count_page));
+        // exit;
+    }
+    public function batchSend(){
+        $page = $this->input->get('page');
+        $per_page = $this->input->get('per_page');
+        $offset = ($page-1)*$per_page;
+        $program_code = $this->input->get('programCode');
+        $semester = $this->input->get('semester');
+        $school_year = $this->input->get('schoolYear');
+        $array_students = $this->Student_Model->getStudentListPaginated($program_code, $semester, $school_year,$per_page,$offset);
+        foreach ($array_students as $key => $student) {
+            $this->email->clear();
+            // $this->email->to($student['Email']);
+            // $this->email->from($this->school_email);
+            // $this->email->subject('Here is your info');
+            $this->email->to('jhonnormanfabregas@gmail.com');
+            $this->email->from('jfabregas@sdca.edu.ph');
+            $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$program_code.' - PAGE:'.$page);
+            $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. https://stdominiccollege.edu.ph/WEBDOSE/index.php/soa_download/' . $student['Student_Number'] . '/' . $insert_output_id);
+            if($this->email->send()){
+                ++$email_success_count;
+                // echo '<pre>'.print_r($student,1).'</pre><br>';
+            }
+            else{
+                ++$email_error_count;
+            }
+        }
+        echo json_encode('success');
+    }
     protected function form_check()
     {
         if (!$this->program_code || !$this->semester || !$this->school_year || !$this->term || !$this->due_date) {

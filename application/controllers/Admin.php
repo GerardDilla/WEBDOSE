@@ -18,7 +18,7 @@ class Admin extends MY_Controller  {
 
         $this->load->model('Account_Model/User_verification');
         $this->load->model('Registrar_Models/Registrar_Model');
-       
+        
         
     }	
     
