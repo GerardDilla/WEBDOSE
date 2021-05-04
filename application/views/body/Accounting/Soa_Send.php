@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?php echo base_url('css/iziModal.min.css'); ?>">
+<!-- <link rel="stylesheet" href="<?php echo base_url('css/iziModal.min.css'); ?>"> -->
 <link rel="stylesheet" href="<?php echo base_url('plugins/waitme/waitMe.min.css'); ?>">
 <link rel="stylesheet" href="<?php echo base_url('css/iziToast.min.css'); ?>">
 
@@ -23,7 +23,7 @@
         <!--/ MODULE TITLE-->
 
         <div class="row">
-            <form id="sendForm" action ="" method="POST">
+            <!-- <form id="sendForm" action ="" method="POST"> -->
             <div class="col-md-6">
                 <!-- ACADEMIC TERM -->
 				<div class="SBorder vertical_gap">
@@ -31,7 +31,7 @@
                     <div class="input-group">
                         <div class="form-line vertical_gap">
                             <b class="black">School Year</b>
-                            <select name="schoolYear" id="schoolYear" class="form-control show-tick"  data-live-search="true" tabindex="1" style="z-index:101">
+                            <select name="schoolYear" id="schoolYear" class="form-control show-tick"  data-live-search="true" tabindex="1" style="z-index:1001">
                                 <option value="<?php echo $this->data['array_adivsing_term']['School_Year']; ?>" selected> <?php echo $this->data['array_adivsing_term']['School_Year'];  ?></option>
                                 <option value="2019-2020">2020-2019</option>
                                 <option value="2020-2021">2020-2021</option>
@@ -42,7 +42,7 @@
                         <br>
                         <div class="form-line vertical_gap">
                             <b class="black">Semester</b>
-                            <select name="semester" id="semester" class="form-control show-tick"  data-live-search="true" tabindex="-98">
+                            <select name="semester" id="semester" class="form-control show-tick"  data-live-search="true" tabindex="-98" style="z-index:99">
                                 <!-- <option value="1">1</option>
                                 <option value="2">2</option> -->
                                 <option value="<?php echo $this->data['array_adivsing_term']['Semester']; ?>" selected> <?php echo $this->data['array_adivsing_term']['Semester'];  ?></option>
@@ -51,12 +51,15 @@
                         <br>
                         <br>
                         <br>
-                        <div class="form-line vertical_gap">
+                        <br>
+                        <br>
+                        <!-- <br> -->
+                        <!-- <div class="form-line vertical_gap">
                             <b class="black">Term</b>
                             <select name="term" id="term" class="form-control show-tick"  data-live-search="true" tabindex="-98">
                                 <option value="<?php echo $this->data['array_adivsing_term']['Term']; ?>" selected> <?php echo $this->data['array_adivsing_term']['Term'];  ?></option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
 				</div>
                 <!-- /ACADEMIC TERM -->
@@ -66,23 +69,29 @@
 				<div class="SBorder vertical_gap">
                     <h4>Due Date and Program</h4><hr>
                     <div class="input-group">
-                        <div class="form-line vertical_gap">
+                    <!-- <br>
+                        <br>
+                        <br> -->
+                        <!-- <div class="form-line vertical_gap">
                             <b class="black">Due Date</b>
                             <input type="date" id="dueDate" name="dueDate" class="form-control show-tick" />
-                        </div>
-                        <br>
-                        <br>
-                        <br>
+                        </div> -->
+                       
                         <div class="form-line vertical_gap">
                             <b class="black">Program</b>
                             <select name="programCode" id="programCode" class="form-control show-tick"  data-live-search="true" tabindex="-98">
                                 <option value="" disabled selected> Select a Program</option>
-                                <?php foreach ($this->data['array_program_code_list'] as $key => $program) { ?>
+                                <?php foreach ($this->data['array_program_code_list'] as $key => $program) { if($program['Program_Code']!='N/A'){ ?>
                                     <option value="<?php echo $program['Program_Code']; ?>"> <?php echo $program['Program_Code']; ?> </option>
-                                <?php } ?>
+                                <?php }} ?>
                                 
                             </select>
                         </div>
+                        <!-- <br> -->
+                        <br>
+                        <br>
+                        <br>
+                        <br>
                         <br>
                         <br>
                         <br>
@@ -95,20 +104,20 @@
 				</div>
                 <!-- /DUE DATE/ PROGRAM -->
             </div>
-            </form>
+            <!-- </form> -->
         </div>
     </div>
 
         
 
 </section>
-<div id="modal" data-izimodal-group="" data-izimodal-loop="" style="display:none;" data-izimodal-title="">
-</div>
+<!-- <div id="modal" data-izimodal-group="" data-izimodal-loop="" style="display:none;" data-izimodal-title="">
+</div> -->
 <script src="<?php echo base_url('plugins/waitme/waitMe.min.js');?>"></script>
-<script src="<?php echo base_url('js/iziModal.min.js'); ?>"></script>
+<!-- <script src="<?php echo base_url('js/iziModal.min.js'); ?>"></script> -->
 <script src="<?php echo base_url('js/iziToast.min.js'); ?>"></script>
 <input type="hidden" id="addressUrl" value="<?php echo site_url().'/StatementOfAccount'; ?>"/>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/soa.js"></script>
+<!-- <script type="text/javascript" src="<?php echo base_url(); ?>js/soa.js"></script> -->
 <script>
 var percentage = 0;
 var page_count = 0;
@@ -154,7 +163,8 @@ async function batchSend(page,per_page,total_page){
                 per_page:per_page,
                 programCode:$('#programCode').val(),
                 semester:$('#semester').val(),
-                schoolYear:$('#schoolYear').val()
+                schoolYear:$('#schoolYear').val(),
+                due_date:$('#dueDate').val(),
             },
             success: function(response) {
                 getPercentage(page,total_page);
@@ -166,7 +176,10 @@ async function batchSend(page,per_page,total_page){
         })
     })
 }
-$("#sendButton").click(function(){
+$("#sendButton").click(function(e){
+    console.log(e)
+    e.preventDefault();
+    console.log(e)
     var validate_count = 0;
     $('select.form-control').each(function(){
         if(this.value==""){
@@ -187,17 +200,18 @@ $("#sendButton").click(function(){
                 schoolYear:$('#schoolYear').val()
             },
             success: function(response) {
-                storagedata.changeVal('data',response);
-                console.log(response);
+                // storagedata.changeVal('data',response);
+                // console.log(response);
                 iziToast.show({
                     theme: 'light',
                     icon: 'icon-person',
-                    title: 'Warning:',
+                    title: 'NOTE:',
                     message: 'This can take more than 10 minutes to process!!',
                     position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
                     progressBarColor: '#cc0000',
                     progressBar: true,
                     timeout:10000,
+                    overlay:true,
                     buttons: [
                         ['<button>Ok</button>', function (instance, toast) {
                             $('body').waitMe({
