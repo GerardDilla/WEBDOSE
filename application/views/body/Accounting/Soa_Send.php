@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?php echo base_url('css/iziModal.min.css'); ?>">
+<!-- <link rel="stylesheet" href="<?php echo base_url('css/iziModal.min.css'); ?>"> -->
 <link rel="stylesheet" href="<?php echo base_url('plugins/waitme/waitMe.min.css'); ?>">
 <link rel="stylesheet" href="<?php echo base_url('css/iziToast.min.css'); ?>">
 
@@ -23,7 +23,7 @@
         <!--/ MODULE TITLE-->
 
         <div class="row">
-            <form id="sendForm" action ="" method="POST">
+            <!-- <form id="sendForm" action ="" method="POST"> -->
             <div class="col-md-6">
                 <!-- ACADEMIC TERM -->
 				<div class="SBorder vertical_gap">
@@ -81,9 +81,9 @@
                             <b class="black">Program</b>
                             <select name="programCode" id="programCode" class="form-control show-tick"  data-live-search="true" tabindex="-98">
                                 <option value="" disabled selected> Select a Program</option>
-                                <?php foreach ($this->data['array_program_code_list'] as $key => $program) { ?>
+                                <?php foreach ($this->data['array_program_code_list'] as $key => $program) { if($program['Program_Code']!='N/A'){ ?>
                                     <option value="<?php echo $program['Program_Code']; ?>"> <?php echo $program['Program_Code']; ?> </option>
-                                <?php } ?>
+                                <?php }} ?>
                                 
                             </select>
                         </div>
@@ -104,20 +104,20 @@
 				</div>
                 <!-- /DUE DATE/ PROGRAM -->
             </div>
-            </form>
+            <!-- </form> -->
         </div>
     </div>
 
         
 
 </section>
-<div id="modal" data-izimodal-group="" data-izimodal-loop="" style="display:none;" data-izimodal-title="">
-</div>
+<!-- <div id="modal" data-izimodal-group="" data-izimodal-loop="" style="display:none;" data-izimodal-title="">
+</div> -->
 <script src="<?php echo base_url('plugins/waitme/waitMe.min.js');?>"></script>
-<script src="<?php echo base_url('js/iziModal.min.js'); ?>"></script>
+<!-- <script src="<?php echo base_url('js/iziModal.min.js'); ?>"></script> -->
 <script src="<?php echo base_url('js/iziToast.min.js'); ?>"></script>
 <input type="hidden" id="addressUrl" value="<?php echo site_url().'/StatementOfAccount'; ?>"/>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/soa.js"></script>
+<!-- <script type="text/javascript" src="<?php echo base_url(); ?>js/soa.js"></script> -->
 <script>
 var percentage = 0;
 var page_count = 0;
@@ -176,7 +176,10 @@ async function batchSend(page,per_page,total_page){
         })
     })
 }
-$("#sendButton").click(function(){
+$("#sendButton").click(function(e){
+    console.log(e)
+    e.preventDefault();
+    console.log(e)
     var validate_count = 0;
     $('select.form-control').each(function(){
         if(this.value==""){
@@ -197,17 +200,18 @@ $("#sendButton").click(function(){
                 schoolYear:$('#schoolYear').val()
             },
             success: function(response) {
-                storagedata.changeVal('data',response);
-                console.log(response);
+                // storagedata.changeVal('data',response);
+                // console.log(response);
                 iziToast.show({
                     theme: 'light',
                     icon: 'icon-person',
-                    title: 'Warning:',
+                    title: 'NOTE:',
                     message: 'This can take more than 10 minutes to process!!',
                     position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
                     progressBarColor: '#cc0000',
                     progressBar: true,
                     timeout:10000,
+                    overlay:true,
                     buttons: [
                         ['<button>Ok</button>', function (instance, toast) {
                             $('body').waitMe({

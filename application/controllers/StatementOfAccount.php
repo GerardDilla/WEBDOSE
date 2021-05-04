@@ -191,11 +191,11 @@ class StatementOfAccount extends MY_Controller
             // $this->email->subject('Here is your info');
             // $ref_no = "",$sem="",$sy="",$due =""
             $this->email->to('jhonnormanfabregas@gmail.com');
-            $this->email->from('jfabregas@sdca.edu.ph');
+            $this->email->from('soa_accounting@sdca.edu.ph','St. Dominic College of Asia');
             $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$program_code.' - PAGE:'.$page);
             // $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. http://localhost/WEBDOSE/index.php/soa_downloadpdf/'.$student['Reference_Number'].'/'.$semester.'/'.$school_year.'/' . $student['Student_Number'] . '/' . $insert_output_id);
             // $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. {wrap}http://[::1]/WEBDOSE/index.php/StatementOfAccount/soa?ref_no='.$student['Reference_Number'].'&sem='.$semester.'&sy='.$school_year.'&due=' . $due_date .'{/wrap}');
-            $this->email->message($this->load->view('body/Accounting/EmailSoa',array('student'=>$student,'link'=>'http://[::1]/WEBDOSE/index.php/StatementOfAccount/soa?ref_no='.$student['Reference_Number'].'&sem='.$semester.'&sy='.$school_year.'&due=' . $due_date),true));
+            $this->email->message($this->load->view('body/Accounting/EmailSoa',array('student'=>$student,'link'=>'https://stdominiccollege.edu.ph/WEBDOSE/index.php/StatementOfAccount/soa?ref_no='.$student['Reference_Number'].'&sem='.$semester.'&sy='.$school_year.'&due=' . $due_date),true));
             if($this->email->send()){
                 ++$email_success_count;
             }
@@ -412,7 +412,7 @@ class StatementOfAccount extends MY_Controller
             'semester' => $semester,
             'schoolyear' => $school_year
         );
-
+        
         #get enrolled fees
         $array_enrolled_fees = $this->Global_Fees_Model->get_enrolled_fees($array_info);
         //$this->soa->set_enrolled_fees_data($array_enrolled_fees[0]);
