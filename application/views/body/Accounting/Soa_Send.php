@@ -1,7 +1,11 @@
 <!-- <link rel="stylesheet" href="<?php echo base_url('css/iziModal.min.css'); ?>"> -->
 <link rel="stylesheet" href="<?php echo base_url('plugins/waitme/waitMe.min.css'); ?>">
 <link rel="stylesheet" href="<?php echo base_url('css/iziToast.min.css'); ?>">
-
+<style>
+.input-group .bootstrap-select.form-control {
+    z-index: inherit;
+}
+</style>
 <section  id="top" class="content" style="background-color: #fff;">
     <!-- CONTENT GRID-->
     <div class="container-fluid">
@@ -31,10 +35,10 @@
                     <div class="input-group">
                         <div class="form-line vertical_gap">
                             <b class="black">School Year</b>
-                            <select name="schoolYear" id="schoolYear" class="form-control show-tick"  data-live-search="true" tabindex="1" style="z-index:1001">
+                            <select name="schoolYear" id="schoolYear" class="form-control show-tick"  data-live-search="true">
                                 <option value="<?php echo $this->data['array_adivsing_term']['School_Year']; ?>" selected> <?php echo $this->data['array_adivsing_term']['School_Year'];  ?></option>
                                 <option value="2019-2020">2020-2019</option>
-                                <option value="2020-2021">2020-2021</option>
+                                <option value="2020-2021">2020-2021</option>0
                             </select>
                         </div>
                         <br>

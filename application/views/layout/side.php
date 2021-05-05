@@ -12,12 +12,181 @@
              </div>
          </div>
          <!-- #User Info -->
-
+        
          <!-- Menu -->
+
+         
+            
+
          <div class="menu">
              <ul class="list">
                  <li class="header"></li>
+                <!-- Accounting -->
+                <?php if (in_array($this->data['module_list']['accounting'], $this->data['user_module_access'])) : ?>
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">receipt</i>
+                            <span>Accounting</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="<?php echo base_url(); ?>index.php/StatementOfAccount" class="">
+                                    <span>Statement Of Account</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
+                <?php endif ?>
+                <!-- Admin -->
+                <?php if (in_array($this->data['module_list']['admin'], $this->data['user_module_access'])) : ?>
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">account_box</i>
+                            <span>Admin</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="<?php echo base_url(); ?>index.php/UserAccessibility" class="">
+                                    <span>-User Roles </span>
+                                </a>
+                            </li>
+
+
+
+                        </ul>
+                    </li>
+                <?php endif ?>
+                <!-- Admission -->
+                <?php if (in_array($this->data['module_list']['admission'], $this->data['user_module_access'])) : ?>
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">accessibility</i>
+                            <span>CCAO</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="<?php echo base_url(); ?>index.php/ccao/Encoding" class="">
+                                    <span>Career Talk Encoding</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url(); ?>index.php/ccao/Reports" class="">
+                                    <span>Career Talk Reports</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">visibility</i>
+                            <span>Admission</span>
+                        </a>
+                        <ul class="ml-menu">
+
+                            <li>
+                                <a href="<?php echo base_url(); ?>index.php/Admission/New_Students">
+                                    <span>- Enrolled New Students</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url(); ?>index.php/Admission/Enrollment_Tracker_Report">
+                                    <span>- Enrollment Tracker Reports</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="menu-toggle">
+                                    <span>- Inquiry Form Reports</span>
+                                </a>
+                                <ul class="ml-menu">
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>index.php/Admission/HED_Inquiry_Reports">
+                                            <span>- Higher Education</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>index.php/Admission/SHS_Inquiry_Reports">
+                                            <span>- Senior High School</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>index.php/Admission/BED_Inquiry_Reports">
+                                            <span>- Basic Education</span>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <a href="javascript:void(0);" class="menu-toggle">
+                                    <span>- Student Edit Info </span>
+                                </a>
+                                <ul class="ml-menu">
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>index.php/Admission/HED_Edit_Info">
+                                            <span>- Higher Education</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>index.php/Admission/SHS_Edit_Info">
+                                            <span>- Senior High School</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>index.php/Admission/BED_Edit_Info">
+                                            <span>- Basic Education</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">account_box</i>
+                            <span>Guidance</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="<?php echo base_url(); ?>index.php/Guidance/reportenrollstudents" class="">
+                                    <span>- Enrolled Student</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                <?php endif ?>
+
+                <!-- Advising -->
+                <?php if (in_array($this->data['module_list']['advising'], $this->data['user_module_access'])) : ?>
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php/Advising">
+                            <i class="material-icons">dashboard</i>
+                            <span>Advising</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php/Advising/SchedReport">
+                            <i class="material-icons">note</i>
+                            <span>Schedule Report</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php/Advising/Curriculum">
+                            <i class="material-icons">list</i>
+                            <span>Curriculum</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php/Advising/Class_Listing">
+                            <i class="material-icons">subject</i>
+                            <span>Class List</span>
+                        </a>
+                    </li>
+                <?php endif ?>
+
+                <!--  -->
                  <?php if (in_array($this->data['module_list']['executive'], $this->data['user_module_access'])) : ?>
                      <li>
                          <a href="javascript:void(0);" class="menu-toggle">
@@ -245,149 +414,8 @@
              </li>
          <?php endif ?>
 
-         <?php if (in_array($this->data['module_list']['advising'], $this->data['user_module_access'])) : ?>
-             <li>
-                 <a href="<?php echo base_url(); ?>index.php/Advising">
-                     <i class="material-icons">dashboard</i>
-                     <span>Advising</span>
-                 </a>
-             </li>
-             <li>
-                 <a href="<?php echo base_url(); ?>index.php/Advising/SchedReport">
-                     <i class="material-icons">note</i>
-                     <span>Schedule Report</span>
-                 </a>
-             </li>
-             <li>
-                 <a href="<?php echo base_url(); ?>index.php/Advising/Curriculum">
-                     <i class="material-icons">list</i>
-                     <span>Curriculum</span>
-                 </a>
-             </li>
-             <li>
-                 <a href="<?php echo base_url(); ?>index.php/Advising/Class_Listing">
-                     <i class="material-icons">subject</i>
-                     <span>Class List</span>
-                 </a>
-             </li>
-         <?php endif ?>
+         
 
-         <?php if (in_array($this->data['module_list']['admission'], $this->data['user_module_access'])) : ?>
-             <li>
-                 <a href="javascript:void(0);" class="menu-toggle">
-                     <i class="material-icons">accessibility</i>
-                     <span>CCAO</span>
-                 </a>
-                 <ul class="ml-menu">
-                     <li>
-                         <a href="<?php echo base_url(); ?>index.php/ccao/Encoding" class="">
-                             <span>Career Talk Encoding</span>
-                         </a>
-                     </li>
-                     <li>
-                         <a href="<?php echo base_url(); ?>index.php/ccao/Reports" class="">
-                             <span>Career Talk Reports</span>
-                         </a>
-                     </li>
-                 </ul>
-             </li>
-
-             <li>
-                 <a href="javascript:void(0);" class="menu-toggle">
-                     <i class="material-icons">visibility</i>
-                     <span>Admission</span>
-                 </a>
-                 <ul class="ml-menu">
-
-                     <li>
-                         <a href="<?php echo base_url(); ?>index.php/Admission/New_Students">
-                             <span>- Enrolled New Students</span>
-                         </a>
-                     </li>
-                     <li>
-                         <a href="<?php echo base_url(); ?>index.php/Admission/Enrollment_Tracker_Report">
-                             <span>- Enrollment Tracker Reports</span>
-                         </a>
-                     </li>
-                     <li>
-                         <a href="javascript:void(0);" class="menu-toggle">
-                             <span>- Inquiry Form Reports</span>
-                         </a>
-                         <ul class="ml-menu">
-                             <li>
-                                 <a href="<?php echo base_url(); ?>index.php/Admission/HED_Inquiry_Reports">
-                                     <span>- Higher Education</span>
-                                 </a>
-                             </li>
-                             <li>
-                                 <a href="<?php echo base_url(); ?>index.php/Admission/SHS_Inquiry_Reports">
-                                     <span>- Senior High School</span>
-                                 </a>
-                             </li>
-                             <li>
-                                 <a href="<?php echo base_url(); ?>index.php/Admission/BED_Inquiry_Reports">
-                                     <span>- Basic Education</span>
-                                 </a>
-                             </li>
-                         </ul>
-
-                         <a href="javascript:void(0);" class="menu-toggle">
-                             <span>- Student Edit Info </span>
-                         </a>
-                         <ul class="ml-menu">
-                             <li>
-                                 <a href="<?php echo base_url(); ?>index.php/Admission/HED_Edit_Info">
-                                     <span>- Higher Education</span>
-                                 </a>
-                             </li>
-                             <li>
-                                 <a href="<?php echo base_url(); ?>index.php/Admission/SHS_Edit_Info">
-                                     <span>- Senior High School</span>
-                                 </a>
-                             </li>
-                             <li>
-                                 <a href="<?php echo base_url(); ?>index.php/Admission/BED_Edit_Info">
-                                     <span>- Basic Education</span>
-                                 </a>
-                             </li>
-                         </ul>
-                     </li>
-
-                 </ul>
-             </li>
-
-             <li>
-                 <a href="javascript:void(0);" class="menu-toggle">
-                     <i class="material-icons">account_box</i>
-                     <span>Guidance</span>
-                 </a>
-                 <ul class="ml-menu">
-                     <li>
-                         <a href="<?php echo base_url(); ?>index.php/Guidance/reportenrollstudents" class="">
-                             <span>- Enrolled Student</span>
-                         </a>
-                     </li>
-
-                 </ul>
-             </li>
-         <?php endif ?>
-
-         <?php if (in_array($this->data['module_list']['accounting'], $this->data['user_module_access'])) : ?>
-             <li>
-                 <a href="javascript:void(0);" class="menu-toggle">
-                     <i class="material-icons">receipt</i>
-                     <span>Accounting</span>
-                 </a>
-                 <ul class="ml-menu">
-                     <li>
-                         <a href="<?php echo base_url(); ?>index.php/StatementOfAccount" class="">
-                             <span>Statement Of Account</span>
-                         </a>
-                     </li>
-                 </ul>
-             </li>
-
-         <?php endif ?>
 
          <?php if (in_array($this->data['module_list']['cashier'], $this->data['user_module_access'])) : ?>
              <li>
@@ -411,25 +439,6 @@
                  </ul>
              </li>
 
-         <?php endif ?>
-
-         <?php if (in_array($this->data['module_list']['admin'], $this->data['user_module_access'])) : ?>
-             <li>
-                 <a href="javascript:void(0);" class="menu-toggle">
-                     <i class="material-icons">account_box</i>
-                     <span>Admin</span>
-                 </a>
-                 <ul class="ml-menu">
-                     <li>
-                         <a href="<?php echo base_url(); ?>index.php/UserAccessibility" class="">
-                             <span>-User Roles </span>
-                         </a>
-                     </li>
-
-
-
-                 </ul>
-             </li>
          <?php endif ?>
 
          <li class="header"></li>

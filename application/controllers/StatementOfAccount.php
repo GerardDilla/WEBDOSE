@@ -190,6 +190,8 @@ class StatementOfAccount extends MY_Controller
             // $this->email->from($this->school_email);
             // $this->email->subject('Here is your info');
             // $ref_no = "",$sem="",$sy="",$due =""
+            
+            // $this->email->to($student['Email']);
             $this->email->to('jhonnormanfabregas@gmail.com');
             $this->email->from('soa_accounting@sdca.edu.ph','St. Dominic College of Asia');
             $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$program_code.' - PAGE:'.$page);
