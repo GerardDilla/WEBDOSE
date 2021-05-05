@@ -8323,3 +8323,7 @@ input[type="date"]:focus::before {
 .modal-title span{
   color: #666;
 }
+.sidebar .user-info .info-container{
+  position:static;
+  margin-top:5px;
+}
