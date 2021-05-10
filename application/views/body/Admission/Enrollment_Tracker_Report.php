@@ -62,11 +62,6 @@
                                 <h5>Enrolled Student Report</h5>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="tally_student_report-tab nav-link" id="tally_student_report-tab" data-toggle="tab" href="#tally_student_report" role="tab" aria-controls="tally_student_report" aria-selected="false">
-                                <h5>Tally Student Report</h5>
-                            </a>
-                        </li>
                     </ul>
                     <!-- /CONTENT TABS -->
                     <div class="tab-content">
@@ -162,7 +157,7 @@
 
                                     </div>
                                     <div class="col-md-3">
-                                        <button type="submit" id="enrollment_summary_filter" name="search_button" class="btn btn-lg btn-danger"> Search </button>
+                                        <button type="submit" id="enrollment_summary_filter" name="search_button" class="btn btn-lg btn-danger"> Filter </button>
                                     </div>
                                 </form>
                             </div>
@@ -177,7 +172,7 @@
                                     <input type="text" class="form-control" placeholder="search" id="single_search_text_summary">
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_summary">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_summary">
                                 </div>
                                 <br>
                             </div>
@@ -255,7 +250,7 @@
                                     <input type="text" class="form-control" placeholder="search" id="single_search_text_inquiry">
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_inquiry">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_inquiry">
                                 </div>
                                 <br>
                             </div>
@@ -332,7 +327,7 @@
                                     <input type="text" class="form-control" placeholder="search" id="single_search_text_advising">
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_advising">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_advising">
                                 </div>
                                 <br>
                             </div>
@@ -409,7 +404,7 @@
                                     <input type="text" class="form-control" placeholder="search" id="single_search_text_reserved">
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_reserved">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_reserved">
                                 </div>
                                 <br>
                             </div>
@@ -486,7 +481,7 @@
                                     <input type="text" class="form-control" placeholder="search" id="single_search_text_enrolled">
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_enrolled">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_enrolled">
                                 </div>
                                 <br>
                             </div>
@@ -554,92 +549,6 @@
                             <!--/CONTENT GRID-->
                         </div>
                         <!--/FIFTH TAB END-->
-                        <!--SIXTH TAB END-->
-<<<<<<< Updated upstream
-                        <div class="tab-pane fade" id="tally_student_report" role="tabpanel" aria-labelledby="tally_student_report-tab">
-                            <div class="col-md-6 like_search_div">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_tally">
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_tally">
-=======
-                        <div class="tab-pane fade" id="enrolled_student_report" role="tabpanel" aria-labelledby="enrolled_student_report-tab">
-                            <div class="col-md-6 like_search_div">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_enrolled">
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="button" class="btn btn-info like_search_button" value="Filter" id="single_search_button_enrolled">
->>>>>>> Stashed changes
-                                </div>
-                                <br>
-                            </div>
-                            <br><br><br><br><br>
-                            <div class="row clearfix">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="card">
-                                        <div class="header">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <h2>
-<<<<<<< Updated upstream
-                                                        Tally Student Report <br>
-                                                    </h2>
-                                                </div>
-                                                <button class="btn btn-lg  btn-success excel_button_right" id="tally_excel" type="submit" name="export" value="Export"> Export </button>
-                                            </div>
-                                            <br>
-                                            <div class="row">
-                                                <div class="display_hidden" id="tally_preloader">
-=======
-                                                        Enrolled Student Report <br>
-                                                    </h2>
-                                                </div>
-                                                <button class="btn btn-lg  btn-success excel_button_right" id="enrolled_excel" type="submit" name="export" value="Export"> Export </button>
-                                            </div>
-                                            <br>
-                                            <div class="row">
-                                                <div class="display_hidden" id="enrolled_preloader">
->>>>>>> Stashed changes
-                                                    <div class="preloader pl-size-sm ">
-                                                        <div class="spinner-layer pl-red">
-                                                            <div class="circle-clipper left">
-                                                                <div class="circle"></div>
-                                                            </div>
-                                                            <div class="circle-clipper right">
-                                                                <div class="circle"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    Loading Data ...
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-<<<<<<< Updated upstream
-                                                        <table class="table table-bordered" id="data_table_tally">
-=======
-                                                        <table class="table table-bordered" style="width: 1750px;" id="">
->>>>>>> Stashed changes
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>#</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/CONTENT GRID-->
-                        </div>
-                        <!--/SIXTH TAB END-->
                     </div>
                     <!-- /CONTENT START -->
                 </div>
@@ -1253,18 +1162,6 @@
                 console.log('No data');
             }
         });
-<<<<<<< Updated upstream
-
-=======
-        function error_modal(title, msg) {
-            iziToast.show({
-                position: 'center',
-                color: 'red',
-                title: title,
-                message: msg
-            });
-        }
->>>>>>> Stashed changes
         $("#single_search_button_summary").on('click', function() {
             if (check_filter_summary != '') {
                 $("#data_table_summary").DataTable().search($("#single_search_text_summary").val()).draw();

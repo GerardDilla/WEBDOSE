@@ -303,9 +303,24 @@
                          </a>
                      </li>
                      <li>
-                         <a href="<?php echo base_url(); ?>index.php/Admission/Enrollment_Tracker_Report">
+                         <a href="javascript:void(0);" class="menu-toggle">
                              <span>- Enrollment Tracker Reports</span>
                          </a>
+                         <ul class="ml-menu">
+                             <li>
+                                 <a href="<?php echo base_url(); ?>index.php/Admission/Enrollment_Tracker_Report">
+                                     <span>- Enrollment Tracker Reports</span>
+                                 </a>
+                             </li>
+                             <li>
+                                 <a href="<?php echo base_url(); ?>index.php/Admission/Enrollment_Tally_Report">
+                                     <span>- Enrollment Tally Reports</span>
+                                 </a>
+                             </li>
+                         </ul>
+                         <!-- <a href="<?php echo base_url(); ?>index.php/Admission/Enrollment_Tracker_Report">
+                             <span>- Enrollment Tracker Reports</span>
+                         </a> -->
                      </li>
                      <li>
                          <a href="javascript:void(0);" class="menu-toggle">
@@ -392,7 +407,7 @@
                              <span>- Proof of Payemts </span>
                          </a>
                      </li>
-                     
+
                  </ul>
              </li>
 

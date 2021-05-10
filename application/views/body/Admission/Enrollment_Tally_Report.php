@@ -128,7 +128,7 @@
                                                 $options = array(
 
                                                     '0' => 'Select School Year',
-                                                    // ($year_now - 2) . "-" . ($year_now-1) => ($year_now - 2) . "-" . ($year_now-1),
+                                                    ($year_now - 2) . "-" . ($year_now - 1) => ($year_now - 2) . "-" . ($year_now - 1),
                                                     ($year_now - 1) . "-" . $year_now => ($year_now - 1) . "-" . $year_now,
                                                     $year_now . "-" . ($year_now + 1) => $year_now . "-" . ($year_now + 1),
                                                     ($year_now + 1) . "-" . ($year_now + 2) => ($year_now + 1) . "-" . ($year_now + 2)
@@ -244,7 +244,7 @@
                                                 $options = array(
 
                                                     '0' => 'Select School Year',
-                                                    // ($year_now - 2) . "-" . ($year_now-1) => ($year_now - 2) . "-" . ($year_now-1),
+                                                    ($year_now - 2) . "-" . ($year_now - 1) => ($year_now - 2) . "-" . ($year_now - 1),
                                                     ($year_now - 1) . "-" . $year_now => ($year_now - 1) . "-" . $year_now,
                                                     $year_now . "-" . ($year_now + 1) => $year_now . "-" . ($year_now + 1),
                                                     ($year_now + 1) . "-" . ($year_now + 2) => ($year_now + 1) . "-" . ($year_now + 2)
@@ -295,7 +295,7 @@
                                                         Tally City Report <br>
                                                     </h2>
                                                 </div>
-                                                <button class="btn btn-lg  btn-success excel_button_right" id="tally_city_excel" type="submit" name="export" value="Export"> Export </button>
+                                                <button class="btn btn-lg  btn-primary excel_button_right" id="tally_city_export" type="submit" name="export" value="Export"> Word Export </button>
                                             </div>
                                             <br>
                                             <div class="row">
@@ -389,6 +389,10 @@
                     dataType: 'JSON',
                     success: function(response) {
                         html = '';
+                        inquiry = 0;
+                        advised = 0;
+                        reserved = 0;
+                        enrolled = 0;
                         $.each(response, function(key, value) {
                             // alert(key + ": " + value);
 
@@ -410,7 +414,18 @@
                                 '<td>' + value[0][3] + '</td>' +
                                 '</tr>';
                             // }
+                            inquiry += value[0][0];
+                            advised += value[0][1];
+                            reserved += value[0][2];
+                            enrolled += value[0][3];
                         });
+                        html += '<tr>' +
+                                '<td><b>Total</b></td>' +
+                                '<td>' + inquiry + '</td>' +
+                                '<td>' + advised + '</td>' +
+                                '<td>' + reserved + '</td>' +
+                                '<td>' + enrolled + '</td>' +
+                                '</tr>';
 
                         $('#data_table_tally_tbody').html(html);
                     },
@@ -425,72 +440,65 @@
         $('#tally_city_filter').on('click', function() {
             academic_year = $('#sy_city_tally').val() // 0
             semester = $('#sem_city_tally').val() // 0
-            // province_code = $('#province_tally').val() // null
-            // province_desc = $("#province_tally option:selected").text();
-            // if (province_code == null && academic_year == 0) {
-            //     izi_toast('Oops!', 'You DID NOT pick Academic Year And Province.', 'red');
-            // } else if (academic_year == 0) {
-            //     izi_toast('Oops!', 'You DID NOT pick Academic Year.', 'red');
-            // } else if (province_code == null) {
-            //     izi_toast('Oops!', 'You DID NOT pick Province.', 'red');
-            // } else {
-            // alert(province_code);
-            $('#tally_city_preloader').show();
-            $('#data_table_tally_city_tbody').empty();
-            $.ajax({
-                method: 'POST',
-                url: 'Count_City_Tally',
-                data: {
-                    sy: academic_year,
-                    sem: semester,
-                    // prov_code: province_code,
-                    // prov_desc: province_desc,
-                },
-                dataType: 'JSON',
-                success: function(response) {
-                    html = '';
-                    $.each(response, function(key, value) {
-                        // alert(key + ": " + value);
-                        // console.log(key +' , '+province_desc);
-                        // if (key == province_desc) {
-                        html += '<tr>' +
-                            // '<td>' + key + '</td>' +
-                            '<td>' + value['Address_City'] + '</td>' +
-                            '<td>' + value['count_student'] + '</td>' +
-                            // '<td>' + value[0][1] + '</td>' +
-                            '</tr>';
-                        // }
-                    });
-                    // console.log(html);
-                    $('#data_table_tally_city_tbody').html(html);
-                },
-                complete: function() {
-                    $('#tally_city_preloader').hide();
-                }
-            })
-            // }
+            if (!academic_year || academic_year == 0) {
+                izi_toast('Oops!', 'You DID NOT pick Academic Year.', 'red');
+            } else {
+                city_tally_search = 1;
+                $('#tally_city_preloader').show();
+                $('#data_table_tally_city_tbody').empty();
+                $.ajax({
+                    method: 'POST',
+                    url: 'Count_City_Tally',
+                    data: {
+                        sy: academic_year,
+                        sem: semester,
+                        // prov_code: province_code,
+                        // prov_desc: province_desc,
+                    },
+                    dataType: 'JSON',
+                    success: function(response) {
+                        html = '';
+                        $.each(response, function(key, value) {
+                            // alert(key + ": " + value);
+                            // console.log(key +' , '+province_desc);
+                            // if (key == province_desc) {
+                            html += '<tr>' +
+                                // '<td>' + key + '</td>' +
+                                '<td>' + value['Address_City'] + '</td>' +
+                                '<td>' + value['count_student'] + '</td>' +
+                                // '<td>' + value[0][1] + '</td>' +
+                                '</tr>';
+                            // }
+                        });
+                        // console.log(html);
+                        $('#data_table_tally_city_tbody').html(html);
+                    },
+                    complete: function() {
+                        $('#tally_city_preloader').hide();
+                    }
+                })
+            }
         })
 
         $('#tally_program_export').on('click', function() {
             academic_year = $('#sy_program_tally').val()
-            // alert($('#sem_enrollment_tracker').val())
             semester = $('#sem_program_tally').val()
-            // alert($('#course_program_tally').val())
-            // program = $('#course_program_tally').val()
-            // console.log(academic_year + " " + semester+ " " + program);
             if (city_tally_search != 0) {
                 if (academic_year || academic_year != 0) {
-                    $.ajax({
-                        method: 'POST',
-                        url: 'Count_City_Tally',
-                        data: {
-                            sy: academic_year,
-                            sem: semester,
-                        },
-                        dataType: 'JSON',
-                        success: function(response) {
-                        },
-                    })
+                    window.open('Program_Word_Export/' + academic_year + '/' + semester, '_blank');
+                } else {
+                    izi_toast('Oops!', 'You DID NOT pick Academic Year.', 'red');
+                }
+            } else {
+                izi_toast('Oops!', 'Must Search first.', 'red');
+            }
+        })
+        $('#tally_city_export').on('click', function() {
+            academic_year = $('#sy_city_tally').val()
+            semester = $('#sem_city_tally').val()
+            if (city_tally_search != 0) {
+                if (academic_year || academic_year != 0) {
+                    window.open('City_Word_Export/' + academic_year + '/' + semester, '_blank');
                 } else {
                     izi_toast('Oops!', 'You DID NOT pick Academic Year.', 'red');
                 }
