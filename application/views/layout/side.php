@@ -402,11 +402,11 @@
                              <span>-BED and SHS Enrollment Payment</span>
                          </a>
                      </li>
-                     <li>
+                     <!-- <li>
                          <a href="<?php echo base_url(); ?>index.php/Cashier/proof_of_payment" class="">
                              <span>- Proof of Payemts </span>
                          </a>
-                     </li>
+                     </li> -->
 
                  </ul>
              </li>
