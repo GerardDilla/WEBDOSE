@@ -61,11 +61,20 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="filter_table">
-                                    <label for="data_from">From:</label>
-                                    <input type="date" id="data_from" class="form-control">
-                                    <label for="data_to">To: </label>
-                                    <input type="date" id="data_to" class="form-control">
-
+                                    <label for="data_from">Format</label>
+                                    <select name="date-format" class="form-control show-tick"  data-live-search="true" tabindex="-98">
+                                        <option value="Daily">Daily</option>
+                                        <option value="Weekly">Weekly</option>
+                                        <option value="Monthly">Monthly</option>
+                                    </select>
+                                    <label class="daily" for="data_from">From:</label>
+                                    <input type="date" id="data_from" class="form-control daily date-format" required>
+                                    <label class="daily" for="data_to">To: </label>
+                                    <input type="date" id="data_to" class="form-control daily date-format" required>
+                                    <label class="monthly" for="data_from" style="display:none;">Month:</label>
+                                    <input type="month" id="monthly" class="form-control monthly date-format" style="display:none;">
+                                    <label class="weekly" for="data_to" style="display:none;">Week: </label>
+                                    <input type="week" id="weekly" class="form-control weekly date-format" style="display:none;">
                                 </div>
                                 <br>
                                 <button class="btn btn-lg btn-danger" id="proof_filter_button">Search</button>
@@ -128,10 +137,37 @@
         </div>
     </div>
 </section>
+<script src="<?php echo base_url('js/moment.min.js');?>"></script>
 <script>
     $(document).ready(function() {
         check_filter = "";
-
+        function getDateOfWeek(w, y) {
+            var d = (1 + (w - 1) * 7);
+            var new_date = ''+new Date(y, 0, d);
+            var split_var = new_date.split(" ");
+            if(split_var[0]=="Sun"){
+                var day = 0;
+            }
+            else if(split_var[0]=="Mon"){
+                var day = 1;
+            }
+            else if(split_var[0]=="Tue"){
+                var day = 2;
+            }
+            else if(split_var[0]=="Wed"){
+                var day = 3;
+            }
+            else if(split_var[0]=="Thu"){
+                var day = 4;
+            }
+            else if(split_var[0]=="Fri"){
+                var day = 5;
+            }
+            else if(split_var[0]=="Sat"){
+                var day = 6;
+            }
+            return new Date(y, 0, d-day);
+        }
         function error_modal(title, msg) {
             iziToast.show({
                 position: 'center',
@@ -140,6 +176,39 @@
                 message: msg
             });
         }
+        $('#monthly').on('change',function(){
+            console.log(this.value)
+        });
+        $('#weekly').on('change',function(){
+            date_val = this.value;
+            var w = date_val.split('-');
+            var y = w[1].split('W');
+            var start_date = moment(new Date(Date.parse(getDateOfWeek(parseInt(y[1])+1,w[0])))).format('YYYY-MM-DD');
+            var end_date = moment(new Date(Date.parse(getDateOfWeek(parseInt(y[1])+1,w[0]))+(86400000*6))).format('YYYY-MM-DD');
+            $('#data_from').val(start_date);
+            $('#data_to').val(end_date);
+        })
+        $('select[name=date-format]').on('change',function(){
+            $('.weekly').hide();
+            $('.daily').hide();
+            $('.monthly').hide();
+            $('.weekly').attr('required',false);
+            $('.daily').attr('required',false);
+            $('.monthly').attr('required',false);
+            $('.date-format').val('');
+            if(this.value=="Weekly"){
+                $('.weekly').show();
+                $('.weekly').attr('required',true);
+            }
+            else if(this.value=="Monthly"){
+                $('.monthly').show();
+                $('.monthly').attr('required',true);
+            }
+            else{
+                $('.daily').show();
+                $('.daily').attr('required',true);
+            }
+        })
         $("#proof_search_button").on('click', function() {
             if (check_filter != '') {
                 $("#proof_of_payment_table").DataTable().search($("#proof_of_payment_table_search").val()).draw();
@@ -153,13 +222,20 @@
             to_date = $('#data_to').val();
             base_url = $('#base_url').data('baseurl');
             $data_table_var = $('#proof_of_payment_table');
-            if (!from_date && !to_date) {
-                error_modal('Select Date', "You didn't pick any DATEs");
-            } else if (!from_date) {
-                error_modal('Select Date', "You didn't pick FROM: DATE");
-            } else if (!to_date) {
-                error_modal('Select Date', "You didn't pick TO: DATE");
-            } else {
+            var empty_count = 0;
+            $('.date-format[required]').each(function(){
+                if(this.value==""){
+                    ++empty_count;
+                }
+            })
+            if(empty_count>0){
+                error_modal('Select Date', `You didn't pick TO: DATE ${empty_count}`);  
+            }
+            else if(empty_count==0){
+                if($('select[name=date-format]').val()=="Monthly"){
+                    from_date = $('#monthly').val();
+                    to_date = '';
+                }
                 $.ajax({
                     type: "POST",
                     url: base_url + "index.php/Cashier/proof_of_payment_ajax",
@@ -169,11 +245,14 @@
                     },
                     dataType: 'json',
                     success: function(response) {
+                        console.log(response)
                         // alert(response);
                         // console.log(response);
+                        $data_table_var.DataTable().destroy();
+                        $('#proof_of_payment_tbody').empty();
                         if ($.trim(response) != "") {
 
-                            $data_table_var.DataTable().destroy();
+                            
                             html = add_to_table_body(response);
                             $('#proof_of_payment_tbody').html(html);
                             check_filter = 1;
@@ -232,8 +311,8 @@
                     '<td>' +
                     month + " " + date + " " + year +
                     '</td>' +
-                    '<td><a target="_blank" href="https://drive.google.com/drive/folders/' +
-                    value['gdrive_id'] + '">' +
+                    '<td><a target="_blank" href="https://drive.google.com/uc?export=view&id=' +
+                    value['path_id'] + '">' +
                     '<button class="btn btn-lrg btn-info">View in GDrive</button>' +
                     '</a>' +
                     '</td>' +

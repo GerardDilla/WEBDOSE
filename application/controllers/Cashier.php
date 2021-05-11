@@ -1703,11 +1703,20 @@ class Cashier extends MY_Controller  {
             'to'=>$this->input->post('to'),
         );
         // $array = array(
-        //     'from'=>'2019-04-04',
-        //     'to'=>'2021-04-04',
+        //     'from'=>'2021-05-11',
+        //     'to'=>'2021-05-12',
         // );
         $proofs = $this->Fees_Model->proof_of_payment($array);
+        // echo '<pre>'.print_r($proofs,1).'</pre>';
         echo json_encode($proofs);
+    }
+    public function getSampleDay(){
+        $array = array(
+            'from'=>'2021-05-11',
+            'to'=>'2021-05-12',
+        );
+        $proofs = $this->Fees_Model->proof_of_payment($array);
+        echo '<pre>'.print_r($proofs,1).'</pre>';
     }
 
     
