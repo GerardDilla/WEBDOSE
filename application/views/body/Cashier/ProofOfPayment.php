@@ -116,12 +116,13 @@
                                                 <th>#</th>
                                                 <th>Reference Number</th>
                                                 <th>Student Number</th>
-                                                <th>First Name</th>
-                                                <th>Middle Name</th>
-                                                <th>Last Name</th>
+                                                <th>Student Name</th>
+                                                <th>Account Number</th>
+                                                <th>Account Holder Name</th>
+                                                <th>Receipt No.</th>
+                                                <th>Amount</th>
                                                 <th>Date Uploaded</th>
                                                 <th>Action</th>
-
                                             </tr>
                                         </thead>
                                         <tbody id="proof_of_payment_tbody">
@@ -300,13 +301,19 @@
                 html +=
                     '</td>' +
                     '<td>' +
-                    value['First_Name'] +
+                    value['First_Name'] +' '+value['Middle_Name']+' '+value['Last_Name']+
                     '</td>' +
                     '<td>' +
-                    value['Middle_Name'] +
+                    value['acc_num']+
                     '</td>' +
                     '<td>' +
-                    value['Last_Name'] +
+                    value['acc_holder_name'] +
+                    '</td>' +
+                    '<td>' +
+                    value['payment_reference_no'] +
+                    '</td>' +
+                    '<td>' +
+                    value['amount_paid'] +
                     '</td>' +
                     '<td>' +
                     month + " " + date + " " + year +
