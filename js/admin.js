@@ -1,3 +1,9 @@
+$(document).on('keyup',function(e){
+    // console.log(e.keyCode)
+    if(e.keyCode==13){
+        $('#sign_in').submit();
+    }
+})
 if (typeof jQuery === "undefined") {
     throw new Error("jQuery plugins need to be before this file");
 }
