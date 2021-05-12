@@ -1,5 +1,5 @@
 <style>
-.testest{
+.search_student_navbar{
     background-color: #ffffff;
     border-radius: 10px;
     color: black !important;
@@ -43,7 +43,7 @@
                         </a>
                         -->
                         
-                        <a href="javascript:void(0);" class="js-search testest" onclick="searchstudent_modal(1)">
+                        <a href="javascript:void(0);" class="js-search search_student_navbar" onclick="searchstudent_modal(1)">
                         <i class="material-icons" style="vertical-align: middle;margin-right: 5px;">search</i> SEARCH STUDENT
                         </a>
                     </li>
