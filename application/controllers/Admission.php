@@ -1348,23 +1348,25 @@ class Admission extends MY_Controller
   //* Enrollment tracker get all report
   public function Enrollment_Summary_Report()
   {
-    // $this->data['get_sy']      = $this->Inquiry_Reports_Model->Select_Legends()->result_array();
-    // $this->data['get_course']  = $this->Inquiry_Reports_Model->Select_Course();
-    // foreach($this->data['get_sy'] as $row)  {
-    //   $this->data['schoolyear']  =  $row['SchoolYear'];
-    //   $this->data['semester'] =  $row['Semester'];
-    // }
     $array = array(
       'sy' => $this->input->post('sy'),
       'sem' => $this->input->post('sem'),
       'course' => $this->input->post('course'),
     );
+
     // $this->data['get_sy'][0]['SchoolYear'];
     if (isset($array['sy']) || isset($array['sy']) || isset($array['sy'])) {
       $this->data['Enrollment_Summary_Report_List'] = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Report_List($array);
     }
 
     echo json_encode($this->data['Enrollment_Summary_Report_List']);
+  }
+
+  public function single_search()
+  {
+    $data = $this->input->post('search_text');
+    $single_search = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Like_Search($data);
+    echo json_encode($single_search);
   }
 
   //* Get all Inquiries in higher education
