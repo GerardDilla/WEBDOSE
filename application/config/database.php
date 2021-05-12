@@ -82,7 +82,7 @@ $query_builder = TRUE;
 // 	'dsn'	=> '',
 // 	'hostname' => '10.0.0.9',
 // 	'username' => 'schoolsysdb',
-// 	'password' => '01P@zyxwvutsrq',
+// 	'password' => 'Wpd2$Ya=$dCA<KXM25>',
 // 	'database' => 'schoolsysdb',
 // 	'dbdriver' => 'mysqli',
 // 	'dbprefix' => '', 

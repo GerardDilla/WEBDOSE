@@ -4,7 +4,7 @@
          <!-- User Info -->
          <div class="user-info" style="background:#811e1e">
              <div class="image" style="background:white;border-radius:10px;">
-                 <img src="<?php echo base_url(); ?>img/DOSE LOGO.PNG" width="120" height="auto" alt="User" />
+                 <img src="<?php echo base_url(); ?>img/DOSE_LOGO.PNG" width="120" height="auto" alt="User" />
              </div>
              <div class="info-container">
                  <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $this->admin_data['fullname']; ?></div>
