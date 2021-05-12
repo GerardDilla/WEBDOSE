@@ -338,6 +338,9 @@ class set_views
 	public function Enrollment_Tracker_Report(){
 		return 'body/Admission/Enrollment_Tracker_Report';
 	}
+	public function Enrollment_Tally_Report(){
+		return 'body/Admission/Enrollment_Tally_Report';
+	}
 
 	/*ADMISSION BASIC ED MODULE */
 
@@ -419,6 +422,10 @@ class set_views
 	{
 
 		return 'body/Helpdesk/HelpdeskReport';
+	}
+
+	public function proof_of_payment(){
+		return 'body/Cashier/ProofOfPayment';
 	}
 
 	//////////////////////////// User Accessibility  TAB ////////////////////////
