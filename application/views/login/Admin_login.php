@@ -114,6 +114,7 @@
         color:white;
         font-size:2em;
         font-weight:bold;
+        text-shadow: 2px 2px black;
     }
     .head-title-2{
         position:absolute;
