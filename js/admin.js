@@ -1,7 +1,7 @@
 $(document).on('keyup',function(e){
     // console.log(e.keyCode)
     if(e.keyCode==13){
-        $('#sign_in').submit();
+        $('#login').submit();
     }
 })
 if (typeof jQuery === "undefined") {
