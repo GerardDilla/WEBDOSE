@@ -50,6 +50,7 @@
                                 <!-- <option value="1">1</option>
                                 <option value="2">2</option> -->
                                 <option value="<?php echo $this->data['array_adivsing_term']['Semester']; ?>" selected> <?php echo $this->data['array_adivsing_term']['Semester'];  ?></option>
+                                <option value="2">2</option> -->
                             </select>
                         </div>
                         <br>
@@ -205,63 +206,74 @@ $("#sendButton").click(function(e){
             },
             success: function(response) {
                 // storagedata.changeVal('data',response);
-                // console.log(response);
-                iziToast.show({
-                    theme: 'light',
-                    icon: 'icon-person',
-                    title: 'NOTE:',
-                    message: 'This can take more than 10 minutes to process!!',
-                    position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
-                    progressBarColor: '#cc0000',
-                    progressBar: true,
-                    timeout:10000,
-                    overlay:true,
-                    buttons: [
-                        ['<button>Ok</button>', function (instance, toast) {
-                            $('body').waitMe({
-                                    effect : 'stretch',
-                                    text : 'Please wait...',
-                                    bg : 'rgba(255,255,255,0.7)',
-                                    color : '#000',
-                                    maxSize : '',
-                                    waitTime : -1,
-                                    textPos : 'vertical',
-                                    fontSize : '',
-                                    source : '',
-                                    onClose : function() {}
-                            });
-                            instance.hide({
-                                transitionOut: 'fadeOutUp',
-                                onClosing: function(instance, toast, closedBy){
-                                    console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
-                                }
-                            }, toast, 'buttonName');
-                            
-                            for(var x=1;x<=response.total_page;++x){
+                console.log(response);
+                if(response.total==0){
+                    iziToast.error({
+                        title: 'Msg:',
+                        message:' No Entries!',
+                        position: 'topRight',
+                        // iconColor: 'red',
+                        // message: 'You forgot important data',
+                    });
+                }
+                else{
+                    iziToast.show({
+                        theme: 'light',
+                        icon: 'icon-person',
+                        title: 'NOTE:',
+                        message: 'This can take more than 10 minutes to process!!',
+                        position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
+                        progressBarColor: '#cc0000',
+                        progressBar: true,
+                        timeout:10000,
+                        overlay:true,
+                        buttons: [
+                            ['<button>Ok</button>', function (instance, toast) {
+                                $('body').waitMe({
+                                        effect : 'stretch',
+                                        text : 'Please wait...',
+                                        bg : 'rgba(255,255,255,0.7)',
+                                        color : '#000',
+                                        maxSize : '',
+                                        waitTime : -1,
+                                        textPos : 'vertical',
+                                        fontSize : '',
+                                        source : '',
+                                        onClose : function() {}
+                                });
+                                instance.hide({
+                                    transitionOut: 'fadeOutUp',
+                                    onClosing: function(instance, toast, closedBy){
+                                        console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
+                                    }
+                                }, toast, 'buttonName');
                                 
-                                var current_count = x;
-                                batchSend(x,response.per_page,response.total_page).then().catch(error=>console.log(`Error:page ${x}`));
-                                
-                            }
-                        }, true], // true to focus
-                        ['<button>Close</button>', function (instance, toast) {
-                            instance.hide({
-                                transitionOut: 'fadeOutUp',
-                                onClosing: function(instance, toast, closedBy){
-                                    console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
-                                    $('#sendButton').prop('disabled',false);
+                                for(var x=1;x<=response.total_page;++x){
+                                    
+                                    var current_count = x;
+                                    batchSend(x,response.per_page,response.total_page).then().catch(error=>console.log(`Error:page ${x}`));
+                                    
                                 }
-                            }, toast, 'buttonName');
-                        }]
-                    ],
-                    onOpening: function(instance, toast){
-                        console.info('callback abriu!');
-                    },
-                    onClosing: function(instance, toast, closedBy){
-                        console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
-                        $('#sendButton').prop('disabled',false);
-                    }
-                });
+                            }, true], // true to focus
+                            ['<button>Close</button>', function (instance, toast) {
+                                instance.hide({
+                                    transitionOut: 'fadeOutUp',
+                                    onClosing: function(instance, toast, closedBy){
+                                        console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
+                                        $('#sendButton').prop('disabled',false);
+                                    }
+                                }, toast, 'buttonName');
+                            }]
+                        ],
+                        onOpening: function(instance, toast){
+                            console.info('callback abriu!');
+                        },
+                        onClosing: function(instance, toast, closedBy){
+                            console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
+                            $('#sendButton').prop('disabled',false);
+                        }
+                    });
+                }
                 
                 
                 // $('#modal').iziModal('open');
