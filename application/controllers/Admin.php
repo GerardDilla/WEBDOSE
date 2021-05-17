@@ -51,6 +51,7 @@ class Admin extends MY_Controller  {
                 redirect('Registrar/Create_Sched','refresh');
             }else{
                 $this->session->set_flashdata('login_message','Invalid Username or Password');
+                
                 $this->login();
             }
         }
