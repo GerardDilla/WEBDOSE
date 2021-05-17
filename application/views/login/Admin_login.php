@@ -156,7 +156,7 @@
             <div class="container d-flex align-items-center">
                 <div class="form-holder has-shadow">
                     <div class="row bg-white">
-                        <div class="col-lg-6 col-md-6 col-sm-6 first_row login-row">
+                        <div class="col-lg-7 col-md-7 col-sm-12 first_row login-row">
                             <!-- <div class="info d-flex align-items-center">
                             <div class="content title-content">
                                 <div class="logo">
@@ -173,9 +173,9 @@
                             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                         </div>
                         <!-- Form Panel    -->
-                        <div class="col-lg-6 col-md-6 col-sm-6 second_row login-row" >
-                        <div class="col-md-12 admin-dashboard">ADMIN DASHBOARD</div>
-                        <image class="dose-logo" src="<?php echo base_url('plugins/login_asset/css/img/DOSE LOGO.png');?>">
+                        <div class="col-lg-5 col-md-5 col-sm-12 second_row login-row" >
+                            <div class="col-md-12 admin-dashboard">ADMIN DASHBOARD</div>
+                            <image class="dose-logo" src="<?php echo base_url('plugins/login_asset/css/img/DOSE LOGO.png');?>">
                             <div class="form d-flex">
                                 <div class="content">
                                     <form id="sign_in" class="form-validate" method="POST" action="">
