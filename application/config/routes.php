@@ -54,7 +54,12 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['SOA'] = 'StatementOfAccount';
 //$route['soa_download/(:num)/(:num)'] = 'studentsoa/soa_download/$1/$2';
-$route['soa_download/(:num)/(:num)'] = function ($student_no, $due_id)
+// $route['soa_downloadpdf/$1/$2/$3/$4'] = 'StatementOfAccount/sample_output';
+$route['soa_downloadpdf/(:any)/(:any)/(:any)/(:any)'] = function ($ref_no, $sem,$sy,$due)
 {
-    return 'studentsoa/soa_download/' . $student_no . '/' . $due_id;
+    return 'StatementofAccount/sample_output/' . $ref_no . '/' . $sem. '/'. $sy .'/'. $due;
 };
+// $route['soa_download/(:num)/(:num)'] = function ($student_no, $due_id)
+// {
+//     return 'studentsoa/soa_download/' . $student_no . '/' . $due_id;
+// };
