@@ -343,19 +343,36 @@ class Student_Model extends CI_Model{
     }
     public function search_student_info($array_data)
     {
-        $this->db->select('*');
-        $this->db->from('Student_Info');
-        $this->db->like('Student_Number', $array_data['key']);
-        $this->db->or_like('Reference_Number', $array_data['key']);
-        $this->db->or_like('First_Name', $array_data['key']);
-        $this->db->or_like('Middle_Name', $array_data['key']);
-        $this->db->or_like('Last_Name', $array_data['key']);
-        $this->db->where('Student_Number !=', 0);
-        $this->db->limit($array_data['limit'], $array_data['start']);
-    
-        $query = $this->db->get();
-        $this->db->reset_query();
-        return $query->result_array();
+        if($array_data['type']=="college"){
+            $this->db->select('*');
+            $this->db->from('Student_Info');
+            $this->db->like('Student_Number', $array_data['key']);
+            $this->db->or_like('Reference_Number', $array_data['key']);
+            $this->db->or_like('First_Name', $array_data['key']);
+            $this->db->or_like('Middle_Name', $array_data['key']);
+            $this->db->or_like('Last_Name', $array_data['key']);
+            $this->db->where('Student_Number !=', 0);
+            $this->db->limit($array_data['limit'], $array_data['start']);
+        
+            $query = $this->db->get();
+            $this->db->reset_query();
+            return $query->result_array();
+        }
+        else if($array_data['type']=="basiced"){
+            $this->db->select('*');
+            $this->db->from('Basiced_Studentinfo');
+            $this->db->like('Student_Number', $array_data['key']);
+            $this->db->or_like('Reference_Number', $array_data['key']);
+            $this->db->or_like('First_Name', $array_data['key']);
+            $this->db->or_like('Middle_Name', $array_data['key']);
+            $this->db->or_like('Last_Name', $array_data['key']);
+            $this->db->where('Student_Number !=', 0);
+            $this->db->limit($array_data['limit'], $array_data['start']);
+        
+            $query = $this->db->get();
+            $this->db->reset_query();
+            return $query->result_array();
+        }
     }
     public function search_student_info_pages($array_data)
     {

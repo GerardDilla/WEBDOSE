@@ -17,6 +17,12 @@
           </div>
 					<div class="col-md-9">
 						<div class="row">
+              <div class="col-md-12">
+							<select class="form-control show-tick" id="search_education_type">
+                <option value="college">College</option>
+                <option value="basiced">Basic Education / SHS</option>
+              </select>
+							</div>
 							<div class="col-md-12">
                 <input id="url" type="hidden" value="<?php echo base_url(); ?>index.php/StudentSearch" />
 								<input id="student_searchkey" autofocus class="form-control" placeholder="Search By Student Number / Reference Number / Name..." type="text" />

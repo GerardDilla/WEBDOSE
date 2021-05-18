@@ -7,12 +7,27 @@
         float: right;
         margin: 0 20px 0 0;
     }
+
+    .like_search_div {
+        position: absolute;
+        /* top:-100px; */
+    }
+
+    .like_search_button {
+        position: inherit;
+        top: 10px;
+    }
+
+    .dataTables_filter,
+    .dataTables_info {
+        display: none;
+    }
 </style>
 <section id="top" class="content" style="background-color: #fff;">
     <!-- CONTENT GRID-->
     <div class="container-fluid">
         <!-- MODULE TITLE-->
-        <div class="block-header">
+        <div class="block-header" id="base_url_js" data-baseurljs="<?php echo base_url(); ?>">
             <h1>Enrollment Tracker Report</h1>
         </div>
         <!--/ MODULE TITLE-->
@@ -51,6 +66,7 @@
                     <!-- /CONTENT TABS -->
                     <div class="tab-content">
                         <div class="col-md-6">
+
                         </div>
                         <div class="col-md-6">
                             <div class="row">
@@ -82,7 +98,7 @@
                                                                     </tr>
                                                                 </table>
                                                             </div> -->
-                                    <div class="col-md-4" style="border-right:solid #ccc">
+                                    <div class="col-md-5" style="border-right:solid #ccc">
 
                                         <?php
                                         //SchoolYear Select
@@ -127,7 +143,7 @@
 
 
                                         <select tabindex="2" class="form-control show-tick" data-live-search="true" name="course" id="course_enrollment_tracker">
-                                            <option disabled selected>Select Course:</option>
+                                            <option disabled selected>Select First Course:</option>
                                             <?php foreach ($this->data['get_course']->result_array() as $row) { ?>
                                                 <?php if ($this->input->post('course') ==  $row['Program_Code']) : ?>
                                                     <option selected><?php echo $row['Program_Code']; ?></option>
@@ -140,8 +156,8 @@
 
 
                                     </div>
-                                    <div class="col-md-4">
-                                        <button type="submit" id="enrollment_summary_filter" name="search_button" class="btn btn-lg btn-danger"> Search </button>
+                                    <div class="col-md-3">
+                                        <button type="submit" id="enrollment_summary_filter" name="search_button" class="btn btn-lg btn-danger"> Filter </button>
                                     </div>
                                 </form>
                             </div>
@@ -151,7 +167,16 @@
                     <div class="tab-content" id="">
                         <!--FIRST TAB-->
                         <div class="tab-pane fade active in" id="enrollment_summary_report" role="tabpanel" aria-labelledby="enrollment_summary_report-tab">
-
+                            <div class="col-md-6 like_search_div">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_summary">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_summary">
+                                </div>
+                                <br>
+                            </div>
+                            <br><br><br><br><br>
                             <div class="row clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="card">
@@ -181,12 +206,13 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_summary">
+                                                        <table class="table table-bordered" id="data_table_summary">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
                                                                     <th>Tracker Status</th>
                                                                     <th>Reference Number</th>
+                                                                    <th>Student Number</th>
                                                                     <th>Name</th>
                                                                     <th>Gender</th>
                                                                     <th>Nationality</th>
@@ -195,8 +221,9 @@
                                                                     <th>Second Choice</th>
                                                                     <th>Third Choice</th>
                                                                     <th>Search Engine</th>
-                                                                    <th>Contact #</th>
-                                                                    <!-- <th>School Last Attended</th> -->
+                                                                    <th>Cellphone Number</th>
+                                                                    <th>Telephone Number</th>
+                                                                    <th>School Last Attended</th>
                                                                     <th>Residence</th>
                                                                     <th>Applied School Year</th>
                                                                     <th>Applied Semester</th>
@@ -218,7 +245,16 @@
                         <!--/FIRST TAB-->
                         <!--SECOND TAB-->
                         <div class="tab-pane fade active" id="inquiry_report" role="tabpanel" aria-labelledby="inquiry_report-tab">
-
+                            <div class="col-md-6 like_search_div">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_inquiry">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_inquiry">
+                                </div>
+                                <br>
+                            </div>
+                            <br><br><br><br><br>
                             <div class="row clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="card">
@@ -248,11 +284,12 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_inquiry">
+                                                        <table class="table table-bordered" id="data_table_inquiry">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
                                                                     <th>Reference Number</th>
+                                                                    <th>Student Number</th>
                                                                     <th>Name</th>
                                                                     <th>Gender</th>
                                                                     <th>Nationality</th>
@@ -261,8 +298,9 @@
                                                                     <th>Second Choice</th>
                                                                     <th>Third Choice</th>
                                                                     <th>Search Engine</th>
-                                                                    <th>Contact #</th>
-                                                                    <!-- <th>School Last Attended</th> -->
+                                                                    <th>Cellphone Number</th>
+                                                                    <th>Telephone Number</th>
+                                                                    <th>School Last Attended</th>
                                                                     <th>Residence</th>
                                                                     <th>Applied School Year</th>
                                                                     <th>Applied Semester</th>
@@ -284,7 +322,16 @@
                         <!--/SECOND TAB-->
                         <!--THIRD TAB END-->
                         <div class="tab-pane fade" id="adviced_report" role="tabpanel" aria-labelledby="adviced_report-tab">
-
+                            <div class="col-md-6 like_search_div">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_advising">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_advising">
+                                </div>
+                                <br>
+                            </div>
+                            <br><br><br><br><br>
                             <div class="row clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="card">
@@ -314,19 +361,21 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_advised">
+                                                        <table class="table table-bordered" id="data_table_advised">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
                                                                     <th>Reference Number</th>
+                                                                    <th>Student Number</th>
                                                                     <th>Name</th>
                                                                     <th>Gender</th>
                                                                     <th>Nationality</th>
                                                                     <th>YearLevel</th>
                                                                     <th>Course</th>
                                                                     <th>Search Engine</th>
-                                                                    <th>Contact #</th>
-                                                                    <!-- <th>School Last Attended</th> -->
+                                                                    <th>Cellphone Number</th>
+                                                                    <th>Telephone Number</th>
+                                                                    <th>School Last Attended</th>
                                                                     <th>Residence</th>
                                                                     <th>Applied School Year</th>
                                                                     <th>Applied Semester</th>
@@ -350,7 +399,16 @@
                         <!--/THIRD TAB END-->
                         <!--FOURTH TAB END-->
                         <div class="tab-pane fade" id="reserved_report" role="tabpanel" aria-labelledby="reserved_report-tab">
-
+                            <div class="col-md-6 like_search_div">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_reserved">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_reserved">
+                                </div>
+                                <br>
+                            </div>
+                            <br><br><br><br><br>
                             <div class="row clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="card">
@@ -380,19 +438,21 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_reserved">
+                                                        <table class="table table-bordered" id="data_table_reserved">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
                                                                     <th>Reference Number</th>
+                                                                    <th>Student Number</th>
                                                                     <th>Name</th>
                                                                     <th>Gender</th>
                                                                     <th>Nationality</th>
                                                                     <th>YearLevel</th>
                                                                     <th>Course</th>
                                                                     <th>Search Engine</th>
-                                                                    <th>Contact #</th>
-                                                                    <!-- <th>School Last Attended</th> -->
+                                                                    <th>Cellphone Number</th>
+                                                                    <th>Telephone Number</th>
+                                                                    <th>School Last Attended</th>
                                                                     <th>Residence</th>
                                                                     <th>Applied School Year</th>
                                                                     <th>Applied Semester</th>
@@ -416,7 +476,16 @@
                         <!--/FOURTH TAB END-->
                         <!--FIFTH TAB END-->
                         <div class="tab-pane fade" id="enrolled_student_report" role="tabpanel" aria-labelledby="enrolled_student_report-tab">
-
+                            <div class="col-md-6 like_search_div">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="search" id="single_search_text_enrolled">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-info like_search_button" value="Search" id="single_search_button_enrolled">
+                                </div>
+                                <br>
+                            </div>
+                            <br><br><br><br><br>
                             <div class="row clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="card">
@@ -446,19 +515,21 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
-                                                        <table class="table table-bordered" style="width: 1750px;" id="data_table_enrolled">
+                                                        <table class="table table-bordered" id="data_table_enrolled">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
                                                                     <th>Reference Number</th>
+                                                                    <th>Student Number</th>
                                                                     <th>Name</th>
                                                                     <th>Gender</th>
                                                                     <th>Nationality</th>
                                                                     <th>YearLevel</th>
                                                                     <th>Course</th>
                                                                     <th>Search Engine</th>
-                                                                    <th>Contact #</th>
-                                                                    <!-- <th>School Last Attended</th> -->
+                                                                    <th>Cellphone Number</th>
+                                                                    <th>Telephone Number</th>
+                                                                    <th>School Last Attended</th>
                                                                     <th>Residence</th>
                                                                     <th>Applied School Year</th>
                                                                     <th>Applied Semester</th>
@@ -476,7 +547,6 @@
                                 </div>
                             </div>
                             <!--/CONTENT GRID-->
-
                         </div>
                         <!--/FIFTH TAB END-->
                     </div>
@@ -489,8 +559,10 @@
 </section>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
 <script>
-    $(function() {
+    $(document).ready(function() {
         var data_enrollment = $("#enrollment_tracker_form").data("enrollment");
         var data_inquiry = $("#enrollment_tracker_form").data("inquiry");
         var data_advised = $("#enrollment_tracker_form").data("advised");
@@ -500,9 +572,15 @@
         var sy = $("#sy_enrollment_tracker").val();
         var sem = $("#sem_enrollment_tracker").val();
         var course = $("#course_enrollment_tracker").val();
+        console.log(sy + " " + sem+ " " + course);
         var sy_check, sem_check, course_check;
         var no_id_checer_old = no_id_checker();
         var attr_enrollment, attr_inquiry, attr_advised, attr_reserved, attr_enrolled;
+        var check_filter_summary = '';
+        var check_filter_inquiry = '';
+        var check_filter_advised = '';
+        var check_filter_reserved = '';
+        var check_filter_enrolled = '';
         // var count_enrollment=0, count_inquiry=0, count_advised=0, count_reserved=0, count_enrolled=0;
         load_new_data();
         $("#enrollment_summary_filter").on('click', function() {
@@ -514,18 +592,23 @@
                 no_id_checer_old = no_id_checker();
                 if (sy != 0 || sem != 0 || course != null) {
                     if (no_id_checker() == 'enrollment') {
+                        check_filter_summary = 1;
                         get_enrollment_summary(data_enrollment, 'enrollment', sy, sem, course);
                     }
                     if (no_id_checker() == 'inquiry') {
+                        check_filter_inquiry = 1;
                         get_enrollment_summary(data_inquiry, 'inquiry', sy, sem, course);
                     }
                     if (no_id_checker() == 'advised') {
+                        check_filter_advised = 1;
                         get_enrollment_summary(data_advised, 'advised', sy, sem, course);
                     }
                     if (no_id_checker() == 'reserved') {
+                        check_filter_reserved = 1;
                         get_enrollment_summary(data_reserved, 'reserved', sy, sem, course);
                     }
                     if (no_id_checker() == 'enrolled') {
+                        check_filter_enrolled = 1;
                         get_enrollment_summary(data_enrolled, 'enrolled', sy, sem, course);
                     }
                 } else {
@@ -623,33 +706,44 @@
                 },
                 dataType: 'json',
                 success: function(data) {
+
                     if (no_id == 'enrollment') {
+                        $data_table_var = $('#data_table_summary');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_enrollment_summary(data);
                         $('#enrollment_summary_report_tbody').html(html);
-                        $data_table_var = $('#data_table_summary');
                     }
                     if (no_id == 'inquiry') {
+                        $data_table_var = $('#data_table_inquiry');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_inquiry_summary(data);
                         $('#inquiry_report_tbody').html(html);
-                        $data_table_var = $('#data_table_inquiry');
                     }
                     if (no_id == 'advised') {
+                        $data_table_var = $('#data_table_advised');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_advised_summary(data);
                         $('#advised_report_tbody').html(html);
-                        $data_table_var = $('#data_table_advised');
                     }
                     if (no_id == 'reserved') {
+                        $data_table_var = $('#data_table_reserved');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_reserved_summary(data);
                         $('#reserved_report_tbody').html(html);
-                        $data_table_var = $('#data_table_reserved');
                     }
                     if (no_id == 'enrolled') {
+                        $data_table_var = $('#data_table_enrolled');
+                        $data_table_var.DataTable().destroy();
+
                         html = html_enrolled_summary(data);
                         $('#enrolled_report_tbody').html(html);
-                        $data_table_var = $('#data_table_enrolled');
                     }
                     // datatable for searching and pagination
-                    $data_table_var.DataTable().destroy();
+
                     $data_table_var.DataTable({
                         paging: false,
                         searching: true,
@@ -699,12 +793,11 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>';
-                html += data[i].Ref_Num_si;
-                if (data[i].Std_Num_si != null && data[i].Std_Num_si != 0) {
-                    html += "<br>Std_No.: " + data[i].Std_Num_si;
-                }
-                html +=
+                    '<td>' +
+                    data[i].Ref_Num_si +
+                    '</td>' +
+                    '<td>' +
+                    data[i].Std_Num_si +
                     '</td>' +
                     '<td>' +
                     data[i].Last_Name +
@@ -739,20 +832,14 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>';
-                if (data[i].Tel_No != null && data[i].CP_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No +
-                        '<br>' +
-                        'Cellphone: ' + data[i].CP_No;
-                } else if (data[i].Tel_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No;
-                } else if (data[i].CP_No != null) {
-                    html +=
-                        'Cellphone: ' + data[i].CP_No;
-                }
-                html +=
+                    '<td>' +
+                    data[i].CP_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].Tel_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].SHS_School_Name +
                     '</td>' +
                     '<td>' +
                     data[i].Address_City + ', ' + data[i].Address_Province +
@@ -781,6 +868,9 @@
                     data[i].Ref_Num_si +
                     '</td>' +
                     '<td>' +
+                    data[i].Std_Num_si +
+                    '</td>' +
+                    '<td>' +
                     data[i].Last_Name +
                     ",<br>" +
                     data[i].First_Name +
@@ -813,20 +903,14 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>';
-                if (data[i].Tel_No != null && data[i].CP_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No +
-                        '<br>' +
-                        'Cellphone: ' + data[i].CP_No;
-                } else if (data[i].Tel_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No;
-                } else if (data[i].CP_No != null) {
-                    html +=
-                        'Cellphone: ' + data[i].CP_No;
-                }
-                html +=
+                    '<td>' +
+                    data[i].CP_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].Tel_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].SHS_School_Name +
                     '</td>' +
                     '<td>' +
                     data[i].Address_City + ', ' + data[i].Address_Province +
@@ -855,6 +939,9 @@
                     data[i].Ref_Num_ftc +
                     '</td>' +
                     '<td>' +
+                    data[i].Std_Num_si +
+                    '</td>' +
+                    '<td>' +
                     data[i].Last_Name +
                     ",<br>" +
                     data[i].First_Name +
@@ -881,20 +968,14 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>';
-                if (data[i].Tel_No != null && data[i].CP_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No +
-                        '<br>' +
-                        'Cellphone: ' + data[i].CP_No;
-                } else if (data[i].Tel_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No;
-                } else if (data[i].CP_No != null) {
-                    html +=
-                        'Cellphone: ' + data[i].CP_No;
-                }
-                html +=
+                    '<td>' +
+                    data[i].CP_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].Tel_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].SHS_School_Name +
                     '</td>' +
                     '<td>' +
                     data[i].Address_City + ', ' + data[i].Address_Province +
@@ -923,6 +1004,9 @@
                     data[i].Ref_No_rf +
                     '</td>' +
                     '<td>' +
+                    data[i].Std_Num_si +
+                    '</td>' +
+                    '<td>' +
                     data[i].Last_Name +
                     ",<br>" +
                     data[i].First_Name +
@@ -949,20 +1033,14 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>';
-                if (data[i].Tel_No != null && data[i].CP_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No +
-                        '<br>' +
-                        'Cellphone: ' + data[i].CP_No;
-                } else if (data[i].Tel_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No;
-                } else if (data[i].CP_No != null) {
-                    html +=
-                        'Cellphone: ' + data[i].CP_No;
-                }
-                html +=
+                    '<td>' +
+                    data[i].CP_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].Tel_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].SHS_School_Name +
                     '</td>' +
                     '<td>' +
                     data[i].Address_City + ', ' + data[i].Address_Province +
@@ -991,6 +1069,9 @@
                     data[i].Reference_Number +
                     '</td>' +
                     '<td>' +
+                    data[i].Std_Num_si +
+                    '</td>' +
+                    '<td>' +
                     data[i].Last_Name +
                     ",<br>" +
                     data[i].First_Name +
@@ -1017,20 +1098,14 @@
                 }
                 html +=
                     '</td>' +
-                    '<td>';
-                if (data[i].Tel_No != null && data[i].CP_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No +
-                        '<br>' +
-                        'Cellphone: ' + data[i].CP_No;
-                } else if (data[i].Tel_No != null) {
-                    html +=
-                        'Telephone: ' + data[i].Tel_No;
-                } else if (data[i].CP_No != null) {
-                    html +=
-                        'Cellphone: ' + data[i].CP_No;
-                }
-                html +=
+                    '<td>' +
+                    data[i].CP_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].Tel_No +
+                    '</td>' +
+                    '<td>' +
+                    data[i].SHS_School_Name +
                     '</td>' +
                     '<td>' +
                     data[i].Address_City + ', ' + data[i].Address_Province +
@@ -1087,5 +1162,61 @@
                 console.log('No data');
             }
         });
+        $("#single_search_button_summary").on('click', function() {
+            if (check_filter_summary != '') {
+                $("#data_table_summary").DataTable().search($("#single_search_text_summary").val()).draw();
+            } else {
+                error_modal('Search First', 'You must SEACRH first before filtering');
+            }
+        });
+
+        $("#single_search_button_inquiry").on('click', function() {
+            if (check_filter_inquiry != '') {
+                $("#data_table_inquiry").DataTable().search($("#single_search_text_inquiry").val()).draw();
+            } else {
+                error_modal('Search First', 'You must SEACRH first before filtering');
+            }
+        });
+
+        $("#single_search_button_advising").on('click', function() {
+            if (check_filter_advised != '') {
+                $("#data_table_advised").DataTable().search($("#single_search_text_advising").val()).draw();
+            } else {
+                error_modal('Search First', 'You must SEACRH first before filtering');
+            }
+        });
+
+        $("#single_search_button_reserved").on('click', function() {
+            if (check_filter_reserved != '') {
+                $("#data_table_reserved").DataTable().search($("#single_search_text_reserved").val()).draw();
+            } else {
+                error_modal('Search First', 'You must SEACRH first before filtering');
+            }
+        });
+
+        $("#single_search_button_enrolled").on('click', function() {
+            if (check_filter_enrolled != '') {
+                $("#data_table_enrolled").DataTable().search($("#single_search_text_enrolled").val()).draw();
+            } else {
+                error_modal('Search First', 'You must SEACRH first before filtering');
+            }
+        });
+
+        function datatable($data_table_var) {
+            $data_table_var.DataTable({
+                paging: false,
+                searching: true,
+                responsive: false,
+            });
+        }
+
+        function error_modal(title, msg) {
+            iziToast.show({
+                position: 'center',
+                color: 'red',
+                title: title,
+                message: msg
+            });
+        }
     });
 </script>

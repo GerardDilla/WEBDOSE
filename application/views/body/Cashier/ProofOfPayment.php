@@ -219,8 +219,8 @@
         });
 
         $('#proof_filter_button').on('click', function() {
-            from_date = $('#data_from').val();
-            to_date = $('#data_to').val();
+            from_date = $('#date_from').val();
+            to_date = $('#date_to').val();
             base_url = $('#base_url').data('baseurl');
             $data_table_var = $('#proof_of_payment_table');
             var empty_count = 0;
