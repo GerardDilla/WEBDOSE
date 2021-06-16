@@ -453,6 +453,7 @@ class set_views
 	}
 //////////////////////////// Accounting  TAB ////////////////////////
 
+
 public function send_soa()
 {
 	return 'body/Accounting/Soa_Send';
@@ -463,4 +464,12 @@ public function student_soa()
 	return 'body/Accounting/Student_Soa';
 }
 
+//////////////////////////// Student Inquiry TAB ////////////////////////
+public function college_inquiry()
+{
+	return 'body/StudentInquiry/CollegeInquiry';
 }
+
+}
+
+

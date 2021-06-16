@@ -35,11 +35,21 @@ class StudentSearch extends MY_Controller  {
   public function search_student_page(){
 
     $array = array(
-      'key' => $this->input->get('key')
+      'key' => $this->input->get('key'),
+      'type' => $this->input->get('educ_type')
     );
     $result = $this->Student_Model->search_student_info_pages($array);
     echo json_encode($result);
     
+  }
+  public function searchSample(){
+    $result = $this->Student_Model->testQuery(array('key'=>'magti'));
+    echo '<pre>'.print_r($result,1).'</pre>';
+  }
+  public function decryptPassword(){
+    $ref_no = 132;
+    $decryptPass = $this->Student_Model->decryptPass($ref_no);
+    echo '<pre>'.print_r($decryptPass,1).'</pre>';
   }
 }//end class
 
