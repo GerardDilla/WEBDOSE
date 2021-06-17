@@ -475,7 +475,7 @@
                 </a>
                 <ul class="ml-menu">
                     <li>
-                        <a href="<?php echo base_url(); ?>index.php/ccao/Encoding" class="">
+                        <a href="<?php echo base_url(); ?>index.php/StudentInquiry" class="">
                             <span>- College Student</span>
                         </a>
                     </li>
