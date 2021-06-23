@@ -335,10 +335,12 @@ class set_views
 	{
 		return 'body/Admission/New_Students_Report';
 	}
-	public function Enrollment_Tracker_Report(){
+	public function Enrollment_Tracker_Report()
+	{
 		return 'body/Admission/Enrollment_Tracker_Report';
 	}
-	public function Enrollment_Tally_Report(){
+	public function Enrollment_Tally_Report()
+	{
 		return 'body/Admission/Enrollment_Tally_Report';
 	}
 
@@ -424,7 +426,8 @@ class set_views
 		return 'body/Helpdesk/HelpdeskReport';
 	}
 
-	public function proof_of_payment(){
+	public function proof_of_payment()
+	{
 		return 'body/Cashier/ProofOfPayment';
 	}
 
@@ -447,29 +450,36 @@ class set_views
 		return 'body/ProgramChair/Preview_Student_Sched';
 	}
 
-	public function belltest(){
+	public function belltest()
+	{
 
 		return 'body/Belltest';
 	}
-//////////////////////////// Accounting  TAB ////////////////////////
+	//////////////////////////// Accounting  TAB ////////////////////////
 
 
-public function send_soa()
-{
-	return 'body/Accounting/Soa_Send';
+	public function send_soa()
+	{
+		return 'body/Accounting/Soa_Send';
+	}
+
+	public function student_soa()
+	{
+		return 'body/Accounting/Student_Soa';
+	}
+
+	//////////////////////////// Student Inquiry TAB ////////////////////////
+	public function college_inquiry()
+	{
+		return 'body/StudentInquiry/CollegeInquiry';
+	}
+	//////////////////////////// Des Module TAB ////////////////////////
+	public function digital_citizenship()
+	{
+		return 'body/Des/DigitalCitizenship';
+	}
+	public function id_application()
+	{
+		return 'body/Des/IDApplication';
+	}
 }
-
-public function student_soa()
-{
-	return 'body/Accounting/Student_Soa';
-}
-
-//////////////////////////// Student Inquiry TAB ////////////////////////
-public function college_inquiry()
-{
-	return 'body/StudentInquiry/CollegeInquiry';
-}
-
-}
-
-

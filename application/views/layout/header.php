@@ -100,7 +100,9 @@
     <script type="text/javascript" src="<?php echo base_url('plugins/simplePagination/jquery.simplePagination.js');?>"></script>
     <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>plugins/simplePagination/simplePagination.css"/>
 
-   
+    <link rel="stylesheet" href="<?php echo base_url('css/toggleableSwitch.css'); ?>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('plugins/waitme/waitMe.min.css'); ?>">
     
 </head>
 
