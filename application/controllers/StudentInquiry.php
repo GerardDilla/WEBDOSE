@@ -28,10 +28,15 @@ class StudentInquiry extends MY_Controller  {
         $getStudentInquiry = $this->Student_Inquiry_Model->getStudentInquiry();
 		$count = 0;
 		foreach ($getStudentInquiry as $inquiry) {
-			$getStudentInquiry[$count]['total_message'] = $this->Student_Inquiry_Model->countTotalUnseenMessage($inquiry['ref_no']);
+			// $getStudentInquiry[$count]['total_message'] = $this->Student_Inquiry_Model->countTotalUnseenMessage($inquiry['ref_no']);
+            $getStudentInquiry[$count]['total_message'] = $this->Student_Inquiry_Model->countTotalMessages($inquiry['ref_no']);
 			++$count;
 		}
 		$this->data['getStudentInquiry'] = $getStudentInquiry;
         $this->render($this->set_views->college_inquiry());
+    }
+    public function getCollegeTable(){
+        $getStudentInquiry = $this->Student_Inquiry_Model->getStudentInquiry();
+        echo json_encode($getStudentInquiry);
     }
 }

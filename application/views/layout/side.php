@@ -6,9 +6,9 @@
             <div class="image" style="background:white;border-radius:10px;">
                 <img src="<?php echo base_url(); ?>img/DOSE_LOGO.PNG" width="120" height="auto" alt="User" />
             </div>
-            <div class="info-container" style="color:black;">
-                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jhon Norman Fabregas<?php echo $this->session->userdata("fullname")['fullname']; ?></div>
-                <div class="email"><?php echo $this->session->userdata("position")['fullname']; ?>Web Developer</div>
+            <div class="info-container">
+                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $this->admin_data['fullname']; ?></div>
+                <div class="email"><?php echo $this->admin_data['position']; ?></div>
             </div>
         </div>
         <!-- #User Info -->
@@ -47,7 +47,11 @@
                                     <span>-User Roles </span>
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="<?php echo base_url(); ?>index.php/UserAccessibility/create_account" class="">
+                                    <span>-Create / Update User Account </span>
+                                </a>
+                            </li>
 
 
                         </ul>
