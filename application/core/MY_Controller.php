@@ -36,6 +36,8 @@ class MY_Controller extends CI_Controller {
         
       //set user accessibility for nav bar
       $this->data['module_list'] = $this->user_accessibility->get_module_list();
+    //   echo '<pre>'.print_r($this->data['module_list'],1).'</pre>';
+    //   exit;
       $this->data['user_module_access'] = $this->user_accessibility->get_user_module_access($this->data['admin_data']['userid']);
 
            $this->template['header'] = $this->load->view('layout/header.php', $this->data, true);

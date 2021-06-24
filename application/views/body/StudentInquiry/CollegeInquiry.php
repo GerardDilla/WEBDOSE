@@ -5,6 +5,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/2.0.2/timeago.min.js" integrity="sha512-sl01o/gVwybF1FNzqO4NDRDNPJDupfN0o2+tMm4K2/nr35FjGlxlvXZ6kK6faa9zhXbnfLIXioHnExuwJdlTMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link href="<?php echo base_url(); ?>plugins/waitme/waitMe.min.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo base_url(); ?>plugins/waitme/waitMe.min.js"></script>
 <style>
 /* #chatinquiryModal .modal-dialog{
     max-width: 700px;
@@ -241,32 +243,68 @@ class CollegeTable{
     constructor(){
         this.data = [];
     }
-    updateData(value){
+    async updateData(value){
         this.data = value;
     }
-    filterData(search){
-        // console.log(search);
-        // var PATTERN = search,
-        // console.log(this.data)
-        var re = new RegExp(search, "i");
-        var str = "hrllo po yow";
-        var n = str.search(re);
-        // var matches = this.data.filter((str)=> {
-        //     foreach(str => key){
-        //         if(key){
-
-        //         }
-        //     }
-        // });
-        var fileList = events.filter(function(event) {
-            return whiteList.indexOf(event.type) > -1
+    async filterData(search_value){
+        var filtered = this.data.filter((col)=>{
+                var search = search_value.toLowerCase();
+                var lc_fullname = col.Full_Name.toLowerCase();
+                var lc_YearLevel = col.YearLevel.toLowerCase();
+                var lc_course = col.Course.toLowerCase();
+                var lc_total_message = col.total_message.toLowerCase();
+                return lc_fullname.indexOf(search) > -1||lc_YearLevel.indexOf(search) > -1||lc_course.indexOf(search) > -1||lc_course.indexOf(search) > -1
         })
-        // Full_Name,YearLevel,Course,total_message
-        // var 
-        // str1 = "pattern";
-        // var PATTERN = re,
-        // filtered = this.data.filter(function (str) { return PATTERN.test(str); });
-        // console.log(n)
+        await this.createDataTable(filtered);
+        await this.hideWaitMe();
+    }
+    async createDataTable(value){
+        $('body').waitMe({
+            effect : 'win8',
+            text : '',
+            bg : 'rgba(255,255,255,0.7)',
+            color : 'maroon',
+            maxSize : '',
+            waitTime : -1,
+            textPos : 'vertical',
+            fontSize : '',
+            source : '',
+            onClose : function() {}
+        });
+        // $('#chatInquiryTable').DataTable().destroy();
+        $('#chatInquiryTable tbody').empty();
+        var html = "";
+        $.each(value,function(index,val){
+            var level = ""
+            if(val.YearLevel=="1"){
+                level = "1st Year"
+            }
+            else if(val.YearLevel=="2"){
+                level = "2nd Year"
+            }
+            else if(val.YearLevel=="3"){
+                level = "3rd Year"
+            }
+            else if(val.YearLevel=="4"){
+                level = "4th Year"
+            }
+
+            html += `<tr><td>${val.First_Name+' '+val.Middle_Name+' '+val.Last_Name}</td>`;
+            html += `<td>${level}</td>`;
+            html += `<td>${val.Course}</td>`;
+            html += `<td>${val.total_message}</td>`;
+            html += `<td><button class="btn btn-info" onclick="openModal('${val.ref_no}','${val.First_Name+' '+val.Middle_Name+' '+val.Last_Name}')" data-toggle="modal" data-target="#chatinquiryModal">open</button></td></tr>`; 
+        })
+        $('#chatInquiryTable tbody').append(html);
+        // $('#chatInquiryTable').DataTable({
+        //     "ordering": true,
+        //     "bPaginate": true,
+        //     "bLengthChange": false,
+        //     "responsive": false
+        // });
+    }
+    async hideWaitMe(){
+        $('body').waitMe('hide');
     }
     getData(){
         return this.data;
@@ -279,39 +317,6 @@ $('#search_table').on('keyup',function(){
 })
 // $('#chat-box:last-child').css('background','red');
 var typing_timeout = null;
-// <<== Start use for search table
-
-// var ss = ['german shepard', 'labrador', 'chihuahua'];
-// var matches = ss.filter(function(s) {
-//   return s.match(/ger/);
-// });
-
-// ==> END
-
-// var DURATION_IN_SECONDS = {
-//   epochs: ['year', 'month', 'day', 'hour', 'minute'],
-//   year: 31536000,
-//   month: 2592000,
-//   day: 86400,
-//   hour: 3600,
-//   minute: 60
-// };
-
-// function getDuration(seconds) {
-//   var epoch, interval;
-
-//   for (var i = 0; i < DURATION_IN_SECONDS.epochs.length; i++) {
-//     epoch = DURATION_IN_SECONDS.epochs[i];
-//     interval = Math.floor(seconds / DURATION_IN_SECONDS[epoch]);
-//     if (interval >= 1) {
-//       return {
-//         interval: interval,
-//         epoch: epoch
-//       };
-//     }
-//   }
-
-// };
 
 function timeSince(date) {
 //   date = date.replace(/T/g, " ");
@@ -326,8 +331,8 @@ var connectionOptions =  {
         "transports" : ["websocket"],
         withCredentials: false,
     };
-// const socket = io('https://stdominiccollege.edu.ph:4003');
-const socket = io('http://localhost:4004');
+const socket = io('https://stdominiccollege.edu.ph:4003');
+// const socket = io('http://localhost:4004');
 const app = feathers();
 app.configure(feathers.socketio(socket));
 var array_status = [];
@@ -484,7 +489,7 @@ function receivedMessage(data)
 {
     // console.log(data)
     // console.log(data.message_count);
-    getInquiryTableList(data.message_count);
+    // getInquiryTableList(data.message_count);
     collegetable.updateData(data.message_count)
     var current_time = moment(Date.parse(data.date_created)).format('MMM DD,YYYY h:kk a');
     // +`(${moment(Date.parse(data.date_created)).fromNow()})`;

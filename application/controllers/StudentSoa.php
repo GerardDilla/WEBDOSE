@@ -11,7 +11,7 @@ class StudentSoa extends CI_Controller {
         header('Access-Control-Request-Headers: Content-Type');
 
         parent::__construct();
-        $this->load->library('set_views');
+        // $this->load->library('set_views');
         $this->load->library('session');
         $this->load->library("DateConverter");
         $this->load->library("email");
