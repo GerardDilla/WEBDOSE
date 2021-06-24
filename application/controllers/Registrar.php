@@ -2003,7 +2003,7 @@ class Registrar extends MY_Controller
       'total_enrolled' => $total_enrollees_array,
 
     );
-    echo json_encode($array_data);
+    echo json_encode($result);
   }
   public function ajax_schedreport_search_pagination()
   {
@@ -2954,7 +2954,7 @@ class Registrar extends MY_Controller
 
     $excel_row = 13;
     foreach ($this->data['ClassList']  as $row) {
-      $object->setActiveSheetIndex()->getStyle('' . $excel_row . '')->getAlignment()
+      $object->setActiveSheetIndex(0)->getStyle('' . $excel_row . '')->getAlignment()
         ->setHorizontal('left');
       $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $count);
       $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->Student_Number);
