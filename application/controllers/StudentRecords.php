@@ -102,7 +102,7 @@ class StudentRecords extends MY_Controller
 
         //get student enrolled grades levels
         $array_student_enrolled_levels = $this->Student_Model->get_student_enrolled_levels($student_info[0]['Reference_Number']);
-        //print_r($array_student_enrolled_levels);
+        // print_r($array_student_enrolled_levels);
 
 
         //set display of student grades
@@ -111,6 +111,9 @@ class StudentRecords extends MY_Controller
 
         foreach ($array_grade_level as $grade_level_key => $grade_level) {
             # code...
+            // echo $grade_level;
+            // echo '<br>';
+            // echo json_encode($array_student_enrolled_levels);
             $array_subject_grades = array();
             if ($this->in_array_r($grade_level, $array_student_enrolled_levels, 'GradeLevel')) {
                 # code...
@@ -123,8 +126,9 @@ class StudentRecords extends MY_Controller
 
                 //get grade level subject list and position
                 $array_subjects_list = $this->Subjects_Model->get_form137_subject_arrangement($grade_level, $array_student_enrolled_levels[$student_enrolled_levels_key]['SchoolYear']);
-                //print_r($array_subjects_list);
+                $mapeh_grade = 0;
                 foreach ($array_subjects_list as $key => $subject) {
+
 
                     //check if the row is not a parent subject 
                     if ($subject['subjects_id'] != -1) {
@@ -142,6 +146,7 @@ class StudentRecords extends MY_Controller
                         //compute average of subjects
                         $subject_grade = $this->basiced_subject_grade_average($array_grades);
 
+                        // echo json_encode($subject) . ':' . $subject_grade . '<br>';
                         if ($subject_grade >= 75) {
                             # code...
                             $remark = "Promoted";
@@ -169,12 +174,11 @@ class StudentRecords extends MY_Controller
                             'school_year' => $array_data['school_year']
                         );
                     } else {
+
                         $array_subject_grades[] = array(
                             'subject_title' => $subject['parent_subject_name']
                         );
                     }
-
-                    //print_r($array_subject_grades);
                 } // end of foreach subject list in a grade level
 
                 $array_subjects_remove = array();
@@ -922,8 +926,10 @@ class StudentRecords extends MY_Controller
                         # code...
                         $sheet->setCellValue($current_col['col_3'] . $cell_start_temp, $subject_details['subject_grade']);
                         $sheet->setCellValue($current_col['col_4'] . $cell_start_temp, $subject_details['remark']);
-                        $subjects_no++;
-                        $grades_sum += $subject_details['subject_grade'];
+                        if ($subject_details['parent_subject_id'] <= 0) {
+                            $subjects_no++;
+                            $grades_sum += $subject_details['subject_grade'];
+                        }
                     } else {
                         # code...
                         $mapeh_cell_no = $cell_start_temp;
@@ -948,7 +954,7 @@ class StudentRecords extends MY_Controller
                 $sheet->setCellValue($current_col['col_3'] . $mapeh_cell_no, $mapeh_general_average);
                 $sheet->setCellValue($current_col['col_4'] . $mapeh_cell_no, $mapeh_remarks);
 
-                $grades_total_average = round(($grades_sum / $subjects_no));
+                $grades_total_average = round((($grades_sum + $mapeh_general_average) / ($subjects_no + 1)));
 
                 while ($temp_max_rows > 3) {
                     # code...
@@ -1551,7 +1557,7 @@ class StudentRecords extends MY_Controller
         $filename = strtoupper($array_info['lname'] . ", " . $array_info['fname'] . " " . $array_info['mname']);
 
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+        header('Content-Disposition: attachment;filename="' . $filename . '.xls"');
         header('Cache-Control: max-age=0');
 
         $writer->save('php://output'); // download file 
@@ -1570,8 +1576,13 @@ class StudentRecords extends MY_Controller
 
     private function in_array_r($needle, $haystack, $column, $strict = false)
     {
+
+
         foreach ($haystack as $item) {
-            if (($strict ? $item[$column] === $needle : $item[$column] == $needle) || (is_array($item) && $this->in_array_r($needle, $item, $column, $strict))) {
+            // if (($strict ? $item[$column] === $needle : $item[$column] == $needle) || (is_array($item) && $this->in_array_r($needle, $item, $column, $strict))) {
+            //     return true;
+            // }
+            if (($strict ? $item[$column] === $needle : $item[$column] == $needle)) {
                 return true;
             }
         }
