@@ -253,7 +253,7 @@ class CollegeTable{
                 var lc_YearLevel = col.YearLevel.toLowerCase();
                 var lc_course = col.Course.toLowerCase();
                 var lc_total_message = col.total_message.toLowerCase();
-                return lc_fullname.indexOf(search) > -1||lc_YearLevel.indexOf(search) > -1||lc_course.indexOf(search) > -1||lc_course.indexOf(search) > -1
+                return lc_fullname.indexOf(search) > -1||lc_YearLevel.indexOf(search) > -1||lc_course.indexOf(search) > -1||lc_course.indexOf(search) > -1||col.total_message.indexOf(search) > -1
         })
         await this.createDataTable(filtered);
         await this.hideWaitMe();
