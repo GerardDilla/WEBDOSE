@@ -25,7 +25,8 @@ class StudentSearch extends MY_Controller  {
     $array = array(
       'key' => $this->input->get('key'),
       'start' => $this->input->get('offset'),
-      'limit' => $this->input->get('limit')
+      'limit' => $this->input->get('limit'),
+      'type' => $this->input->get('educ_type')
     );
     $result = $this->Student_Model->search_student_info($array);
     echo json_encode($result);

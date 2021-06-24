@@ -31,9 +31,10 @@
 
    
     <!-- Custom Css -->
-    
     <link href="<?php echo base_url(); ?>css/style.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>css/style.css" rel="stylesheet">
+    
+
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<?php echo base_url(); ?>css/themes/all-themes.css" rel="stylesheet" />
 
@@ -70,7 +71,9 @@
     <script src="<?php echo base_url(); ?>js/js/clipboard.min.js"></script>
    
     <script src="<?php echo base_url(); ?>js/AdmissionEditStudentInfo.js"></script>
-    
+    <script src="<?php echo base_url(); ?>js/AdmissionEditStudentInfo.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/custom.css">
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/colreorder/1.5.2/css/colReorder.bootstrap.min.css"/>

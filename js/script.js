@@ -51,7 +51,7 @@ function get_info(arrayData){
     console.log('@get_info: '+arrayData['searchkey']);
 
     offset = (arrayData.pageNumber - 1) * arrayData.perPage;
-
+    var educ_type = $('#search_education_type').val();
     ajax = $.ajax({
         async: false,
         url: arrayData.url+"/search_student",
@@ -60,6 +60,7 @@ function get_info(arrayData){
             key: arrayData.searchkey,
             limit: arrayData.perPage,
             offset: offset,
+            educ_type:educ_type
         },  
         success: function(response){
 
