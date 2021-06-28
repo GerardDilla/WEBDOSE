@@ -479,14 +479,15 @@ class Admission extends MY_Controller
     $object->getActiveSheet()->setCellValue('D2', 'Program');
     $object->getActiveSheet()->setCellValue('E2', 'Search Engine');
     $object->getActiveSheet()->setCellValue('F2', 'Contact #');
-    $object->getActiveSheet()->setCellValue('G2', 'School Last Attended');
-    $object->getActiveSheet()->setCellValue('H2', 'Residence');
-    $object->getActiveSheet()->setCellValue('I2', 'Status');
-    $object->getActiveSheet()->setCellValue('J2', 'Remarks');
-    $object->getActiveSheet()->setCellValue('K2', 'Applied School Year');
-    $object->getActiveSheet()->setCellValue('L2', 'Applied Semester');
+    $object->getActiveSheet()->setCellValue('G2', 'Email');
+    $object->getActiveSheet()->setCellValue('H2', 'School Last Attended');
+    $object->getActiveSheet()->setCellValue('I2', 'Residence');
+    $object->getActiveSheet()->setCellValue('J2', 'Status');
+    $object->getActiveSheet()->setCellValue('K2', 'Remarks');
+    $object->getActiveSheet()->setCellValue('L2', 'Applied School Year');
+    $object->getActiveSheet()->setCellValue('M2', 'Applied Semester');
     $object->getActiveSheet()->setCellValue('N2', 'Date Inquired');
-    $object->getActiveSheet()->setCellValue('N2', 'DSWD Number');
+    $object->getActiveSheet()->setCellValue('O2', 'DSWD Number');
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(20);
     $object->getActiveSheet()->getColumnDimension('C')->setWidth(40);
     $object->getActiveSheet()->getColumnDimension('D')->setWidth(20);
@@ -521,34 +522,35 @@ class Admission extends MY_Controller
       }
       $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row,  strtoupper($OKS));
       $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->CP_No);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $row->Email);
 
       if ($row->Transferee_Name == NULL || $row->Transferee_Name == 'N/A' || $row->Transferee_Name == '' || $row->Transferee_Name == '-') {
         if ($row->SHS_School_Name == NULL || $row->SHS_School_Name == 'N/A' || $row->SHS_School_Name == '' || $row->SHS_School_Name == '-') {
-          $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row,  strtoupper($row->Secondary_School_Name));
+          $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($row->Secondary_School_Name));
         } else {
-          $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row,  strtoupper($row->SHS_School_Name));
+          $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($row->SHS_School_Name));
         }
       } else {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row,  strtoupper($row->Transferee_Name));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($row->Transferee_Name));
       }
 
-      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($row->Address_City . ',' . $row->Address_Province));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($row->Address_City . ',' . $row->Address_Province));
 
       if ($row->Transferee_Name == NULL || $row->Transferee_Name == 'N/A' || $row->Transferee_Name == '' || $row->Transferee_Name == '-') {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper('N'));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper('N'));
       } else {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper('T'));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper('T'));
       }
 
       if ($row->EXM_RF == NULL) {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper('Follow Up'));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper('Follow Up'));
       } else {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper('With Exam'));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper('With Exam'));
       }
-      $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper($row->Applied_SchoolYear));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row,  strtoupper($row->Applied_Semester));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row,  strtoupper($row->DateInquired));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row,  strtoupper($row->dswd_no ? $row->dswd_no : 'N/A'));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row,  strtoupper($row->Applied_SchoolYear));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row,  strtoupper($row->Applied_Semester));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row,  strtoupper($row->DateInquired));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row,  strtoupper($row->dswd_no ? $row->dswd_no : 'N/A'));
       $excel_row++;
       $count = $count + 1;
     }

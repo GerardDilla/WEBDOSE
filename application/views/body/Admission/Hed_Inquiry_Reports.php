@@ -145,11 +145,13 @@
 
                                         <tr>
                                             <th>#</th>
+                                            <th>Applied</th>
                                             <th>Reference_Number</th>
                                             <th>Name</th>
                                             <th>Program</th>
                                             <th>Search Engine</th>
                                             <th>Contact #</th>
+                                            <th>Email</th>
                                             <th>School Last Attended</th>
                                             <th>Residence</th>
                                             <th>Status </th>
@@ -175,6 +177,10 @@
                                             <tr style="text-transform: uppercase;">
 
                                                 <td><?php echo $count; ?></td>
+                                                <td>
+                                                    <?php echo !empty($row->interview_status)?'Onestop':''
+                                                    ?>
+                                                </td>
                                                 <td><?php echo $row->ref_no; ?></td>
                                                 <td><?php echo $row->Last_Name; ?>, <?php echo $row->First_Name; ?> <?php echo $row->Middle_Name; ?></td>
                                                 <td>
@@ -186,6 +192,7 @@
                                                 </td>
                                                 <td><?php echo $OKS; ?></td>
                                                 <td><?php echo $row->CP_No; ?></td>
+                                                <td><?php echo $row->Email; ?></td>
 
                                                 <?php if ($row->Transferee_Name == NULL || $row->Transferee_Name == 'N/A' || $row->Transferee_Name == '' || $row->Transferee_Name == '-') : ?>
                                                     <?php if ($row->SHS_School_Name == NULL || $row->SHS_School_Name == 'N/A' || $row->SHS_School_Name == '' || $row->SHS_School_Name == '-') : ?>

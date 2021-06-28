@@ -51,6 +51,7 @@ public function Select_HED_Inquiry($array){
   $this->db->join('4ps_inquiry_infoid AS 4ps','A.Reference_Number = 4ps.Reference_Number and 4ps.type = "highered" and 4ps.Valid = 1','LEFT');
   $this->db->join('Guidance_HigherEdExamination AS D','D.Reference_Number = A.Reference_Number','LEFT');
   $this->db->join('Remarks AS C','C.Remarks_ID = D.Exam','LEFT');
+  $this->db->join('student_account AS SA','A.Reference_Number = SA.reference_no','LEFT');
 
     if(isset($array['course'])){
         $this->db->where('A.Course',$array['course']);
