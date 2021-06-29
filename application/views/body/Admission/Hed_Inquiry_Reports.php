@@ -45,7 +45,11 @@
                                                         <label>From: </label>
                                                     </td>
                                                     <td>
+                                                    <?php if (!empty($this->input->post('inquiry_from'))) : ?>
+                                                        <input type="date" name="inquiry_from" data-date-format="yyyy-mm-dd" value="<?php echo $this->input->post('inquiry_from'); ?>">
+                                                    <?php else : ?>
                                                         <input type="date" name="inquiry_from" data-date-format="yyyy-mm-dd">
+                                                    <?php endif ?>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -58,7 +62,12 @@
                                                         <label>To: </label>
                                                     </td>
                                                     <td>
+                                                    <?php if (!empty($this->input->post('inquiry_from'))) : ?>
+                                                        <input type="date" name="inquiry_to" data-date-format="yyyy-mm-dd" value="<?php echo $this->input->post('inquiry_to'); ?>">
+                                                    <?php else : ?>
                                                         <input type="date" name="inquiry_to" data-date-format="yyyy-mm-dd">
+                                                    <?php endif ?>
+                                                        
                                                     </td>
                                                 </tr>
                                             </table>
@@ -103,11 +112,23 @@
                                             ?>
 
 
-
+                                            <label for="course">Course Enrolled :</label>
                                             <select tabindex="2" class="form-control show-tick" data-live-search="true" name="course">
-                                                <option disabled selected>Select Course:</option>
+                                                <option value="0" selected>Select Course:</option>
                                                 <?php foreach ($this->data['get_course']->result_array() as $row) { ?>
                                                     <?php if ($this->input->post('course') ==  $row['Program_Code']) : ?>
+                                                        <option selected><?php echo $row['Program_Code']; ?></option>
+                                                    <?php else : ?>
+                                                        <option><?php echo $row['Program_Code']; ?></option>
+                                                    <?php endif ?>
+                                                <?php } ?>
+                                            </select>
+                                            
+                                            <label for="1st_coice">First Choice :</label>
+                                            <select class="form-control show-tick" data-live-search="true" name="1st_choice">
+                                                <option value="0" selected>Select Course:</option>
+                                                <?php foreach ($this->data['get_course']->result_array() as $row) { ?>
+                                                    <?php if ($this->input->post('1st_choice') ==  $row['Program_Code']) : ?>
                                                         <option selected><?php echo $row['Program_Code']; ?></option>
                                                     <?php else : ?>
                                                         <option><?php echo $row['Program_Code']; ?></option>
@@ -178,7 +199,7 @@
 
                                                 <td><?php echo $count; ?></td>
                                                 <td>
-                                                    <?php echo !empty($row->interview_status)?'Onestop':''
+                                                    <?php echo !empty($row->interview_status) ? 'Onestop' : ''
                                                     ?>
                                                 </td>
                                                 <td><?php echo $row->ref_no; ?></td>

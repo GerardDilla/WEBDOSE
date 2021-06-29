@@ -428,12 +428,14 @@ class Admission extends MY_Controller
       'course'  => $this->input->post('course'),
       'from'  => $this->input->post('inquiry_from'),
       'to'  => $this->input->post('inquiry_to'),
+      '1st_choice'  => $this->input->post('1st_choice'),
       'submit'  => $this->input->post('search_button')
     );
-
+    // die('<pre>'.json_encode($array).'<pre>');
 
 
     $this->data['get_inquiry']  = $this->Inquiry_Reports_Model->Select_HED_Inquiry($array);
+    // die(json_encode($this->data['get_inquiry']));
     $this->render($this->set_views->ad_inquiry_reports_hed());
   }
 
@@ -459,6 +461,7 @@ class Admission extends MY_Controller
       'course'  => $this->input->post('course'),
       'from'  => $this->input->post('inquiry_from'),
       'to'  => $this->input->post('inquiry_to'),
+      '1st_choice'  => $this->input->post('1st_choice'),
       'submit'  => $this->input->post('search_button')
     );
 
@@ -620,7 +623,9 @@ class Admission extends MY_Controller
       'sy1'     => $sy,
       'sem1'    => $sem,
       'sy' => $this->input->post('sy'),
-      'getlvl' => $this->input->post('getlvl')
+      'getlvl' => $this->input->post('getlvl'),
+      'from'  => $this->input->post('inquiry_from'),
+      'to'  => $this->input->post('inquiry_to'),
     );
 
 
@@ -734,7 +739,7 @@ class Admission extends MY_Controller
   }
   //Inquiry Reports 
 
-  //HED Excel Reports
+  //SHS Excel Reports
   public function SHS_Inquiry_Excel()
   {
 
