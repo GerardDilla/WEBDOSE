@@ -1,42 +1,46 @@
 <?php
 
 
-class DroppingSubjects_Model extends CI_Model{
-  
-  
-
-public function Get_Legend(){
-  $this->db->select('*');
-  $this->db->from('Legend');
-  $query = $this->db->get();
-  return $query->result_array();	                           
-}
+class DroppingSubjects_Model extends CI_Model
+{
 
 
-public function Get_sem(){ 
-  $this->db->select('semester');
-  $this->db->from('Fees_Enrolled_College');
-  $this->db->group_by('Semester',DESC);
-  $this->db->where('semester !=','FIRSTx');
-  $this->db->where('semester !=','SECONDx');
-  $query = $this->db->get();
-  return $query->result_array();	 
-                               
-}
-   ///GET School Year
-public function Get_sy(){
-  $this->db->select('schoolyear');
-  $this->db->from('Fees_Enrolled_College');
-  $this->db->Order_by('schoolyear',DESC);
-  $this->db->group_by('schoolyear');
-  $query = $this->db->get();
-  return $query->result_array();	                            
-}
+
+  public function Get_Legend()
+  {
+    $this->db->select('*');
+    $this->db->from('Legend');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
 
 
-public function Get_enrolled($array){
+  public function Get_sem()
+  {
+    $this->db->select('semester');
+    $this->db->from('Fees_Enrolled_College');
+    $this->db->group_by('Semester', 'DESC');
+    $this->db->where('semester !=', 'FIRSTx');
+    $this->db->where('semester !=', 'SECONDx');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  ///GET School Year
+  public function Get_sy()
+  {
+    $this->db->select('schoolyear');
+    $this->db->from('Fees_Enrolled_College');
+    $this->db->Order_by('schoolyear', 'DESC');
+    $this->db->group_by('schoolyear');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
 
-  $this->db->select('
+
+  public function Get_enrolled($array)
+  {
+
+    $this->db->select('
   A.Student_Number,
   A.AdmittedSY,
   A.AdmittedSEM,
@@ -89,70 +93,66 @@ public function Get_enrolled($array){
   I.`Room`,
   J.Instructor_Name
    ');
-  $this->db->from('Student_Info AS A');
-  $this->db->join('EnrolledStudent_Subjects AS B', 'B.Reference_Number = A.Reference_Number', 'INNER');
-  $this->db->join('Fees_Enrolled_College AS C', 'C.Reference_Number = B.Reference_Number' ,'LEFT');
-  $this->db->join('Sched AS D', 'B.Sched_Code = D.Sched_Code','LEFT');
-  $this->db->join('`Sections` AS E', 'E.Section_ID = D.Section_ID','LEFT');
-//  $this->db->join('`Legend` AS F', 'D.SchoolYear = F.School_Year AND `D`.`Semester` = `F`.`Semester` ','LEFT');
-  $this->db->join('`Subject` AS G', 'G.Course_Code = D.Course_Code','LEFT');
-  $this->db->join('`Sched_Display` AS H', 'H.Sched_Code = D.Sched_Code','LEFT');
-  $this->db->join('`Room` AS I', 'H.RoomID = I.ID','LEFT');
-  $this->db->join('`Instructor` AS J', 'J.ID = `D`.`Instructor_ID`','LEFT');
-  $this->db->join('`Program_Majors` AS K', '`K`.`ID` = `A`.`Major`','LEFT');
-  $this->db->join('`Time` AS `L`', '`H`.`Start_Time` = `L`.`Time_From`','LEFT');
-  $this->db->join('`Time` AS `L2`', '`H`.`End_Time` = `L2`.`Time_To`','LEFT');
-  $this->db->where('B.Semester = ',  $array['sem']);
-  $this->db->where('B.School_Year = ', $array['sy']);
-  $this->db->where('C.semester = ',  $array['sem']);
-  $this->db->where('C.SchoolYear = ', $array['sy']);
-  //$this->db->where('A.Student_Number = ', $array['student_num']);
-  $this->db->group_start();
-  $this->db->where('A.Student_Number = ', $array['student_num']);
-  $this->db->or_where('A.Reference_Number = ', $array['student_num']);
-  $this->db->group_end();
-  $this->db->where('A.Student_Number != ','0');
-  $this->db->where('B.Cancelled = ','0');
-  $this->db->where('B.Dropped = ','0');
-  $this->db->where('B.Charged = ','0');
-  $this->db->where('D.Valid = ','1');
-  $this->db->order_by('D.Sched_Code','ASC');
-  $this->db->group_by('D.Sched_Code');
-  $query = $this->db->get();
+    $this->db->from('Student_Info AS A');
+    $this->db->join('EnrolledStudent_Subjects AS B', 'B.Reference_Number = A.Reference_Number', 'INNER');
+    $this->db->join('Fees_Enrolled_College AS C', 'C.Reference_Number = B.Reference_Number', 'LEFT');
+    $this->db->join('Sched AS D', 'B.Sched_Code = D.Sched_Code', 'LEFT');
+    $this->db->join('`Sections` AS E', 'E.Section_ID = D.Section_ID', 'LEFT');
+    //  $this->db->join('`Legend` AS F', 'D.SchoolYear = F.School_Year AND `D`.`Semester` = `F`.`Semester` ','LEFT');
+    $this->db->join('`Subject` AS G', 'G.Course_Code = D.Course_Code', 'LEFT');
+    $this->db->join('`Sched_Display` AS H', 'H.Sched_Code = D.Sched_Code', 'LEFT');
+    $this->db->join('`Room` AS I', 'H.RoomID = I.ID', 'LEFT');
+    $this->db->join('`Instructor` AS J', 'J.ID = `D`.`Instructor_ID`', 'LEFT');
+    $this->db->join('`Program_Majors` AS K', '`K`.`ID` = `A`.`Major`', 'LEFT');
+    $this->db->join('`Time` AS `L`', '`H`.`Start_Time` = `L`.`Time_From`', 'LEFT');
+    $this->db->join('`Time` AS `L2`', '`H`.`End_Time` = `L2`.`Time_To`', 'LEFT');
+    $this->db->where('B.Semester = ',  $array['sem']);
+    $this->db->where('B.School_Year = ', $array['sy']);
+    $this->db->where('C.semester = ',  $array['sem']);
+    $this->db->where('C.SchoolYear = ', $array['sy']);
+    //$this->db->where('A.Student_Number = ', $array['student_num']);
+    $this->db->group_start();
+    $this->db->where('A.Student_Number = ', $array['student_num']);
+    $this->db->or_where('A.Reference_Number = ', $array['student_num']);
+    $this->db->group_end();
+    $this->db->where('A.Student_Number != ', '0');
+    $this->db->where('B.Cancelled = ', '0');
+    $this->db->where('B.Dropped = ', '0');
+    $this->db->where('B.Charged = ', '0');
+    $this->db->where('D.Valid = ', '1');
+    $this->db->order_by('D.Sched_Code', 'ASC');
+    $this->db->group_by('D.Sched_Code');
+    $query = $this->db->get();
 
-  if($query->num_rows()> 0){
-    return $query->result();
- }else{
-    return $query->result();
- }
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    } else {
+      return $query->result();
+    }
+  }
 
+
+  public function Drop_Subject($array)
+  {
+
+    $this->db->set('Dropped', '1');
+    $this->db->where('Student_Number', $array['sn']);
+    $this->db->where('ID', $array['sc']);
+    $this->db->update('EnrolledStudent_Subjects');
+
+    $query_log = $this->db->last_query();
+    return $query_log;
+  }
+
+  public function Charged_Subject($array)
+  {
+    $this->db->set('Dropped', '1');
+    $this->db->set('Charged', '1');
+    $this->db->where('Student_Number', $array['sn']);
+    $this->db->where('ID', $array['sc']);
+    $this->db->update('EnrolledStudent_Subjects');
+
+    $query_log = $this->db->last_query();
+    return $query_log;
+  }
 }
-
-
-public function Drop_Subject($array)
-{
-
- $this->db->set('Dropped', '1');
- $this->db->where('Student_Number',$array['sn']);
- $this->db->where('ID',$array['sc']);
- $this->db->update('EnrolledStudent_Subjects');
-
- $query_log = $this->db->last_query();
- return $query_log;
-}
-
-public function Charged_Subject($array)
-{
- $this->db->set('Dropped', '1');
- $this->db->set('Charged', '1');
- $this->db->where('Student_Number',$array['sn']);
- $this->db->where('ID',$array['sc']);
- $this->db->update('EnrolledStudent_Subjects');
-
- $query_log = $this->db->last_query();
- return $query_log;
-}
-
-
-}
-?>

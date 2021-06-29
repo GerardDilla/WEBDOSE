@@ -2435,7 +2435,7 @@ class Registrar extends MY_Controller
     $sc = '';
     foreach ($this->data['Sdata'] as $row) {
       if ($sc != $row['Sched_Code']) {
-        $this->data['Student_units'] = $this->data['Student_units'] + ($row['Course_Lab_Unit'] + $row['Course_Lec_Unit']);
+        $this->data['Student_units'] = intval($this->data['Student_units']) + ($row['Course_Lab_Unit'] + $row['Course_Lec_Unit']);
       }
       $sc = $row['Sched_Code'];
     }
@@ -3535,13 +3535,21 @@ class Registrar extends MY_Controller
 
     $this->data['data']   = $this->ChangeSection_Model->Get_enrolled($array);
 
+
+    if ($array['student_num'] != '') {
+      if (empty($this->data['data'])) {
+        $this->session->set_flashdata('nosn', 'Filter entered did not find any records');
+      } else {
+        unset($_SESSION['nosn']);
+      }
+    }
+
     foreach ($this->data['data'] as $row) {
 
       $Course = $row->Course;
     }
     $this->data['get_TotalCountSubject']        = $this->ChangeSection_Model->Get_CountSubject_enrolled($array);
     $this->data['section']                      = $this->ChangeSection_Model->get_section($Course);
-
 
     $this->render($this->set_views->Change_Section());
   }
@@ -3617,7 +3625,6 @@ class Registrar extends MY_Controller
       $Major = '0';
     }
 
-
     $count = 0;
     $insert = array();
 
@@ -3637,8 +3644,14 @@ class Registrar extends MY_Controller
     $insert['Cancelled']         = '0';
     $insert['Charged']           = '0';
 
+    // echo "<pre>";
+    // echo json_encode($insert, JSON_PRETTY_PRINT) . '<hr>';
+    // echo "</pre>";
 
     foreach ($echoSchedCode  as $row) {
+
+
+      // echo $row . '<br>';
 
       $insert['Sched_Code'] = $row;
       $insert['Sched_Display_ID'] = $echoSchedID[$count];
@@ -3649,6 +3662,7 @@ class Registrar extends MY_Controller
       //Logs
       $this->Others_Model->insert_logs($this->array_logs);
     }
+    // die();
   }
 
 
@@ -3806,6 +3820,10 @@ class Registrar extends MY_Controller
       'fees_enrolled_college_id' => $array_student_data[0]['fees_enrolled_college_id'],
       'date' => $this->date
     );
+    // echo '<pre>';
+    // echo json_encode($array_data);
+    // echo '</pre>';
+    // die();
 
     $array_computed_fees = $this->get_fee($array_student_data);
     if (!$array_computed_fees) {
@@ -3839,6 +3857,7 @@ class Registrar extends MY_Controller
 
     //update student fee
     $array_update_fee = array(
+      'course' => $array_data['program_code'],
       'tuition_Fee' => $array_computed_fees['tuition_fee'],
       'InitialPayment' => $array_data['initial_payment'],
       'First_Pay' => $array_data['first_payment'],
