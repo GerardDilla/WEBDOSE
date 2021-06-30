@@ -35,6 +35,11 @@ class Student_Model extends CI_Model {
         $query = $this->db->get('Student_Info');
         return $query->row_array();
     }
+    public function getStudentInfoByRefNo($ref_no){
+        $this->db->where('Reference_Number',$ref_no);
+        $query = $this->db->get('Student_Info');
+        return $query->row_array();
+    }
     public function inset_soa_due_data($array_data)
     {
         $this->db->trans_start();
@@ -61,5 +66,9 @@ class Student_Model extends CI_Model {
         $query = $this->db->get();
         $output = $query->result_array();
         return $output[0];
+    }
+
+    public function insertWebDoseLogs($data){
+        $this->db->insert('web_dose_logs',$data);
     }
 }

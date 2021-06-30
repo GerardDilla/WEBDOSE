@@ -1,0 +1,529 @@
+body{
+  font-family: 'Montserrat', sans-serif;
+  /* background: red; */
+  background-attachment: fixed;
+  /* background-color:red; */
+  /* color:red; */
+}
+  .login-page .form-holder .form form{
+    max-width:100%;
+  }
+  .title-content{
+    width:100%;
+    display: flex;
+    align-items: center;
+  }
+  .logo-white{
+    /* height:110px;  */
+    margin:none;
+    width:100%;
+    max-width: 100%;
+    /* position: absolute; */
+    /* top:50%;
+    left:50%; */
+    height:100%;
+    /* transform:translate(-50%,-50%) */
+    /* top: 20%; */
+    /* margin:0 auto; */
+    /* object-fit: none; */
+    /* object-position: 50% 50%; */
+  }
+  .main-title{
+    position:absolute;
+    top:50%;
+  }
+  .login-page .form-holder .info{
+    /* background-color:#e57373; */
+    background-color:transparent;
+  }
+  .bg-white{
+    background-color:#f4f4f4!important;
+  }
+  /* .form.d-flex{
+    background-color:transparent;
+  } */
+  .form-holder.has-shadow{
+    border-radius:0;
+    margin:0 0 0 0;
+    /* height:100vh; */
+    /* background:url('img/white.png'); */
+    /* -webkit-box-shadow: 2px 2px 4px rgba(0,0,0,0.5);  
+    -moz-box-shadow:    2px 2px 4px rgba(0,0,0,0.5);  
+    box-shadow:         2px 2px 4px rgba(0,0,0,0.5); */
+
+  }
+  .first_row{
+    background:url('img/DoseBg.jpg');
+    background-repeat: no-repeat;
+    /* background-size: cover; */
+    /* background-position: center center; */
+    background-size: cover;
+
+    /* max-height:150px; */
+    height:100%;
+    /* margin:0px 0px 0px 0px; */
+    /* m-height:150px; */
+  }
+  
+  input.input-material:focus{
+    color:black;
+    border-color:black;
+  }
+  input.input-material{
+    border-color:#85b4f2;
+  }
+  input.input-material ~ label.active{
+    color:black;
+  }
+  
+  .second_row{
+    max-height:100vh;
+    border:4px solid maroon;
+  }
+  body{
+  font-family: 'Montserrat', sans-serif;
+  /* background-image: linear-gradient(#e66465, #9198e5); */
+  background-attachment: fixed;
+}
+.form.d-flex{
+  background-color:white;
+}
+h4.main-title .steps{
+    font-size:12px;
+}
+ul.password-validator li{
+    text-decoration: none;
+    color:#E03F35;
+}
+a{
+    text-decoration:none;
+    color:black;
+}
+a.btn-default:hover{
+    color:black;
+}
+.first_row{
+  margin:auto;
+}
+.content{
+  
+}
+.login-page::before{
+  color:black;
+}
+div.login-page{
+  /* background:url('img/red_bg1.png'); */
+  background:white;
+}
+input.input-material{
+  background:transparent;
+}
+
+
+.login-row .form.d-flex{
+  /* border:2px solid #E02424; */
+  background:transparent;
+  width:80%;
+  padding-bottom:0;
+  margin:1em auto 0 auto;
+  font-size:90%;
+}
+
+.login-row form.form-validate{
+  position:relative;
+  /* border:3px solid #E02424; */
+  padding:50px 20px 20px 20px;
+  margin-bottom:30px;
+  border-radius:10px;
+  margin-top:0px;
+  background:white;
+  /* overflow:hidden; */
+}
+.login-row{
+  position:relative;
+  /* background:red; */
+}
+.dose-logo{
+  width:20vw;
+  height:auto;
+  position:absolute;
+  z-index:1003;
+  top:12%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  padding-top:20px;
+  overflow:hidden;
+}
+.enrollment{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  font-size:3em;
+  font-weight:bold;
+  color:#E02424;
+  left:25%;
+  bottom:24%;
+}
+.made_easy{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  left:40%;
+  bottom:12%;
+  font-size:3em;
+  font-weight:bold;
+  background:#E02424;
+  color:white;
+  padding:0 4px 0 4px;
+}
+
+/* a.forgot-pass{
+  color:red;
+} */
+.login-page .form-holder .form a.forgot-pass{
+  color:red;
+}
+.white-box{
+  overflow:hidden;
+  position:absolute;
+  transform:translate(-50%,-50%);
+  top:-2px;
+  left:50%;
+  height:5px;
+  width:250px;
+  /* background:white; */
+}
+.container{
+  margin:0 0 0 0;
+  padding:0 0 0 0;
+}
+.page.login-page{
+  /* height:100vh; */
+}
+
+.form-holder .row.bg-white{
+  height:100vh;
+  width:100vw;
+  margin:0px 0px 0px 0px;
+}
+.container.form.d-flex.align-items-center{
+  margin-right:0;
+}
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+span.show-password{
+  position:absolute;
+  right:15px;
+  transform:translate(0,-50%);
+  top:50%;
+  cursor:pointer;
+}
+span.show-password:hover{
+color:#85b4f2
+}
+/* .second_row{
+  background:red;
+} */
+.admin-dashboard{
+  padding:10px;
+  background:maroon;
+  color:white;
+  font-size:2em;
+  margin-top:180px;
+  margin-bottom:30px;
+  margin-right:0;
+  font-weight:bold;
+  text-align:center;
+}
+.login-page .form-holder .info, .login-page .form-holder .form{
+  padding:10px;
+}
+@media (pointer:none), (pointer:coarse) {
+  .first_row{
+    display:none;
+  }
+  #modal.my_modal{
+      max-width:100%;
+      width:100%;
+  }
+  /* .login-page .form-holder .info{
+    height:300px;
+  }
+  .first_row{
+    width:100%;
+    max-height:300px;
+  }
+  .second_row{
+    width:100%;
+    margin:0;
+  }
+  .main-title{
+    margin-top:10%;
+    padding-bottom:20%;
+    top:30%;
+  }
+  .logo-white{
+  } */
+}
+@media screen and (max-width: 2000px) {
+  #modal.my_modal{
+      max-width:100%;
+      width:45%;
+  }
+}
+@media screen and (max-width: 1091px) {
+  .enrollment{
+    font-size:2em;
+  }
+  .made_easy{
+    font-size:2em;
+  }
+  #modal.my_modal{
+      max-width:45%;
+      width:45%;
+  }
+  .main-title{
+    margin-top:10%;
+    padding-bottom:20%;
+    top:30%;
+  }
+  .logo-white{
+    
+  }
+}
+/* @media screen and (max-width: 992px) {
+
+} */
+@media screen and (max-width: 702px) {
+  .enrollment{
+    font-size:1.5em;
+  }
+  .made_easy{
+    font-size:1.5em;
+  }
+}
+@media screen and (max-width: 573px) {
+  .admin-dashboard{
+    margin-top:150px;
+  }
+  .second_row{
+    max-height:100vh;
+  }
+  .dose-logo{
+    width:200px;
+    height:auto;
+  }
+  .form-holder .row.bg-white{
+    height:auto;
+  }
+  .login-page .form-holder .info, .login-page .form-holder .form{
+    height:1000px;
+  }
+  #modal.my_modal{
+    max-width:100%;
+    width:100%;
+  }
+  .logo-white{
+    height:80px; 
+    width:auto;
+  }
+}
+@media screen and (max-width: 475px) {
+  .admin-dashboard{
+    margin-top:140px;
+  }
+  .white-box{
+    width:180px;
+  }
+  .login-row .form.d-flex{
+  width:100%;
+  }
+  .main-title.h2{
+    font-size:14%;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .admin-dashboard{
+    /* margin-top:140px; */
+    font-size:1.3em;
+  }
+  span.show-password{
+    right:1px;
+  }
+  .login-page .container{
+    padding:0;
+  }
+}
+@media screen and (max-width: 280px) {
+  /* h1{
+    color:red;
+  } */
+  .dose-logo{
+    width:150px;
+    height:auto;
+  }
+  .white-box{
+    width:150px;
+  }
+  .logo-white{
+    height:65px;
+    width:auto;
+  }
+  .login-row .form.d-flex{
+    width:100%;
+  }
+}
+@media screen and (min-width:992px){
+  .container{
+    max-width:100%;
+  }
+  /* .page.login-page{
+    height:100vh;
+  } */
+}
+@media (min-width: 768px){
+  .container {
+      max-width: 100%;
+  }
+}
+@media (min-width: 576px){
+  .container {
+      max-width: 100%;
+  }
+}
+@media only screen and (device-width: 768px) {
+  /* For general iPad layouts */
+  .first_row{
+    display:block;
+  }
+  .form-holder .row.bg-white{
+    height:auto;
+  }
+  .page.login-page {
+    /* height:1000px; */
+  }
+  .first_row{
+    height: 50vh;
+    max-height:50vh;
+  }
+  .second_row{
+    max-height:600px;
+  }
+}
+@media only screen and (device-width: 375px) {
+  .admin-dashboard{
+    margin-top:160px;
+  }
+}
+@media only screen and (device-width: 411px) {
+  .admin-dashboard{
+    margin-top:150px;
+  }
+}
+@media only screen and (device-width: 1024px) {
+  /* For general iPad layouts */
+  .first_row{
+    display:block;
+  }
+  .enrollment{
+    font-size:3em;
+  }
+  
+  .made_easy{
+    font-size:3em;
+  }
+  /* .first_row{
+    height: 69vh;
+  }
+  .second_row{
+    height:500px;
+  } */
+  /* h1{
+    color:blue;
+  } */
+  .form-holder .row.bg-white{
+    height:auto;
+  }
+  .page.login-page {
+    /* height:1300px; */
+  }
+  .first_row{
+    height: 60vh;
+    /* max-height:65vh; */
+  }
+  .second_row{
+    max-height:600px;
+  }
+  /* .form-holder .row.bg-white{
+    height:1000px;
+  } */
+  
+}
+@media only screen  and  (device-height: 768px) and (device-width: 1024px) {
+  /* h1{color:green} */
+  .login-page .container{
+    height:auto;
+  }
+  .page.login-page{
+    height:768px;
+  }
+  .made_easy{
+    font-size: 2em;
+  }
+}
+@media only screen  and  (device-height: 375px) and (device-width: 812px) {
+  .page.login-page{
+    height:600px;
+  }
+  .login-page .container{
+    height:auto;
+  }
+  .first_row{
+    margin:0;
+  }
+  .second_row{
+    height:600px;
+  }
+  .form-holder .row.bg-white{
+    height:600px;
+  }
+}
+@media only screen  and  (device-height: 360px) and (device-width: 640px) {
+  .page.login-page{
+    height:400px;                                                                                                                   00px;
+  }
+  .login-page .container{
+    height:auto;
+  }
+  .first_row{
+    margin:0;
+  }
+  .second_row{
+    height:600px;
+    font-size: 70%;
+  }
+  .form-holder .row.bg-white{
+    height:auto;
+  }
+  .login-page .form-holder .info, .login-page .form-holder .form{
+    padding: 0px 40px 0px 40px;
+  }
+  .login-row .form.d-flex{
+    margin:0px auto 0px auto;
+  }
+}
+/* @media only screen and (device-width: 640px) {
+  .first_row{
+    height:50vh;
+    max-height: 50vh;
+    
+  }
+  .login-page .form-holder .info, .login-page .form-holder .form{
+    height:1500px;
+  }
+  .form-holder .row.bg-white{
+    height:auto;
+  }
+} */
+

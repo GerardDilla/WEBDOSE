@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+<<<<<<< HEAD
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -7,6 +8,9 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
 
+=======
+// require_once "vendor/autoload.php";
+>>>>>>> student-inquiry-module
 class Admission extends MY_Controller
 {
 
@@ -15,7 +19,12 @@ class Admission extends MY_Controller
   {
     parent::__construct();
     $this->load->library('set_views');
+<<<<<<< HEAD
     // $this->load->library("Excel");
+=======
+    $this->load->library("Excel");
+    $this->load->library('Phpword');
+>>>>>>> student-inquiry-module
     $this->load->library('form_validation');
     $this->load->model('Admission_Model/Basiced_Inquiry_Model');
     $this->load->model('Admission_Model/Shs_Model');
@@ -1370,17 +1379,12 @@ class Admission extends MY_Controller
   //* Enrollment tracker get all report
   public function Enrollment_Summary_Report()
   {
-    // $this->data['get_sy']      = $this->Inquiry_Reports_Model->Select_Legends()->result_array();
-    // $this->data['get_course']  = $this->Inquiry_Reports_Model->Select_Course();
-    // foreach($this->data['get_sy'] as $row)  {
-    //   $this->data['schoolyear']  =  $row['SchoolYear'];
-    //   $this->data['semester'] =  $row['Semester'];
-    // }
     $array = array(
       'sy' => $this->input->post('sy'),
       'sem' => $this->input->post('sem'),
       'course' => $this->input->post('course'),
     );
+
     // $this->data['get_sy'][0]['SchoolYear'];
     if (isset($array['sy']) || isset($array['sy']) || isset($array['sy'])) {
       $this->data['Enrollment_Summary_Report_List'] = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Report_List($array);
@@ -1706,5 +1710,430 @@ class Admission extends MY_Controller
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="' . $tab . '_Student_Data.xls"');
     $object_writer->save('php://output');
+  }
+
+  // public function single_search_summary()
+  // {
+  //   $data = $this->input->post('search_text');
+  //   $single_search = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Like_Search($data);
+  //   echo json_encode($single_search);
+  // }
+
+  // public function single_search_inquiry()
+  // {
+  //   $data = $this->input->post('search_text');
+  //   $single_search = $this->Enrollment_Tracker_Report_Model->Inquiry_List_Like_Search($data);
+  //   echo json_encode($single_search);
+  // }
+
+  // public function single_search_advised()
+  // {
+  //   $data = $this->input->post('search_text');
+  //   $single_search = $this->Enrollment_Tracker_Report_Model->Advised_List_Like_Search($data);
+  //   echo json_encode($single_search);
+  // }
+
+  // public function single_search_reserved()
+  // {
+  //   $data = $this->input->post('search_text');
+  //   $single_search = $this->Enrollment_Tracker_Report_Model->Highered_Reserved_Like_Search($data);
+  //   echo json_encode($single_search);
+  // }
+
+  // public function single_search_enrolled()
+  // {
+  //   $data = $this->input->post('search_text');
+  //   $single_search = $this->Enrollment_Tracker_Report_Model->Enrolled_Student_List_Like_Search($data);
+  //   echo json_encode($single_search);
+  // }
+
+
+  // public function Count_Tally(){
+  //   // $array = array(
+  //   //   'from' => '2021-01-01',
+  //   //   'to' => '2021-12-30'
+  //   // );
+  //   $array = array(
+  //     'from' => $this->input->post('from'),
+  //     'to' => $this->input->post('to')
+  //   );
+  //   $transactions = $this->Enrollment_Tracker_Report_Model->Get_Transaction_log($array);
+  //   $programs = $this->Enrollment_Tracker_Report_Model->Get_All_Programs();
+  //   $program_array = array();
+  //   foreach($programs as $program ){
+  //     $counting = 0;
+  //     foreach($transactions as $transaction){
+  //       if($program['Program_Code'] == $transaction['Course']){
+  //         $counting +=1;
+  //       }
+  //     }
+  //     $program_array[$program['Program_Code']][]= $counting;
+  //   }
+  //   die(json_encode($program_array));
+  // }
+  // Enrollment Tally Report Landing page
+  public function Enrollment_Tally_Report()
+  {
+    // $this->data['get_sy'] = $this->Inquiry_Reports_Model->Select_Legends()->result_array();
+    $this->data['get_course']  = $this->Inquiry_Reports_Model->Select_Course();
+    $this->data['get_province'] = $this->Enrollment_Tracker_Report_Model->Get_All_Province();
+
+    $this->render($this->set_views->Enrollment_Tally_Report());
+  }
+
+  public function Count_Program_Tally()
+  {
+    // $array = array(
+    //   'sy' => '2019-2020',
+    //   'sem' => '0',
+    //   'course' => '',
+    // );
+    $array = array(
+      'sy' => $this->input->post('sy'),
+      'sem' => $this->input->post('sem'),
+      // 'course' => $this->input->post('course'),
+    );
+    $program_array = $this->Program_Tally($array);
+    echo json_encode($program_array);
+  }
+
+  public function Program_Tally($array)
+  {
+    $students = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Report_List($array);
+    $reserved_students = $this->Enrollment_Tracker_Report_Model->Highered_Reserved($array);
+    // die(json_encode($students));
+    $programs = $this->Enrollment_Tracker_Report_Model->Get_All_Programs();
+    $program_array = array();
+    foreach ($programs as $program) {
+      $inquiry_count = 0;
+      $advising_count = 0;
+      $reserved_count = 0;
+      $enrolled_count = 0;
+      foreach ($students as $student) {
+        if ($program['Program_Code'] == $student['Course_1st']) {
+          $inquiry_count += 1;
+          // }
+          // if ($program['Program_Code'] == $student['Course']) {
+          if ($student['Ref_Num_fec'] != null && $student['Ref_Num_si'] != null && $student['Ref_Num_ftc'] != null) {
+            $enrolled_count += 1;
+          }
+          if ($student['Ref_Num_ftc'] != null) {
+            $advising_count += 1;
+          }
+        }
+      }
+      foreach ($reserved_students as $reserved_student) {
+        if ($program['Program_Code'] == $reserved_student['Course_1st']) {
+          $reserved_count += 1;
+        }
+      }
+      $counted_array = array($inquiry_count, $advising_count, $reserved_count, $enrolled_count);
+
+      $program_array[$program['Program_Code']][] = $counted_array;
+    }
+    // die(json_encode($students));
+    return $program_array;
+  }
+  public function Count_City_Tally()
+  {
+    $array = array(
+      'sy' => $this->input->post('sy'),
+      'sem' => $this->input->post('sem'),
+    );
+    $students = $this->Enrollment_Tracker_Report_Model->City_Tally($array);
+    echo json_encode($students);
+  }
+
+  public function Program_Word_Export($sy, $sem)
+  {
+    // die('asdsad');
+    $array = array(
+      'sy' => $sy,
+      'sem' => $sem,
+    );
+    $program_tally = $this->Program_Tally($array);
+    // die(json_encode($program_tally));
+    $phpWord = new \PhpOffice\PhpWord\PhpWord();
+    // $phpWord->getCompatibility()->setOoxmlVersion(14);
+    // $phpWord->getCompatibility()->setOoxmlVersion(15);
+    $section = $phpWord->addSection();
+    $center_align = array(
+      'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER
+    );
+    $bold_text = array(
+      'name' => 'Arial',
+      'size' => 12,
+      'bold' => true,
+    );
+    $table_header = array(
+      'name' => 'Arial',
+      'size' => 9,
+      'bold' => true,
+    );
+    $table_body = array(
+      'name' => 'Arial',
+      'size' => 9,
+      // 'bold' => true,
+    );
+    $tableStyle = [
+      // 'borderSize' => 6,
+      'align' => 'center'
+    ];
+    $cell_tableStyle = [
+      'borderSize' => 6,
+    ];
+    $table_header_bottom = [
+      // 'borderTopSize' => 6,
+      'borderRightSize' => 6,
+      'borderBottomSize' => 6,
+      'borderLeftSize' => 6,
+      'gridSpan' => 5
+    ];
+    $table_header_top = [
+      'borderTopSize' => 6,
+      'borderRightSize' => 6,
+      // 'borderBottomSize' => 6,
+      'borderLeftSize' => 6,
+      'gridSpan' => 5
+    ];
+    $date_today = date("F j, Y");
+
+    // $image = $section->addTable();
+    $image = $section->addHeader();
+    $image = $image->addTable();
+    $image->addRow();
+    // $table->addCell(4500)->addText('This is the header.');
+    $image->addCell(5000)->addImage(
+      base_url() . '/img/word_header.jpg',
+      array(
+        'width'  => 450,
+        'height' => 60,
+        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER
+      )
+    );
+    // $table->addRow();
+
+    $section->addText(
+      'ENROLLMENT STATUS REPORT',
+      $bold_text,
+      $center_align
+    );
+
+    $section->addText(
+      'As of ' . $date_today,
+      array(
+        'name' => 'Arial',
+        'size' => 10
+      ),
+      $center_align
+    );
+
+    $phpWord->addTableStyle('myTable', $tableStyle);
+    $table = $section->addTable(
+      'myTable'
+    );
+
+    $cellRowSpan = array('vMerge' => 'restart');
+    $cellRowContinue = array('vMerge' => 'continue');
+    $cellColSpan = array('gridSpan' => 2);
+
+    $table->addRow();
+    $table_title_top = 'Higher Education AY ' . $array['sy'];
+    $table->addCell(null, $table_header_top)->addText($table_title_top, $bold_text, $center_align);
+
+    $table->addRow();
+    if ($array['sem'] == 'FIRST') {
+      $table_title_bottom = ' 1st Semester';
+    } else if ($array['sem'] == 'SECOND') {
+      $table_title_bottom = ' 2nd Semester';
+    } else {
+      $table_title_bottom = ' Summer';
+    }
+    $table->addCell(null, $table_header_bottom)->addText($table_title_bottom, array(
+      'name' => 'Arial',
+      'size' => 10
+    ), $center_align);
+
+    $table->addRow();
+    $table->addCell(3000, $cell_tableStyle)->addText('Course', $table_header, $center_align);
+    $table->addCell(3000, $cell_tableStyle)->addText('Inquiry', $table_header, $center_align);
+    $table->addCell(3000, $cell_tableStyle)->addText('Advising', $table_header, $center_align);
+    $table->addCell(3000, $cell_tableStyle)->addText('Reserved', $table_header, $center_align);
+    $table->addCell(3000, $cell_tableStyle)->addText('Enrolled', $table_header, $center_align);
+    $total_inquiry = 0;
+    $total_advising = 0;
+    $total_reserved = 0;
+    $total_enrolled = 0;
+    foreach ($program_tally as $key => $product) {
+      $table->addRow();
+      $table->addCell(3000, $cell_tableStyle)->addText($key, $table_body, $center_align);
+      $table->addCell(3000, $cell_tableStyle)->addText($product[0][0], $table_body, $center_align);
+      $table->addCell(3000, $cell_tableStyle)->addText($product[0][1], $table_body, $center_align);
+      $table->addCell(3000, $cell_tableStyle)->addText($product[0][2], $table_body, $center_align);
+      $table->addCell(3000, $cell_tableStyle)->addText($product[0][3], $table_body, $center_align);
+      $total_inquiry += $product[0][0];
+      $total_advising += $product[0][1];
+      $total_reserved += $product[0][2];
+      $total_enrolled += $product[0][3];
+    }
+    $table->addRow();
+    $table->addCell(3000, $cell_tableStyle)->addText('Total', $table_header, $center_align);
+    $table->addCell(3000, $cell_tableStyle)->addText($total_inquiry, $table_body, $center_align);
+    $table->addCell(3000, $cell_tableStyle)->addText($total_advising, $table_body, $center_align);
+    $table->addCell(3000, $cell_tableStyle)->addText($total_reserved , $table_body, $center_align);
+    $table->addCell(3000, $cell_tableStyle)->addText($total_enrolled, $table_body, $center_align);
+    // header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    // header('Expires: 0');
+    // header("Cache-Control: public");
+    // header("Content-Description: File Transfer");
+    // header("Content-Transfer-Encoding: binary");
+    // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Content-Disposition: attachment;filename="PROGRAMS-ENROLLMENT-STATUS-REPORT.docx"');
+    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+    $objWriter->save('php://output');
+    exit;
+  }
+
+  public function City_Word_Export($sy, $sem)
+  {
+    // die('asdsad');
+    $array = array(
+      'sy' => $sy,
+      'sem' => $sem,
+      // 'course' => $this->input->post('course'),
+    );
+    // $array = array(
+    //   'sy' => '2021-2022',
+    //   'sem' => 'FIRST',
+    //   // 'course' => $this->input->post('course'),
+    // );
+    $city_tally = $this->Enrollment_Tracker_Report_Model->City_Tally($array);
+    // die(json_encode($program_tally));
+    $phpWord = new \PhpOffice\PhpWord\PhpWord();
+    // $phpWord->getCompatibility()->setOoxmlVersion(14);
+    // $phpWord->getCompatibility()->setOoxmlVersion(15);
+    $section = $phpWord->addSection();
+    $center_align = array(
+      'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER
+    );
+    $bold_text = array(
+      'name' => 'Arial',
+      'size' => 12,
+      'bold' => true,
+    );
+    $table_header = array(
+      'name' => 'Arial',
+      'size' => 9,
+      'bold' => true,
+    );
+    $table_body = array(
+      'name' => 'Arial',
+      'size' => 9,
+      // 'bold' => true,
+    );
+    $tableStyle = [
+      // 'borderSize' => 6,
+      'align' => 'center'
+    ];
+    $cell_tableStyle = [
+      'borderSize' => 6,
+    ];
+    $table_header_bottom = [
+      // 'borderTopSize' => 6,
+      'borderRightSize' => 6,
+      'borderBottomSize' => 6,
+      'borderLeftSize' => 6,
+      'gridSpan' => 5
+    ];
+    $table_header_top = [
+      'borderTopSize' => 6,
+      'borderRightSize' => 6,
+      // 'borderBottomSize' => 6,
+      'borderLeftSize' => 6,
+      'gridSpan' => 5
+    ];
+    $date_today = date("F j, Y");
+
+    $image = $section->addHeader();
+    $image = $image->addTable();
+    $image->addRow();
+    // $table->addCell(4500)->addText('This is the header.');
+    $image->addCell(5000)->addImage(
+      base_url() . '/img/word_header.jpg',
+      array(
+        'width'  => 450,
+        'height' => 60,
+        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER
+      )
+    );
+    // $table->addRow();
+
+    $section->addText(
+      'TOP 10 CITIES REPORT',
+      $bold_text,
+      $center_align
+    );
+
+    $section->addText(
+      'As of ' . $date_today,
+      array(
+        'name' => 'Arial',
+        'size' => 10
+      ),
+      $center_align
+    );
+
+    $phpWord->addTableStyle('myTable', $tableStyle);
+    $table = $section->addTable(
+      'myTable'
+    );
+
+    $cellRowSpan = array('vMerge' => 'restart');
+    $cellRowContinue = array('vMerge' => 'continue');
+    $cellColSpan = array('gridSpan' => 2);
+
+    $table->addRow();
+    $table_title_top = 'Higher Education AY ' . $array['sy'];
+    $table->addCell(null, $table_header_top)->addText($table_title_top, $bold_text, $center_align);
+
+    $table->addRow();
+    if ($array['sem'] == 'FIRST') {
+      $table_title_bottom = ' 1st Semester';
+    } else if ($array['sem'] == 'SECOND') {
+      $table_title_bottom = ' 2nd Semester';
+    } else {
+      $table_title_bottom = ' Summer';
+    }
+    $table->addCell(null, $table_header_bottom)->addText($table_title_bottom, array(
+      'name' => 'Arial',
+      'size' => 10
+    ), $center_align);
+
+    $table->addRow();
+    $table->addCell(3000, $cell_tableStyle)->addText('City', $table_header, $center_align);
+    $table->addCell(3000, $cell_tableStyle)->addText('Inquiry', $table_header, $center_align);
+    $total_inquiry = 0;
+    foreach ($city_tally as $tally) {
+      $table->addRow();
+      $table->addCell(3000, $cell_tableStyle)->addText($tally['Address_City'], $table_body, $center_align);
+      $table->addCell(3000, $cell_tableStyle)->addText($tally['count_student'], $table_body, $center_align);
+      $total_inquiry += $tally['count_student'];
+    }
+    $table->addRow();
+    $table->addCell(3000, $cell_tableStyle)->addText('Total', $table_header, $center_align);
+    $table->addCell(3000, $cell_tableStyle)->addText($total_inquiry, $table_body, $center_align);
+    // header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    // header('Expires: 0');
+    // header("Cache-Control: public");
+    // header("Content-Description: File Transfer");
+    // header("Content-Transfer-Encoding: binary");
+    // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    $file_name = '';
+    header('Content-Disposition: attachment;filename="CITIES-ENROLLMENT-STATUS-REPORT.docx"');
+    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+    $objWriter->save('php://output');
+    exit;
   }
 }//end class

@@ -36,17 +36,14 @@ class Fees_Model extends CI_Model
         $this->db->trans_start();
         $this->db->insert('ReservationFee', $array_data);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE)
-        {
-                // generate an error... or use the log_message() function to log your error
-                $message = "fail to insert Reservation data";
-        }
-        else
-        {
+        if ($this->db->trans_status() === FALSE) {
+            // generate an error... or use the log_message() function to log your error
+            $message = "fail to insert Reservation data";
+        } else {
             $message = "Insert Reservation data Success";
-        } 
-        
-        
+        }
+
+
         // reset query
         #$this->db->reset_query();
 
@@ -71,7 +68,6 @@ class Fees_Model extends CI_Model
         #$this->db->reset_query();
 
         return $query->result_array();
-
     }
 
     public function get_payment_throughput_list($array_data)
@@ -151,17 +147,14 @@ class Fees_Model extends CI_Model
         $this->db->trans_start();
         $this->db->insert('EnrolledStudent_Refund', $array_data);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE)
-        {
-                // generate an error... or use the log_message() function to log your error
-                $message = "fail to insert Refund data";
-        }
-        else
-        {
+        if ($this->db->trans_status() === FALSE) {
+            // generate an error... or use the log_message() function to log your error
+            $message = "fail to insert Refund data";
+        } else {
             $message = "Insert refund sucessful";
-        } 
-        
-        
+        }
+
+
         // reset query
         #$this->db->reset_query();
 
@@ -172,17 +165,14 @@ class Fees_Model extends CI_Model
     {
         $this->db->trans_start();
         $this->db->insert_batch('EnrolledStudent_Payments_Throughput', $array_data);
-        $this->db->trans_complete(); 
-        if ($this->db->trans_status() === FALSE)
-        {
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE) {
             // generate an error... or use the log_message() function to log your error
             $message = "fail to insert Fees Throughput";
-        }
-        else
-        {
+        } else {
             $message = "Insert fees throughput sucessful";
-        } 
-        
+        }
+
         // reset query
         #$this->db->reset_query();
 
@@ -194,17 +184,14 @@ class Fees_Model extends CI_Model
         $this->db->trans_start();
         $this->db->insert('EnrolledStudent_Payments', $array_data);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE)
-        {
+        if ($this->db->trans_status() === FALSE) {
             // generate an error... or use the log_message() function to log your error
             $message = "fail to insert Student payment data";
-        }
-        else
-        {
+        } else {
             $message = "Insert student payment sucessful";
-        } 
-        
-        
+        }
+
+
         // reset query
         #$this->db->reset_query();
 
@@ -298,17 +285,14 @@ class Fees_Model extends CI_Model
         $this->db->where('ID', $reservation_id);
         $this->db->update('ReservationFee', $array_data);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE)
-        {
+        if ($this->db->trans_status() === FALSE) {
             // generate an error... or use the log_message() function to log your error
             $message = "fail to Update student HED Reservation(applied)";
-        }
-        else
-        {
+        } else {
             $message = "Update HED Reservation sucessful(applied)";
-        } 
-        
-        
+        }
+
+
         // reset query
         #$this->db->reset_query();
 
@@ -317,7 +301,7 @@ class Fees_Model extends CI_Model
 
     public function get_hed_remaining_balance()
     {
-        $sql ='
+        $sql = '
             SELECT 
             SUM(`TOTAL`) AS `TOTAL`,
             SUM(`PAID`) AS `PAID`,
@@ -366,7 +350,7 @@ class Fees_Model extends CI_Model
                 `fees`.`withdrawalfee` 
                 FROM
                 WithdrawInformation 
-                WHERE Student_Number = '.$this->db->escape($this->student_data->get_student_no()).'
+                WHERE Student_Number = ' . $this->db->escape($this->student_data->get_student_no()) . '
                 AND semester = `fees`.`semester` 
                 AND SchoolYear = `fees`.SchoolYear 
                 LIMIT 1)
@@ -386,7 +370,7 @@ class Fees_Model extends CI_Model
             INNER JOIN `Fees_Enrolled_College_Item` AS `FECI` 
                 ON `fees`.`id` = `FECI`.`Fees_Enrolled_College_Id` 
                 AND `FECI`.`valid` 
-            WHERE `fees`.`Reference_Number` = '.$this->db->escape($this->student_data->get_reference_no()).' 
+            WHERE `fees`.`Reference_Number` = ' . $this->db->escape($this->student_data->get_reference_no()) . ' 
             GROUP BY schoolyear,
             semester) a 
         GROUP BY schoolyear,
@@ -420,7 +404,7 @@ class Fees_Model extends CI_Model
 
     public function get_bed_remaining_balance()
     {
-        $sql ='
+        $sql = '
         SELECT 
         SUM(`TOTAL`) AS `TOTAL`,
         SUM(`PAID`) AS `PAID`,
@@ -458,7 +442,7 @@ class Fees_Model extends CI_Model
           LEFT JOIN Basiced_WithdrawInformation AS bed_withdraw 
             ON fees.`SchoolYear` = `bed_withdraw`.`SchoolYear` 
             AND `bed_withdraw`.`Student_Number` = fees.`Student_Number` 
-        WHERE `fees`.`Reference_Number` = '.$this->db->escape($this->student_data->get_reference_no()).' 
+        WHERE `fees`.`Reference_Number` = ' . $this->db->escape($this->student_data->get_reference_no()) . ' 
         GROUP BY schoolyear) a 
       GROUP BY schoolyear
         ';
@@ -540,20 +524,17 @@ class Fees_Model extends CI_Model
             TestMaterials, Cultural, ActivityMaterial, MovingUP, Wellness, TestPaper, DigitalCampus, StudentAthletesDevFund, FoundationWeekFee, AthleticFee, TurnItInFee,
             InternationalCertification, Immersion, LmsAndOtherOnlineResources, Journals, CompLab, ScienceLab, AVLab, Multimedia, RoboticsFee, Other1, Other2, Other3, Other4, Other5 
         FROM Basiced_EnrolledFees
-        WHERE id = ".$this->db->escape($enrolled_fees_id);
+        WHERE id = " . $this->db->escape($enrolled_fees_id);
         $query = $this->db->query($sql);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE)
-        {
+        if ($this->db->trans_status() === FALSE) {
             // generate an error... or use the log_message() function to log your error
             $message = "failed to Mirror bed enrolled fees";
-        }
-        else
-        {
+        } else {
             $message = "Mirror bed enrollment fees sucessful";
-        } 
-        
-        
+        }
+
+
         // reset query
         #$this->db->reset_query();
 
@@ -666,17 +647,14 @@ class Fees_Model extends CI_Model
         $this->db->trans_start();
         $this->db->insert('Basiced_ReservationFee', $array_data);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE)
-        {
-                // generate an error... or use the log_message() function to log your error
-                $message = "fail to insert BED Reservation data";
-        }
-        else
-        {
+        if ($this->db->trans_status() === FALSE) {
+            // generate an error... or use the log_message() function to log your error
+            $message = "fail to insert BED Reservation data";
+        } else {
             $message = "Insert Bed Reservation data Success";
-        } 
-        
-        
+        }
+
+
         // reset query
         #$this->db->reset_query();
 
@@ -700,23 +678,20 @@ class Fees_Model extends CI_Model
         return $query->result_array();
     }
 
-    
+
     public function insert_bed_refund($array_data)
     {
         $this->db->trans_start();
         $this->db->insert('Basiced_Refund', $array_data);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE)
-        {
-                // generate an error... or use the log_message() function to log your error
-                $message = "fail to insert Refund data";
-        }
-        else
-        {
+        if ($this->db->trans_status() === FALSE) {
+            // generate an error... or use the log_message() function to log your error
+            $message = "fail to insert Refund data";
+        } else {
             $message = "Insert refund sucessful";
-        } 
-        
-        
+        }
+
+
         // reset query
         #$this->db->reset_query();
 
@@ -727,17 +702,14 @@ class Fees_Model extends CI_Model
     {
         $this->db->trans_start();
         $this->db->insert_batch('Basiced_Payments_Throuhput', $array_data);
-        $this->db->trans_complete(); 
-        if ($this->db->trans_status() === FALSE)
-        {
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE) {
             // generate an error... or use the log_message() function to log your error
             $message = "fail to insert Fees Throughput";
-        }
-        else
-        {
+        } else {
             $message = "Insert fees throughput sucessful";
-        } 
-        
+        }
+
         // reset query
         #$this->db->reset_query();
 
@@ -749,17 +721,14 @@ class Fees_Model extends CI_Model
         $this->db->trans_start();
         $this->db->insert('Basiced_Payments', $array_data);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE)
-        {
-                // generate an error... or use the log_message() function to log your error
-                $message = "fail to insert BED payment data";
-        }
-        else
-        {
+        if ($this->db->trans_status() === FALSE) {
+            // generate an error... or use the log_message() function to log your error
+            $message = "fail to insert BED payment data";
+        } else {
             $message = "Insert BED payment data sucessful";
-        } 
-        
-        
+        }
+
+
         // reset query
         #$this->db->reset_query();
 
@@ -772,17 +741,14 @@ class Fees_Model extends CI_Model
         $this->db->where('id', $this->bed_fees->get_enrolled_fees_id());
         $this->db->update('Basiced_EnrolledFees_Local', $this->bed_fees->get_array_update_fees_enrolled());
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE)
-        {
+        if ($this->db->trans_status() === FALSE) {
             // generate an error... or use the log_message() function to log your error
             $message = "fail to Update BED Enrolled Fees";
-        }
-        else
-        {
+        } else {
             $message = "BED Update Enrolled Fees sucessful";
-        } 
-        
-        
+        }
+
+
         // reset query
         #$this->db->reset_query();
 
@@ -813,17 +779,14 @@ class Fees_Model extends CI_Model
         $this->db->where('ID', $reservation_id);
         $this->db->update('Basiced_ReservationFee', $array_data);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE)
-        {
+        if ($this->db->trans_status() === FALSE) {
             // generate an error... or use the log_message() function to log your error
             $message = "fail to Update student BED Reservation(applied)";
-        }
-        else
-        {
+        } else {
             $message = "Update BED Reservation sucessful(applied)";
-        } 
-        
-        
+        }
+
+
         // reset query
         #$this->db->reset_query();
 
@@ -878,7 +841,6 @@ class Fees_Model extends CI_Model
         #$this->db->reset_query();
 
         return $query->result_array();
-    
     }
 
     public function get_shs_fees_listing()
@@ -894,6 +856,26 @@ class Fees_Model extends CI_Model
         // reset query
         #$this->db->reset_query();
 
+        return $query->result_array();
+    }
+
+    public function proof_of_payment($array)
+    {
+        $this->db->select('*');
+        $this->db->from('requirements_log rl');
+        if(!empty($array['to'])){
+            $this->db->where('rl.requirements_date >=', $array['from']);
+            $this->db->where('rl.requirements_date <', $array['to']);
+        }
+        else{
+            $this->db->like('rl.requirements_date',$array['from']);
+        }
+        $this->db->where('rl.requirements_name','proof_of_payment');
+        $this->db->join('proof_of_payment_info', 'rl.id = proof_of_payment_info.req_id', 'LEFT');
+        $this->db->join('Student_Info si', 'rl.reference_no = si.Reference_Number', 'LEFT');
+        $this->db->join('student_account sa', 'sa.reference_no = si.Reference_Number', 'LEFT');
+        $this->db->group_by('rl.id');
+        $query = $this->db->get();
         return $query->result_array();
     }
 }

@@ -31,9 +31,10 @@
 
    
     <!-- Custom Css -->
-    
     <link href="<?php echo base_url(); ?>css/style.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>css/style.css" rel="stylesheet">
+    
+
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<?php echo base_url(); ?>css/themes/all-themes.css" rel="stylesheet" />
 
@@ -70,13 +71,15 @@
     <script src="<?php echo base_url(); ?>js/js/clipboard.min.js"></script>
    
     <script src="<?php echo base_url(); ?>js/AdmissionEditStudentInfo.js"></script>
-    
+    <script src="<?php echo base_url(); ?>js/AdmissionEditStudentInfo.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/custom.css">
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/colreorder/1.5.2/css/colReorder.bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.7/css/fixedHeader.bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.bootstrap.min.css"/>
-    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap.min.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="<?php echo base_url('plugins/simplePagination/css.css');?>"> -->
     
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
@@ -89,14 +92,15 @@
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/colreorder/1.5.2/js/dataTables.colReorder.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.5/js/responsive.bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.5/js/responsive.bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
-    
-
-
+    <script type="text/javascript" src="<?php echo base_url('plugins/simplePagination/jquery.simplePagination.js');?>"></script>
+    <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>plugins/simplePagination/simplePagination.css"/>
+    <link rel="stylesheet" href="<?php echo base_url('css/iziToast.min.css'); ?>">
+    <script src="<?php echo base_url('js/iziToast.min.js'); ?>"></script>
    
     
 </head>
