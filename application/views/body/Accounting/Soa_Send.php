@@ -178,6 +178,92 @@
 <input type="hidden" id="addressUrl" value="<?php echo site_url().'/StatementOfAccount'; ?>"/>
 <!-- <script type="text/javascript" src="<?php echo base_url(); ?>js/soa.js"></script> -->
 <script>
+class SOA_Data{
+    constructor(){
+        this.data = []
+    }
+    getData(){
+        return this.data
+    }
+    async retrySend(){
+        $('body').waitMe({
+                effect : 'stretch',
+                text : 'Please wait...',
+                bg : 'rgba(255,255,255,0.7)',
+                color : '#000',
+                maxSize : '',
+                waitTime : -1,
+                textPos : 'vertical',
+                fontSize : '',
+                source : '',
+                onClose : function() {}
+        });
+        var batch_count = 0;
+        var current_value = this.data.filter((item)=>{return item.status == "error"});
+        current_value.forEach((item)=>{
+            (async() => {
+                await this.batchSend(item.reference_no).then((result)=>{
+                    if(result=="success"){
+                        $(`i.email-status-${item.reference_no}`).text('check_circle');
+                        $(`i.email-status-${item.reference_no}`).css('color','green');
+                        var found = this.data.find((value)=>{ return value.reference_no == item.reference_no})
+                        
+                        var remove_value = this.data.filter((value)=>{ return value.reference_no != item.reference_no })
+                        this.data = remove_value;
+                        if(found!=null){
+                            found['status'] = "success";
+                            this.data.push(found);
+                        }
+                    }
+                    var success_email = this.data.filter((item)=>{return item.status == "success"})
+                    var failed_email = this.data.filter((item)=>{return item.status == "error"})
+                    $('.waitMe_text').text(`Please wait... ${success_email.length}/${this.data.length}`);
+                    ++batch_count;
+                    if(batch_count==current_value.length){
+                        $('body').waitMe('hide')
+                    }
+                    if(failed_email.length==0){
+                        $('#resend_email').hide();
+                        setTimeout(() => {
+                            $('#soaEmailLogs').modal('hide');
+                        }, 3000);
+                    }
+                })
+                
+            })();
+        })
+        
+    }
+    async finishSend(){
+        $('body').waitMe('hide')
+    }
+    async batchSend(reference_no){
+        return new Promise((resolve,reject)=>{
+            $.ajax({
+                url: "<?php echo base_url();?>index.php/StatementOfAccount/retrySend",
+                method: 'post',
+                dataType:'json',
+                data:{
+                    reference_no:reference_no,
+                    programCode:$('#programCode').val(),
+                    semester:$('#semester').val(),
+                    schoolYear:$('#schoolYear').val(),
+                    due_date:$('#dueDate').val()
+                },
+                success: function(response) {
+                    resolve(response)
+                },
+                error:function(response){
+                    reject(response)
+                }
+            })
+        })
+    }
+    changeData(value){
+        this.data = value
+    }
+}
+var soa_data = new SOA_Data();
 var percentage = 0;
 var page_count = 0;
 var sample_data = [
@@ -197,16 +283,14 @@ var sample_data = [
 {status: "error", reference_no: "26158", full_name: "DINA FLOR TAGALOG LASCUNA"},
 {status: "error", reference_no: "26359", full_name: "MONNA CABIGAYAN OCHARON"}];
 var htmlsample = "";
-// var result_value = sample_data.filter((item)=>{return item.status == "error"});
-// $('#emailLogs tbody').empty();
-// result_value.forEach((item)=>{
-//     htmlsample += `<tr><td>${item.full_name}</td><td style="position:relative;"><i ${item.status=='error'?'style="color:red;"':'style="color:green;"'} class="material-icons email-status">${item.status=='error'?'dangerous':'check_circle'}</i></td></tr>`;
-// })
-// $('#emailLogs tbody').append(htmlsample);
-// console.log(sample_data.filter((item)=>{return item.status == "error"}));
-$('#resend_email').on('click',function(){
-    
+soa_data.changeData(sample_data);
+var result_value = sample_data.filter((item)=>{return item.status == "error"});
+$('#emailLogs tbody').empty();
+result_value.forEach((item)=>{
+    htmlsample += `<tr><td>${item.full_name}</td><td style="position:relative;"><i ${item.status=='error'?'style="color:red;"':'style="color:green;"'} class="material-icons email-status email-status-${item.reference_no}">${item.status=='error'?'dangerous':'check_circle'}</i></td></tr>`;
 })
+$('#emailLogs tbody').append(htmlsample);
+// console.log(sample_data.filter((item)=>{return item.status == "error"}));
 $('#closeLogs').on('click',function(){
     
     iziToast.show({
@@ -216,12 +300,13 @@ $('#closeLogs').on('click',function(){
         position: 'topCenter', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
         progressBarColor: 'maroon',
         overlay:true,
+        timeout:false,
         buttons: [
     //         ['<button>Ok</button>', function (instance, toast) {
     // //             alert("Hello world!");
     //             $('#soaEmailLogs').modal('hide');
     //         }, true],
-            ['<button>Ok</button>', function (instance, toast) {
+            ['<button>Yes</button>', function (instance, toast) {
                 instance.hide({
                     transitionOut: 'fadeOutUp',
                     onClosing: function(instance, toast, closedBy){
@@ -239,7 +324,7 @@ $('#closeLogs').on('click',function(){
         }
     });
 })
-// $('#soaEmailLogs').modal('show');
+$('#soaEmailLogs').modal('show');
 
 async function getEmailLogs(){
     return new Promise((resolve,reject)=>{
@@ -256,6 +341,37 @@ async function getEmailLogs(){
         })
     })
 }
+async function retrySend(reference_no){
+    return new Promise((resolve,reject)=>{
+        $.ajax({
+            url: "<?php echo base_url();?>index.php/StatementOfAccount/retrySend",
+            method: 'post',
+            dataType:'json',
+            data:{
+                reference_no:reference_no,
+                programCode:$('#programCode').val(),
+                semester:$('#semester').val(),
+                schoolYear:$('#schoolYear').val(),
+                due_date:$('#dueDate').val()
+            },
+            success: function(response) {
+                resolve(response)
+            },
+            error:function(response){
+                reject(response)
+            }
+        })
+    })
+}
+$('#resend_email').on('click',function(){
+    console.log(soa_data.getData())
+    soa_data.retrySend();
+    // getEmailLogs().then((result)=>{
+    //     result.forEach((item)=>{
+    //         retrySend()
+    //     })
+    // }).catch(error=>console.log(error))
+})
 function getPercentage(page,total_page){
     
     var percentage_per_page = (1/parseInt(total_page)*100);
@@ -280,16 +396,20 @@ function getPercentage(page,total_page){
                 });
                 $('#sendButton').prop('disabled',false);
                 getEmailLogs().then(result=>{
-                    var html = "";
-                    $('#getEmailLogs').empty();
-                    var result_value = sample_data.filter((item)=>{return item.status == "error"});
-                    $('#emailLogs tbody').empty();
-                    result_value.forEach((item)=>{
-                        html += `<tr><td>${item.full_name}</td><td style="position:relative;"><i ${item.status=='error'?'style="color:red;"':'style="color:green;"'} class="material-icons email-status">${item.status=='error'?'dangerous':'check_circle'}</i></td></tr>`;
-                    })
-                    $('#emailLogs tbody').append(html);
-                    $('#soaEmailLogs').modal('show');
-                    console.log(result.logs.filter((item)=>{return item.status == "error"}));
+                    var error_email = result.logs.filter((item)=>{return item.status == "error"});
+                    if(error_email.length>0){
+                        var html = "";
+                        $('#getEmailLogs').empty();
+                        var result_value = sample_data.filter((item)=>{return item.status == "error"});
+                        $('#emailLogs tbody').empty();
+                        result_value.forEach((item)=>{
+                            html += `<tr><td>${item.full_name}</td><td style="position:relative;"><i ${item.status=='error'?'style="color:red;"':'style="color:green;"'} class="material-icons email-status">${item.status=='error'?'dangerous':'check_circle'}</i></td></tr>`;
+                        })
+                        $('#emailLogs tbody').append(html);
+                        $('#soaEmailLogs').modal('show');
+                        soa_data.changeData(result.logs.filter((item)=>{return item.status == "error"}));
+                        console.log(result.logs.filter((item)=>{return item.status == "error"}));
+                    }
                 }).catch(error=>console.log(error));
             }, 2000);
             
@@ -319,28 +439,6 @@ async function batchSend(page,per_page,total_page){
             },
             error:function(response){
                 getPercentage(page,total_page);
-                reject(response)
-            }
-        })
-    })
-}
-async function retrySend(reference_no){
-    return new Promise((resolve,reject)=>{
-        $.ajax({
-            url: "<?php echo base_url();?>index.php/StatementOfAccount/retrySend",
-            method: 'post',
-            dataType:'json',
-            data:{
-                reference_no:reference_no,
-                programCode:$('#programCode').val(),
-                semester:$('#semester').val(),
-                schoolYear:$('#schoolYear').val(),
-                due_date:$('#dueDate').val()
-            },
-            success: function(response) {
-                resolve(response)
-            },
-            error:function(response){
                 reject(response)
             }
         })

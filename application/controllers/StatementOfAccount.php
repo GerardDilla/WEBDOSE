@@ -253,12 +253,22 @@ class StatementOfAccount extends MY_Controller
         echo json_encode('success');
     }
     public function retrySend(){
-        $program_code = $this->input->post('programCode');
-        $semester = $this->input->post('semester');
-        $school_year = $this->input->post('schoolYear');
-        $due_date = $this->input->post('due_date');
+        // $program_code = $this->input->post('programCode');
+        // $semester = $this->input->post('semester');
+        // $school_year = $this->input->post('schoolYear');
+        // $due_date = $this->input->post('due_date');
+        $program_code = 'CGNCII';
+        $semester = 'FIRST';
+        $school_year = '2021-2022';
+        $due_date = '';
         $ref_no = $this->input->post('reference_no');
         $student = $this->Student_Model->getStudentInfoByRefNo($ref_no);
+        // if($ref_no == "26455"||$ref_no == "26617"||$ref_no == "26734"){
+        //     $this->email->to('asd');
+        // }
+        // else{
+        //     $this->email->to('jhonnormanfabregas@gmail.com');
+        // }
         $this->email->to('jhonnormanfabregas@gmail.com');
         $this->email->from('soa_accounting@sdca.edu.ph','St. Dominic College of Asia');
         $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$program_code);
