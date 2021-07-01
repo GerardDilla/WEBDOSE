@@ -431,10 +431,12 @@ class Admission extends MY_Controller
       '1st_choice'  => $this->input->post('1st_choice'),
       'submit'  => $this->input->post('search_button')
     );
-    // die('<pre>'.json_encode($array).'<pre>');
-
-
-    $this->data['get_inquiry']  = $this->Inquiry_Reports_Model->Select_HED_Inquiry($array);
+    // die(json_encode($array));
+    $this->data['get_inquiry'] = null;
+    if($array['submit'] !== null){
+      $this->data['get_inquiry']  = $this->Inquiry_Reports_Model->Select_HED_Inquiry($array);
+    }
+    
     // die(json_encode($this->data['get_inquiry']));
     $this->render($this->set_views->ad_inquiry_reports_hed());
   }

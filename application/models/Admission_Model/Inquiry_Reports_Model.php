@@ -60,26 +60,34 @@ class Inquiry_Reports_Model extends CI_Model
     $this->db->join('student_account AS SA', 'A.Reference_Number = SA.reference_no', 'LEFT');
 
     if ($array['course'] != '0' && $array['1st_choice'] != '0') {
+      // echo('Course and choice');
       $where = "A.Course='" . $array['course'] . " 'OR A.Course_1st='" . $array['1st_choice'] . "'";
       $this->db->where($where);
     } elseif ($array['course'] != '0') {
+      // echo('Course');
       $this->db->where('A.Course', $array['course']);
-    } elseif ($array['A.1st_choice'] != '0') {
+    } elseif ($array['1st_choice'] != '0') {
+      // echo('Choice');
       $this->db->where('A.Course_1st', $array['1st_choice']);
     }
 
     if ($array['from'] != '' && $array['to'] != '') {
+      // echo('date');
       $this->db->where('B.DateInquired >=', $array['from']);
       $this->db->where('B.DateInquired <=', $array['to']);
     }
     if ($array['sy'] != '0') {
+      // echo('sy');
       $this->db->where('A.Applied_SchoolYear', $array['sy']);
     }
     if ($array['sem'] != '0') {
+      // echo('sem');
       $this->db->where('A.Applied_Semester', $array['sem']);
     }
+    // die();
 
-
+    $this->db->where('A.Course !=', '0');
+    $this->db->where('A.Course_1st !=', '0');
     $query = $this->db->get();
     // die(json_encode($query->result_array()));
     if ($query->num_rows() > 0) {
