@@ -203,6 +203,7 @@ class SOA_Data{
         current_value.forEach((item)=>{
             (async() => {
                 await this.batchSend(item.reference_no).then((result)=>{
+                    console.log(result)
                     if(result=="success"){
                         $(`i.email-status-${item.reference_no}`).text('check_circle');
                         $(`i.email-status-${item.reference_no}`).css('color','green');
@@ -251,6 +252,7 @@ class SOA_Data{
                     due_date:$('#dueDate').val()
                 },
                 success: function(response) {
+                    console.log(response)
                     resolve(response)
                 },
                 error:function(response){
@@ -283,7 +285,7 @@ var sample_data = [
 {status: "error", reference_no: "26158", full_name: "DINA FLOR TAGALOG LASCUNA"},
 {status: "error", reference_no: "26359", full_name: "MONNA CABIGAYAN OCHARON"}];
 var htmlsample = "";
-soa_data.changeData(sample_data);
+// soa_data.changeData(sample_data);
 var result_value = sample_data.filter((item)=>{return item.status == "error"});
 // $('#emailLogs tbody').empty();
 // result_value.forEach((item)=>{
@@ -397,13 +399,14 @@ function getPercentage(page,total_page){
                 $('#sendButton').prop('disabled',false);
                 getEmailLogs().then(result=>{
                     var error_email = result.logs.filter((item)=>{return item.status == "error"});
+                    console.log(error_email)
                     if(error_email.length>0){
                         var html = "";
                         $('#getEmailLogs').empty();
-                        var result_value = sample_data.filter((item)=>{return item.status == "error"});
+                        var result_value = error_email.filter((item)=>{return item.status == "error"});
                         $('#emailLogs tbody').empty();
                         result_value.forEach((item)=>{
-                            html += `<tr><td>${item.full_name}</td><td style="position:relative;"><i ${item.status=='error'?'style="color:red;"':'style="color:green;"'} class="material-icons email-status">${item.status=='error'?'dangerous':'check_circle'}</i></td></tr>`;
+                            html += `<tr><td>${item.full_name}</td><td style="position:relative;"><i ${item.status=='error'?'style="color:red;"':'style="color:green;"'} class="material-icons email-status email-status-${item.reference_no}">${item.status=='error'?'dangerous':'check_circle'}</i></td></tr>`;
                         })
                         $('#emailLogs tbody').append(html);
                         $('#soaEmailLogs').modal('show');

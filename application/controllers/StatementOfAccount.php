@@ -53,7 +53,7 @@ class StatementOfAccount extends MY_Controller
         $config['smtp_user']    = 'sdcamailer_soa@sdca.edu.ph';
         // $config['smtp_pass']    = 'dgojehpfiftlzoqy';
         // $config['smtp_pass']    = 'sdca2017';
-        $config['smtp_pass']    = 'sdca2021';
+        $config['smtp_pass']    = 'sdca_2021';
         $config['charset']    = 'utf-8';
         $config['newline']    = "\r\n";
         $config['mailtype'] = 'html';
@@ -181,7 +181,6 @@ class StatementOfAccount extends MY_Controller
 
             $count_page = ($total_email_with_less/$this->per_page) + 1;
         }
-        // $this->session->unset_userdata('soa_email_logs');
         $this->session->set_userdata('soa_email_logs',array());
         echo json_encode(array('total'=>$total_email,'per_page'=>$this->per_page,'less'=>$less,'total_page'=>$count_page));
         // exit;
@@ -222,7 +221,7 @@ class StatementOfAccount extends MY_Controller
             // $ref_no = "",$sem="",$sy="",$due =""
             
             // $this->email->to($student['Email']);
-            $this->email->to('jhonnormanfabregas@gmail.com');
+            $this->email->to('sdca');
             $this->email->from('soa_accounting@sdca.edu.ph','St. Dominic College of Asia');
             $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$program_code.' - PAGE:'.$page);
             // $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. http://localhost/WEBDOSE/index.php/soa_downloadpdf/'.$student['Reference_Number'].'/'.$semester.'/'.$school_year.'/' . $student['Student_Number'] . '/' . $insert_output_id);
@@ -237,6 +236,7 @@ class StatementOfAccount extends MY_Controller
                     'full_name' => strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'])
                 ));
                 ++$email_success_count;
+                // echo json_encode('success');
             }
             else{
                 array_push($email_logs,array(
@@ -272,6 +272,7 @@ class StatementOfAccount extends MY_Controller
         //     $this->email->to('jhonnormanfabregas@gmail.com');
         // }
         $this->email->to('jhonnormanfabregas@gmail.com');
+        // $this->email->to($student['Email']);
         $this->email->from('soa_accounting@sdca.edu.ph','St. Dominic College of Asia');
         $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$program_code);
         // $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. http://localhost/WEBDOSE/index.php/soa_downloadpdf/'.$student['Reference_Number'].'/'.$semester.'/'.$school_year.'/' . $student['Student_Number'] . '/' . $insert_output_id);
@@ -279,11 +280,12 @@ class StatementOfAccount extends MY_Controller
         $this->email->message($this->load->view('body/Accounting/EmailSoa',array('student'=>$student,'link'=>'https://stdominiccollege.edu.ph/WEBDOSE/index.php/StudentSoa/soa_download?ref_no='.$student['Reference_Number'].'&sem='.$semester.'&sy='.$school_year.'&due=' . $due_date),true));
         // $this->email->message($this->load->view('body/Accounting/EmailSoa',array('student'=>$student,'link'=>'http://[::1]/WEBDOSE/index.php/StudentSoa/soa_download?ref_no='.$student['Reference_Number'].'&sem='.$semester.'&sy='.$school_year.'&due=' . $due_date),true));
         // $this->email->send();
-        if($this->email->send()){
+        if($this->email->send(true)){
             echo json_encode('success');
         }
         else{
-            echo json_encode('error');
+            // echo json_encode('error');
+            echo json_encode($this->email->print_debugger());
         }
     }
     public function getEmailLogs(){
