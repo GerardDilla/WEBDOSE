@@ -49,9 +49,11 @@ class StatementOfAccount extends MY_Controller
         $config['smtp_host']    = 'ssl://smtp.gmail.com';
         $config['smtp_port']    = '465';
         $config['smtp_timeout'] = '7';
-        $config['smtp_user']    = 'webmailer@sdca.edu.ph';
+        // $config['smtp_user']    = 'webmailer@sdca.edu.ph';
+        $config['smtp_user']    = 'sdcamailer_soa@sdca.edu.ph';
         // $config['smtp_pass']    = 'dgojehpfiftlzoqy';
-        $config['smtp_pass']    = 'sdca2017';
+        // $config['smtp_pass']    = 'sdca2017';
+        $config['smtp_pass']    = 'sdca2021';
         $config['charset']    = 'utf-8';
         $config['newline']    = "\r\n";
         $config['mailtype'] = 'html';
@@ -220,7 +222,7 @@ class StatementOfAccount extends MY_Controller
             // $ref_no = "",$sem="",$sy="",$due =""
             
             // $this->email->to($student['Email']);
-            $this->email->to('asdasd');
+            $this->email->to('jhonnormanfabregas@gmail.com');
             $this->email->from('soa_accounting@sdca.edu.ph','St. Dominic College of Asia');
             $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$program_code.' - PAGE:'.$page);
             // $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. http://localhost/WEBDOSE/index.php/soa_downloadpdf/'.$student['Reference_Number'].'/'.$semester.'/'.$school_year.'/' . $student['Student_Number'] . '/' . $insert_output_id);

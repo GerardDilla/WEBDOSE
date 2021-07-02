@@ -285,11 +285,11 @@ var sample_data = [
 var htmlsample = "";
 soa_data.changeData(sample_data);
 var result_value = sample_data.filter((item)=>{return item.status == "error"});
-$('#emailLogs tbody').empty();
-result_value.forEach((item)=>{
-    htmlsample += `<tr><td>${item.full_name}</td><td style="position:relative;"><i ${item.status=='error'?'style="color:red;"':'style="color:green;"'} class="material-icons email-status email-status-${item.reference_no}">${item.status=='error'?'dangerous':'check_circle'}</i></td></tr>`;
-})
-$('#emailLogs tbody').append(htmlsample);
+// $('#emailLogs tbody').empty();
+// result_value.forEach((item)=>{
+//     htmlsample += `<tr><td>${item.full_name}</td><td style="position:relative;"><i ${item.status=='error'?'style="color:red;"':'style="color:green;"'} class="material-icons email-status email-status-${item.reference_no}">${item.status=='error'?'dangerous':'check_circle'}</i></td></tr>`;
+// })
+// $('#emailLogs tbody').append(htmlsample);
 // console.log(sample_data.filter((item)=>{return item.status == "error"}));
 $('#closeLogs').on('click',function(){
     
@@ -324,7 +324,7 @@ $('#closeLogs').on('click',function(){
         }
     });
 })
-$('#soaEmailLogs').modal('show');
+// $('#soaEmailLogs').modal('show');
 
 async function getEmailLogs(){
     return new Promise((resolve,reject)=>{
