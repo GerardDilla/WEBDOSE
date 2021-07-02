@@ -4,45 +4,44 @@ function print() {
         type: 'html',
         targetStyles: ['*']
     })
-  
+
 }
 
-function PrintButtonLogs()
-{   
+function PrintButtonLogs() {
 
-   //Gets Values on inputs
- 
+    //Gets Values on inputs
 
-   $('#confirmationPrintform').modal('show'); 
-   
-  
+
+    $('#confirmationPrintform').modal('show');
+
+
 }
 
-function assessment_form_log(ref,sy,sm){
+function assessment_form_log(ref, sy, sm) {
     //alert();
     arrayData = {
-        sy:     $("#sy").val(), 
-        sm:     $("#sm").val(),
-        sn:     $("#sn").val(),
-        ref:    $("#rf").val(),
+        sy: $("#sy").val(),
+        sm: $("#sm").val(),
+        sn: $("#sn").val(),
+        ref: $("#rf").val(),
         addressUrl: $("#addressUrl").attr('action'),
     };
     url = $('#addressUrl').val();
     ajax = $.ajax({
-        url: url+'index.php/Registrar/print_logs',
+        url: url + 'index.php/Registrar/print_logs',
         type: 'GET',
         data: {
-            ref:arrayData.ref,
-            sy:arrayData.sy,
-            sm:arrayData.sm,
-            sn:arrayData.sn
+            ref: arrayData.ref,
+            sy: arrayData.sy,
+            sm: arrayData.sm,
+            sn: arrayData.sn
         },
-        success: function(response){
-            $('#confirmationPrintform').modal('hide'); 
+        success: function(response) {
+            $('#confirmationPrintform').modal('hide');
             console.log('Printing Logged!');
             return;
         },
-        fail: function(){
+        fail: function() {
             console.log('Error: request failed');
             return;
         }
@@ -90,7 +89,7 @@ document.getElementById('printButton').addEventListener("click", print)
         function i(e, t) {
             if (e.focus(), r.a.isEdge() || r.a.isIE()) try {
                 e.contentWindow.document.execCommand("print", !1, null)
-                
+
             } catch (t) {
                 e.contentWindow.print()
             }
@@ -387,5 +386,4 @@ document.getElementById('printButton').addEventListener("click", print)
         e.exports = n(4)
     }])
 });
-printJS(
-    { printable: 'printJS-form', type: 'html', honorColor: true })
+printJS({ printable: 'printJS-form', type: 'html', honorColor: true })

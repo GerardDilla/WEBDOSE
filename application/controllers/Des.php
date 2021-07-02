@@ -2,9 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Des extends MY_Controller  {
-
-    private $user_data;
-    
+	
 	function __construct() {
         parent::__construct();
         $this->load->model('Digital_ID_Model/Forms_Model');

@@ -482,4 +482,27 @@ class set_views
 	{
 		return 'body/Des/IDApplication';
 	}
+	//////////////////////////// DOSE Admin Module TAB ////////////////////////
+	public function admin_dose_body()
+	{
+		return 'body/DoseAdmin/Adminpage_Body';
+	}
+	public function admin_dose_js_ajax()
+	{
+		return 'body/DoseAdmin/Js_Ajax';
+	}
+	public function admin_dose_regbody()
+	{
+		return 'body/DoseAdmin/Adminpage_Regbody';
+	}
+	public function basiced_regprint()
+	{
+		return 'body/DoseAdmin/Basiced_Regprint';
+	}
+	public function adminpage_resprint()
+	{
+		return 'body/DoseAdmin/Adminpage_Resprint';
+	}
+	
+	
 }
