@@ -429,6 +429,7 @@ class Admission extends MY_Controller
       'from'  => $this->input->post('inquiry_from'),
       'to'  => $this->input->post('inquiry_to'),
       '1st_choice'  => $this->input->post('1st_choice'),
+      'single_search'  => $this->input->post('single_search'),
       'submit'  => $this->input->post('search_button')
     );
     // die(json_encode($array));
@@ -464,6 +465,7 @@ class Admission extends MY_Controller
       'from'  => $this->input->post('inquiry_from'),
       'to'  => $this->input->post('inquiry_to'),
       '1st_choice'  => $this->input->post('1st_choice'),
+      'single_search'  => $this->input->post('single_search'),
       'submit'  => $this->input->post('search_button')
     );
 

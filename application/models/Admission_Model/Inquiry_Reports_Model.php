@@ -48,6 +48,8 @@ class Inquiry_Reports_Model extends CI_Model
   //SELECT HED Inquiry
   public function Select_HED_Inquiry($array)
   {
+    // die(json_encode($array));
+    // die($array['single_search']);
     // echo $array['from'].' : '.$array['to'];
     // echo $array['1st_choice'];
     // die();
@@ -84,6 +86,17 @@ class Inquiry_Reports_Model extends CI_Model
       // echo('sem');
       $this->db->where('A.Applied_Semester', $array['sem']);
     }
+    if (!empty($array['single_search'])) {
+      // $this->db->or_Where(function ($query,$array) {
+      //   $query->db->or_like('A.Reference_Number', $array['single_search']);
+      //   $this->db->or_like('A.Student_Number', $array['single_search']);
+      // });
+      $this->db->where('A.Reference_Number', $array['single_search']);
+      $this->db->or_Where('A.Student_Number', $array['single_search']);
+      $this->db->group_by('A.Student_Number','ASC');
+    }
+    
+
     // die();
 
     $this->db->where('A.Course !=', '0');

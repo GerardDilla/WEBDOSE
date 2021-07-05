@@ -42,14 +42,29 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <label>From: </label>
+                                                        <label for="inquiry_from">From: </label>
+                                                        <?php if (!empty($this->input->post('inquiry_from'))) : ?>
+                                                            <input type="date" id="inquiry_from" class="form-control" name="inquiry_from" data-date-format="yyyy-mm-dd" value="<?php echo $this->input->post('inquiry_from'); ?>">
+                                                        <?php else : ?>
+                                                            <input type="date" id="inquiry_from" class="form-control" name="inquiry_from" data-date-format="yyyy-mm-dd">
+                                                        <?php endif ?>
                                                     </td>
                                                     <td>
-                                                    <?php if (!empty($this->input->post('inquiry_from'))) : ?>
-                                                        <input type="date" name="inquiry_from" data-date-format="yyyy-mm-dd" value="<?php echo $this->input->post('inquiry_from'); ?>">
-                                                    <?php else : ?>
-                                                        <input type="date" name="inquiry_from" data-date-format="yyyy-mm-dd">
-                                                    <?php endif ?>
+                                                        <!-- <button>Clear</button> -->
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>
+                                                        <label for="inquiry_to">To: </label>
+                                                        <?php if (!empty($this->input->post('inquiry_from'))) : ?>
+                                                            <input type="date" id="inquiry_to" class="form-control" name="inquiry_to" data-date-format="yyyy-mm-dd" value="<?php echo $this->input->post('inquiry_to'); ?>">
+                                                        <?php else : ?>
+                                                            <input type="date" id="inquiry_to" class="form-control" name="inquiry_to" data-date-format="yyyy-mm-dd">
+                                                        <?php endif ?>
+                                                    </td>
+                                                    <td>
+
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -59,18 +74,16 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <label>To: </label>
-                                                    </td>
-                                                    <td>
-                                                    <?php if (!empty($this->input->post('inquiry_from'))) : ?>
-                                                        <input type="date" name="inquiry_to" data-date-format="yyyy-mm-dd" value="<?php echo $this->input->post('inquiry_to'); ?>">
-                                                    <?php else : ?>
-                                                        <input type="date" name="inquiry_to" data-date-format="yyyy-mm-dd">
-                                                    <?php endif ?>
-                                                        
+                                                        <label for="single_search">Reference no. / Student No.</label>
+                                                        <?php if (!empty($this->input->post('single_search'))) : ?>
+                                                            <input type="text" name="single_search" class="form-control" id="single_search" value="<?php echo $this->input->post('single_search');?>">
+                                                        <?php else : ?>
+                                                            <input type="text" name="single_search" class="form-control" id="single_search">
+                                                        <?php endif ?>
                                                     </td>
                                                 </tr>
                                             </table>
+
                                         </div>
                                         <div class="col-md-4" style="border-right:solid #ccc">
 
@@ -123,7 +136,7 @@
                                                     <?php endif ?>
                                                 <?php } ?>
                                             </select>
-                                            
+
                                             <label for="1st_coice">First Choice :</label>
                                             <select class="form-control show-tick" data-live-search="true" name="1st_choice">
                                                 <option value="0" selected>Select Course:</option>
