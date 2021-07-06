@@ -1707,4 +1707,16 @@ class Admission extends MY_Controller
     header('Content-Disposition: attachment;filename="' . $tab . '_Student_Data.xls"');
     $object_writer->save('php://output');
   }
+
+  public function HED_inquiryExport($ref = '')
+  {
+    $info  = $this->Edit_Info_Model->Get_Info($ref)->result_array();
+    $param = array(
+      'student_info' => $info[0],
+      'student_type' => 'HED',
+    );
+    $this->load->library('Student', $param);
+    $this->load->library('Admission/InquiryExport', $param);
+    $this->inquiryexport->Export();
+  }
 }//end class

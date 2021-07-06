@@ -43,7 +43,7 @@ class inquiryexport extends Student
       parent::__construct($parameters);
       #Gets Student Info and settings for importing
       $this->inputFileType = 'Xlsx'; // Xlsx - Xml - Ods - Slk - Gnumeric - Csv\
-      $this->inputFileName = './img/StudentRecords/InquiryTemplate.xlsx';
+      $this->inputFileName = './export_template/InquiryTemplate.xlsx';
 
       #Setup spreadsheet
       //$this->spreadsheet = new Spreadsheet();
@@ -74,7 +74,8 @@ class inquiryexport extends Student
          'Above Php 100,000' => 'Php 100,000 and above'
       );
    }
-   public function test(){
+   public function test()
+   {
 
       $spreadsheet = new Spreadsheet();
       $sheet = $spreadsheet->getActiveSheet();
@@ -86,7 +87,7 @@ class inquiryexport extends Student
       #Download as pdf
       $writer = new \PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf($spreadsheet);
       $writer->writeAllSheets();
-      header('Content-Disposition: attachment;filename="Student_inquiry_'.$this->student_number.'.pdf"');
+      header('Content-Disposition: attachment;filename="Student_inquiry_' . $this->student_number . '.pdf"');
       header('Cache-Control: max-age=0');
       $writer->save('php://output'); // download file 
 
@@ -98,7 +99,7 @@ class inquiryexport extends Student
       // header('Content-Type: application/vnd.ms-excel');
       // header('Content-Disposition: attachment;filename="teststes.xlsx"'); 
       // header('Cache-Control: max-age=0');
-      
+
       // $writer->save('php://output'); // download file 
 
    }
@@ -125,16 +126,16 @@ class inquiryexport extends Student
 
       #PAGE 1
       #Application for admission desgin
-      $this->set_banner_text($this->sheet1,'APPLICATION FOR ADMISSION','B8');
+      $this->set_banner_text($this->sheet1, 'APPLICATION FOR ADMISSION', 'B8');
 
       #Personal Information desgin
-      $this->set_banner_text($this->sheet1,'PERSONAL INFORMATION','B18');
+      $this->set_banner_text($this->sheet1, 'PERSONAL INFORMATION', 'B18');
 
       #Educational Background desgin
-      $this->set_banner_text($this->sheet1,'EDUCATIONAL BACKGROUND','B37');
+      $this->set_banner_text($this->sheet1, 'EDUCATIONAL BACKGROUND', 'B37');
 
       #Preferred Courses
-      $this->set_banner_text($this->sheet1,'PERSONAL INFORMATION','B55');
+      $this->set_banner_text($this->sheet1, 'PERSONAL INFORMATION', 'B55');
 
       #Preferred Course Design
       // $this->sheet1->getStyle('A55:H56')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('#cc0000');
@@ -168,7 +169,7 @@ class inquiryexport extends Student
       #PAGE 2
 
       #Family Information
-      $this->set_banner_text($this->sheet2,'FAMILY INFORMATION','B2');
+      $this->set_banner_text($this->sheet2, 'FAMILY INFORMATION', 'B2');
 
       // #Application for admission desgin
       // $this->sheet2->getStyle('A8:H9')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('#cc0000');
@@ -262,10 +263,10 @@ class inquiryexport extends Student
       #Download as pdf
       $writer = new \PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf($this->spreadsheet);
       $writer->writeAllSheets();
-      header('Content-Disposition: attachment;filename="Student_inquiry_'.$this->student_number.'.pdf"');
+      header('Content-Disposition: attachment;filename="Student_inquiry_' . $this->student_number . '.pdf"');
       header('Cache-Control: max-age=0');
       $writer->save('php://output'); // download file 
-      
+
 
       #Download as xlsx
       // $writer = new Xlsx($this->spreadsheet);
@@ -273,7 +274,7 @@ class inquiryexport extends Student
       // header('Content-Type: application/vnd.ms-excel');
       // header('Content-Disposition: attachment;filename="teststes.xlsx"'); 
       // header('Cache-Control: max-age=0');
-      
+
       // $writer->save('php://output'); // download file 
 
    }
@@ -457,10 +458,10 @@ class inquiryexport extends Student
       foreach ($this->EducationChoices as $index => $Education) {
 
          $check = '[ ]';
-         if($answer == $Education){
+         if ($answer == $Education) {
             $check = '[✔]';
          }
-         $choices[$prefix . ' ' . $Education] = $this->set($cells[$index], $check.' ' . $Education);
+         $choices[$prefix . ' ' . $Education] = $this->set($cells[$index], $check . ' ' . $Education);
       }
       // $this->debugger($choices);
       return $choices;
@@ -473,10 +474,10 @@ class inquiryexport extends Student
       foreach ($this->IncomeChoices as $index => $Income) {
 
          $check = '[ ]';
-         if($answer == $index){
+         if ($answer == $index) {
             $check = '[✔]';
          }
-         $choices[$prefix . ' ' . $Income] = $this->set($cells[$cellindex], $check.' ' . $Income);
+         $choices[$prefix . ' ' . $Income] = $this->set($cells[$cellindex], $check . ' ' . $Income);
          $cellindex++;
       }
       //$this->debugger($choices);

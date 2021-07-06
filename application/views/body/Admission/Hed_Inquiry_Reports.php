@@ -216,6 +216,10 @@
                                                 <td><?php echo $row->Applied_Semester; ?></td>
                                                 <td><?php echo $row->dswd_no ? $row->dswd_no : 'N/A'; ?></td>
                                                 <td><?php echo $row->DateInquired; ?></td>
+                                                <td>
+                                                    <a href="<?php echo base_url(); ?>index.php/Admission/HED_inquiryExport/<?php echo $row->ref_no; ?>" class="btn btn-info btn-sm">Export Application Form</a>
+
+                                                </td>
                                                 <!--<td><?php echo $row->Rmk; ?></td>-->
 
                                             </tr>
