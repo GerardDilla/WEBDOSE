@@ -14,26 +14,28 @@
 // });
 // $('#amazing path').css('display','none')
 
-var playPause2 = anime({
-    targets: '#amazing path',
-    strokeDashoffset: [anime.setDashoffset, 0],
-    easing: 'easeInOutSine',
-    duration: 1000,
-    delay: function(el, i) { return i * 200 },
-    direction: 'reverse',
-    // loop: false,
-    autoplay:false,
-    begin: function(anim) {
-        var f = window.setInterval(function(){
-            $('.transition-effect').css('z-index','0');
-            clearInterval(f);
-            $('.content input.input-material').children(':first').focus();
-            $('.content input.input-material').children(':first').addClass('active');
-            console.log($('.content input.input-material').children(':first'));
-        },1000);
+// var playPause2 = anime({
+//     targets: '#amazing path',
+//     strokeDashoffset: [anime.setDashoffset, 0],
+//     easing: 'easeInOutSine',
+//     duration: 1000,
+//     delay: function(el, i) { return i * 200 },
+//     direction: 'reverse',
+//     // loop: false,
+//     autoplay:false,
+//     begin: function(anim) {
+//         $('ul.transition li').css('transform','scaleY(1)');
+//         var f = window.setInterval(function(){
+//             $('.transition-effect').css('z-index','0');
+//             // $('ul.transition li').css( 'transform','scaleY(1)');
+//             clearInterval(f);
+//             $('.content input.input-material').children(':first').focus();
+//             $('.content input.input-material').children(':first').addClass('active');
+//             console.log($('.content input.input-material').children(':first'));
+//         },1000);
         
-      }
-  });
+//       }
+//   });
 // $('.transition-effect').css('z-index','0');
 // $('#amazing path').css('display','none')
 $('#amazing').css('z-index','0')
@@ -81,7 +83,7 @@ $(document).ready(function(){
     }
     else{
     var t1 = gsap.timeline();
-    // t1.to('ul.transition li',{duration:.2,scaleY:1,transformOrigin:"bottom left",stagger:.1,delay:.1});
+    t1.to('ul.transition li',{duration:.1,scaleY:1,transformOrigin:"bottom left"});
     t1.to('ul.transition li',{duration:.2,scaleY:0,transformOrigin:"bottom left",stagger:.1,delay:.1});
     }
     // var setInterval = window.setInterval(function(){ 
