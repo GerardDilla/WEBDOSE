@@ -210,7 +210,7 @@ class StatementOfAccount extends MY_Controller
             $insert_logs['action'] = 'Send Batch Email: Program Code:"'.$program_code.'",Semester:"'.$semester.'",School Year:"'.$school_year.'"';
             // $insert_logs['action'] = 'INSERT INTO `web_dose_logs` (`user_id`,`module`) "program_code":"'.$program_code.'","semester":"'.$semester.'","school_year":"'.$school_year.'"}';
             $insert_logs['transaction_date'] = $date_today;
-            $this->Student_Model->insertWebDoseLogs($insert_logs);
+            // $this->Student_Model->insertWebDoseLogs($insert_logs);
         }
         $array_students = $this->Student_Model->getStudentListPaginated($program_code, $semester, $school_year,$per_page,$offset);
         foreach ($array_students as $key => $student) {
@@ -220,8 +220,8 @@ class StatementOfAccount extends MY_Controller
             // $this->email->subject('Here is your info');
             // $ref_no = "",$sem="",$sy="",$due =""
             
-            $this->email->to($student['Email']);
-            // $this->email->to('sdca');
+            // $this->email->to($student['Email']);
+            $this->email->to('sdca');
             $this->email->from('soa_accounting@sdca.edu.ph','St. Dominic College of Asia');
             $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$program_code.' - PAGE:'.$page);
             // $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. http://localhost/WEBDOSE/index.php/soa_downloadpdf/'.$student['Reference_Number'].'/'.$semester.'/'.$school_year.'/' . $student['Student_Number'] . '/' . $insert_output_id);
@@ -271,8 +271,8 @@ class StatementOfAccount extends MY_Controller
         // else{
         //     $this->email->to('jhonnormanfabregas@gmail.com');
         // }
-        // $this->email->to('jhonnormanfabregas@gmail.com');
-        $this->email->to($student['Email']);
+        $this->email->to('jhonnormanfabregas@gmail.com');
+        // $this->email->to($student['Email']);
         $this->email->from('soa_accounting@sdca.edu.ph','St. Dominic College of Asia');
         $this->email->subject('SOA - '.strtoupper($student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name']).' - '.$program_code);
         // $this->email->message('Hi ' . $student['First_Name'] . ' ' . $student['Middle_Name'] . ' ' . $student['Last_Name'] . ' ' . ' Here is the info you requested. http://localhost/WEBDOSE/index.php/soa_downloadpdf/'.$student['Reference_Number'].'/'.$semester.'/'.$school_year.'/' . $student['Student_Number'] . '/' . $insert_output_id);
