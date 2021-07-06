@@ -263,7 +263,7 @@ class inquiryexport extends Student
       #Download as pdf
       $writer = new \PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf($this->spreadsheet);
       $writer->writeAllSheets();
-      header('Content-Disposition: attachment;filename="Student_inquiry_' . $this->student_number . '.pdf"');
+      header('Content-Disposition: attachment;filename="StudentInquiry_' . $this->first_name . '-' . $this->last_name . 'pdf"');
       header('Cache-Control: max-age=0');
       $writer->save('php://output'); // download file 
 
