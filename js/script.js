@@ -1,14 +1,15 @@
 ﻿function search_student(){
-   
     arrayData = {
         perPage:10,
         pageNumber:1,
     };
     page = get_info_pages(arrayData);
+    console.log(`page number:${page}`)
     console.log(page.length);
+
     get_info(arrayData);
     $('#student_search_pagination').pagination({
-        items: page,
+        items: parseInt(page),
         itemsOnPage: arrayData.perPage,
         cssStyle: 'light-theme',
         onPageClick: function(pageNumber){
@@ -16,20 +17,21 @@
             get_info(arrayData);
         }
     });
-
 }
 function get_info_pages(arrayData){
 
     arrayData['searchkey'] = $('#student_searchkey').val();
-    console.log(arrayData['searchkey']);
+    // console.log(arrayData['searchkey']);
     console.log('@get_info_pages');
+    var educ_type = $('#search_education_type').val();
     arrayData['url'] = $('#url').val();
     ajax = $.ajax({
         async: false,
         url: arrayData.url+"/search_student_page",
         type: 'GET',
         data: {
-            key: arrayData.searchkey
+            key: arrayData.searchkey,
+            educ_type:educ_type
         },  
         success: function(response){
 

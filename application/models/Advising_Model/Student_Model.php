@@ -351,7 +351,7 @@ class Student_Model extends CI_Model{
             $this->db->or_like('First_Name', $array_data['key']);
             $this->db->or_like('Middle_Name', $array_data['key']);
             $this->db->or_like('Last_Name', $array_data['key']);
-            $this->db->where('Student_Number !=', 0);
+            // $this->db->where('Student_Number !=', 0);
             $this->db->limit($array_data['limit'], $array_data['start']);
         
             $query = $this->db->get();
@@ -366,7 +366,7 @@ class Student_Model extends CI_Model{
             $this->db->or_like('First_Name', $array_data['key']);
             $this->db->or_like('Middle_Name', $array_data['key']);
             $this->db->or_like('Last_Name', $array_data['key']);
-            $this->db->where('Student_Number !=', 0);
+            // $this->db->where('Student_Number !=', 0);
             $this->db->limit($array_data['limit'], $array_data['start']);
         
             $query = $this->db->get();
@@ -376,18 +376,35 @@ class Student_Model extends CI_Model{
     }
     public function search_student_info_pages($array_data)
     {
-        $this->db->select('*');
-        $this->db->from('Student_Info');
-        $this->db->like('Student_Number', $array_data['key']);
-        $this->db->or_like('Reference_Number', $array_data['key']);
-        $this->db->or_like('First_Name', $array_data['key']);
-        $this->db->or_like('Middle_Name', $array_data['key']);
-        $this->db->or_like('Last_Name', $array_data['key']);
-        $this->db->where('Student_Number !=', 0);
-        
-        $query = $this->db->get();
-        $this->db->reset_query();
-        return $query->num_rows();
+        if($array_data['type']=="college"){
+            $this->db->select('*');
+            $this->db->from('Student_Info');
+            $this->db->like('Student_Number', $array_data['key']);
+            $this->db->or_like('Reference_Number', $array_data['key']);
+            $this->db->or_like('First_Name', $array_data['key']);
+            $this->db->or_like('Middle_Name', $array_data['key']);
+            $this->db->or_like('Last_Name', $array_data['key']);
+            // $this->db->where('Student_Number !=', 0);
+            
+            $query = $this->db->get();
+            $this->db->reset_query();
+            return $query->num_rows();
+        }
+        else if($array_data['type']=="basiced"){
+            $this->db->select('*');
+            $this->db->from('Basiced_Studentinfo');
+            $this->db->like('Student_Number', $array_data['key']);
+            $this->db->or_like('Reference_Number', $array_data['key']);
+            $this->db->or_like('First_Name', $array_data['key']);
+            $this->db->or_like('Middle_Name', $array_data['key']);
+            $this->db->or_like('Last_Name', $array_data['key']);
+            
+            // $this->db->where('Student_Number !=', 0);
+            
+            $query = $this->db->get();
+            $this->db->reset_query();
+            return $query->num_rows();
+        }
     }
     public function check_advised($array){
         
@@ -441,6 +458,34 @@ class Student_Model extends CI_Model{
 
         return $query->num_rows();
     }
-   
+   public function testQuery($array_data){
+        $this->db->select('*');
+        $this->db->from('Basiced_Studentinfo');
+        $this->db->like('Student_Number', $array_data['key']);
+        $this->db->or_like('Reference_Number', $array_data['key']);
+        $this->db->or_like('First_Name', $array_data['key']);
+        $this->db->or_like('Middle_Name', $array_data['key']);
+        $this->db->or_like('Last_Name', $array_data['key']);
+        $this->db->orWhere(function ($query,$array_data) {
+            $query->db->or_like('Last_Name', $array_data['key']);
+                $this->db->or_like('First_Name', $array_data['key']);
+                $this->db->or_like('Middle_Name', $array_data['key']);  
+        });
+        // $sql = "SELECT * FROM Basiced_Studentinfo WHERE Last_Name = '?' AND Student_Number <> 0";
+        // $this->db->query($sql, array($array_data['key']));
+
+        // $query = $this->db->query("SELECT * FROM Basiced_Studentinfo WHERE Last_Name = 'MAGTIRA' AND Student_Number != 0");
+        // $this->db->where('Student_Number !=', 0);
+        $query = $this->db->get();
+        return $query->result_array();
+   }
+   public function decryptPass($id){
+    $this->db->select('*,AES_DECRYPT(`Password`, \`Password\`)');
+    $this->db->from('Users');
+    $this->db->where('User_ID',$id);
+    $result = $this->db->get();
+    return $result->result_array();
+    // $this->db->where('AES_DECRYPT(`Password`, \`'.$array_data['password'].'\`) = \''.$array_data['password'].'\'');
+   }
 
 }

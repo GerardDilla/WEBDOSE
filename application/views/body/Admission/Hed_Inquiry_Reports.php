@@ -42,10 +42,29 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <label>From: </label>
+                                                        <label for="inquiry_from">From: </label>
+                                                        <?php if (!empty($this->input->post('inquiry_from'))) : ?>
+                                                            <input type="date" id="inquiry_from" class="form-control" name="inquiry_from" data-date-format="yyyy-mm-dd" value="<?php echo $this->input->post('inquiry_from'); ?>">
+                                                        <?php else : ?>
+                                                            <input type="date" id="inquiry_from" class="form-control" name="inquiry_from" data-date-format="yyyy-mm-dd">
+                                                        <?php endif ?>
                                                     </td>
                                                     <td>
-                                                        <input type="date" name="inquiry_from" data-date-format="yyyy-mm-dd">
+                                                        <!-- <button>Clear</button> -->
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>
+                                                        <label for="inquiry_to">To: </label>
+                                                        <?php if (!empty($this->input->post('inquiry_from'))) : ?>
+                                                            <input type="date" id="inquiry_to" class="form-control" name="inquiry_to" data-date-format="yyyy-mm-dd" value="<?php echo $this->input->post('inquiry_to'); ?>">
+                                                        <?php else : ?>
+                                                            <input type="date" id="inquiry_to" class="form-control" name="inquiry_to" data-date-format="yyyy-mm-dd">
+                                                        <?php endif ?>
+                                                    </td>
+                                                    <td>
+
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -55,13 +74,16 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <label>To: </label>
-                                                    </td>
-                                                    <td>
-                                                        <input type="date" name="inquiry_to" data-date-format="yyyy-mm-dd">
+                                                        <label for="single_search">Reference no. / Student No.</label>
+                                                        <?php if (!empty($this->input->post('single_search'))) : ?>
+                                                            <input type="text" name="single_search" class="form-control" id="single_search" value="<?php echo $this->input->post('single_search');?>">
+                                                        <?php else : ?>
+                                                            <input type="text" name="single_search" class="form-control" id="single_search">
+                                                        <?php endif ?>
                                                     </td>
                                                 </tr>
                                             </table>
+
                                         </div>
                                         <div class="col-md-4" style="border-right:solid #ccc">
 
@@ -103,11 +125,23 @@
                                             ?>
 
 
-
+                                            <label for="course">Course Enrolled :</label>
                                             <select tabindex="2" class="form-control show-tick" data-live-search="true" name="course">
-                                                <option disabled selected>Select Course:</option>
+                                                <option value="0" selected>Select Course:</option>
                                                 <?php foreach ($this->data['get_course']->result_array() as $row) { ?>
                                                     <?php if ($this->input->post('course') ==  $row['Program_Code']) : ?>
+                                                        <option selected><?php echo $row['Program_Code']; ?></option>
+                                                    <?php else : ?>
+                                                        <option><?php echo $row['Program_Code']; ?></option>
+                                                    <?php endif ?>
+                                                <?php } ?>
+                                            </select>
+
+                                            <label for="1st_coice">First Choice :</label>
+                                            <select class="form-control show-tick" data-live-search="true" name="1st_choice">
+                                                <option value="0" selected>Select Course:</option>
+                                                <?php foreach ($this->data['get_course']->result_array() as $row) { ?>
+                                                    <?php if ($this->input->post('1st_choice') ==  $row['Program_Code']) : ?>
                                                         <option selected><?php echo $row['Program_Code']; ?></option>
                                                     <?php else : ?>
                                                         <option><?php echo $row['Program_Code']; ?></option>
@@ -145,11 +179,13 @@
 
                                         <tr>
                                             <th>#</th>
+                                            <th>Applied</th>
                                             <th>Reference_Number</th>
                                             <th>Name</th>
                                             <th>Program</th>
                                             <th>Search Engine</th>
                                             <th>Contact #</th>
+                                            <th>Email</th>
                                             <th>School Last Attended</th>
                                             <th>Residence</th>
                                             <th>Status </th>
@@ -175,6 +211,10 @@
                                             <tr style="text-transform: uppercase;">
 
                                                 <td><?php echo $count; ?></td>
+                                                <td>
+                                                    <?php echo !empty($row->interview_status) ? 'Onestop' : ''
+                                                    ?>
+                                                </td>
                                                 <td><?php echo $row->ref_no; ?></td>
                                                 <td><?php echo $row->Last_Name; ?>, <?php echo $row->First_Name; ?> <?php echo $row->Middle_Name; ?></td>
                                                 <td>
@@ -186,6 +226,7 @@
                                                 </td>
                                                 <td><?php echo $OKS; ?></td>
                                                 <td><?php echo $row->CP_No; ?></td>
+                                                <td><?php echo $row->Email; ?></td>
 
                                                 <?php if ($row->Transferee_Name == NULL || $row->Transferee_Name == 'N/A' || $row->Transferee_Name == '' || $row->Transferee_Name == '-') : ?>
                                                     <?php if ($row->SHS_School_Name == NULL || $row->SHS_School_Name == 'N/A' || $row->SHS_School_Name == '' || $row->SHS_School_Name == '-') : ?>

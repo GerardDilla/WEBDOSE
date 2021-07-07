@@ -11,7 +11,7 @@ class StudentSoa extends CI_Controller {
         header('Access-Control-Request-Headers: Content-Type');
 
         parent::__construct();
-        $this->load->library('set_views');
+        // $this->load->library('set_views');
         $this->load->library('session');
         $this->load->library("DateConverter");
         $this->load->library("email");
@@ -31,9 +31,67 @@ class StudentSoa extends CI_Controller {
         $this->config->set_item('permitted_uri_chars', '+=\a-z 0-9~%.:_\-');
     }
 
-    public function soa_download($student_no ="", $due_id ="")
+    public function soa_download()
     {
+         // $student_no = 20170223; //20180029;
+        // $semester = "second";
+        // $school_year = "2020-2021"; //"2018-2019";
+        // $due_date = "2021-03-22";
+        $ref_no = $this->input->get('ref_no'); //20180029;
+        $semester = $this->input->get('sem');
+        $school_year = $this->input->get('sy'); //"2018-2019";
+        $due_date = $this->input->get('due');
         
+        // echo '<pre>'.print_r(array('student_no'=>$student_no,'semester'=>$semester,'school_year'=>$school_year,'due_date'=>$due_date),1).'</pre>';
+        // exit;
+        $student_no = $this->Student_Model->getStudentNumber($ref_no)['Student_Number'];
+        $student_info = $this->Global_Student_Model->get_student_info_by_student_no($student_no);
+        $array_params = array(
+            'student_info' => $student_info[0],
+            'student_type' => "HED",
+            'due_date' => $due_date
+        );
+        $this->load->library('student', $array_params);
+        $reference_no = $this->student->get_reference_no();
+        $student_no = $this->student->get_student_no();
+        $array_info = array(
+            'reference_no' => $reference_no,
+            'semester' => $semester,
+            'schoolyear' => $school_year
+        );
+
+        #get enrolled fees
+        $array_enrolled_fees = $this->Global_Fees_Model->get_enrolled_fees($array_info);
+        //$this->soa->set_enrolled_fees_data($array_enrolled_fees[0]);
+        $array_params['enrolled_fees'] = $array_enrolled_fees[0];
+
+        #get Scholarship discount
+        $scholarship_discount = $this->Fees_Model->get_scholarship_discount($array_enrolled_fees[0]['id']);
+        $array_params['scholarship_discount'] = $scholarship_discount;
+
+        #get total paid
+        $total_paid = $this->Fees_Model->get_total_payment($reference_no, $semester, $school_year);
+        $array_params['total_paid'] = $total_paid;
+
+        #get advising term
+        $array_adivsing_term = $this->Global_Program_Model->get_advising_term();
+        $array_params['array_advising_term'] = $array_adivsing_term;
+
+        #get OR list
+        $array_or_list = $this->Fees_Model->get_hed_or($reference_no, $semester, $school_year);
+        $array_params['array_official_receipt'] = $array_or_list;
+
+        #get remaining balance
+        $array_remaining_balance = $this->Global_Fees_Model->get_hed_remaining_balance($reference_no, $student_no);
+        $array_params['array_remaining_balance'] = $array_remaining_balance;
+
+        #call soa class
+        $this->load->library('Accounting/soa', $array_params);
+
+        $this->soa->export();
+        //$this->soa->test();
+    }
+    public function soa_download_test($student_no ="", $due_id =""){
         if (!$student_no || !$due_id) {
             # code...
             echo "no data";
@@ -111,8 +169,6 @@ class StudentSoa extends CI_Controller {
         
         $this->soa->export();
         //$this->soa->test();
-
-        
     }
 
     public function test()

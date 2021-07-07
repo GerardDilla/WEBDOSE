@@ -1,5 +1,5 @@
 <!-- Sweet Alert Css -->
-<link href="<?php echo base_url(); ?>plugins/lou-multi-select/css/multi-select.css" rel="stylesheet" />
+<link href="<?php echo base_url(); ?>plugins/multi-select/css/multi-select.css" rel="stylesheet" />
 
 <section  id="top" class="content" style="background-color: #fff;">
 	<!-- CONTENT GRID-->
@@ -163,6 +163,6 @@
     </div><!-- end container-fluid-->
 </section>
 
-<script type="text/javascript" src="<?php echo base_url(); ?>plugins/lou-multi-select/js/jquery.multi-select.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>plugins/multi-select/js/jquery.multi-select.js"></script>
 <input type="hidden" id="addressUrl" value="<?php echo site_url().'/UserAccessibility'; ?>"/>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/userAccessibility.js"></script>

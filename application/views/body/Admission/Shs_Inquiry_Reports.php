@@ -98,7 +98,7 @@
                                             <th>School Last Attended</th>
                                             <th>Residence</th>
                                             <th>DSWD Number</th>
-
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -132,7 +132,7 @@
                                                 <td><?php echo $row->Previous_School_Name1; ?></td>
                                                 <td><?php echo $row->City; ?>, <?php echo $row->Province; ?></td>
                                                 <td><?php echo $row->dswd_no ? $row->dswd_no : 'N/A'; ?></td>
-
+                                                <td><a href="<?php echo base_url(); ?>index.php/Admission/SHS_inquiryExport/<?php echo $row->ref_no; ?>" class="btn btn-info btn-sm">Export Application Form</a></td>
 
 
                                             </tr>

@@ -92,7 +92,10 @@ class UserAccessibility extends MY_Controller  {
         
        
     }
-
+    public function create_account(){
+        $this->render($this->set_views->admind_create_Account());
+        return;
+    }
     public function update_user_roles()
     {
         $output = array();
@@ -212,7 +215,103 @@ class UserAccessibility extends MY_Controller  {
         echo json_encode($result);
         return;
     }
+    public function createAccountSubmit(){
+        try{
 
-    
+            $password = $this->input->post('password');
+            $fullname = $this->input->post('fullname');
+            $username = $this->input->post('username');
+            $department = $this->input->post('department');
+            $position = $this->input->post('position');
+            // $password = $this->input->post('password');
+            $accessType = $this->input->post('accessType');
+            $checkUsernameIfUsed = $this->User_Accessibility_Model->checkDuplicate('UserName',$username);
+            // echo '<pre>'.print_r($encryption,1).'</pre>';
+            $array = array(
+                // 'Password' => 'AES_ENCRYPT(\''.$password.'\', \''.$password.'\')',
+                'User_FullName' => $fullname,
+                'User_Position' => $position,
+                'UserName' => $username,
+                'User_Department' => $department,
+                'AccessType' => $accessType
+            );
+            if(!empty($checkUsernameIfUsed)){
+                $this->session->set_flashdata('error', 'The username '.$username.' is already used!!');
+                redirect($_SERVER['HTTP_REFERER']);
+                exit;
+            }
+            $id = $this->User_Accessibility_Model->createUserAccount($array);
+            $this->User_Accessibility_Model->UpdateEncryptedPassword($id,$password);
+            $insert_module = array(
+                'User_id' => $id,
+                'parent_module_id' => '2',
+                'valid' => '1',
+            );
+            $this->User_Accessibility_Model->insert_new_module($insert_module);
+            // $this->
+            $this->session->set_flashdata('success', 'You Successfully created - Account USER ID:'.$id.'!');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        catch(\Exception $e){
+            $this->session->set_flashdata('error', $e->getMessage());
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        // echo '<b>User</b>:'.$username.'<br>';
+        // echo '<b>Pass</b>:'.$password.'<br>';
+        // $this->User_Accessibility_Model->UpdateUser(383,array(
+        //     'Password' => 'AES_ENCRYPT(\''.$password.'\', \''.$password.'\')'
+        // ));
+    }
+    // user
+    // default value after creation is 2 -> advising
+    // module assignment -> parent_module
+    public function getData(){
+        $password = 'sdca12';
+        $id = 383;
+        $this->User_Accessibility_Model->UpdateUser($id,$password);
+        echo 'success';
+    }
+    public function getUserInfo(){
+        $id = $this->input->post('id');
+        $data = $this->User_Accessibility_Model->getUserInfo($id);
+        echo json_encode($data);
+    }
+    public function getUserTable(){
+        echo json_encode($this->User_Accessibility_Model->getUserTable());
+    }
+    public function updateAccountSubmit(){
+        try{
+            $id = $this->input->post('useridUPDATE');
+            $password = $this->input->post('passwordUPDATE');
+            $fullname = $this->input->post('fullnameUPDATE');
+            $username = $this->input->post('usernameUPDATE');
+            $department = $this->input->post('departmentUPDATE');
+            $position = $this->input->post('positionUPDATE');
+            $accessType = $this->input->post('accessTypeUPDATE');
+            $tabValid = $this->input->post('tabValidUPDATE');
+            $array = array(
+                // 'Password' => 'AES_ENCRYPT(\''.$password.'\', \''.$password.'\')',
+                'User_FullName' => $fullname,
+                'User_Position' => $position,
+                'UserName' => $username,
+                'User_Department' => $department,
+                'AccessType' => $accessType,
+                'tabValid' => $tabValid
+                // 'userId' => $id
+            );
+            // echo '<pre>'.print_r($array,1).'</pre>';
+            // exit;
+            $this->User_Accessibility_Model->UpdateUser($id,$array);
+            if(!empty($password)){
+                $this->User_Accessibility_Model->UpdateEncryptedPassword($id,$password);
+            }
+            $this->session->set_flashdata('success', 'You Successfully Updated - Account USER ID:'.$id.'!');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        catch(\Exception $e){
+            $this->session->set_flashdata('error', $e->getMessage());
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+    }
 
 }
