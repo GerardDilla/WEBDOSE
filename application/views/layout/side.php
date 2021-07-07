@@ -469,30 +469,55 @@
             </li>
         <?php endif ?>
         <!-- Student Inquiry Module -->
-        <?php 
+        <?php
         // if (in_array($this->data['module_list']['admission'], $this->data['user_module_access'])) : 
         ?>
-            <li>
-                <a href="javascript:void(0);" class="menu-toggle">
-                    <i class="material-icons">chat</i>
-                    <span>Student Inquiry</span>
-                </a>
-                <ul class="ml-menu">
-                    <li>
-                        <a href="<?php echo base_url(); ?>index.php/StudentInquiry" class="">
-                            <span>- College Student</span>
-                        </a>
-                    </li>
-                    <!-- <li>
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <i class="material-icons">chat</i>
+                <span>Student Inquiry</span>
+            </a>
+            <ul class="ml-menu">
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php/StudentInquiry" class="">
+                        <span>- College Student</span>
+                    </a>
+                </li>
+                <!-- <li>
                         <a href="<?php echo base_url(); ?>index.php/ccao/Reports" class="">
                             <span>Career Talk Reports</span>
                         </a>
                     </li> -->
-                </ul>
-            </li>
-        <?php 
+            </ul>
+        </li>
+        <?php
         // endif
-            ?>
+        ?>
+        <!-- Des Module -->
+        <?php
+        // if (in_array($this->data['module_list']['des'], $this->data['user_module_access'])) : 
+        ?>
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <i class="material-icons">label</i>
+                <span>Des Module</span>
+            </a>
+            <ul class="ml-menu">
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php/Des/digital_citizenship" class="">
+                        <span>-Digital Citizenship</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php/Des/id_application" class="">
+                        <span>-ID Application</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <?php
+        // endif 
+        ?>
 
 
         <li class="header"></li>

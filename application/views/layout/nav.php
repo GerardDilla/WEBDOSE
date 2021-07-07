@@ -10,6 +10,7 @@
 
     <!-- #END# Page Loader -->
     <!-- Overlay For Sidebars -->
+    <div id="baseurl_link" data-baseurl="<?php echo base_url()?>"></div>
     <div class="overlay"></div>
     <!-- #END# Overlay For Sidebars -->
     <!-- Search Bar -->

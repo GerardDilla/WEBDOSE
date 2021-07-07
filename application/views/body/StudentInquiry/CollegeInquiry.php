@@ -121,8 +121,10 @@ span.chat-status{
   Launch demo modal
 </button> -->
         <!-- MODULE TITLE-->
-        <div class="block-header">
-            <h1> <i class="material-icons" style="font-size:100%">feedback</i> College Inquiry</h1>
+        <div class="block-header row">
+            <h1 style="float:left;" class="col-md-8"> <i class="material-icons" style="font-size:100%">feedback</i> College Inquiry</h1>
+            <span class="col-md-4"><input type="date" id="search_date" name="search_date" class="form-control" style="margin-top:10px;" value="<?= date("Y-m-d");?>"></span>
+            
             <?php if($this->session->flashdata('message_error') || $this->session->flashdata('message_success')): ?>
             <br>
                 <h3 class="col-red">
@@ -227,6 +229,7 @@ span.chat-status{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js" integrity="sha512-BCMqEPl2dokU3T/EFba7jrfL4FxgY6ryUh4rRC9feZw4yWUslZ3Uf/lPZ5/5UlEjn4prlQTRfIPYQkDrLCZJXA==" crossorigin="anonymous"></script>
 <script>
+var search_date = $('input[name=search_date]').val();
 $('#college_inquiry').iziModal({
     theme: 'light',
     headerColor: 'maroon',
@@ -312,6 +315,7 @@ class CollegeTable{
         return this.data;
     }
 }
+
 var collegetable = new CollegeTable();
 
 $('#search_table').on('keyup',function(){
@@ -538,9 +542,7 @@ async function someone_typing(){
 }   
 async function init(ref) {
 // Find ideas
-const ideas = await app.service('chat-inquiry').get({ref_no:ref});
-// console.log(ideas)
-// console.log(ideas);
+    const ideas = await app.service('chat-inquiry').get({ref_no:ref,search_date:search_date});
     ideas.forEach(renderIdea);
 }
 
@@ -558,6 +560,14 @@ function openModal(ref,name){
 app.service('chat-inquiry').on('created', receivedMessage);
 app.service('chat-inquiry').on('updated', updateToSeen);
 // getInquiryList();
-
+$('#search_date').on('change',function(){
+    // const getFilteredChat = await app.service('chat-change-date').get({search_date:search_date});
+    var search_date_value = this.value;
+    
+    (async() => {
+        const getFilteredChat = await app.service('chat-change-date').get({search_date:search_date_value});
+        collegetable.updateData(getFilteredChat)
+        collegetable.filterData($('#search_table').val());
+    })();
+})
 </script>
-        <!--/ MODULE TITLE-->
