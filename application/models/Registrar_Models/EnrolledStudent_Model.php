@@ -99,29 +99,29 @@ class EnrolledStudent_Model extends CI_Model{
       $this->db->join('Student_Info', 'Student_Info.Reference_Number = Fees_Enrolled_College.Reference_Number','INNER');
       $this->db->join('Program_Majors','Program_Majors.ID = Student_Info.Major','LEFT');
    
-      if($array['sm'] != NULL){
+      if($array['sm'] != ''){
+            $this->db->where('Fees_Enrolled_College.semester',$array['sm']);
             $this->db->where('Fees_Enrolled_College.semester',$array['sm']);
         }
-        if($array['sy'] != NULL){ 
+        if($array['sy'] != ''){ 
+            $this->db->where('Fees_Enrolled_College.schoolyear',$array['sy']);
             $this->db->where('Fees_Enrolled_College.schoolyear',$array['sy']);
         }
-        if($array['nt'] != NULL){ 
+        if($array['nt'] != ''){ 
            $this->db->where('Student_Info.Nationality',$array['nt']);
         }
-        if($array['major'] != NULL){ 
+        if($array['major'] != ''){ 
           $this->db->where('Student_Info.Major',$array['major']);
         }
-        if($array['pmajor'] != NULL){ 
+        if($array['pmajor'] != ''){ 
           $this->db->where('Fees_Enrolled_College.Course',$array['pmajor']);
         }
-        if($array['Gender'] != NULL){ 
+        if($array['Gender'] != ''){ 
           $this->db->where('Student_Info.Gender',$array['Gender']);
         }
-        if($array['YL'] != NULL){ 
+        if($array['YL'] != ''){ 
           $this->db->where('Fees_Enrolled_College.YearLevel',$array['YL']);
         }
-        $this->db->where('Fees_Enrolled_College.semester',$array['sm']);
-        $this->db->where('Fees_Enrolled_College.schoolyear',$array['sy']);
         $this->db->where('Fees_Enrolled_College.withdraw','0');
         $this->db->order_by('Student_Info.Last_Name', 'ASC');
         $query = $this->db->get();
