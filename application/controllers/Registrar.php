@@ -1222,7 +1222,7 @@ class Registrar extends MY_Controller
       'Yl'        => $this->session->userdata('Yl'),
       'submit'    => $this->session->userdata('submit'),
     );
-    
+
 
     $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
@@ -1473,7 +1473,7 @@ class Registrar extends MY_Controller
       $object->getActiveSheet()->getStyle($left)->getAlignment()
         ->setHorizontal('left');
     }
-    
+
 
     $student_data = $this->Ched_Report_Model->Get_students($ched_array);
     //use comment to define process.
@@ -3412,11 +3412,17 @@ class Registrar extends MY_Controller
       'Gender'     => $this->input->post('Gender'),
       'YL'         => $this->input->post('YL'),
       'Sec'        => $this->input->post('Section'),
-      'submit'     => $this->input->post('search_button')
+      'submit'     => $this->input->post('search_button'),
+      'search'       => '0',
     );
+    if($this->input->post('search_button')!== null){
+      $array['search'] = '1';
+    }
     // die(json_encode($array));
+      $this->data['GetStudent'] = $this->EnrolledStudent_Model->GetStudentList($array);
+      
 
-    $this->data['GetStudent'] = $this->EnrolledStudent_Model->GetStudentList($array);
+    // die($this->data['GetStudent']);
 
     $this->array_logs['module'] = 'Enrolled Student Report';
     $this->array_logs['action'] = 'Search Enrolled Student: School Year: ' . $array['sy'] . ' SEMESTER:' . $array['sm'];
