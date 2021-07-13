@@ -722,6 +722,9 @@ class StudentRecords extends MY_Controller
         $drawing->setName('Logo1');
         $drawing->setDescription('Logo1');
         $drawing->setPath('./img/StudentRecords/logo1.png');
+        $drawing->setWidth(80);
+        $drawing->setHeight(80);
+        $drawing->setOffsetX(70);
         $drawing->setCoordinates($array_first_col_grades['col_2'] . '1');
         $drawing->setWorksheet($spreadsheet->getActiveSheet());
 
@@ -729,6 +732,8 @@ class StudentRecords extends MY_Controller
         $drawing->setName('Logo2');
         $drawing->setDescription('Logo2');
         $drawing->setPath('./img/StudentRecords/logo2.png');
+        $drawing->setWidth(80);
+        $drawing->setHeight(80);
         $drawing->setCoordinates($array_second_col_grades['col_2'] . '1');
         $drawing->setWorksheet($spreadsheet->getActiveSheet());
 
@@ -736,6 +741,10 @@ class StudentRecords extends MY_Controller
         $drawing->setName('Logo3');
         $drawing->setDescription('Logo3');
         $drawing->setPath('./img/StudentRecords/logo3.png');
+        $drawing->setResizeProportional(false);
+        $drawing->setWidth(512.12598425);
+        $drawing->setHeight(77.102362205);
+        $drawing->setOffsetY(5);
         $drawing->setCoordinates($array_first_col_grades['col_2'] . '5');
         $drawing->setWorksheet($spreadsheet->getActiveSheet());
 
