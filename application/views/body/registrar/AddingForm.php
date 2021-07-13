@@ -50,6 +50,8 @@
 							$options = array(
 								
 								'0'=> 'Select School Year',
+								($year_now - 3)."-".($year_now - 2) => ($year_now - 3)."-".($year_now - 2),
+								($year_now - 2)."-".($year_now - 1) => ($year_now - 2)."-".($year_now - 1),
 								($year_now - 1)."-".$year_now => ($year_now - 1)."-".$year_now,
 								$year_now."-".($year_now + 1) => $year_now."-".($year_now + 1),
 								($year_now + 1)."-".($year_now + 2) => ($year_now + 1)."-".($year_now + 2)

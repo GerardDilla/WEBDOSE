@@ -132,8 +132,8 @@
                                                 <td><?php echo $row->Previous_School_Name1; ?></td>
                                                 <td><?php echo $row->City; ?>, <?php echo $row->Province; ?></td>
                                                 <td><?php echo $row->dswd_no ? $row->dswd_no : 'N/A'; ?></td>
-                                                <td><a href="<?php echo base_url(); ?>index.php/Admission/SHS_inquiryExport/<?php echo $row->ref_no; ?>" class="btn btn-info btn-sm">Export Application Form</a></td>
-
+                                                <!-- <td><a href="<?php echo base_url(); ?>index.php/Admission/SHS_inquiryExport/<?php echo $row->ref_no; ?>" class="btn btn-info btn-sm">Export Application Form</a></td> -->
+                                                <td><button type="button" onclick="window.open(`<?php echo base_url(); ?>index.php/Admission/SHS_inquiryExport/<?php echo $row->ref_no; ?>`,'_blank','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600')" class="btn btn-info btn-sm">Export Application Form</button></td>
 
                                             </tr>
 
