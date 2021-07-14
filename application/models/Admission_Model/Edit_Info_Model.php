@@ -240,4 +240,9 @@ class Edit_Info_Model extends CI_Model
     $query_log = $this->db->last_query();
     return $query_log;
   }
+  public function getSiblings_BED($ref_no){
+    $this->db->where('Reference_Number',$ref_no);
+    $query = $this->db->get('Basiced_Student_Siblings');
+    return $query;
+  }
 }

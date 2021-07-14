@@ -27,26 +27,30 @@
             }
             .table-header{
                 font-weight:bold;
-                background:black;
+                background:maroon;
                 color:white;
                 font-size:14px;
                 font-style: italic;
                 padding:1px 0px 1px 7px;
             }
             .table-label-2{
+                overflow-y: auto;
                 text-align:center;
                 font-size:12px;
                 padding:2px 0px 2px 0px;
             }
             .table-label-3{
+                overflow-y: auto;
                 padding:2px 0px 2px 7px;
                 font-size:13px;
             }
             .table-label-4{
+                overflow-y: auto;
                 font-size:14px;
                 text-align:center;
             }
             .table-label-5{
+                overflow-y: auto;
                 font-size:14px;
                 padding:2px 0px 2px 7px;
             }
@@ -128,20 +132,20 @@
                 left:0; */
             }
             .application-text-1{
-                font-size:70%;
+                font-size:100%;
                 font-weight:bold;
             }
             .application-text-2{
-                font-size:80%;
-                font-weight:bold;
-            }
-            .application-text-3{
                 font-size:90%;
                 font-weight:bold;
             }
-            .application-text-4{
-                font-size:100%;
+            .application-text-3{
+                font-size:80%;
                 font-weight:bold;
+            }
+            .application-text-4{
+                font-size:70%;
+                font-weight:600;
             }
         </style>
     </head>
@@ -161,7 +165,7 @@
         
         <table width="100%" border="0" cellspacing="0" cellpading="0">
             <tr>
-                <td class="table-label height-1" valign="top">Level Applied For<br><span class="application-text-4"><?= $application_form['Gradelevel'];?></span></td>
+                <td class="table-label height-1" valign="top">Level Applied For<br><span class="application-text-1"><?= $application_form['Gradelevel'];?></span></td>
                 <td class="table-label height-1" valign="top">Date of Application<br><span class="application-text-1"><?= $application_form['date_applied'];?></span></td>
                 <td class="table-label height-1" valign="top">Learner Reference Number (LRN#)<br><span class="application-text-1"><?= $application_form['LRN'];?></span></td>
                 <td class="table-label height-1" valign="top">Reference Number<br><span class="application-text-1"><?= $application_form['Reference_Number'];?></span></td>
@@ -170,25 +174,40 @@
                 <td class="table-header" colspan="4">PERSONAL INFORMATION OF THE STUDENT</td>
             </tr>
             <tr>
-                <td class="table-label height-1">Last Name<br><span class="application-text-1"></span></td>
-                <td class="table-label height-1">First Name<br><span class="application-text-1"></span></td>
-                <td class="table-label height-1">Middle Name<br><span class="application-text-1"></span></td>
-                <td class="table-label height-1">Nickname<br><span class="application-text-1"></span></td>
+                <td class="table-label height-1" valign="top">Last Name<br><span class="application-text-1"><?= $application_form['Last_Name'];?></span></td>
+                <td class="table-label height-1" valign="top">First Name<br><span class="application-text-1"><?= $application_form['First_Name'];?></span></td>
+                <td class="table-label height-1" valign="top">Middle Name<br><span class="application-text-1"><?= $application_form['Middle_Name'];?></span></td>
+                <td class="table-label height-1" valign="top">Nickname<br><span class="application-text-1"><?= $application_form['Nick_Name'];?></span></td>
             </tr>
             <tr>
-                <td class="table-label" colspan="4">Home Address (House No./ Street / Subdivision or Village / Town / City / Province / Zip Code )<br><br><br></td>
+                <td class="table-label height-1" colspan="4" valign="top">Home Address (House No./ Street / Subdivision or Village / Town / City / Province / Zip Code )Nickname<br><span class="application-text-1"><?= $application_form['Address_Street'];?></span></span></td>
+            </tr>
+            <?php
+                // student 
+                $dateOfBirth = $application_form['Birth_Date'];
+                $today = date('Y-m-d');
+                $diff = date_diff(date_create($dateOfBirth), date_create($today));
+                $age = $diff->format('%y');
+
+                // mother
+                function computeAge($birthdate){
+                    $birthday = $birthdate;
+                    $date_today = date('Y-m-d');
+                    $difference = date_diff(date_create($birthday), date_create($date_today));
+                    echo $difference->format('%y');
+                }
+            ?>
+            <tr>
+                <td class="table-label height-1" valign="top">Gender<br><span class="application-text-1"><?= $application_form['Gender'];?></span></td>
+                <td class="table-label height-1" valign="top">Age<br><span class="application-text-1"><?= $age;?></span></td>
+                <td class="table-label height-1" valign="top">Date of Birth<br><span class="application-text-1"><?= $application_form['Birth_Date'];?></span></td>
+                <td class="table-label height-1" valign="top">Place of Birth<br><span class="application-text-1"><?= $application_form['Birth_Place'];?></span></td>
             </tr>
             <tr>
-                <td class="table-label height-1">Gender<br><span class="application-text-1"></span></td>
-                <td class="table-label height-1">Age<br><span class="application-text-1"></span></td>
-                <td class="table-label height-1">Date of Birth<br><span class="application-text-1"></span></td>
-                <td class="table-label height-1">Place of Birth<br><span class="application-text-1"></span></td>
-            </tr>
-            <tr>
-                <td class="table-label height-1">Contact Details<br><span class="application-text-1"></span></td>
-                <td class="table-label height-1">Email Address<br><span class="application-text-1"></span></td>
-                <td class="table-label height-1">Religion<br><span class="application-text-1"></span></td>
-                <td class="table-label">Nationality<br><span class="application-text-1"></span></td>
+                <td class="table-label height-1" valign="top">Contact Details<br><span class="application-text-1"></span></td>
+                <td class="table-label height-1" valign="top">Email Address<br><span class="application-text-1"></span></td>
+                <td class="table-label height-1" valign="top">Religion<br><span class="application-text-1"><?= $application_form['Religion'];?></span></td>
+                <td class="table-label height-1" valign="top">Nationality<br><span class="application-text-1"><?= $application_form['Nationality'];?></span></td>
             </tr>
             <tr>
                 <td class="table-header" colspan="4">ACADEMIC BACKGROUND</td>
@@ -201,36 +220,36 @@
             </tr>
             <tr>
                 <td class="table-label-2">Preschool</td>
-                <td class="table-label-2"></td>
-                <td class="table-label-2"></td>
-                <td class="table-label-2"></td>
+                <td class="table-label-2"><span class="application-text-4"><?= $application_form['Previous_School_Name1'];?></span></td>
+                <td class="table-label-2"><span class="application-text-4"><?= $application_form['Previous_School_Years1'];?></span></td>
+                <td class="table-label-2"><span class="application-text-4"><?= $application_form['Previous_School_Awards1'];?></span></td>
             </tr>
             <tr>
                 <td class="table-label-2">Elementary</td>
-                <td class="table-label-2"></td>
-                <td class="table-label-2"></td>
-                <td class="table-label-2"></td>
+                <td class="table-label-2"><span class="application-text-4"><?= $application_form['Previous_School_Name2'];?></span></td>
+                <td class="table-label-2"><span class="application-text-4"><?= $application_form['Previous_School_Years2'];?></span></td>
+                <td class="table-label-2"><span class="application-text-4"><?= $application_form['Previous_School_Awards2'];?></span></td>
             </tr>
             <tr>
                 <td class="table-label-2">Highschool</td>
-                <td class="table-label-2"></td>
-                <td class="table-label-2"></td>
-                <td class="table-label-2"></td>
+                <td class="table-label-2"><span class="application-text-4"><?= $application_form['Previous_School_Name3'];?></span></td>
+                <td class="table-label-2"><span class="application-text-4"><?= $application_form['Previous_School_Years3'];?></span></td>
+                <td class="table-label-2"><span class="application-text-4"><?= $application_form['Previous_School_Awards3'];?></span></td>
             </tr>
             <tr>
                 <td class="table-label-3" colspan="4">For Grade 8 - 10 ESC Grantees, indicate your ESC Student ID Number:____________ School ID Number ____________</td>
             </tr>
             <tr>
                 <td class="table-label-4">Organization /<br> Club in school</td>
-                <td class="table-label-2" align="center">Name of Organization/Club<br><br><br></td>
-                <td class="table-label-2" align="center">Position<br><br><br></td>
-                <td class="table-label-2" align="center">Year<br><br><br></td>
+                <td class="table-label-2 height-1" align="center" valign="top">Name of Organization/Club<br><span class="application-text-4"><?= $application_form['Organization_Name1'];?></span></td>
+                <td class="table-label-2 height-1" align="center" valign="top">Position<br><span class="application-text-4"><?= $application_form['Organization_Position1'];?></span></td>
+                <td class="table-label-2 height-1" align="center" valign="top">Year<br><span class="application-text-4"><?= $application_form['Organization_Year1'];?></span></td>
             </tr>
             <tr>
                 <td class="table-label-4">Organization /<br> Club in the community</td>
-                <td class="table-label-2" align="center">Name of Organization/Club<br><br><br></td>
-                <td class="table-label-2" align="center">Position<br><br><br></td>
-                <td class="table-label-2" align="center">Year<br><br><br></td>
+                <td class="table-label-2 height-1" align="center" valign="top">Name of Organization/Club<br><span class="application-text-4"><?= $application_form['Organization_Name2'];?></span></td>
+                <td class="table-label-2 height-1" align="center" valign="top">Position<br><span class="application-text-4"><?= $application_form['Organization_Position2'];?></span></td>
+                <td class="table-label-2 height-1" align="center" valign="top">Year<br><span class="application-text-4"><?= $application_form['Organization_Year2'];?></span></td>
             </tr>
             <tr>
                 <td class="table-header" colspan="4">FAMILY BACKGROUND</td>
@@ -238,59 +257,59 @@
         </table>
         <table width="100%" border="0" cellspacing="0" cellpading="0">
             <tr>
-                <td class="table-label-5" width="33%"></td>
-                <th class="table-label-5">FATHER</th>
+                <td class="table-label-5"></td>
+                <th class="table-label-5" width="33%">FATHER</th>
                 <th class="table-label-5" width="33%">MOTHER <sub>( Maiden Name )</sub></th>
             </tr>
             <tr>
                 <td class="table-label-5">Full Name</td>
-                <td class="table-label-5"></td>
-                <td class="table-label-5"></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Father_Name'];?></span></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Mother_Name'];?></span></td>
             </tr>
             <tr>
                 <td class="table-label-5">Age</td>
-                <td class="table-label-5"></td>
-                <td class="table-label-5"></td>
+                <td class="table-label-5"><span class="application-text-4"><?php computeAge($application_form['Father_Birthdate']);?></span></td>
+                <td class="table-label-5"><span class="application-text-4"><?php computeAge($application_form['Mother_Birthdate']);?></span></td>
             </tr>
             <tr>
                 <td class="table-label-5">Birthday</td>
-                <td class="table-label-5"></td>
-                <td class="table-label-5"></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Father_Birthdate'];?></span></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Mother_Birthdate'];?></span></td>
             </tr>
             <tr>
                 <td class="table-label-5">Address</td>
-                <td class="table-label-5"></td>
-                <td class="table-label-5"></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Father_Address'];?></span></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Mother_Address'];?></span></td>
             </tr>
             <tr>
                 <td class="table-label-5">Contact Details</td>
-                <td class="table-label-5"></td>
-                <td class="table-label-5"></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Father_Mobileno'];?></span></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Mother_Mobileno'];?></span></td>
             </tr>
             <tr>
                 <td class="table-label-5">Educational Attainment</td>
-                <td class="table-label-5"></td>
-                <td class="table-label-5"></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Father_Education'];?></span></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Mother_Education'];?></span></td>
             </tr>
             <tr>
                 <td class="table-label-5">Name of Company</td>
-                <td class="table-label-5"></td>
-                <td class="table-label-5"></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Father_Employer'];?></span></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Mother_Employer'];?></span></td>
             </tr>
             <tr>
                 <td class="table-label-5">Occupation/Position</td>
-                <td class="table-label-5"></td>
-                <td class="table-label-5"></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Father_Position'];?></span></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Mother_Position'];?></span></td>
             </tr>
             <tr>
                 <td class="table-label-5">Average Monthly Income</td>
-                <td class="table-label-5"></td>
-                <td class="table-label-5"></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Father_Income'];?></span></td>
+                <td class="table-label-5"><span class="application-text-4"><?= $application_form['Mother_Income'];?></span></td>
             </tr>
             <tr>
                 <td class="table-label-5">Parent's Marital Status</td>
                 <td class="table-label-5" colspan="2">
-                    __Married &nbsp;&nbsp; __Living together  &nbsp;&nbsp;__Seperated  &nbsp;&nbsp;&nbsp;__Not Married &nbsp;&nbsp;__Widowed<br><br>
+                    <?= $application_form['Parent_Status']=="MARRIED"?'<strong>&#10004;</strong>':'__' ?>Married &nbsp;&nbsp; <?= $application_form['Parent_Status']=="MARRIED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Living together  &nbsp;&nbsp;<?= $application_form['Parent_Status']=="SEPERATED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Seperated  &nbsp;&nbsp;&nbsp;<?= $application_form['Parent_Status']=="SINGLE"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Not Married &nbsp;&nbsp;<?= $application_form['Parent_Status']=="WIDOWED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Widowed<br><br>
                     If separated , since when ? ______________________________________<br>
                     With whom is the child staying ? __________________________________<br>
                     From whom do you receive financial support? ( father, mother, aunt, uncle etc. )<br>
@@ -311,25 +330,25 @@
                 <td class="table-label-5" align="center">School/Company</td>
             </tr>
             <tr>
-                <td class="table-label-5" align="center"><br></td>
-                <td class="table-label-5" align="center"><br></td>
-                <td class="table-label-5" align="center"><br></td>
-                <td class="table-label-5" align="center"><br></td>
-                <td class="table-label-5" align="center"><br></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[0])?$siblings[0]['fullname']:''; ?></span></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[0])?$siblings[0]['age']:''; ?></span></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[0])?$siblings[0]['birthorder']:''; ?></span></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[0])?$siblings[0]['grade']:''; ?></span></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[0])?$siblings[0]['school_company']:''; ?></span></td>
             </tr>
             <tr>
-                <td class="table-label-5" align="center"><br></td>
-                <td class="table-label-5" align="center"><br></td>
-                <td class="table-label-5" align="center"><br></td>
-                <td class="table-label-5" align="center"><br></td>
-                <td class="table-label-5" align="center"><br></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[1])?$siblings[1]['fullname']:''; ?></span></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[1])?$siblings[1]['age']:''; ?></span></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[1])?$siblings[1]['birthorder']:''; ?></span></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[1])?$siblings[1]['grade']:''; ?></span></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[1])?$siblings[1]['school_company']:''; ?></span></td>
             </tr>
             <tr>
-                <td class="table-label-5" align="center"><br></td>
-                <td class="table-label-5" align="center"><br></td>
-                <td class="table-label-5" align="center"><br></td>
-                <td class="table-label-5" align="center"><br></td>
-                <td class="table-label-5" align="center"><br></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[2])?$siblings[2]['fullname']:''; ?></span></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[2])?$siblings[2]['age']:''; ?></span></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[2])?$siblings[2]['birthorder']:''; ?></span></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[2])?$siblings[2]['grade']:''; ?></span></td>
+                <td class="table-label-5" align="center" valign="top"><span class="application-text-4"><?= !empty($siblings[2])?$siblings[2]['school_company']:''; ?></span></td>
             </tr>
             <!-- <tr>
                 <td class="table-label-2"><br><br><br></td>
@@ -347,21 +366,23 @@
                 <td class="table-header" colspan="4">Legal Guardian</td>
             </tr>
             <tr>
-                <td colspan="2" class="table-label-2">
+                <td colspan="2" class="table-label-2 height-1" valign="top">
                     Name
+                    <br><span class="application-text-4"><?= $application_form['Guardian_Name'];?></span>
                 </td>
-                <td colspan="2" class="table-label-2">
+                <td colspan="2" class="table-label-2 height-1" valign="top">
                     Relationship to the applicant
+                    <br><span class="application-text-4"><?= $application_form['Guardian_Relation'];?></span>
                 </td>
             </tr>
             <tr>
-                <td colspan="4" class="table-label">Home Address (House No./ Street / Subdivision or Village / Town / City / Province / Zip Code )<br><br><br></td>
+                <td colspan="4" class="table-label height-1">Home Address (House No./ Street / Subdivision or Village / Town / City / Province / Zip Code )<br><span class="application-text-4"><?= $application_form['Guardian_Address'];?></span></td>
             </tr>
             <tr>
-                <td class="table-label">Contact Details<br><br><br></td>
-                <td class="table-label">Name of Company<br><br><br></td>
-                <td class="table-label">Occupation/Position<br><br><br></td>
-                <td class="table-label">Average Monthly income<br><br><br></td>
+                <td class="table-label height-1">Contact Details<br><span class="application-text-4"><?= $application_form['Guardian_Mobileno'];?></span></td>
+                <td class="table-label height-1">Name of Company<br><span class="application-text-4"><?= $application_form['Guardian_Employer'];?></span></td>
+                <td class="table-label height-1">Occupation/Position<br><span class="application-text-4"><?= $application_form['Guardian_Position'];?></span></td>
+                <td class="table-label height-1">Average Monthly income<br><span class="application-text-4"><?= $application_form['Guardian_Income'];?></span></td>
             </tr>
         </table>
     </div>
@@ -372,23 +393,23 @@
             </tr>
             <tr>
                 <td width="25%" class="table-label-5">Allergy / Surgery</td>
-                <td width="75%" class="table-label-5">_________________________________________________________________________</td>
+                <td width="75%" class="table-label-5"><span class="application-text-1"><?= $application_form['Allergy_Surgery']; ?></span></td>
             </tr>
             <tr>
                 <td width="25%" class="table-label-5">Visual Acuity</td>
-                <td width="75%" class="table-label-5">&nbsp; ___normal vision &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___wears eyeglass&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___others(specify)______________________</td>
+                <td width="75%" class="table-label-5">&nbsp; <?= $application_form['Visual_Acuity']=="Normal Vision"?'<strong>&#10004;</strong>':'___';?>normal vision &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $application_form['Visual_Acuity']=="Wears Eyeglass"?'<strong>&#10004;</strong>':'___';?>wears eyeglass&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $application_form['Visual_Acuity']!="Wears Eyeglass"&&$application_form['Visual_Acuity']!="Normal Vision"?'<strong>&#10004;</strong>':'___';?>others(specify) <span class="application-text-3"><?= $application_form['Visual_Acuity']!="Wears Eyeglass"&&$application_form['Visual_Acuity']!="Normal Vision"?$application_form['Visual_Acuity']:'______________________';?></span></td>
             </tr>
             <tr>
                 <td width="25%" class="table-label-5">Auditory Perception</td>
-                <td width="75%" class="table-label-5">&nbsp; ___normal vision &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___wears hearing aid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___others(specify)____________________</td>
+                <td width="75%" class="table-label-5">&nbsp; <?= $application_form['Auditory_Perception']=="Normal Hearing"?'<strong>&#10004;</strong>':'___';?>normal vision &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $application_form['Auditory_Perception']=="Wears Hearing Aid"?'<strong>&#10004;</strong>':'___';?>wears hearing aid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $application_form['Auditory_Perception']!="Normal Hearing"&&$application_form['Auditory_Perception']!="Wears Hearing Aid"?'<strong>&#10004;</strong>':'___';?>others(specify)<?= $application_form['Auditory_Perception']!="Normal Hearing"&&$application_form['Auditory_Perception']!="Wears Hearing Aid"?'&nbsp;<span class="application-text-3">'.$application_form['Auditory_Perception'].'</span>':'____________________';?></td>
             </tr>
             <tr>
                 <td width="25%" class="table-label-5">Physical Condition</td>
-                <td width="75%" class="table-label-5">&nbsp; ___normal condition &nbsp;___with physical disability(specify)___________________________</td>
+                <td width="75%" class="table-label-5">&nbsp; <?= $application_form['Physical_Condition']=="Normal Condition"?'<strong>&#10004;</strong>':'___';?>normal condition &nbsp;<?= $application_form['Physical_Condition']!="Normal Hearing"?'<strong>&#10004;</strong>':'___';?>with physical disability(specify)<?= $application_form['Physical_Condition']!="Normal Hearing"?'&nbsp;<span class="application-text-3">'.$application_form['Physical_Condition'].'</span>':'___________________________';?></td>
             </tr>
             <tr>
                 <td width="25%" class="table-label-5">Psychologycal Condition</td>
-                <td width="75%" class="table-label-5">&nbsp; ___normal condition &nbsp;___with psychologycal concern(specify)_______________________</td>
+                <td width="75%" class="table-label-5">&nbsp; <?= $application_form['Psychological_Condition']=="Normal Condition"?'<strong>&#10004;</strong>':'___';?>normal condition &nbsp;<?= $application_form['Psychological_Condition']!="Normal Condition"?'<strong>&#10004;</strong>':'___';?>with psychologycal concern(specify) <?= $application_form['Psychological_Condition']!="Normal Condition"?'&nbsp;<span class="application-text-3">'.$application_form['Psychological_Condition'].'</span>':'_______________________';?></td>
             </tr>
         </table>
         <table width="100%" border="0" cellspacing="0" cellpading="0">
@@ -396,12 +417,12 @@
                 <td colspan="3" class="table-header">How did you learn about SDCA?</td>
             </tr>
             <tr>
-                <td width="33%" class="table-label-5 border-transparent">[ ] Family members / relatives</td>
-                <td class="table-label-5 border-transparent">[ ] Friends / Neighbors</td>
-                <td width="33%" class="table-label-5 border-transparent">[ ] Streamer / Billboard / Flyers</td>
+                <td width="33%" class="table-label-5 border-transparent">[<?= $application_form['Others_Know_SDCA']=="Parents"||$application_form['Others_Know_SDCA']=="Relatives"?'<strong>&#10004;</strong>':'&nbsp;';?>] Family members / relatives</td>
+                <td class="table-label-5 border-transparent">[<?= $application_form['Others_Know_SDCA']=="SDCA_Friends"||$application_form['Others_Know_SDCA']=="Friends"||$application_form['Others_Know_SDCA']=="COME_ALL"?'<strong>&#10004;</strong>':'&nbsp;';?>] Friends / Neighbors</td>
+                <td width="33%" class="table-label-5 border-transparent">[<?= $application_form['Others_Know_SDCA']=="Others"||$application_form['Others_Know_SDCA']=="Advertisement"?'<strong>&#10004;</strong>':'&nbsp;';?>] Streamer / Billboard / Flyers</td>
             </tr>
             <tr>
-                <td width="33%" class="table-label-5 border-transparent">[ ] Official Website / Social Media</td>
+                <td width="33%" class="table-label-5 border-transparent">[<?= $application_form['Others_Know_SDCA']=="Website"||$application_form['Others_Know_SDCA']=="Facebook"||$application_form['Others_Know_SDCA']=="Career_Talk"?'<strong>&#10004;</strong>':'&nbsp;';?>] Official Website / Social Media</td>
                 <td class="table-label-5 border-transparent">[ ] Referred by _______________</td>
                 <td width="33%" class="table-label-5 border-transparent">Contact Number_______________</td>
             </tr>

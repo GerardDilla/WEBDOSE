@@ -1735,9 +1735,11 @@ class Admission extends MY_Controller
   public function BED_inquiryExport($ref = ''){
     // $dompdf = new Dompdf();
     $info  = $this->Edit_Info_Model->Get_Info_BED($ref)->row_array();
+    $siblings = $this->Edit_Info_Model->getSiblings_BED($ref)->result_array();
     $data['application_form'] = $info;
+    $data['siblings'] = $siblings;
     // echo $data['application_form']['application_form']
-    echo '<pre>'.print_r($info,1).'</pre>';exit;
+    // echo '<pre>'.print_r($data,1).'</pre>';exit;
     if(!empty($info)){
       $this->load->view('body/Admission/template/BED_Application_Form',$data);
     }
