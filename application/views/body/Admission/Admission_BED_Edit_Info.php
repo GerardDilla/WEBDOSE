@@ -64,7 +64,7 @@
 
                                     <div class="col-md-5">
                                        <div class="pull-right">
-                                        <button name="edit"  type="button" onclick="disable()" class="btn btn-success btn-lg EditButton">EDIT</button>
+                                        <button type="button" onclick="window.open(`<?php echo base_url(); ?>index.php/Admission/BED_inquiryExport/<?= $this->data['get_info'][0]['Reference_Number'];?>`,'_blank','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=800,height=600')" class="btn btn-info btn-lg">EXPORT APPLICATION FORM</button>&nbsp;<button name="edit"  type="button" onclick="disable()" class="btn btn-success btn-lg EditButton">EDIT</button>
                                         <br>
                                         <button name="enabledEdit"  type="button" onclick="enabled()" class="btn btn-success btn-lg DisabledEditButton">DISABLE EDIT</button>
                                       

@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
 // require_once 'dompdf/autoload.inc.php';
-use Dompdf\Dompdf;
+// use Dompdf\Dompdf;
 
 class Admission extends MY_Controller
 {
@@ -1734,30 +1734,40 @@ class Admission extends MY_Controller
   }
   public function BED_inquiryExport($ref = ''){
     // $dompdf = new Dompdf();
+    
+
     $info  = $this->Edit_Info_Model->Get_Info_BED($ref)->row_array();
     $siblings = $this->Edit_Info_Model->getSiblings_BED($ref)->result_array();
     $data['application_form'] = $info;
     $data['siblings'] = $siblings;
-    // echo $data['application_form']['application_form']
     // echo '<pre>'.print_r($data,1).'</pre>';exit;
-    if(!empty($info)){
-      $this->load->view('body/Admission/template/BED_Application_Form',$data);
-    }
-    else{
-      echo "There something's wrong";
-    }
-    // $html_content = $this->output->get_output();
-    // $dompdf->loadHtml($html_content);
-    // $dompdf->setPaper('Legal');
-    // $dompdf->render();
-    // $dompdf->stream('BED_applicationform.pdf',array("Attachment"=>0));
+    $this->load->view('body/Admission/template/BED_Application_Form',$data);
+    
+    // $ci =& get_instance();
+    // $data['data'] = $data;
+    // $this->load->view('body/Admission/template/BED_Application_Form',$data);
+    // exit;
+    // $html = $ci->output->get_output();
+    // $ci->load->library('pdf');
+    // $ci->dompdf->loadHtml($html);
+    // $ci->dompdf->setPaper('Legal', 'portrait');
+    // $ci->dompdf->render();
+    // $ci->dompdf->stream('BED_applicationform.pdf',array("Attachment"=>0));
+    // if(!empty($info)){
+    //   $this->load->view('body/Admission/template/BED_Application_Form',$data);
+    // }
+    // else{
+    //   echo "There something's wrong";
+    // }
   }
 
   public function SHS_inquiryExport($ref = ''){
     $info  = $this->Edit_Info_Model->Get_Info_BED($ref)->row_array();
-    
+    $siblings = $this->Edit_Info_Model->getSiblings_BED($ref)->result_array();
+    $data['application_form'] = $info;
+    $data['siblings'] = $siblings;
     if(!empty($info)){
-      $this->load->view('body/Admission/template/SHS_Application_Form');
+      $this->load->view('body/Admission/template/SHS_Application_Form',$data);
     }
     else{
       echo "There something's wrong";
