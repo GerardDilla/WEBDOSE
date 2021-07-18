@@ -330,7 +330,7 @@ window.print();
             <tr>
                 <td class="table-label-5">Parent's Marital Status</td>
                 <td class="table-label-5" colspan="2">
-                    <?= $application_form['Parent_Status']=="MARRIED"?'<strong>&#10004;</strong>':'__' ?>Married &nbsp;&nbsp; <?= $application_form['Parent_Status']=="MARRIED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Living together  &nbsp;&nbsp;<?= $application_form['Parent_Status']=="SEPERATED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Seperated  &nbsp;&nbsp;&nbsp;<?= $application_form['Parent_Status']=="SINGLE"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Not Married &nbsp;&nbsp;<?= $application_form['Parent_Status']=="WIDOWED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Widowed<br><br>
+                    <?= $application_form['Parent_Status']=="MARRIED"?'<strong>&#10004;</strong>':'__' ?>Married &nbsp;&nbsp; <?= $application_form['Parent_Status']=="MARRIED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Living together  &nbsp;&nbsp;<?= $application_form['Parent_Status']=="SEPARATED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Separated  &nbsp;&nbsp;&nbsp;<?= $application_form['Parent_Status']=="SINGLE"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Not Married &nbsp;&nbsp;<?= $application_form['Parent_Status']=="WIDOWED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Widowed<br><br>
                     If separated , since when ? ______________________________________<br>
                     With whom is the child staying ? __________________________________<br>
                     From whom do you receive financial support? ( father, mother, aunt, uncle etc. )<br>
@@ -397,13 +397,13 @@ window.print();
                 </td>
             </tr>
             <tr>
-                <td colspan="4" class="table-label height-1">Home Address (House No./ Street / Subdivision or Village / Town / City / Province / Zip Code )<br><span class="application-text-4"><?= $application_form['Guardian_Address'];?></span></td>
+                <td colspan="4" class="table-label height-1" valign="top">Home Address (House No./ Street / Subdivision or Village / Town / City / Province / Zip Code )<br><span class="application-text-4"><?= $application_form['Guardian_Address'];?></span></td>
             </tr>
             <tr>
-                <td class="table-label height-1">Contact Details<br><span class="application-text-4"><?= $application_form['Guardian_Mobileno'];?></span></td>
-                <td class="table-label height-1">Name of Company<br><span class="application-text-4"><?= $application_form['Guardian_Employer'];?></span></td>
-                <td class="table-label height-1">Occupation/Position<br><span class="application-text-4"><?= $application_form['Guardian_Position'];?></span></td>
-                <td class="table-label height-1">Average Monthly income<br><span class="application-text-4"><?= $application_form['Guardian_Income'];?></span></td>
+                <td class="table-label height-1" valign="top">Contact Details<br><span class="application-text-4"><?= $application_form['Guardian_Mobileno'];?></span></td>
+                <td class="table-label height-1" valign="top">Name of Company<br><span class="application-text-4"><?= $application_form['Guardian_Employer'];?></span></td>
+                <td class="table-label height-1" valign="top">Occupation/Position<br><span class="application-text-4"><?= $application_form['Guardian_Position'];?></span></td>
+                <td class="table-label height-1" valign="top">Average Monthly income<br><span class="application-text-4"><?= $application_form['Guardian_Income'];?></span></td>
             </tr>
         </table>
     </div>
@@ -422,7 +422,7 @@ window.print();
             </tr>
             <tr>
                 <td width="25%" class="table-label-5">Auditory Perception</td>
-                <td width="75%" class="table-label-5"><?= $application_form['Auditory_Perception']=="NORMAL HEARING"?'<strong>&#10004;</strong>':'___';?>normal vision &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $application_form['Auditory_Perception']=="WEARS HEARING AID"?'<strong>&#10004;</strong>':'___';?>wears hearing aid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $application_form['Auditory_Perception']!="NORMAL HEARING"&&$application_form['Auditory_Perception']!="WEARS HEARING AID"?'<strong>&#10004;</strong>':'___';?>others(specify)<?= $application_form['Auditory_Perception']!="NORMAL HEARING"&&$application_form['Auditory_Perception']!="WEARS HEARING AID"?'&nbsp;<span class="application-text-3">'.$application_form['Auditory_Perception'].'</span>':'____________________';?></td>
+                <td width="75%" class="table-label-5"><?= $application_form['Auditory_Perception']=="NORMAL HEARING"?'<strong>&#10004;</strong>':'___';?>normal hearing &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $application_form['Auditory_Perception']=="WEARS HEARING AID"?'<strong>&#10004;</strong>':'___';?>wears hearing aid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $application_form['Auditory_Perception']!="NORMAL HEARING"&&$application_form['Auditory_Perception']!="WEARS HEARING AID"?'<strong>&#10004;</strong>':'___';?>others(specify)<?= $application_form['Auditory_Perception']!="NORMAL HEARING"&&$application_form['Auditory_Perception']!="WEARS HEARING AID"?'&nbsp;<span class="application-text-3">'.$application_form['Auditory_Perception'].'</span>':'____________________';?></td>
             </tr>
             <tr>
                 <td width="25%" class="table-label-5">Physical Condition</td>

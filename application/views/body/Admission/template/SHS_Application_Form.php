@@ -204,17 +204,17 @@
         </div>
         <table width="78%"  border="0" cellspacing="0" cellpading="0">
             <tr>
-                <td class="table-label-1 height-1" width="*" valign="top">Reference No.<br><span class="application-text-1"></span></td>
-                <td class="table-label-1 height-1" width="40%" valign="top">Student No.<br><span class="application-text-1"></span></td>
-                <td class="table-label-1 height-1" width="40%" valign="top">LRN No.<br><span class="application-text-1"></span></td>
+                <td class="table-label-1 height-1" width="*" valign="top">Reference No.<br><span class="application-text-1"><?= $application_form['Reference_Number']; ?></span></td>
+                <td class="table-label-1 height-1" width="40%" valign="top">Student No.<br><span class="application-text-1"><?= $application_form['Student_number']; ?></span></td>
+                <td class="table-label-1 height-1" width="40%" valign="top">LRN No.<br><span class="application-text-1"><?= $application_form['LRN']; ?></span></td>
             </tr>
         </table>
         <table width="78%"  border="0" cellspacing="0" cellpading="0">
             <tr>
-                <td class="table-label-1 height-1" valign="top">Grade Level Applied For:<br><span class="application-text-1"></span></td>
-                <td class="table-label-1 height-1" valign="top">Preferred Strand:<br><span class="application-text-1"></span></td>
-                <td class="table-label-1 height-1" valign="top">Specialization:<br><span class="application-text-1"></span></td>
-                <td class="table-label-1 height-1" valign="top">Date of Application:<br><span class="application-text-1"></span></td>
+                <td class="table-label-1 height-1" valign="top">Grade Level Applied For:<br><span class="application-text-1"><?= $application_form['Gradelevel']; ?></span></td>
+                <td class="table-label-1 height-1" valign="top">Preferred Strand:<br><span class="application-text-1"><?= $application_form['Strand']; ?></span></td>
+                <td class="table-label-1 height-1" valign="top">Specialization:<br><span class="application-text-1"><?= $application_form['Track']; ?></span></td>
+                <td class="table-label-1 height-1" valign="top">Date of Application:<br><span class="application-text-1"><?= $application_form['date_applied']; ?></span></td>
             </tr>
         </table>
         <table width="100%" border="0" cellspacing="0" cellpading="0">
@@ -360,7 +360,7 @@
             <tr>
                 <td class="table-label-5">Parent's Marital Status</td>
                 <td class="table-label-5" colspan="2">
-                    <?= $application_form['Parent_Status']=="MARRIED"?'<strong>&#10004;</strong>':'__' ?>Married &nbsp;&nbsp; <?= $application_form['Parent_Status']=="MARRIED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Living together  &nbsp;&nbsp;<?= $application_form['Parent_Status']=="SEPERATED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Seperated  &nbsp;&nbsp;&nbsp;<?= $application_form['Parent_Status']=="SINGLE"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Not Married &nbsp;&nbsp;<?= $application_form['Parent_Status']=="WIDOWED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Widowed<br><br>
+                    <?= $application_form['Parent_Status']=="MARRIED"?'<strong>&#10004;</strong>':'__' ?>Married &nbsp;&nbsp; <?= $application_form['Parent_Status']=="MARRIED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Living together  &nbsp;&nbsp;<?= $application_form['Parent_Status']=="SEPARATED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Seperated  &nbsp;&nbsp;&nbsp;<?= $application_form['Parent_Status']=="SINGLE"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Not Married &nbsp;&nbsp;<?= $application_form['Parent_Status']=="WIDOWED"?'<strong>&#10004;</strong>&nbsp;':'__' ?>Widowed<br><br>
                     If separated , since when ? ______________________________________<br>
                     With whom is the child staying ? __________________________________<br>
                     From whom do you receive financial support? ( father, mother, aunt, uncle etc. )<br>
@@ -446,27 +446,27 @@
                 <td class="table-label-5">
                     1. Has the cild ever been hospitalized? [ ] Yes [ ] No<br>
                     if YES, please provide details:<br>
-                    _______________________________________________________________________________________________<br>
+                    _________________________________________________________________________________________________<br>
                     <p class="p-3">2. Has the child been diagnosed with any of the following? (Please check and specify)</p>
                     <p class="p-3">
-                        [ ] Vision Impairment &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        [<?= $application_form['Visual_Acuity']!="NORMAL VISION"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp;';?>] Vision Impairment &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Please specify: <?= $application_form['Visual_Acuity']!="NORMAL VISION"?'<span class="application-text-3">'.$application_form['Visual_Acuity'].'</span>':'__________________________________________________________';?>
+                    </p>
+                    <p class="p-3">
+                        [<?= $application_form['Auditory_Perception']!="NORMAL HEARING"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp;';?>] Speech/Language Delay&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Please specify: <?= $application_form['Auditory_Perception']!="NORMAL HEARING"?'<span class="application-text-3">'.$application_form['Auditory_Perception'].'</span>':'__________________________________________________________';?>
+                    </p>
+                    <p class="p-3">
+                        [&nbsp;&nbsp;&nbsp;] Learning Disability&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         Please specify: __________________________________________________________
                     </p>
                     <p class="p-3">
-                        [ ] Speech/Language Delay&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        Please specify: __________________________________________________________
+                        [<?= $application_form['Physical_Condition']!="NORMAL CONDITION"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp;';?>] Physical Disability&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Please specify: <?= $application_form['Physical_Condition']!="NORMAL CONDITION"?'<strong>&#10004;</strong>':'__________________________________________________________';?>
                     </p>
                     <p class="p-3">
-                        [ ] Learning Disability&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        Please specify: __________________________________________________________
-                    </p>
-                    <p class="p-3">
-                        [ ] Physical Disability&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        Please specify: __________________________________________________________
-                    </p>
-                    <p class="p-3">
-                        [ ] Psychological Concerns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        Please specify: __________________________________________________________
+                        [<?= $application_form['Psychological_Condition']!="NORMAL CONDITION"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp;';?>] Psychological Concerns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Please specify: <?= $application_form['Psychological_Condition']!="NORMAL CONDITION"?'<span class="application-text-3">'.$application_form['Psychological_Condition'].'</span>':'__________________________________________________________';?>
                     </p>
                 </td>
             </tr>
@@ -605,8 +605,8 @@
             <tr>
                 <td colspan="3" class="table-label-6 margin-1">
                     <b>How did you learn about SDCA?</b>
-                    <p class="p-3">[&nbsp;&nbsp;&nbsp;] Parents &nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] Relatives&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] Classmates&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] Neighbors&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] SDCA Friend/s___________&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] SDCA Employee/s___________</p>
-                    <p class="p-3">[&nbsp;&nbsp;&nbsp;] Facebook &nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] Website&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] Streamer&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] Billboard&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] Flyers&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] Come One Come All&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] SDCA Employee/s___________</p>
+                    <p class="p-3">[<?= $application_form['Others_Know_SDCA']=="PARENTS"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp';?>] Parents &nbsp;&nbsp;&nbsp;&nbsp;[<?= $application_form['Others_Know_SDCA']=="RELATIVES"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp;';?>] Relatives&nbsp;&nbsp;&nbsp;&nbsp;[<?= $application_form['Others_Know_SDCA']=="FRIENDS"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp';?>] Classmates&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] Neighbors&nbsp;&nbsp;&nbsp;&nbsp;[<?= $application_form['Others_Know_SDCA']=="SDCA_FRIENDS"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp';?>] SDCA Friend/s___________&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] SDCA Employee/s___________</p>
+                    <p class="p-3">[<?= $application_form['Others_Know_SDCA']=="FACEBOOK"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp';?>] Facebook &nbsp;&nbsp;&nbsp;&nbsp;[<?= $application_form['Others_Know_SDCA']=="WEBSITE"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp';?>] Website&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] Streamer&nbsp;&nbsp;&nbsp;&nbsp;[<?= $application_form['Others_Know_SDCA']=="OTHERS"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp';?>] Billboard&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;] Flyers&nbsp;&nbsp;&nbsp;&nbsp;[<?= $application_form['Others_Know_SDCA']=="COME_ALL"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp';?>] Come One Come All&nbsp;&nbsp;&nbsp;&nbsp;[<?= $application_form['Others_Know_SDCA']=="SDCA_EMPLOYEES"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp';?>] SDCA Employee/s___________</p>
                 </td>
             </tr>
             <tr>

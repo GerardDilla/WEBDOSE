@@ -1766,6 +1766,7 @@ class Admission extends MY_Controller
     $siblings = $this->Edit_Info_Model->getSiblings_BED($ref)->result_array();
     $data['application_form'] = $info;
     $data['siblings'] = $siblings;
+    // echo '<pre>'.print_r($info,1).'</pre>';exit;
     if(!empty($info)){
       $this->load->view('body/Admission/template/SHS_Application_Form',$data);
     }
@@ -1773,7 +1774,7 @@ class Admission extends MY_Controller
       echo "There something's wrong";
     }
     
-    // echo '<pre>'.print_r($info,1).'</pre>';
+    
     // $param = array(
     //   'student_info' => $info[0],
     //   'student_type' => 'SHS',
