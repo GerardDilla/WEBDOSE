@@ -36,7 +36,7 @@
             <div class="collapse navbar-collapse" id="navbar-collapse">
 
                 <ul class="nav navbar-nav navbar-right">
-
+                    
                     <li>
                         <!--
                         <a href="javascript:void(0);" class="js-search" data-toggle="modal" data-target="#studentsearch_modal">

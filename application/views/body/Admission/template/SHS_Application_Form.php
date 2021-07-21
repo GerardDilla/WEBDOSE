@@ -462,7 +462,7 @@
                     </p>
                     <p class="p-3">
                         [<?= $application_form['Physical_Condition']!="NORMAL CONDITION"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp;';?>] Physical Disability&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        Please specify: <?= $application_form['Physical_Condition']!="NORMAL CONDITION"?'<strong>&#10004;</strong>':'__________________________________________________________';?>
+                        Please specify: <?= $application_form['Physical_Condition']!="NORMAL CONDITION"?'<span class="application-text-3">'.$application_form['Physical_Condition'].'</span>':'__________________________________________________________';?>
                     </p>
                     <p class="p-3">
                         [<?= $application_form['Psychological_Condition']!="NORMAL CONDITION"?'<strong>&#10004;</strong>':'&nbsp;&nbsp;&nbsp;';?>] Psychological Concerns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

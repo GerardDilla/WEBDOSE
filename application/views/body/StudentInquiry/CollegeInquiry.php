@@ -252,6 +252,7 @@ class CollegeTable{
     async filterData(search_value){
         console.log(this.data)
         var filtered = this.data.filter((col)=>{
+            try{
                 var search = search_value.toLowerCase();
                 var lc_fullname = col.Full_Name.toLowerCase();
                 var lc_YearLevel = col.YearLevel.toLowerCase();
@@ -261,9 +262,16 @@ class CollegeTable{
                     return lc_fullname.indexOf(search) > -1||lc_YearLevel.indexOf(search) > -1||lc_course.indexOf(search) > -1||lc_total_message.indexOf(search) > -1
                 // return lc_fullname.indexOf(search) > -1||lc_YearLevel.indexOf(search) > -1||lc_course.indexOf(search) > -1||lc_course.indexOf(search) > -1
                 }
+            }
+            catch(err){
+
+            }
         })
         await this.createDataTable(filtered);
         await this.hideWaitMe();
+    }
+    async filterByDate(value){
+
     }
     async createDataTable(value){
         $('body').waitMe({
@@ -500,8 +508,9 @@ function receivedMessage(data)
     console.log(data)
     // console.log(data.message_count);
     // getInquiryTableList(data.message_count);
-    collegetable.updateData(data.message_count)
-    collegetable.filterData($('#search_table').val());
+    collegetable.filterByDate();
+    // collegetable.updateData(data.message_count)
+    // collegetable.filterData($('#search_table').val());
     var current_time = moment(Date.parse(data.date_created)).format('MMM DD,YYYY h:kk a');
     // +`(${moment(Date.parse(data.date_created)).fromNow()})`;
     // current_time = timeSince(current_time)
