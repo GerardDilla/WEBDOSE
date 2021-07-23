@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
+
 class Advising extends MY_Controller
 {
 
@@ -1968,6 +1974,7 @@ class Advising extends MY_Controller
             'sc'          => $this->input->post('sched_code')
         );
         $this->data['ClassList'] = $this->Class_List_Model->get_class_list($array);
+        // die(json_encode($this->data['ClassList']));
         $this->render($this->set_views->classlistingReport());
     }
     public function getmaxunits()
@@ -2072,13 +2079,13 @@ class Advising extends MY_Controller
 
         $excel_row = 13;
         foreach ($this->data['ClassList']  as $row) {
-            $object->setActiveSheetIndex()->getStyle('' . $excel_row . '')->getAlignment()
+            $object->setActiveSheetIndex(0)->getStyle('' . $excel_row . '')->getAlignment()
                 ->setHorizontal('left');
-            $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $count);
-            $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->Student_Number);
-            $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->Last_Name . ' ,' . $row->First_Name . ' ' . $row->Midde_Name));
-            $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row->Year_Level);
-            $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->Program);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $count);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row->Student_Number);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->Last_Name . ' ,' . $row->First_Name . ' ' . $row->Midde_Name));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->Year_Level);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->Program);
 
             $excel_row++;
 
