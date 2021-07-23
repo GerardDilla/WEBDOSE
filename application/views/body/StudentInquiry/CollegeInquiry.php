@@ -123,7 +123,10 @@ span.chat-status{
         <!-- MODULE TITLE-->
         <div class="block-header row">
             <h1 style="float:left;" class="col-md-8"> <i class="material-icons" style="font-size:100%">feedback</i> College Inquiry</h1>
-            <span class="col-md-4"><input type="date" id="search_date" name="search_date" class="form-control" style="margin-top:10px;" value="<?= date("Y-m-d");?>"></span>
+            <span class="col-md-4">
+                <input type="date" id="search_from" name="search_from" class="form-control search-date" style="margin-top:10px;" value="<?= date("Y-m-d");?>">
+                <input type="date" id="search_to" name="search_to" class="form-control search-date" style="margin-top:10px;" value="<?= date("Y-m-d");?>">
+            </span>
             
             <?php if($this->session->flashdata('message_error') || $this->session->flashdata('message_success')): ?>
             <br>
@@ -230,6 +233,8 @@ span.chat-status{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js" integrity="sha512-BCMqEPl2dokU3T/EFba7jrfL4FxgY6ryUh4rRC9feZw4yWUslZ3Uf/lPZ5/5UlEjn4prlQTRfIPYQkDrLCZJXA==" crossorigin="anonymous"></script>
 <script>
 var search_date = $('input[name=search_date]').val();
+// var date_from = $('search_from').val();
+// var date_to = $('search_to')
 $('#college_inquiry').iziModal({
     theme: 'light',
     headerColor: 'maroon',
@@ -486,6 +491,31 @@ function updateToSeen(data){
         }
     }
 }
+function filterTableByDate(){
+    (async() => {
+        var search_from = $('#search_from').val();
+        var search_to = $('#search_to').val();
+        const getFilteredChat = await app.service('chat-change-date').get({search_from:search_from,search_to:search_to});
+        var filteredByDate = getFilteredChat.filter((item)=>{
+            try{
+                if(Date.parse(search_from) < Date.parse(moment(item.date_created).format('YYYY-MM-DD'))&&Date.parse(search_to) > Date.parse(moment(item.date_created).format('YYYY-MM-DD'))){
+                    return true
+                }
+                else if(Date.parse(search_from)==Date.parse(moment(item.date_created).format('YYYY-MM-DD'))){
+                    return true
+                }
+                else if(Date.parse(search_to)==Date.parse(moment(item.date_created).format('YYYY-MM-DD'))){
+                    return true
+                }
+            }
+            catch(err){
+                return false;
+            }
+        })
+        collegetable.updateData(filteredByDate)
+        collegetable.filterData($('#search_table').val());
+    })();
+}
 function setStatus(){
     status_running = true;
     array_status.map(value=>{
@@ -505,15 +535,9 @@ window.setInterval(()=>{
 },2000);
 function receivedMessage(data) 
 {
-    console.log(data)
-    // console.log(data.message_count);
-    // getInquiryTableList(data.message_count);
-    collegetable.filterByDate();
-    // collegetable.updateData(data.message_count)
-    // collegetable.filterData($('#search_table').val());
+    filterTableByDate();
     var current_time = moment(Date.parse(data.date_created)).format('MMM DD,YYYY h:kk a');
-    // +`(${moment(Date.parse(data.date_created)).fromNow()})`;
-    // current_time = timeSince(current_time)
+    
     if(data.user_type=="student"){
         if(choose_ref==data.ref_no){
             document.getElementById('chat-message').innerHTML = document.getElementById('chat-message').innerHTML
@@ -527,12 +551,8 @@ function receivedMessage(data)
         
     }
     $('#chat-message').animate({ scrollTop: 100000000000000000000000000000000 }, 'slow');
-    // }
-    // getInquiryList();
-    
 }
 async function typing(data){
-    console.log(data)
     if(choose_ref==data.ref_no){
         if(data.type=='student'){
             $('#someone-typing').show();
@@ -571,14 +591,7 @@ function openModal(ref,name){
 app.service('chat-inquiry').on('created', receivedMessage);
 app.service('chat-inquiry').on('updated', updateToSeen);
 // getInquiryList();
-$('#search_date').on('change',function(){
-    // const getFilteredChat = await app.service('chat-change-date').get({search_date:search_date});
-    var search_date_value = this.value;
-    
-    (async() => {
-        const getFilteredChat = await app.service('chat-change-date').get({search_date:search_date_value});
-        collegetable.updateData(getFilteredChat)
-        collegetable.filterData($('#search_table').val());
-    })();
+$('.search-date').on('change',function(){
+    filterTableByDate();
 })
 </script>

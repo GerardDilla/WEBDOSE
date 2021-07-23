@@ -11,7 +11,7 @@ class Advising extends MY_Controller
         $this->load->library('email');
         $this->load->library('pagination');
         $this->load->library('session');
-        $this->load->library("Excel");
+        // $this->load->library("Excel");
         $this->load->library("DateConverter");
         $this->load->helper(array('form', 'url', 'date'));
 
