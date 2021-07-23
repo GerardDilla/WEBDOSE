@@ -5,6 +5,20 @@
 .input-group .bootstrap-select.form-control {
     z-index: inherit;
 }
+.email-status{
+    transform:translate(50%,50%);
+    bottom:50%;
+    right:50%;
+    position:absolute;
+}
+#emailLogs{
+    overflow-y: auto;
+    max-height:50vh;
+}
+#soaEmailLogs .modal-body{
+    overflow-y: auto;
+    max-height:60vh;
+}
 </style>
 <section  id="top" class="content" style="background-color: #fff;">
     <!-- CONTENT GRID-->
@@ -116,6 +130,46 @@
         
 
 </section>
+<div class="modal fade" id="soaEmailLogs" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel16">SOA Email Logs</h4>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <i data-feather="x"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <!-- <div class="col-md-12" id="emailLogs">
+
+            </div> -->
+            <table class="table" id="emailLogs">
+                <thead>
+                    <th width="80%">Full Name</th>
+                    <th>Status</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <!-- <button type="button" class="btn btn-info" data-bs-dismiss="modal">
+                <i class="bx bx-x d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Hi</span>
+            </button>
+             -->
+             <button type="button" class="btn btn-light-secondary" id="closeLogs">
+                <i class="bx bx-x d-block d-sm-none"></i>
+                <span class="d-none d-sm-block">Close</span>
+            </button>
+            <button type="button" class="btn btn-warning" id="resend_email">
+                <i class="material-icons">autorenew</i>
+                Resend Email
+            </button>
+        </div>
+    </div>
+  </div>
+</div>
 <!-- <div id="modal" data-izimodal-group="" data-izimodal-loop="" style="display:none;" data-izimodal-title="">
 </div> -->
 <script src="<?php echo base_url('plugins/waitme/waitMe.min.js');?>"></script>
@@ -124,8 +178,202 @@
 <input type="hidden" id="addressUrl" value="<?php echo site_url().'/StatementOfAccount'; ?>"/>
 <!-- <script type="text/javascript" src="<?php echo base_url(); ?>js/soa.js"></script> -->
 <script>
+class SOA_Data{
+    constructor(){
+        this.data = []
+    }
+    getData(){
+        return this.data
+    }
+    async retrySend(){
+        $('body').waitMe({
+                effect : 'stretch',
+                text : 'Please wait...',
+                bg : 'rgba(255,255,255,0.7)',
+                color : '#000',
+                maxSize : '',
+                waitTime : -1,
+                textPos : 'vertical',
+                fontSize : '',
+                source : '',
+                onClose : function() {}
+        });
+        var batch_count = 0;
+        var current_value = this.data.filter((item)=>{return item.status == "error"});
+        current_value.forEach((item)=>{
+            (async() => {
+                await this.batchSend(item.reference_no).then((result)=>{
+                    console.log(result)
+                    if(result=="success"){
+                        $(`i.email-status-${item.reference_no}`).text('check_circle');
+                        $(`i.email-status-${item.reference_no}`).css('color','green');
+                        var found = this.data.find((value)=>{ return value.reference_no == item.reference_no})
+                        
+                        var remove_value = this.data.filter((value)=>{ return value.reference_no != item.reference_no })
+                        this.data = remove_value;
+                        if(found!=null){
+                            found['status'] = "success";
+                            this.data.push(found);
+                        }
+                    }
+                    var success_email = this.data.filter((item)=>{return item.status == "success"})
+                    var failed_email = this.data.filter((item)=>{return item.status == "error"})
+                    $('.waitMe_text').text(`Please wait... ${success_email.length}/${this.data.length}`);
+                    ++batch_count;
+                    if(batch_count==current_value.length){
+                        $('body').waitMe('hide')
+                    }
+                    if(failed_email.length==0){
+                        $('#resend_email').hide();
+                        setTimeout(() => {
+                            $('#soaEmailLogs').modal('hide');
+                        }, 3000);
+                    }
+                })
+                
+            })();
+        })
+        
+    }
+    async finishSend(){
+        $('body').waitMe('hide')
+    }
+    async batchSend(reference_no){
+        return new Promise((resolve,reject)=>{
+            $.ajax({
+                url: "<?php echo base_url();?>index.php/StatementOfAccount/retrySend",
+                method: 'post',
+                dataType:'json',
+                data:{
+                    reference_no:reference_no,
+                    programCode:$('#programCode').val(),
+                    semester:$('#semester').val(),
+                    schoolYear:$('#schoolYear').val(),
+                    due_date:$('#dueDate').val()
+                },
+                success: function(response) {
+                    console.log(response)
+                    resolve(response)
+                },
+                error:function(response){
+                    reject(response)
+                }
+            })
+        })
+    }
+    changeData(value){
+        this.data = value
+    }
+}
+var soa_data = new SOA_Data();
 var percentage = 0;
 var page_count = 0;
+var sample_data = [
+{status: "error", reference_no: "26455", full_name: "JOSETTE CORPUZ CLERIGO"},
+{status: "error", reference_no: "26617", full_name: "JEAN CARLA CERES AGNAS"},
+{status: "error", reference_no: "26734", full_name: "ROSECHAN LOJA LAGRAZON"},
+{status: "error", reference_no: "26773", full_name: "JOSEPH ANTHONY ATEGA KOTICO"},
+{status: "error", reference_no: "26732", full_name: "JUSTIN KOTICO YASAY"},
+{status: "error", reference_no: "26200", full_name: "SHENDRICK RAGUB GABEST"},
+{status: "error", reference_no: "26789", full_name: "DENEB MAKEV EBRO PAHILA"},
+{status: "error", reference_no: "26357", full_name: "MARICAR CASTRO RIVERA"},
+{status: "error", reference_no: "26904", full_name: "KEN LORENCE REMOROZA BAGUS"},
+{status: "error", reference_no: "26274", full_name: "CHARIZE ANN ARCA BAUTISTA"},
+{status: "error", reference_no: "26180", full_name: "MARVYN SALARZON CRUZ"},
+{status: "error", reference_no: "26269", full_name: "TRISHAN AGAD HERNANDEZ"},
+{status: "error", reference_no: "26157", full_name: "CHERRIE MAY DIRECTO JAMILLA"},
+{status: "error", reference_no: "26158", full_name: "DINA FLOR TAGALOG LASCUNA"},
+{status: "error", reference_no: "26359", full_name: "MONNA CABIGAYAN OCHARON"}];
+var htmlsample = "";
+// soa_data.changeData(sample_data);
+var result_value = sample_data.filter((item)=>{return item.status == "error"});
+// $('#emailLogs tbody').empty();
+// result_value.forEach((item)=>{
+//     htmlsample += `<tr><td>${item.full_name}</td><td style="position:relative;"><i ${item.status=='error'?'style="color:red;"':'style="color:green;"'} class="material-icons email-status email-status-${item.reference_no}">${item.status=='error'?'dangerous':'check_circle'}</i></td></tr>`;
+// })
+// $('#emailLogs tbody').append(htmlsample);
+// console.log(sample_data.filter((item)=>{return item.status == "error"}));
+$('#closeLogs').on('click',function(){
+    
+    iziToast.show({
+        theme: 'light',
+        title: 'Hey',
+        message: 'Are you sure?',
+        position: 'topCenter', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
+        progressBarColor: 'maroon',
+        overlay:true,
+        timeout:false,
+        buttons: [
+    //         ['<button>Ok</button>', function (instance, toast) {
+    // //             alert("Hello world!");
+    //             $('#soaEmailLogs').modal('hide');
+    //         }, true],
+            ['<button>Yes</button>', function (instance, toast) {
+                instance.hide({
+                    transitionOut: 'fadeOutUp',
+                    onClosing: function(instance, toast, closedBy){
+    //                     console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
+                        $('#soaEmailLogs').modal('hide');
+                    }
+                }, toast, 'buttonName');
+            }]
+        ],
+        onOpening: function(instance, toast){
+            console.info('callback abriu!');
+        },
+        onClosing: function(instance, toast, closedBy){
+            console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
+        }
+    });
+})
+// $('#soaEmailLogs').modal('show');
+
+async function getEmailLogs(){
+    return new Promise((resolve,reject)=>{
+        $.ajax({
+            url: "<?php echo base_url();?>index.php/StatementOfAccount/getEmailLogs",
+            method: 'get',
+            dataType:'json',
+            success: function(response) {
+                resolve(response)
+            },
+            error:function(response){
+                reject(response)
+            }
+        })
+    })
+}
+async function retrySend(reference_no){
+    return new Promise((resolve,reject)=>{
+        $.ajax({
+            url: "<?php echo base_url();?>index.php/StatementOfAccount/retrySend",
+            method: 'post',
+            dataType:'json',
+            data:{
+                reference_no:reference_no,
+                programCode:$('#programCode').val(),
+                semester:$('#semester').val(),
+                schoolYear:$('#schoolYear').val(),
+                due_date:$('#dueDate').val()
+            },
+            success: function(response) {
+                resolve(response)
+            },
+            error:function(response){
+                reject(response)
+            }
+        })
+    })
+}
+$('#resend_email').on('click',function(){
+    console.log(soa_data.getData())
+    soa_data.retrySend();
+    // getEmailLogs().then((result)=>{
+    //     result.forEach((item)=>{
+    //         retrySend()
+    //     })
+    // }).catch(error=>console.log(error))
+})
 function getPercentage(page,total_page){
     
     var percentage_per_page = (1/parseInt(total_page)*100);
@@ -149,6 +397,23 @@ function getPercentage(page,total_page){
                     // message: 'You forgot important data',
                 });
                 $('#sendButton').prop('disabled',false);
+                getEmailLogs().then(result=>{
+                    var error_email = result.logs.filter((item)=>{return item.status == "error"});
+                    console.log(error_email)
+                    if(error_email.length>0){
+                        var html = "";
+                        $('#getEmailLogs').empty();
+                        var result_value = error_email.filter((item)=>{return item.status == "error"});
+                        $('#emailLogs tbody').empty();
+                        result_value.forEach((item)=>{
+                            html += `<tr><td>${item.full_name}</td><td style="position:relative;"><i ${item.status=='error'?'style="color:red;"':'style="color:green;"'} class="material-icons email-status email-status-${item.reference_no}">${item.status=='error'?'dangerous':'check_circle'}</i></td></tr>`;
+                        })
+                        $('#emailLogs tbody').append(html);
+                        $('#soaEmailLogs').modal('show');
+                        soa_data.changeData(result.logs.filter((item)=>{return item.status == "error"}));
+                        console.log(result.logs.filter((item)=>{return item.status == "error"}));
+                    }
+                }).catch(error=>console.log(error));
             }, 2000);
             
         }
@@ -176,6 +441,7 @@ async function batchSend(page,per_page,total_page){
                 resolve(response)
             },
             error:function(response){
+                getPercentage(page,total_page);
                 reject(response)
             }
         })
@@ -215,6 +481,7 @@ $("#sendButton").click(function(e){
                         // iconColor: 'red',
                         // message: 'You forgot important data',
                     });
+                    $('#sendButton').prop('disabled',false);
                 }
                 else{
                     iziToast.show({
@@ -249,9 +516,22 @@ $("#sendButton").click(function(e){
                                 }, toast, 'buttonName');
                                 
                                 for(var x=1;x<=response.total_page;++x){
-                                    
+                                    // function useBreak(){
+                                    //     break;
+                                    // }
                                     var current_count = x;
-                                    batchSend(x,response.per_page,response.total_page).then().catch(error=>console.log(`Error:page ${x}`));
+                                    batchSend(x,response.per_page,response.total_page).then().catch(error=>{
+                                        console.log(`Error:page ${x}`)
+                                        iziToast.error({
+                                            title: 'Msg:',
+                                            message:" Error sending batch email!",
+                                            position: 'topRight',
+                                            // iconColor: 'red',
+                                            // message: 'You forgot important data',
+                                        });
+                                        // break;
+                                        return;
+                                    });
                                     
                                 }
                             }, true], // true to focus

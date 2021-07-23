@@ -1,0 +1,10 @@
+.notification-icon{
+    position:absolute;
+    border-radius:50%;
+    border:1px solid transparent;
+    height:100px;
+    width:100px;
+    background:blue;
+    top:2px;
+    right:2px;
+}

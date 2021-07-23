@@ -2,13 +2,16 @@
 
 namespace Stichoza\GoogleTranslate\Tests;
 
-use Stichoza\GoogleTranslate\TranslateClient;
+use PHPUnit\Framework\TestCase;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
-class LanguageDetectionTest extends \PHPUnit_Framework_TestCase
+class LanguageDetectionTest extends TestCase
 {
+    public $tr;
+
     public function setUp()
     {
-        $this->tr = new TranslateClient();
+        $this->tr = new GoogleTranslate();
     }
 
     public function testSingleWord()
@@ -36,18 +39,5 @@ class LanguageDetectionTest extends \PHPUnit_Framework_TestCase
 
         $this->tr->translate('Ще не вмерла Україна, И слава, и воля! Ще намъ, браття-молодці, Усміхнеться доля!');
         $this->assertEquals($this->tr->getLastDetectedSource(), 'uk');
-    }
-
-    public function testStaticAndNonStaticDetection()
-    {
-        $this->tr->translate('გამარჯობა');
-
-        TranslateClient::translate(null, 'en', 'Cześć');
-        $this->assertEquals($this->tr->getLastDetectedSource(), 'pl');
-        $this->assertEquals(TranslateClient::getLastDetectedSource(), 'pl');
-
-        $this->tr->translate('გამარჯობა');
-        $this->assertEquals($this->tr->getLastDetectedSource(), 'ka');
-        $this->assertEquals(TranslateClient::getLastDetectedSource(), 'ka');
     }
 }

@@ -6,6 +6,8 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
+// require_once 'dompdf/autoload.inc.php';
+// use Dompdf\Dompdf;
 
 class Admission extends MY_Controller
 {
@@ -595,7 +597,6 @@ class Admission extends MY_Controller
     $exp     = $this->input->post('export');
 
     if (isset($Sb)) {
-
       $this->BED_Inquiry_Reports();
     } else if (isset($exp)) {
 
@@ -628,6 +629,7 @@ class Admission extends MY_Controller
     //  echo  $array['from'];
     //  echo  $array['to'];
     $this->data['get_inquiry']  = $this->Inquiry_Reports_Model->Select_BED_Inquiry($array);
+    // echo '<pre>'.print_r($this->data['get_inquiry'],1).'</pre>';exit;
     $this->render($this->set_views->ad_inquiry_reports_bed());
   }
 
@@ -1722,12 +1724,63 @@ class Admission extends MY_Controller
   public function HED_inquiryExport($ref = '')
   {
     $info  = $this->Edit_Info_Model->Get_Info($ref)->result_array();
-    $param = array(
-      'student_info' => $info[0],
-      'student_type' => 'HED',
-    );
-    $this->load->library('Student', $param);
-    $this->load->library('Admission/InquiryExport', $param);
-    $this->inquiryexport->Export();
+    // $param = array(
+    //   'student_info' => $info[0],
+    //   'student_type' => 'HED',
+    // );
+    // $this->load->library('Student', $param);
+    // $this->load->library('Admission/InquiryExport', $param);
+    // $this->inquiryexport->Export();
+  }
+  public function BED_inquiryExport($ref = ''){
+    // $dompdf = new Dompdf();
+    
+
+    $info  = $this->Edit_Info_Model->Get_Info_BED($ref)->row_array();
+    $siblings = $this->Edit_Info_Model->getSiblings_BED($ref)->result_array();
+    $data['application_form'] = $info;
+    $data['siblings'] = $siblings;
+    // echo '<pre>'.print_r($data,1).'</pre>';exit;
+    $this->load->view('body/Admission/template/BED_Application_Form',$data);
+    
+    // $ci =& get_instance();
+    // $data['data'] = $data;
+    // $this->load->view('body/Admission/template/BED_Application_Form',$data);
+    // exit;
+    // $html = $ci->output->get_output();
+    // $ci->load->library('pdf');
+    // $ci->dompdf->loadHtml($html);
+    // $ci->dompdf->setPaper('Legal', 'portrait');
+    // $ci->dompdf->render();
+    // $ci->dompdf->stream('BED_applicationform.pdf',array("Attachment"=>0));
+    // if(!empty($info)){
+    //   $this->load->view('body/Admission/template/BED_Application_Form',$data);
+    // }
+    // else{
+    //   echo "There something's wrong";
+    // }
+  }
+
+  public function SHS_inquiryExport($ref = ''){
+    $info  = $this->Edit_Info_Model->Get_Info_BED($ref)->row_array();
+    $siblings = $this->Edit_Info_Model->getSiblings_BED($ref)->result_array();
+    $data['application_form'] = $info;
+    $data['siblings'] = $siblings;
+    // echo '<pre>'.print_r($info,1).'</pre>';exit;
+    if(!empty($info)){
+      $this->load->view('body/Admission/template/SHS_Application_Form',$data);
+    }
+    else{
+      echo "There something's wrong";
+    }
+    
+    
+    // $param = array(
+    //   'student_info' => $info[0],
+    //   'student_type' => 'SHS',
+    // );
+    // $this->load->library('Student', $param);
+    // $this->load->library('Admission/InquiryExport', $param);
+    // $this->inquiryexport->Export();
   }
 }//end class

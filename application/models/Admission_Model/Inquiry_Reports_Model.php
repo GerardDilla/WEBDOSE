@@ -116,7 +116,7 @@ class Inquiry_Reports_Model extends CI_Model
   public function Select_SHS_Inquiry($array)
   {
 
-    $this->db->select('*');
+    $this->db->select('*,A.Reference_Number as ref_no');
     $this->db->from('Basiced_Studentinfo AS A');
     $this->db->join('seniorhigh_inquiry_log AS B', 'A.Reference_Number = B.Reference_Number', 'LEFT');
     $this->db->join('4ps_inquiry_infoid AS 4ps', 'A.Reference_Number = 4ps.Reference_Number and 4ps.type != "highered" and 4ps.Valid = 1', 'LEFT');
@@ -159,7 +159,7 @@ class Inquiry_Reports_Model extends CI_Model
   public function Select_BED_Inquiry($array)
   {
 
-    $this->db->select('*');
+    $this->db->select('*,A.Reference_Number as ref_no');
     $this->db->from('Basiced_Studentinfo AS A');
     $this->db->join('basiced_inquiry_log AS B', 'A.Reference_Number = B.Reference_Number', 'LEFT');
     $this->db->join('4ps_inquiry_infoid AS 4ps', 'A.Reference_Number = 4ps.Reference_Number and 4ps.type != "highered" and 4ps.Valid = 1', 'LEFT');
