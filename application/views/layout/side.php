@@ -474,7 +474,7 @@
         <?php
         // if (in_array($this->data['module_list']['des'], $this->data['user_module_access'])) : 
         ?>
-        <li>
+        <!-- <li>
             <a href="javascript:void(0);" class="menu-toggle">
                 <i class="material-icons">label</i>
                 <span>Des Module</span>
@@ -491,7 +491,7 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> -->
         <?php
         // endif 
         ?>

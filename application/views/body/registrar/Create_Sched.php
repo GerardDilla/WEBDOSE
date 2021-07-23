@@ -346,6 +346,7 @@
 								$option['2018-2019'] = '2018-2019';
 								$option['2019-2020'] = '2019-2020';
 								$option['2020-2021'] = '2020-2021';
+								$option['2021-2022'] = '2021-2022';
 								$attribute = 'id="schedsy_edit" class="form-control show-tick"  data-live-search="true"';
 								echo form_dropdown('schedsy', $option,$this->data['legend'][0]['School_Year'],$attribute);
 							?>
