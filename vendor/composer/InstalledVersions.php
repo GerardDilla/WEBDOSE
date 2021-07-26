@@ -20,6 +20,8 @@ use Composer\Semver\VersionParser;
 
 
 
+
+
 class InstalledVersions
 {
 private static $installed = array (
@@ -30,7 +32,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '2522d1630d5cb4f81ccf3a2ce18e96a67ee928cd',
+    'reference' => '4bfe3c27e32730af52a65ba579899a343d2be3ca',
     'name' => 'codeigniter/framework',
   ),
   'versions' => 
@@ -42,7 +44,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '2522d1630d5cb4f81ccf3a2ce18e96a67ee928cd',
+      'reference' => '4bfe3c27e32730af52a65ba579899a343d2be3ca',
     ),
     'doctrine/instantiator' => 
     array (
@@ -158,12 +160,12 @@ private static $installed = array (
     ),
     'myclabs/php-enum' => 
     array (
-      'pretty_version' => '1.8.3',
-      'version' => '1.8.3.0',
+      'pretty_version' => '1.7.7',
+      'version' => '1.7.7.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'b942d263c641ddb5190929ff840c68f78713e937',
+      'reference' => 'd178027d1e679832db9f38248fcc7200647dc2b7',
     ),
     'paragonie/random_compat' => 
     array (
@@ -555,7 +557,6 @@ foreach (self::getInstalled() as $installed) {
 $packages[] = array_keys($installed['versions']);
 }
 
-
 if (1 === \count($packages)) {
 return $packages[0];
 }
@@ -747,6 +748,7 @@ public static function reload($data)
 self::$installed = $data;
 self::$installedByVendor = array();
 }
+
 
 
 
