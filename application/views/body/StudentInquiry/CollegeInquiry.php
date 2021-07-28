@@ -228,9 +228,11 @@ span.chat-status{
     </div>
   </div>
 </div>
-<script src="https://unpkg.com/@feathersjs/client@^4.3.0/dist/feathers.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js" integrity="sha512-BCMqEPl2dokU3T/EFba7jrfL4FxgY6ryUh4rRC9feZw4yWUslZ3Uf/lPZ5/5UlEjn4prlQTRfIPYQkDrLCZJXA==" crossorigin="anonymous"></script>
+<!-- <script src="https://unpkg.com/@feathersjs/client@^4.3.0/dist/feathers.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script> -->
+
 <script>
 var search_date = $('input[name=search_date]').val();
 // var date_from = $('search_from').val();
@@ -352,10 +354,7 @@ var connectionOptions =  {
         "transports" : ["websocket"],
         withCredentials: false,
     };
-const socket = io('https://stdominiccollege.edu.ph:4003');
-// const socket = io('http://localhost:4004');
-const app = feathers();
-app.configure(feathers.socketio(socket));
+
 var array_status = [];
 var status_running = false;
 
@@ -498,13 +497,13 @@ function filterTableByDate(){
         const getFilteredChat = await app.service('chat-change-date').get({search_from:search_from,search_to:search_to});
         var filteredByDate = getFilteredChat.filter((item)=>{
             try{
-                if(Date.parse(search_from) < Date.parse(moment(item.date_created).format('YYYY-MM-DD'))&&Date.parse(search_to) > Date.parse(moment(item.date_created).format('YYYY-MM-DD'))){
+                if(Date.parse(search_from) < Date.parse(moment(Date.parse(item.date_created)).format('YYYY-MM-DD'))&&Date.parse(search_to) > Date.parse(moment(item.date_created).format('YYYY-MM-DD'))){
                     return true
                 }
-                else if(Date.parse(search_from)==Date.parse(moment(item.date_created).format('YYYY-MM-DD'))){
+                else if(Date.parse(search_from)==Date.parse(moment(Date.parse(item.date_created)).format('YYYY-MM-DD'))){
                     return true
                 }
-                else if(Date.parse(search_to)==Date.parse(moment(item.date_created).format('YYYY-MM-DD'))){
+                else if(Date.parse(search_to)==Date.parse(moment(Date.parse(item.date_created)).format('YYYY-MM-DD'))){
                     return true
                 }
             }
@@ -512,6 +511,7 @@ function filterTableByDate(){
                 return false;
             }
         })
+        console.log(filteredByDate)
         collegetable.updateData(filteredByDate)
         collegetable.filterData($('#search_table').val());
     })();

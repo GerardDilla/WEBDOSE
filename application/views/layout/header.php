@@ -111,4 +111,7 @@
             echo  `Test`;
             echo `<script src="<?php echo base_url(); ?>js/js/PrintJS.js"></script>`;
     ?>
+    <?php
+        $this->load->view('layout/notification');
+    ?>
 </head>

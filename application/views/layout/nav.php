@@ -100,6 +100,20 @@
     font-weight:bold;
     white-space: nowrap;
     overflow: hidden;
+    padding-bottom:5px;
+}
+.notification-student-message{
+    font-size:90%;
+    white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+    white-space: -webkit-pre-wrap;          /* Chrome & Safari */ 
+    white-space: -pre-wrap;                 /* Opera 4-6 */
+    white-space: -o-pre-wrap;               /* Opera 7 */
+    white-space: pre-wrap;                  /* CSS3 */
+    word-wrap: break-word;                  /* Internet Explorer 5.5+ */
+    word-break: break-all;
+    white-space: normal;
+    margin-left:10px;
+    max-height:30px;
 }
 </style>
 <body class="theme-darkblue">
@@ -136,16 +150,16 @@
                     <li style="position:relative;" class="dropdown">
                         <div class="notification-number">9</div>
                         <br><i class="material-icons js-search notification-icon">notifications</i>
-                        <div class="dropdown-content">
-                            <a href="#" class="notification-info">
-                                <div class="notification-student-name">Jhon Norman Fabregas</div> has <b>6</b> unread messages<span class="notification-time">5 hrs ago</span>
-                            </a>
-                            <a href="#" class="notification-info">
+                        <div class="dropdown-content" id="notification-div">
+                            <!-- <a href="#" class="notification-info">
+                                <div class="notification-student-name">Jhon Norman Fabregas</div><div class="notification-student-message">Hi ask lang po if ano po yung status ng enrollment ko?.</div><span class="notification-time">5 hrs ago</span>
+                            </a> -->
+                            <!-- <a href="#" class="notification-info">
                             <div class="notification-student-name">Jhon Norman Fabregas</div> has <b>6</b> unread messages<span class="notification-time">5 hrs ago</span>
                             </a>
                             <a href="#" class="notification-info">
                             <div class="notification-student-name">Jhon Norman Fabregas</div> has <b>6</b> unread messages<span class="notification-time">5 hrs ago</span>
-                            </a>
+                            </a> -->
                         </div>
                     </li>
                     <li>

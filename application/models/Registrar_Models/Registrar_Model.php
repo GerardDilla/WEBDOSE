@@ -402,24 +402,30 @@ public function conflict_check($sched_code,$day,$st,$et){
     $this->db->where('B.Semester', $array_data['semester']);
     $this->db->where('B.SchoolYear', $array_data['sy']);
 
+    
     $count = 0;
     $dayget = '';
     foreach($day_array as $data)
     {
       if($count == 0)
       {
-        $dayget .= "`Day` LIKE '%$data%' ESCAPE '!'";
+        // $dayget .= "`Day` LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "`Day` LIKE '$data -%' ESCAPE '!'";
         $count++;
       }
       else
       {
-        $dayget .= "OR `Day`LIKE '%$data%' ESCAPE '!'";
+        // $dayget .= "AND `Day` LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "AND `Day` LIKE '$data -%' ESCAPE '!'";
+        // $this->db->where();
       }
       
     }
     $this->db->where('('.$dayget.')');
 
-    $this->db->where($where_check_time);
+
+    
+    // $this->db->where($where_check_time);
    
     $query = $this->db->get();
 
@@ -454,7 +460,7 @@ public function conflict_check($sched_code,$day,$st,$et){
     $this->db->where('C.RoomID', $array_data['room_id']);
     $this->db->where('A.Semester', $array_data['semester']);
     $this->db->where('A.SchoolYear', $array_data['sy']);
-    
+
     $count = 0;
     $dayget = '';
     foreach($day_array as $data)
@@ -462,13 +468,13 @@ public function conflict_check($sched_code,$day,$st,$et){
       if($count == 0)
       {
         $dayget .= "`Day` LIKE '%$data%' ESCAPE '!'";
-        $count++;
+        
       }
       else
       {
-        $dayget .= "OR `Day`LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "AND `Day` LIKE '%$data%' ESCAPE '!'";
       }
-      
+      $count++;
     }
     $this->db->where('('.$dayget.')');
 
