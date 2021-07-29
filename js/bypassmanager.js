@@ -8,6 +8,13 @@ $(document).ready(function () {
         update_permission();
     });
 
+    $("#permission_update").on("submit", function (event) {
+        event.preventDefault();
+        data = $(this).serialize();
+        update_permission(data);
+
+    });
+
     $('#permission-choice').on('click', '.checklabel', function (obj) {
         alert('test');
         $inputid = $(obj).data('inputid');
@@ -51,40 +58,46 @@ function getUsers() {
                     <td>'+ data['User_FullName'] + '</td>\
                     <td>'+ data['User_Department'] + '</td>\
                     <td>'+ (data['bypass_access'] != null ? data['bypass_access'] : 'None') + '</td>\
-                    <td><button onclick="permission(this)" data-userid="' + data['User_ID'] + '" data-username="' + data['UserName'] + '" class="btn btn-info btn-sm">Update Permission</button></td>\
+                    <td><button onclick="permission($(this).data(\'userid\'))" data-userid="' + data['User_ID'] + '" data-username="' + data['UserName'] + '" class="btn btn-info btn-sm">Update Permission</button></td>\
                     </tr>\
                 ');
             });
+            if (!$.fn.DataTable.isDataTable('#user_table')) {
+                $('#user_table').DataTable({
+                    responsive: true
+                });
+            }
+
             console.log(response);
 
         },
     });
 }
 
-function permission(obj) {
+function permission(userid) {
 
     // console.log($(obj).data('userid'));
     // console.log($(obj).data('username'));
+    $.each($('.permission_choice'), function (index, checkbox) {
+        $(checkbox).prop('checked', false);
+    });
     $.ajax({
         url: "./BypassAPI/info",
         type: "GET",
         data: {
-            UserID: $(obj).data('userid'),
+            UserID: userid,
         },
         success: function (response) {
 
             response = JSON.parse(response);
-            $('#permission-choices').html('');
-            $('#userid_update').val($(obj).data('userid'));
-            $('#selected_user').html($(obj).data('username'));
+            $('#userid_update').val(userid);
+            $('#selected_user').html(userid);
             $.each(response, function (index, school) {
-                checked = school['School_ID'] == null ? '' : 'checked';
-                $('#permission-choices').append('\
-                    <div class="col-md-3">\
-                        <input type="checkbox" id="'+ school['School_Code'] + '_tik" data-label="' + school['School_Code'] + '" class="filled-in permission_choice" ' + checked + '>\
-                        <label class="checklabel" data-inputid="'+ school['School_Code'] + '_tik" for="' + school['School_Code'] + '_tik">' + school['School_Code'] + '</label>\
-                    </div>\
-                ');
+                if (school['School_ID'] != null) {
+                    console.log(school['School_Code'] + '_test');
+                    $('#' + school['School_Code'] + '_tik').prop('checked', true);
+                    $('#' + school['School_Code'] + '_tik').attr('checked');
+                }
             });
             $('#updateBypass').modal('show');
             // console.log(response);
@@ -93,25 +106,21 @@ function permission(obj) {
     });
 }
 
-function update_permission() {
+function update_permission(formdata) {
 
-    inputs = {};
-    $.each($('.permission_choice'), function (index, obj) {
-        console.log($(obj).attr('checked') != undefined ? 1 : 0);
-        inputs[$(obj).data('label')] = $(obj).attr('checked') != undefined ? 1 : 0;
-    });
-    console.log(inputs);
+    console.log(data);
     $.ajax({
         url: "./BypassAPI/update",
         type: "POST",
         data: {
-            inputs: inputs,
-            userid: $('#userid_update').val()
+            formdata
         },
         success: function (response) {
 
-            response = JSON.parse(response);
+            // response = JSON.parse(response);
             iziModal('Permission Updated');
+            permission($('#userid_update').val());
+            getUsers();
 
         },
     });

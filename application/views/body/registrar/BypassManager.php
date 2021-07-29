@@ -95,21 +95,40 @@
 <div class="modal fade" id="updateBypass" tabindex="-1" role="dialog" aria-labelledby="confirmation" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h3>Bypass Permissions: <span style="color:#666" id="selected_user"></span></h3>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<input type="hidden" id="userid_update" value="">
-				<div class="row" id="permission-choices">
-
+			<form id="permission_update">
+				<div class="modal-header">
+					<h3>Bypass Permissions: <span style="color:#666" id="selected_user"></span></h3>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button id="update_permission" class="btn btn-success">UPDATE</button>
-			</div>
+				<div class="modal-body">
+
+					<input type="hidden" id="userid_update" name="user_id" value="">
+					<div class="row" id="permission-choices">
+						<div class="col-md-3">
+							<!-- <input type="checkbox" id="SBCS_tik" data-label="SBCS" class=""> -->
+							<input type="checkbox" id="SBCS_tik" class="permission_choice" name="SBCS" value="SBCS">
+							<label for="SBCS_tik"> SBCS</label><br>
+						</div>
+						<div class="col-md-3">
+							<input type="checkbox" id="SASE_tik" class="permission_choice" name="SASE" value="SASE">
+							<label for="SASE_tik"> SASE</label><br>
+						</div>
+						<div class="col-md-3">
+							<input type="checkbox" id="SHSP_tik" class="permission_choice" name="SHSP" value="SHSP">
+							<label for="SHSP_tik"> SHSP</label><br>
+						</div>
+						<div class="col-md-3">
+							<input type="checkbox" id="SIHTM_tik" class="permission_choice" name="SIHTM" value="SIHTM">
+							<label for="SIHTM_tik"> SIHTM</label><br>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success">UPDATE</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

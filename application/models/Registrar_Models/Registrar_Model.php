@@ -623,10 +623,11 @@ class Registrar_Model extends CI_Model
       U.UserName,
       U.User_FullName,
       U.User_Department,
-      (SELECT group_concat(SI.School_Code) 
+      (SELECT group_concat(SI.School_Code SEPARATOR \' , \') 
       FROM module_bypass AS MB
       JOIN School_Info AS SI ON MB.School_ID = SI.School_ID 
       WHERE User_ID = U.User_ID
+      AND MB.valid = 1
       ) as bypass_access,
     ');
 
@@ -675,7 +676,16 @@ class Registrar_Model extends CI_Model
     $this->db->where('User_ID', $userid['userid']);
     $this->db->where('School_ID', $userid['school_id']);
     $this->db->update('module_bypass', $userid['update']);
-    $this->db->trans_end();
+    $this->db->trans_complete();
+    return $this->db->trans_status();
+  }
+  public function disable_permissions($userid)
+  {
+    $this->db->trans_start();
+    $this->db->where('User_ID', $userid);
+    $this->db->set('valid', 0);
+    $this->db->update('module_bypass');
+    $this->db->trans_complete();
     return $this->db->trans_status();
   }
   public function insert_permission($insert)

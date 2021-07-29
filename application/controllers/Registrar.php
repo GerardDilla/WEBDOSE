@@ -4759,39 +4759,31 @@ class Registrar extends MY_Controller
         #Updates Selected User
       case 'update':
 
-        $Inputs = array(
-          'inputs' => $this->input->post('inputs'),
-          'userid' => $this->input->post('userid'),
-        );
-        echo json_encode($Inputs);
-        foreach ($Inputs['inputs'] as $label => $value) {
-          $School_ID = $this->Registrar_Model->get_school_id($label);
-          $permission_status = $this->Registrar_Model->get_user_permission($Inputs['userid'], $School_ID);
-          if (!empty($permission_status)) {
-            echo $value . 'if<br>';
-            if ($value == 0) {
-              $update = array(
-                'userid' => $Inputs['userid'],
-                'school_id' => $School_ID,
-                'update' => array(
-                  'valid' => 0,
-                ),
-              );
-              $status = $this->Registrar_Model->update_permission($update);
-            }
-          } else {
-            echo $value . 'else<br>';
-            if ($value == 1) {
-              $insert = array(
-                'User_ID' => $Inputs['userid'],
-                'School_ID' => $School_ID,
-                'parent_module_id' => 2,
-                'valid' => 1
-              );
-              $status = $this->Registrar_Model->insert_permission($insert);
-            }
+        $params = array();
+        parse_str($this->input->post('formdata'), $params);
+        echo $params['user_id'];
+        #Make Array of Schools Bypass
+        $School = array();
+        foreach ($params as $index => $value) {
+          if ($index != 'user_id') {
+            $School[$index] = $value;
           }
         }
+
+        #Disable all bypass
+        $this->Registrar_Model->disable_permissions($params['user_id']);
+        if (!empty($School)) {
+          foreach ($School as $index => $value) {
+            $School_Code = $this->Registrar_Model->get_school_id($index);
+            $insert = array(
+              'School_ID' => $School_Code,
+              'User_ID' => $params['user_id'],
+              'valid' => 1,
+            );
+            $this->Registrar_Model->insert_permission($insert);
+          }
+        }
+
         break;
 
         #Invalid Handler
