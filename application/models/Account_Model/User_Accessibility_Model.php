@@ -79,7 +79,26 @@ class User_Accessibility_Model extends CI_Model{
 
         return $message;
     }
-
+    // public function getEncryption($password){
+    //     $this->db->select("*,AES_ENCRYPT(`message`, 'sdca') as encrypted_pass");
+    //     $this->db->where('message','sdca');
+    //     $result = $this->db->get('student_inquiry');
+    //     return $result->row_array();
+    //     $this->db->query();
+    // }
+    public function createUserAccount($data){
+        $this->db->insert('Users',$data);
+        return $this->db->insert_id();
+    }
+    public function UpdateEncryptedPassword($id,$password){
+        // $this->db->where('User_ID',$id);
+        // $this->db->update('Users',$data);
+        $this->db->query("UPDATE Users SET `Password` = AES_ENCRYPT('$password','$password') WHERE User_Id = $id");
+    }
+    public function UpdateUser($id,$data){
+        $this->db->where('User_ID',$id);
+        $this->db->update('Users',$data);
+    }
     public function remove_user_roles($array_where)
     {
         $this->db->trans_start();
@@ -103,6 +122,18 @@ class User_Accessibility_Model extends CI_Model{
 
         return $message;
     }
-
+    public function getUserInfo($id){
+        $this->db->where('User_Id',$id);
+        return $this->db->get('Users')->row_array();
+    }
+    public function getUserTable(){
+        $this->db->order_by('Users.User_FullName', 'ASC');
+        return $this->db->get('Users')->result_array();
+    }
+    public function checkDuplicate($column,$value){
+        $this->db->where($column,$value);
+        return $this->db->get('Users')->row_array();
+    }
+    
 
 }

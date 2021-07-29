@@ -33,7 +33,6 @@
     <link href="<?php echo base_url(); ?>css/style.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>css/style.css" rel="stylesheet">
 
-
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<?php echo base_url(); ?>css/themes/all-themes.css" rel="stylesheet" />
 
@@ -91,14 +90,16 @@
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/colreorder/1.5.2/js/dataTables.colReorder.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.5/js/responsive.bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.5/js/responsive.bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url('plugins/simplePagination/jquery.simplePagination.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo base_url('plugins/simplePagination/jquery.simplePagination.js');?>"></script>
     <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>plugins/simplePagination/simplePagination.css" />
-
+    <link rel="stylesheet" href="<?php echo base_url('css/iziToast.min.css'); ?>">
+    <script src="<?php echo base_url('js/iziToast.min.js'); ?>"></script>
+    
     <link rel="stylesheet" href="<?php echo base_url('css/toggleableSwitch.css'); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
     <link rel="stylesheet" href="<?php echo base_url('plugins/waitme/waitMe.min.css'); ?>">

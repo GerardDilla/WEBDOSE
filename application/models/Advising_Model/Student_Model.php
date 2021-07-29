@@ -466,11 +466,11 @@ class Student_Model extends CI_Model{
         $this->db->or_like('First_Name', $array_data['key']);
         $this->db->or_like('Middle_Name', $array_data['key']);
         $this->db->or_like('Last_Name', $array_data['key']);
-        // $this->db->orWhere(function ($query) {
-        //     $query->$this->db->or_like('Last_Name', $array_data['key']);
-        //         $this->db->or_like('First_Name', $array_data['key']);
-        //         $this->db->or_like('Middle_Name', $array_data['key']);  
-        // });
+        $this->db->orWhere(function ($query,$array_data) {
+            $query->db->or_like('Last_Name', $array_data['key']);
+                $this->db->or_like('First_Name', $array_data['key']);
+                $this->db->or_like('Middle_Name', $array_data['key']);  
+        });
         // $sql = "SELECT * FROM Basiced_Studentinfo WHERE Last_Name = '?' AND Student_Number <> 0";
         // $this->db->query($sql, array($array_data['key']));
 

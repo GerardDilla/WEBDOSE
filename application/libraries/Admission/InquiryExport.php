@@ -37,13 +37,25 @@ class inquiryexport extends Student
    private $cell;
    private $EducationChoices;
    private $IncomeChoices;
+   private $studentType;
 
    public function __construct($parameters = array())
    {
       parent::__construct($parameters);
+      $this->studentType = $parameters->student_type;
       #Gets Student Info and settings for importing
-      $this->inputFileType = 'Xlsx'; // Xlsx - Xml - Ods - Slk - Gnumeric - Csv\
-      $this->inputFileName = './export_template/InquiryTemplate.xlsx';
+      if($this->studentType=="BED"){
+         $this->inputFileType = 'Xlsx'; // Xlsx - Xml - Ods - Slk - Gnumeric - Csv\
+         $this->inputFileName = './export_template/InquiryTemplateBED.xlsx';
+      }
+      else if($this->studentType=="HED"){
+         $this->inputFileType = 'Xlsx'; // Xlsx - Xml - Ods - Slk - Gnumeric - Csv\
+         $this->inputFileName = './export_template/InquiryTemplate.xlsx';
+      }
+      else if($this->studentType=="SHS"){
+         $this->inputFileType = 'Xlsx'; // Xlsx - Xml - Ods - Slk - Gnumeric - Csv\
+         $this->inputFileName = './export_template/InquiryTemplateSHS.xlsx';
+      }
 
       #Setup spreadsheet
       //$this->spreadsheet = new Spreadsheet();
@@ -76,7 +88,6 @@ class inquiryexport extends Student
    }
    public function test()
    {
-
       $spreadsheet = new Spreadsheet();
       $sheet = $spreadsheet->getActiveSheet();
       $sheet->setCellValue('A1', 'Hello World !');

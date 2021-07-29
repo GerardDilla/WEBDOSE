@@ -24,7 +24,8 @@ class DoseAdmin extends MY_Controller
     }
     public function index()
     {
-        $this->render($this->set_views->test_test());
+        // $this->render($this->set_views->test_test());
+        $this->main();
     }
     function main()
     {

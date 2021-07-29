@@ -47,7 +47,11 @@
                                     <span>-User Roles </span>
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="<?php echo base_url(); ?>index.php/UserAccessibility/create_account" class="">
+                                    <span>-Create / Update User Account </span>
+                                </a>
+                            </li>
 
 
                         </ul>
@@ -68,9 +72,24 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url(); ?>index.php/Admission/Enrollment_Tracker_Report">
+                                <a href="javascript:void(0);" class="menu-toggle">
                                     <span>- Enrollment Tracker Reports</span>
                                 </a>
+                                <ul class="ml-menu">
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>index.php/Admission/Enrollment_Tracker_Report">
+                                            <span>- Enrollment Tracker Reports</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>index.php/Admission/Enrollment_Tally_Report">
+                                            <span>- Enrollment Tally Reports</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!-- <a href="<?php echo base_url(); ?>index.php/Admission/Enrollment_Tracker_Report">
+                             <span>- Enrollment Tracker Reports</span>
+                         </a> -->
                             </li>
                             <li>
                                 <a href="javascript:void(0);" class="menu-toggle">
@@ -146,7 +165,11 @@
                                     <span>-BED and SHS Enrollment Payment</span>
                                 </a>
                             </li>
-
+                            <!-- <li>
+                                <a href="<?php echo base_url(); ?>index.php/Cashier/proof_of_payment" class="">
+                                    <span>- Proof of Payemts </span>
+                                </a>
+                            </li> -->
 
                         </ul>
                     </li>
@@ -478,28 +501,48 @@
         ?>
         <!-- Des Module -->
         <?php
-        // if (in_array($this->data['module_list']['des'], $this->data['user_module_access'])) : 
+        if (in_array($this->data['module_list']['des'], $this->data['user_module_access'])) :
         ?>
-        <li>
-            <a href="javascript:void(0);" class="menu-toggle">
-                <i class="material-icons">label</i>
-                <span>Des Module</span>
-            </a>
-            <ul class="ml-menu">
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php/Des/digital_citizenship" class="">
-                        <span>-Digital Citizenship</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php/Des/id_application" class="">
-                        <span>-ID Application</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">label</i>
+                    <span>Des Module</span>
+                </a>
+                <ul class="ml-menu">
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php/Des/digital_citizenship" class="">
+                            <span>-Digital Citizenship</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php/Des/id_application" class="">
+                            <span>-ID Application</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         <?php
-        // endif 
+        endif
+        ?>
+        <!-- Dose Admin Module -->
+        <?php
+        if (in_array($this->data['module_list']['doseadmin'], $this->data['user_module_access'])) :
+        ?>
+            <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">admin_panel_settings</i>
+                    <span>Dose Admin</span>
+                </a>
+                <ul class="ml-menu">
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php/DoseAdmin" class="">
+                            <span>-Dose Enrollment</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        <?php
+        endif
         ?>
 
 

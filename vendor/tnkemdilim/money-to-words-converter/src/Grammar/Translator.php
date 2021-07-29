@@ -2,7 +2,8 @@
 
 namespace TNkemdilim\MoneyToWords\Grammar;
 
-use Stichoza\GoogleTranslate\TranslateClient;
+use Exception;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 use TNkemdilim\MoneyToWords\Languages as Language;
 
 class Translator
@@ -10,7 +11,7 @@ class Translator
     /**
      * Google translator.
      * 
-     * @var Stichoza\GoogleTranslate\TranslateClient
+     * @var Stichoza\GoogleTranslate\GoogleTranslate
      */
     protected $translator;
 
@@ -29,7 +30,7 @@ class Translator
     function __construct(String $languageTo)
     {
         $this->languageTo = $languageTo;
-        $this->translator = new TranslateClient(null, $languageTo);
+        $this->translator = new GoogleTranslate($languageTo);
     }
 
     /**
@@ -87,8 +88,7 @@ class Translator
             $translation = $this->translator->translate($string);
         } catch (Exception $ex) {
             throw new Exception("Error translating. Please insert a valid input");
-        }
-        finally {
+        } finally {
             $this->translator->setTarget($this->languageTo);
         }
 

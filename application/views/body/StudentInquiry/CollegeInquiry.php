@@ -1,12 +1,20 @@
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.min.css" integrity="sha512-8vr9VoQNQkkCCHGX4BSjg63nI5CI4B+nZ8SF2xy4FMOIyH/2MT0r55V276ypsBFAgmLIGXKtRhbbJueVyYZXjA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/js/iziModal.min.js" integrity="sha512-8aOKv+WECF2OZvOoJWZQMx7+VYNxqokDKTGJqkEYlqpsSuKXoocijXQNip3oT4OEkFfafyluI6Bm6oWZjFXR0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script type="text/javascript" src="<?php echo base_url('');?>js/timeago.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/2.0.2/timeago.min.js" integrity="sha512-sl01o/gVwybF1FNzqO4NDRDNPJDupfN0o2+tMm4K2/nr35FjGlxlvXZ6kK6faa9zhXbnfLIXioHnExuwJdlTMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link href="<?php echo base_url(); ?>plugins/waitme/waitMe.min.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo base_url(); ?>plugins/waitme/waitMe.min.js"></script>
 <style>
 /* #chatinquiryModal .modal-dialog{
     max-width: 700px;
 } */
+#chat-message{
+    overflow-y: auto;
+    max-height:60vh;
+}
 .chat{
     position:relative;
     width:60%;
@@ -40,6 +48,7 @@
 .message-body{
     padding:10px 10px 10px 20px;
     min-height:50px;
+    /* max-height:50vh; */
     border-radius:10px;
     width:100%;
     white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
@@ -75,7 +84,8 @@
     float:left;
     min-height:50px;
     max-height:100px;
-    border:1px #d4d4d4 solid;
+    /* border:1px #d4d4d4 solid; */
+    border:1px maroon solid;
     padding:10px;
     border-radius:8px;
     white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
@@ -98,7 +108,10 @@ span.chat-status{
     padding-bottom:10px; */
 }
 .modal .modal-header{
-    border-bottom:1px solid black;
+    border-bottom:1px solid maroon;
+}
+.modal-dialog-scrollable .modal-body {
+    overflow-y: auto;
 }
 </style>
 <section  id="top" class="content" style="background-color: #fff;">
@@ -108,8 +121,13 @@ span.chat-status{
   Launch demo modal
 </button> -->
         <!-- MODULE TITLE-->
-        <div class="block-header">
-            <h1> <i class="material-icons" style="font-size:100%">feedback</i> College Inquiry</h1>
+        <div class="block-header row">
+            <h1 style="float:left;" class="col-md-8"> <i class="material-icons" style="font-size:100%">feedback</i> College Inquiry</h1>
+            <span class="col-md-4">
+                <input type="date" id="search_from" name="search_from" class="form-control search-date" style="margin-top:10px;" value="<?= date("Y-m-d");?>">
+                <input type="date" id="search_to" name="search_to" class="form-control search-date" style="margin-top:10px;" value="<?= date("Y-m-d");?>">
+            </span>
+            
             <?php if($this->session->flashdata('message_error') || $this->session->flashdata('message_success')): ?>
             <br>
                 <h3 class="col-red">
@@ -122,6 +140,15 @@ span.chat-status{
             <?php endIf; ?>
         </div>
         <div class="col-md-12 table-responsive">
+            <div class="col-lg-4 col-md-4 input-group" style="float:right;">
+                <span class="input-group-addon">
+                    <i class="material-icons">search</i>
+                </span>
+                <div class="form-line">
+                    <!-- <label class="form-label">search</label> -->
+                    <input type="text" class="form-control" name="search_table" id="search_table" placeholder="Search..." required>
+                </div>   
+            </div>
             <table id="chatInquiryTable" class="table table-hover">
                 <thead>
                     <tr>
@@ -150,7 +177,7 @@ span.chat-status{
                     }
                     ?>
                     <tr>
-                        <td><?php echo $inquiry_list['First_Name'].' '.$inquiry_list['Middle_Name'].' '.$inquiry_list['Last_Name'];?></td>
+                        <td><?= $inquiry_list['Full_Name']?></td>
                         <td><?php echo $level; ?></td>
                         <td><?php echo $inquiry_list['Course']; ?></td>
                         <td width="15%"><?php echo $inquiry_list['total_message']; ?></td>
@@ -167,7 +194,7 @@ span.chat-status{
 
 <!-- Modal -->
 <div class="modal fade" id="chatinquiryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel16"><img src="<?php echo base_url('img/Accounting/logo.png')?>" style="width:150px;height:auto;"> &nbsp;&nbsp;&nbsp;<font id="student-name">SDCA Inquiry</font></h4>
@@ -205,6 +232,9 @@ span.chat-status{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js" integrity="sha512-BCMqEPl2dokU3T/EFba7jrfL4FxgY6ryUh4rRC9feZw4yWUslZ3Uf/lPZ5/5UlEjn4prlQTRfIPYQkDrLCZJXA==" crossorigin="anonymous"></script>
 <script>
+var search_date = $('input[name=search_date]').val();
+// var date_from = $('search_from').val();
+// var date_to = $('search_to')
 $('#college_inquiry').iziModal({
     theme: 'light',
     headerColor: 'maroon',
@@ -217,32 +247,97 @@ $('#college_inquiry').iziModal({
     transitionOut: 'fadeOutDown',
     // height: '80',
 });
+class CollegeTable{
+    constructor(){
+        this.data = [];
+    }
+    async updateData(value){
+        this.data = value;
+    }
+    async filterData(search_value){
+        console.log(this.data)
+        var filtered = this.data.filter((col)=>{
+            try{
+                var search = search_value.toLowerCase();
+                var lc_fullname = col.Full_Name.toLowerCase();
+                var lc_YearLevel = col.YearLevel.toLowerCase();
+                var lc_course = col.Course.toLowerCase();
+                var lc_total_message = col.total_message;
+                if(lc_total_message!=null||lc_fullname!=null||lc_YearLevel!=null||lc_course!=null){ 
+                    return lc_fullname.indexOf(search) > -1||lc_YearLevel.indexOf(search) > -1||lc_course.indexOf(search) > -1||lc_total_message.indexOf(search) > -1
+                // return lc_fullname.indexOf(search) > -1||lc_YearLevel.indexOf(search) > -1||lc_course.indexOf(search) > -1||lc_course.indexOf(search) > -1
+                }
+            }
+            catch(err){
+
+            }
+        })
+        await this.createDataTable(filtered);
+        await this.hideWaitMe();
+    }
+    async filterByDate(value){
+
+    }
+    async createDataTable(value){
+        $('body').waitMe({
+            effect : 'win8',
+            text : '',
+            bg : 'rgba(255,255,255,0.7)',
+            color : 'maroon',
+            maxSize : '',
+            waitTime : -1,
+            textPos : 'vertical',
+            fontSize : '',
+            source : '',
+            onClose : function() {}
+        });
+        // $('#chatInquiryTable').DataTable().destroy();
+        $('#chatInquiryTable tbody').empty();
+        var html = "";
+        $.each(value,function(index,val){
+            var level = ""
+            if(val.YearLevel=="1"){
+                level = "1st Year"
+            }
+            else if(val.YearLevel=="2"){
+                level = "2nd Year"
+            }
+            else if(val.YearLevel=="3"){
+                level = "3rd Year"
+            }
+            else if(val.YearLevel=="4"){
+                level = "4th Year"
+            }
+
+            html += `<tr><td>${val.First_Name+' '+val.Middle_Name+' '+val.Last_Name}</td>`;
+            html += `<td>${level}</td>`;
+            html += `<td>${val.Course}</td>`;
+            html += `<td>${val.total_message}</td>`;
+            html += `<td><button class="btn btn-info" onclick="openModal('${val.ref_no}','${val.First_Name+' '+val.Middle_Name+' '+val.Last_Name}')" data-toggle="modal" data-target="#chatinquiryModal">open</button></td></tr>`; 
+        })
+        $('#chatInquiryTable tbody').append(html);
+        // $('#chatInquiryTable').DataTable({
+        //     "ordering": true,
+        //     "bPaginate": true,
+        //     "bLengthChange": false,
+        //     "responsive": false
+        // });
+    }
+    async hideWaitMe(){
+        $('body').waitMe('hide');
+    }
+    getData(){
+        return this.data;
+    }
+}
+
+var collegetable = new CollegeTable();
+
+$('#search_table').on('keyup',function(){
+    collegetable.filterData(this.value);
+})
 // $('#chat-box:last-child').css('background','red');
 var typing_timeout = null;
-// var DURATION_IN_SECONDS = {
-//   epochs: ['year', 'month', 'day', 'hour', 'minute'],
-//   year: 31536000,
-//   month: 2592000,
-//   day: 86400,
-//   hour: 3600,
-//   minute: 60
-// };
-
-// function getDuration(seconds) {
-//   var epoch, interval;
-
-//   for (var i = 0; i < DURATION_IN_SECONDS.epochs.length; i++) {
-//     epoch = DURATION_IN_SECONDS.epochs[i];
-//     interval = Math.floor(seconds / DURATION_IN_SECONDS[epoch]);
-//     if (interval >= 1) {
-//       return {
-//         interval: interval,
-//         epoch: epoch
-//       };
-//     }
-//   }
-
-// };
 
 function timeSince(date) {
 //   date = date.replace(/T/g, " ");
@@ -254,16 +349,17 @@ function timeSince(date) {
 };
 var choose_ref = "";
 var connectionOptions =  {          
-        "transports" : ["websocket"]
+        "transports" : ["websocket"],
+        withCredentials: false,
     };
 const socket = io('https://stdominiccollege.edu.ph:4003');
-// const socket = io('https://localhost:4003');
+// const socket = io('http://localhost:4004');
 const app = feathers();
 app.configure(feathers.socketio(socket));
 var array_status = [];
 var status_running = false;
 
-$("time.timeago").timeago();
+// $("time.timeago").timeago();
 // document.getElementById('form#inquiryForm').addEventListener('submit', sendInquiry);
 $('#inquiryForm button').on('click',function(){
     // alert('hello');
@@ -273,11 +369,11 @@ $('#inquiryForm button').on('click',function(){
             message:$('#chat-textarea').html(),
             ref_no:choose_ref,
             type:'admin',
+            admin_id:'<?= $this->session->logged_in['userid'];?>',
             return_id:uuid
         });
         sendMessage(uuid);
         $('#chat-textarea').html('');
-        
     }
 })
 $('#chatinquiryModal').mouseover(function(){
@@ -296,6 +392,7 @@ $('#chat-textarea').on('keydown',function(e){
                 message:$('#chat-textarea').html(),
                 ref_no:choose_ref,
                 type:'admin',
+                admin_id:'<?= $this->session->userdata('logged_in')['userid'];?>',
                 return_id:uuid
             });
             sendMessage(uuid);
@@ -312,6 +409,25 @@ $('#chat-textarea').on('keydown',function(e){
         });
     }
 })
+$.ajax({
+    url: "<?php echo base_url(); ?>index.php/StudentInquiry/getCollegeTable",
+    method: 'get',
+    dataType: 'json',
+    success: function(response) {
+        // storagedata
+        collegetable.updateData(response);
+    },
+    error: function(response) {
+    }
+});
+setTimeout(()=>{
+    console.log(collegetable.getData());
+    // alert()
+},3000)
+// function getStudentTable(){
+    
+// }
+
 function sendMessage(id){
     var current_time = moment().format('MMM DD,YYYY h:kk a');
     document.getElementById('chat-message').innerHTML = document.getElementById('chat-message').innerHTML
@@ -336,6 +452,7 @@ function renderIdea(data) {
 
 // $(document). bind("contextmenu",function(e){ return false; });
 async function getInquiryTableList(data){
+    // console.log(data)
     // console.log(data.First_Name)
     $('#chatInquiryTable tbody').empty();
     var html = "";
@@ -358,7 +475,7 @@ async function getInquiryTableList(data){
         html += `<td>${level}</td>`;
         html += `<td>${val.Course}</td>`;
         html += `<td>${val.total_message}</td>`;
-        html += `<td><button class="btn btn-info" onclick="openModal('${val.ref_no}','${val.First_Name+' '+val.Middle_Name+' '+val.Last_Name}')" data-bs-toggle="modal" data-bs-target="#chatinquiryModal">open</button></td></tr>`; 
+        html += `<td><button class="btn btn-info" onclick="openModal('${val.ref_no}','${val.First_Name+' '+val.Middle_Name+' '+val.Last_Name}')" data-toggle="modal" data-target="#chatinquiryModal">open</button></td></tr>`; 
     })
     $('#chatInquiryTable tbody').append(html);
 }
@@ -373,6 +490,31 @@ function updateToSeen(data){
             })
         }
     }
+}
+function filterTableByDate(){
+    (async() => {
+        var search_from = $('#search_from').val();
+        var search_to = $('#search_to').val();
+        const getFilteredChat = await app.service('chat-change-date').get({search_from:search_from,search_to:search_to});
+        var filteredByDate = getFilteredChat.filter((item)=>{
+            try{
+                if(Date.parse(search_from) < Date.parse(moment(item.date_created).format('YYYY-MM-DD'))&&Date.parse(search_to) > Date.parse(moment(item.date_created).format('YYYY-MM-DD'))){
+                    return true
+                }
+                else if(Date.parse(search_from)==Date.parse(moment(item.date_created).format('YYYY-MM-DD'))){
+                    return true
+                }
+                else if(Date.parse(search_to)==Date.parse(moment(item.date_created).format('YYYY-MM-DD'))){
+                    return true
+                }
+            }
+            catch(err){
+                return false;
+            }
+        })
+        collegetable.updateData(filteredByDate)
+        collegetable.filterData($('#search_table').val());
+    })();
 }
 function setStatus(){
     status_running = true;
@@ -393,15 +535,14 @@ window.setInterval(()=>{
 },2000);
 function receivedMessage(data) 
 {
-    console.log(data)
-    // console.log(data.message_count);
-    getInquiryTableList(data.message_count);
+    filterTableByDate();
     var current_time = moment(Date.parse(data.date_created)).format('MMM DD,YYYY h:kk a');
-    // +`(${moment(Date.parse(data.date_created)).fromNow()})`;
-    // current_time = timeSince(current_time)
+    
     if(data.user_type=="student"){
-        document.getElementById('chat-message').innerHTML = document.getElementById('chat-message').innerHTML
-            +`<div class="col-md-12 chat-card" tab-index="1"><div class="chat-student chat"><div class="message-head"></div><div class="message-time">${current_time}</div><div class="message-body">${data.message}</div></div></div>`;
+        if(choose_ref==data.ref_no){
+            document.getElementById('chat-message').innerHTML = document.getElementById('chat-message').innerHTML
+                +`<div class="col-md-12 chat-card" tab-index="1"><div class="chat-student chat"><div class="message-head"></div><div class="message-time">${current_time}</div><div class="message-body">${data.message}</div></div></div>`;
+        }
     }
     else{   
         array_status.push(data.return_id);
@@ -409,13 +550,9 @@ function receivedMessage(data)
         //     +`<div class="col-md-12 chat-card" tab-index="1"><div class="chat-admin chat"><div class="message-head">SDCA ADMIN</div><div class="message-time">${current_time}</time></div><div class="message-body">${data.message}</div></div></div>`;
         
     }
-    $('#chatinquiryModal .modal-body').animate({ scrollTop: 100000000000000000000000000000000 }, 'slow');
-    // }
-    // getInquiryList();
-    
+    $('#chat-message').animate({ scrollTop: 100000000000000000000000000000000 }, 'slow');
 }
 async function typing(data){
-    console.log(data)
     if(choose_ref==data.ref_no){
         if(data.type=='student'){
             $('#someone-typing').show();
@@ -436,11 +573,8 @@ async function someone_typing(){
 }   
 async function init(ref) {
 // Find ideas
-const ideas = await app.service('chat-inquiry').get({ref_no:ref});
-
-console.log(ideas);
+    const ideas = await app.service('chat-inquiry').get({ref_no:ref,search_date:search_date});
     ideas.forEach(renderIdea);
-    
 }
 
 function openModal(ref,name){
@@ -451,12 +585,13 @@ function openModal(ref,name){
     init(ref);
     someone_typing();
     // setTimeout(function(){
-        $('#chatinquiryModal .modal-body').animate({ scrollTop: 100000000000000000000000000000000 }, 'slow');
+        $('#chat-message').animate({ scrollTop: 100000000000000000000000000000000 }, 'slow');
     // },1000)
 }
 app.service('chat-inquiry').on('created', receivedMessage);
 app.service('chat-inquiry').on('updated', updateToSeen);
 // getInquiryList();
-
+$('.search-date').on('change',function(){
+    filterTableByDate();
+})
 </script>
-        <!--/ MODULE TITLE-->
