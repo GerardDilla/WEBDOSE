@@ -455,6 +455,12 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php/Registrar/BypassManager">
+                            <span>Manage Advising Bypass</span>
+                        </a>
+                    </li>
+
             </ul>
             </li>
         <?php endif ?>
