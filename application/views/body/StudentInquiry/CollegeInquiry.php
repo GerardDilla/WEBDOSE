@@ -97,6 +97,7 @@
     word-break: break-all;
     white-space: normal;
     overflow-y:auto;
+    text-align:left;
 }
 span.chat-status{
     /* transform:translate(50%,50%); */
