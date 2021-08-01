@@ -3,8 +3,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.min.css" integrity="sha512-8vr9VoQNQkkCCHGX4BSjg63nI5CI4B+nZ8SF2xy4FMOIyH/2MT0r55V276ypsBFAgmLIGXKtRhbbJueVyYZXjA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/js/iziModal.min.js" integrity="sha512-8aOKv+WECF2OZvOoJWZQMx7+VYNxqokDKTGJqkEYlqpsSuKXoocijXQNip3oT4OEkFfafyluI6Bm6oWZjFXR0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/2.0.2/timeago.min.js" integrity="sha512-sl01o/gVwybF1FNzqO4NDRDNPJDupfN0o2+tMm4K2/nr35FjGlxlvXZ6kK6faa9zhXbnfLIXioHnExuwJdlTMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <link href="<?php echo base_url(); ?>plugins/waitme/waitMe.min.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url(); ?>plugins/waitme/waitMe.min.js"></script>
 <style>
@@ -125,8 +124,8 @@ span.chat-status{
         <div class="block-header row">
             <h1 style="float:left;" class="col-md-8"> <i class="material-icons" style="font-size:100%">feedback</i> College Inquiry</h1>
             <span class="col-md-4">
-                <input type="date" id="search_from" name="search_from" class="form-control search-date" style="margin-top:10px;" value="<?= date("Y-m-d");?>">
-                <input type="date" id="search_to" name="search_to" class="form-control search-date" style="margin-top:10px;" value="<?= date("Y-m-d");?>">
+                <input type="date" id="search_from" name="search_from" class="form-control search-date" style="margin-top:10px;" value="<?= date("Y-m-d",time()-86400);?>">
+                <input type="date" id="search_to" name="search_to" class="form-control search-date" style="margin-top:10px;" value="<?= date("Y-m-d",time()+86400);?>">
             </span>
             
             <?php if($this->session->flashdata('message_error') || $this->session->flashdata('message_success')): ?>
@@ -156,7 +155,8 @@ span.chat-status{
                         <th>Name</th>
                         <th>Level</th>
                         <th>Course</th>
-                        <th width="15%">Total Messages</th>
+                        <!-- <th width="15%">Unseen Messages</th> -->
+                        <th width="10%">Time</th>
                         <th width="15%">Action</th>
                     </tr>
                 </thead>
@@ -181,7 +181,8 @@ span.chat-status{
                         <td><?= $inquiry_list['Full_Name']?></td>
                         <td><?php echo $level; ?></td>
                         <td><?php echo $inquiry_list['Course']; ?></td>
-                        <td width="15%"><?php echo $inquiry_list['total_message']; ?></td>
+                        <!-- <td width="15%"><?php echo $inquiry_list['total_unseen']; ?></td> -->
+                        <td><?= date("h:i a",strtotime($inquiry_list['last_date'])) ?></td>
                         <td width="15%"><button class="btn btn-info" onclick="openModal('<?php echo $inquiry_list['ref_no'];?>','<?php echo $inquiry_list['First_Name'].' '.$inquiry_list['Middle_Name'].' '.$inquiry_list['Last_Name'];?>')" data-toggle="modal" data-target="#chatinquiryModal">open</button></td>
                         <!-- data-bs-toggle="modal" data-bs-target="#chatinquiryModal" -->
                     </tr>
@@ -297,6 +298,7 @@ class CollegeTable{
         // $('#chatInquiryTable').DataTable().destroy();
         $('#chatInquiryTable tbody').empty();
         var html = "";
+        console.log(value)
         $.each(value,function(index,val){
             var level = ""
             if(val.YearLevel=="1"){
@@ -315,7 +317,8 @@ class CollegeTable{
             html += `<tr><td>${val.First_Name+' '+val.Middle_Name+' '+val.Last_Name}</td>`;
             html += `<td>${level}</td>`;
             html += `<td>${val.Course}</td>`;
-            html += `<td>${val.total_message}</td>`;
+            // html += `<td>${val.total_unseen}</td>`;
+            html += `<td>${moment(Date.parse(val.last_date)).format('LT')}</td>`;
             html += `<td><button class="btn btn-info" onclick="openModal('${val.ref_no}','${val.First_Name+' '+val.Middle_Name+' '+val.Last_Name}')" data-toggle="modal" data-target="#chatinquiryModal">open</button></td></tr>`; 
         })
         $('#chatInquiryTable tbody').append(html);
@@ -496,24 +499,22 @@ function filterTableByDate(){
         var search_from = $('#search_from').val();
         var search_to = $('#search_to').val();
         const getFilteredChat = await app.service('chat-change-date').get({search_from:search_from,search_to:search_to});
-        var filteredByDate = getFilteredChat.filter((item)=>{
-            try{
-                if(Date.parse(search_from) < Date.parse(moment(Date.parse(item.date_created)).format('YYYY-MM-DD'))&&Date.parse(search_to) > Date.parse(moment(item.date_created).format('YYYY-MM-DD'))){
-                    return true
-                }
-                else if(Date.parse(search_from)==Date.parse(moment(Date.parse(item.date_created)).format('YYYY-MM-DD'))){
-                    return true
-                }
-                else if(Date.parse(search_to)==Date.parse(moment(Date.parse(item.date_created)).format('YYYY-MM-DD'))){
-                    return true
-                }
-            }
-            catch(err){
-                return false;
-            }
-        })
-        console.log(filteredByDate)
-        collegetable.updateData(filteredByDate)
+        // var filteredByDate = getFilteredChat.filter((item)=>{
+        //     try{
+        //         // if(Date.parse(search_from) < Date.parse(moment(Date.parse(item.date_created)).format('YYYY-MM-DD'))&&Date.parse(search_to) > Date.parse(moment(item.date_created).format('YYYY-MM-DD'))){
+        //         //     return true
+        //         // }
+        //         // else if(Date.parse(search_from)==Date.parse(moment(Date.parse(item.date_created)).format('YYYY-MM-DD'))||Date.parse(search_to)==Date.parse(moment(Date.parse(item.date_created)).format('YYYY-MM-DD'))){
+        //         //     return true
+        //         // }
+        //         return true;
+        //     }
+        //     catch(err){
+        //         return false;
+        //     }
+        // })
+        // console.log(filteredByDate)
+        collegetable.updateData(getFilteredChat)
         collegetable.filterData($('#search_table').val());
     })();
 }
@@ -536,6 +537,7 @@ window.setInterval(()=>{
 },2000);
 function receivedMessage(data) 
 {
+    console.log(data)
     filterTableByDate();
     var current_time = moment(Date.parse(data.date_created)).format('MMM DD,YYYY h:kk a');
     

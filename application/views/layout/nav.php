@@ -67,10 +67,11 @@
 /* Links inside the dropdown */
 .dropdown-content a {
   color: black;
-  padding: 12px 16px;
+  padding: 5px 12px 5px 12px;
   text-decoration: none;
   display: block;
-  margin-bottom:10px;
+  /* border:1px solid red; */
+  border:1px solid #ccc;
 }
 
 /* Change color of dropdown links on hover */
