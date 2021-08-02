@@ -1560,8 +1560,8 @@ class StudentRecords extends MY_Controller
 
 
 
-        #export to excel
-        $writer = new Xlsx($spreadsheet);
+        // #export to excel
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($spreadsheet);
         //
         $filename = strtoupper($array_info['lname'] . ", " . $array_info['fname'] . " " . $array_info['mname']);
 
@@ -1691,7 +1691,7 @@ class StudentRecords extends MY_Controller
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1', 'Hello World !');
 
-        $writer = new Xlsx($spreadsheet);
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($spreadsheet);
         $writer->save('hello world.xlsx');
     }
 
@@ -1701,7 +1701,7 @@ class StudentRecords extends MY_Controller
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1', 'Hello World !');
 
-        $writer = new Xlsx($spreadsheet);
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($spreadsheet);
 
         $filename = 'name-of-the-generated-file';
 
