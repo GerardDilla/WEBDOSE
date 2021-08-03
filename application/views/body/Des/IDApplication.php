@@ -16,7 +16,15 @@
             <h1> <i class="material-icons" style="font-size:100%">label</i>ID Application</h1>
         </div>
         <!--/ MODULE TITLE-->
+        <?php
+        $id_msg = "     Hi, This is ____ from the Digital Education Solutions unit of the ICT Department.
+    We are glad to inform you that we have successfully printed your ID, you may now claim it at DES Office located at the Computer Laboratory 2, 5th Floor, GD 1 Should you have any concerns, please don't hesitate to email us.
 
+";
+        ?>
+        <div>
+            <textarea id="id_msg" class="form-control id_msg" rows="3" placeholder="<?php echo $id_msg ?>"></textarea>
+        </div>
         <div class="card">
             <div class="body">
                 <div class="card-body table-responsive">
@@ -117,7 +125,6 @@
                         source: '',
                         onClose: function() {}
                     });
-
                     $.ajax({
                         url: 'updateIdApplication',
                         dataType: 'json',
@@ -125,10 +132,12 @@
                         // async: false,
                         data: {
                             'id_application': id,
-                            'status': status
+                            'status': status,
+                            'custom_msg': $('#id_msg').val()
                         },
                         success: function(response) {
-                            alert(response);
+                            // alert(response);
+
                         },
                         complete: function() {
                             // alert('Done');

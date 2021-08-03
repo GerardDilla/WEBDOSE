@@ -34,7 +34,7 @@ class MY_Controller extends CI_Controller {
         }
 
       $this->data['admin_data'] = $this->set_custom_session->admin_session();
-        
+        // die(json_encode($this->data['admin_data']));
       //set user accessibility for nav bar
       $this->data['module_list'] = $this->user_accessibility->get_module_list();
     //   echo '<pre>'.print_r($this->data['module_list'],1).'</pre>';

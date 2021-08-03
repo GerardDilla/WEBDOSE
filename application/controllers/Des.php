@@ -1,27 +1,31 @@
-<?php 
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Des extends MY_Controller  {
-	
-	function __construct() {
-        parent::__construct();
-        $this->load->model('Digital_ID_Model/Forms_Model');
-        $this->load->library('set_views');
-        $this->load->library('session');
-        $this->load->library('set_custom_session');
+class Des extends MY_Controller
+{
+
+	function __construct()
+	{
+		parent::__construct();
+		$this->load->model('Digital_ID_Model/Forms_Model');
+		$this->load->library('set_views');
+		$this->load->library('session');
+		$this->load->library('set_custom_session');
 		$this->load->library('email');
-		$this->load->library('sdca_mailer',array('email'=>$this->email,'load'=>$this->load));
-    }
-    public function index(){
-
-    }
-    public function digital_citizenship(){
-        $this->render($this->set_views->digital_citizenship());
-    }
-    public function id_application(){
-        $this->render($this->set_views->id_application());
-    }
-    // DIgital
+		$this->load->library('sdca_mailer', array('email' => $this->email, 'load' => $this->load));
+	}
+	public function index()
+	{
+	}
+	public function digital_citizenship()
+	{
+		$this->render($this->set_views->digital_citizenship());
+	}
+	public function id_application()
+	{
+		$this->render($this->set_views->id_application());
+	}
+	// DIgital
 	public function getDigitalCitizenship()
 	{
 		$getDigitalCitizenship = $this->Forms_Model->getDigitalCitizenship();
@@ -60,31 +64,54 @@ class Des extends MY_Controller  {
 	{
 		$id_application = $this->input->post('id_application');
 		$status = $this->input->post('status');
+		$custom_msg = $this->input->post('custom_msg');
 		// die($id_application);
 		$array = array(
 			'id_application' => $id_application,
 			'status' => $status,
 		);
+		// Session for sender
+		// {"userid","fullname","position","username":"bell}
+		$this->data['admin_data'] = $this->set_custom_session->admin_session();
 		$this->Forms_Model->updateIdApplication($array);
 		if ($status == 'done') {
 			$id_user = $this->Forms_Model->getSingleIdApplication($array['id_application']);
-			$email_data = array(
-				'send_to' => $id_user['first_name'] . ' ' . $id_user['last_name'],
-				'reply_to' => 'webmailer@sdca.edu.ph',
-				'sender_name' => 'St. Dominic College of Asia',
-				'send_to_email' => $id_user['Email'],
-				'subject' => 'ID Application Update',
-				'message' => 'Email/IdApplication'
-			);
-			$this->sdca_mailer->id_application_done(
-				$email_data['send_to'],
-				$email_data['reply_to'],
-				$email_data['sender_name'],
-				$email_data['send_to_email'],
-				$email_data['subject'],
-				$email_data['message'],
-				null
-			);
+			if (empty($custom_msg)) {
+				$email_data = array(
+					'send_to' => $id_user['first_name'] . ' ' . $id_user['last_name'],
+					'reply_to' => 'webmailer@sdca.edu.ph',
+					'sender_name' => 'St. Dominic College of Asia',
+					'send_to_email' => $id_user['Email'],
+					'subject' => 'ID Application Update',
+					'message' => 'Email/IdApplication'
+				);
+				$this->sdca_mailer->id_application_done(
+					$email_data['send_to'],
+					$email_data['reply_to'],
+					$email_data['sender_name'],
+					$email_data['send_to_email'],
+					$email_data['subject'],
+					$email_data['message'],
+					$this->data['admin_data']
+				);
+			}else{
+				$email_data = array(
+					'send_to' => $id_user['first_name'] . ' ' . $id_user['last_name'],
+					'reply_to' => 'webmailer@sdca.edu.ph',
+					'sender_name' => 'St. Dominic College of Asia',
+					'send_to_email' => $id_user['Email'],
+					'subject' => 'ID Application Update',
+					'message' => $custom_msg,
+				);
+				$this->sdca_mailer->id_application_custome_msg(
+					$email_data['send_to'],
+					$email_data['reply_to'],
+					$email_data['sender_name'],
+					$email_data['send_to_email'],
+					$email_data['subject'],
+					$email_data['message']
+				);
+			}
 		}
 	}
 	public function idApplicationError()
@@ -99,6 +126,10 @@ class Des extends MY_Controller  {
 			'subject' => 'ID Application Error',
 			'message' => 'Email/IdApplicationError'
 		);
+		// Session for sender
+		// {"userid","fullname","position","username":"bell}
+		$this->data['admin_data'] = $this->set_custom_session->admin_session();
+		// die(json_encode($this->set_custom_session->admin_session()));
 		$this->sdca_mailer->id_application_done(
 			$email_data['send_to'],
 			$email_data['reply_to'],
@@ -106,7 +137,7 @@ class Des extends MY_Controller  {
 			$email_data['send_to_email'],
 			$email_data['subject'],
 			$email_data['message'],
-			null
+			$this->data['admin_data']
 		);
 	}
 }
