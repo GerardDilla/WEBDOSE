@@ -181,6 +181,7 @@
             success: function(response) {
                 $.each(response, function(key, value) {
                     student_name = value['Last_Name'] + ', ' + value['First_Name'] + ' ' + value['Middle_Name'];
+                    $address = value['Address_No'] + ' ' + value['Address_Street'] + ' ' + value['Address_Subdivision'] + ', ' + value['Address_Barangay'] + ' ' + value['Address_City'] + ' ' + value['Address_Province'] + ' ' + value['Address_Country'] + ', ' + value['Address_Zip'] 
                     checked = '';
                     class_check = '';
                     if (value['status'] == 'done') {
@@ -195,14 +196,16 @@
                         student_name +
                         '</td>' +
                         '<td>' +
+                        value['Reference_Number'] +
+                        '</td>' +
+                        '<td>' +
                         value['Student_Number'] +
                         '</td>' +
                         '<td>' +
                         value['Course'] +
                         '</td>' +
                         '<td>' +
-                        'Address' +
-                        // value['Student_Number'] +
+                        $address +
                         '</td>' +
                         '<td>' +
                         value['Guardian_Name'] +
