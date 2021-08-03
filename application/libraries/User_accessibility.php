@@ -21,7 +21,9 @@ class User_accessibility
             'admission' => 3,
             'executive' => 6,
             'cashier' => 7,
-            'program_chair' => 8
+            'program_chair' => 8,
+            'accounting' => 9,
+            'des' => 10
         );
 
     }
