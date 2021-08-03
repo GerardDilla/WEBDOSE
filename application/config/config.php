@@ -24,7 +24,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |
 */
 // $config['base_url'] = 'https://stdominiccollege.edu.ph/WEBDOSE';
-$config['base_url'] = '';
+// $config['base_url'] = 'http://10.0.0.65/WEBDOSE';
+$config['base_url'] = 'http://localhost/WEBDOSE';
 /*
 |--------------------------------------------------------------------------
 | Index File

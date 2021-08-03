@@ -49,14 +49,13 @@
 									</select>
 								</div>
 							</div>
-
+							
 							<div class="col-md-2">
 								<div class="input-group">
 									<b class="red">Please Select School Year:</b>
 									<select class="form-control show-tick"  name="school_year">
-											<option value="<?php echo ($this->date_year - 1).'-'.$this->date_year; ?>"> <?php echo ($this->date_year - 1).'-'.$this->date_year; ?> </option>
-											<option value="<?php echo $this->date_year.'-'.($this->date_year + 1); ?>"> <?php echo $this->date_year.'-'.($this->date_year + 1); ?> </option>
-											
+											<option value="<?php echo ($this->date_year - 1).'-'.$this->date_year; ?>" <?php echo intval(date('m'))<5?' selected':'';?>> <?php echo ($this->date_year - 1).'-'.$this->date_year; ?> </option>
+											<option value="<?php echo $this->date_year.'-'.($this->date_year + 1); ?>" <?php echo intval(date('m'))>=5?' selected':'';?>> <?php echo $this->date_year.'-'.($this->date_year + 1); ?> </option>
 									</select>
 									<span class="input-group-addon">
 										<i class="material-icons">send</i>

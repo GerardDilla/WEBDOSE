@@ -3,17 +3,43 @@
 class Student_Model extends CI_Model {
 
     public function get_student_list_by_program($program_code, $semester, $school_year)
-    {
+    {   
         $this->db->select('enrolled.Reference_Number, student.First_Name, student.Middle_Name, student.Last_Name, student.Email');
         $this->db->from('Fees_Enrolled_College AS enrolled');
-        $this->db->join('Student_Info AS student', 'enrolled.Reference_Number = student.Reference_Number', 'inner');
-        $this->db->where('enrolled.semester', $semester);
+        $this->db->join('Student_Info AS student', 'enrolled.Reference_Number = student.Reference_Number');
+        $this->db->where('enrolled.semester',$semester);
         $this->db->where('enrolled.schoolyear', $school_year);
         $this->db->where('enrolled.course', $program_code);
+        // $this->db->limit(30,0);
         $query = $this->db->get();
         return $query->result_array();
     }
-
+    public function getStudentListPaginated($program_code, $semester, $school_year,$limit,$offset){
+        $this->db->select('enrolled.Reference_Number, student.First_Name, student.Middle_Name, student.Last_Name, student.Email');
+        $this->db->from('Fees_Enrolled_College AS enrolled');
+        $this->db->join('Student_Info AS student', 'enrolled.Reference_Number = student.Reference_Number');
+        $this->db->where('enrolled.semester',$semester);
+        $this->db->where('enrolled.schoolyear', $school_year);
+        $this->db->where('enrolled.course', $program_code);
+        $this->db->limit($limit,$offset);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function get_student_id($limit,$offset){
+        $query = $this->db->get('Student_ID',$limit,$offset);
+        return $query->result_array();
+    }
+    public function getStudentNumber($ref_no){
+        $this->db->select('Student_Number');
+        $this->db->where('Reference_Number',$ref_no);
+        $query = $this->db->get('Student_Info');
+        return $query->row_array();
+    }
+    public function getStudentInfoByRefNo($ref_no){
+        $this->db->where('Reference_Number',$ref_no);
+        $query = $this->db->get('Student_Info');
+        return $query->row_array();
+    }
     public function inset_soa_due_data($array_data)
     {
         $this->db->trans_start();
@@ -40,5 +66,9 @@ class Student_Model extends CI_Model {
         $query = $this->db->get();
         $output = $query->result_array();
         return $output[0];
+    }
+
+    public function insertWebDoseLogs($data){
+        $this->db->insert('web_dose_logs',$data);
     }
 }

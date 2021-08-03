@@ -6,9 +6,9 @@
             <div class="image" style="background:white;border-radius:10px;">
                 <img src="<?php echo base_url(); ?>img/DOSE_LOGO.PNG" width="120" height="auto" alt="User" />
             </div>
-            <div class="info-container" style="color:black;">
-                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jhon Norman Fabregas<?php echo $this->session->userdata("fullname")['fullname']; ?></div>
-                <div class="email"><?php echo $this->session->userdata("position")['fullname']; ?>Web Developer</div>
+            <div class="info-container">
+                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $this->admin_data['fullname']; ?></div>
+                <div class="email"><?php echo $this->admin_data['position']; ?></div>
             </div>
         </div>
         <!-- #User Info -->
@@ -47,7 +47,11 @@
                                     <span>-User Roles </span>
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="<?php echo base_url(); ?>index.php/UserAccessibility/create_account" class="">
+                                    <span>-Create / Update User Account </span>
+                                </a>
+                            </li>
 
 
                         </ul>
@@ -451,6 +455,12 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php/Registrar/BypassManager">
+                            <span>Manage Advising Bypass</span>
+                        </a>
+                    </li>
+
             </ul>
             </li>
         <?php endif ?>
@@ -491,28 +501,48 @@
         ?>
         <!-- Des Module -->
         <?php
-        // if (in_array($this->data['module_list']['des'], $this->data['user_module_access'])) : 
+        if (in_array($this->data['module_list']['des'], $this->data['user_module_access'])) :
         ?>
-        <li>
-            <a href="javascript:void(0);" class="menu-toggle">
-                <i class="material-icons">label</i>
-                <span>Des Module</span>
-            </a>
-            <ul class="ml-menu">
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php/Des/digital_citizenship" class="">
-                        <span>-Digital Citizenship</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php/Des/id_application" class="">
-                        <span>-ID Application</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">label</i>
+                    <span>Des Module</span>
+                </a>
+                <ul class="ml-menu">
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php/Des/digital_citizenship" class="">
+                            <span>-Digital Citizenship</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php/Des/id_application" class="">
+                            <span>-ID Application</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         <?php
-        // endif 
+        endif
+        ?>
+        <!-- Dose Admin Module -->
+        <?php
+        if (in_array($this->data['module_list']['doseadmin'], $this->data['user_module_access'])) :
+        ?>
+            <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">admin_panel_settings</i>
+                    <span>Dose Admin</span>
+                </a>
+                <ul class="ml-menu">
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php/DoseAdmin" class="">
+                            <span>-Dose Enrollment</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        <?php
+        endif
         ?>
 
 

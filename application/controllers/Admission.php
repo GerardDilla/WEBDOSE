@@ -1,6 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-// require_once "vendor/autoload.php";
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
+// require_once 'dompdf/autoload.inc.php';
+// use Dompdf\Dompdf;
+
 class Admission extends MY_Controller
 {
 
@@ -9,8 +17,7 @@ class Admission extends MY_Controller
   {
     parent::__construct();
     $this->load->library('set_views');
-    $this->load->library("Excel");
-    $this->load->library('Phpword');
+    // $this->load->library("Excel");
     $this->load->library('form_validation');
     $this->load->model('Admission_Model/Basiced_Inquiry_Model');
     $this->load->model('Admission_Model/Shs_Model');
@@ -125,51 +132,51 @@ class Admission extends MY_Controller
 
     $count = 0;
     $this->data['list'] = $list;
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $object->getActiveSheet()->getStyle('A1:H1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A1:H1');
     $object->getActiveSheet()->setCellValue('A1', 'Basic Education Enrollment Summary');
     $object->getActiveSheet()->getStyle('A2:H2')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A2:H2');
     $object->getActiveSheet()->setCellValue('A2', 'SCHOOLYEAR ' . $array['sy'] . ' ');
     $object->getActiveSheet()->getStyle('A3:E3')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A3:E3');
     $object->getActiveSheet()->setCellValue('A3', 'NEW STUDENTS');
     $object->getActiveSheet()->mergeCells('G3:H3');
     $object->getActiveSheet()->getColumnDimension('G')->setWidth(20);
     $object->getActiveSheet()->getColumnDimension('H')->setWidth(20);
     $object->getActiveSheet()->getStyle('G3:H3')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('G3', 'CONTINUING STUDENTS');
     $object->getActiveSheet()->getStyle('A4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->getColumnDimension('A')->setWidth(20);
     $object->getActiveSheet()->setCellValue('A4', 'LEVEL');
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(20);
     $object->getActiveSheet()->setCellValue('B4', 'INQUIRY');
     $object->getActiveSheet()->getColumnDimension('C')->setWidth(20);
     $object->getActiveSheet()->getStyle('C4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('C4', 'TEST TAKERS');
     $object->getActiveSheet()->getColumnDimension('D')->setWidth(20);
     $object->getActiveSheet()->getStyle('D4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('D4', 'RESERVED');
     $object->getActiveSheet()->getColumnDimension('E')->setWidth(20);
     $object->getActiveSheet()->getStyle('E4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('E4', 'ENROLLED');
     $object->getActiveSheet()->getStyle('G4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('G4', 'RESERVED');
     $object->getActiveSheet()->getStyle('H4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('H4', 'ENROLLED');
-    $column = 0;
+    $column = 1;
     foreach ($table_columns as $field) {
       $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
       $column++;
@@ -178,19 +185,19 @@ class Admission extends MY_Controller
 
     $excel_row = 5;
     foreach ($this->data['list']  as $row) {
-      $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row['Grade_Level']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row['Inquiry']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row['Taker']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row['NewReserve']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row['NEWEnrolled']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, '');
-      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $row['OldReserve']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $row['OLDEnrolled']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row['Grade_Level']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row['Inquiry']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row['Taker']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row['NewReserve']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row['NEWEnrolled']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, '');
+      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $row['OldReserve']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, $row['OLDEnrolled']);
       $excel_row++;
       $count = $count + 1;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="BasicEdEnrollmentSummary.xls"');
     $object_writer->save('php://output');
@@ -283,57 +290,57 @@ class Admission extends MY_Controller
 
     $count = 0;
     $this->data['list'] = $list;
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $object->getActiveSheet()->getStyle('A1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A1:H1');
     $object->getActiveSheet()->setCellValue('A1', '  Senior High School  Enrollment Summary');
     $object->getActiveSheet()->mergeCells('A2:D2');
     $object->getActiveSheet()->getStyle('A2')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('A2', 'SCHOOLYEAR ' . $array['sy'] . ' ');
     $object->getActiveSheet()->mergeCells('E2:H2');
     $object->getActiveSheet()->getStyle('E2')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('E2', '' . $array['gradlvl'] . ' ');
     $object->getActiveSheet()->getStyle('A3')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A3:E3');
     $object->getActiveSheet()->setCellValue('A3', 'NEW STUDENTS');
     $object->getActiveSheet()->getStyle('G3')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('G3:H3');
     $object->getActiveSheet()->setCellValue('G3', 'CONTINUING STUDENTS');
     $object->getActiveSheet()->getColumnDimension('A')->setWidth(20);
     $object->getActiveSheet()->getStyle('A4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('A4', 'STRAND');
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(20);
     $object->getActiveSheet()->getStyle('B4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->setCellValue('B4', 'INQUIRY');
     $object->getActiveSheet()->getStyle('C4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->getColumnDimension('C')->setWidth(20);
     $object->getActiveSheet()->setCellValue('C4', 'TEST TAKERS');
     $object->getActiveSheet()->getStyle('D4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->getColumnDimension('D')->setWidth(20);
     $object->getActiveSheet()->setCellValue('D4', 'RESERVED');
     $object->getActiveSheet()->getStyle('E4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->getColumnDimension('E')->setWidth(20);
     $object->getActiveSheet()->setCellValue('E4', 'ENROLLED');
     $object->getActiveSheet()->getStyle('G4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->getColumnDimension('G')->setWidth(20);
     $object->getActiveSheet()->setCellValue('G4', 'RESERVED');
     $object->getActiveSheet()->getStyle('H4')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->getColumnDimension('H')->setWidth(20);
     $object->getActiveSheet()->setCellValue('H4', 'ENROLLED');
-    $column = 0;
+    $column = 1;
     foreach ($table_columns as $field) {
       $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
       $column++;
@@ -342,19 +349,19 @@ class Admission extends MY_Controller
 
     $excel_row = 5;
     foreach ($this->data['list']  as $row) {
-      $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row['Strand_Code']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row['Inquiry']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row['Taker']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row['NewReserve']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row['NEWEnrolled']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, '');
-      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $row['OLDReserve']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $row['OLDEnrolled']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row['Strand_Code']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row['Inquiry']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row['Taker']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row['NewReserve']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row['NEWEnrolled']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, '');
+      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $row['OLDReserve']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, $row['OLDEnrolled']);
       $excel_row++;
       $count = $count + 1;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="ShSEnrollmentSummary.xls"');
     $object_writer->save('php://output');
@@ -442,6 +449,23 @@ class Admission extends MY_Controller
     $this->render($this->set_views->ad_inquiry_reports_hed());
   }
 
+  public function testspreadsheet()
+  {
+
+    // require 'vendor/autoload.php';
+    // use PhpOffice\PhpSpreadsheet\Spreadsheet;
+    // use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+    $sheet->setCellValue('A1', 'Hello World !');
+
+    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($spreadsheet);
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment;filename="teststes.xlsx"');
+    header('Cache-Control: max-age=0');
+    $writer->save('hello world.xlsx');
+  }
   //HED Excel Reports
   public function HED_Inquiry_Excel()
   {
@@ -474,10 +498,10 @@ class Admission extends MY_Controller
     $this->data['get_inquiry']  = $this->Inquiry_Reports_Model->Select_HED_Inquiry($array);
 
 
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $object->getActiveSheet()->getStyle('A1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A1:I1');
     $object->getActiveSheet()->setCellValue('A1', 'Higher Edcuation Inquiry');
     $object->getActiveSheet()->setCellValue('A2', '#');
@@ -504,7 +528,7 @@ class Admission extends MY_Controller
     $object->getActiveSheet()->getColumnDimension('H')->setWidth(30);
     $object->getActiveSheet()->getColumnDimension('J')->setWidth(40);
     $object->getActiveSheet()->getColumnDimension('K')->setWidth(40);
-
+    $column = 1;
     foreach ($table_columns as $field) {
       $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
       $column++;
@@ -519,50 +543,49 @@ class Admission extends MY_Controller
         $OKS = $row->Others_Know_SDCA;
       }
 
-      $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $count);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->ref_no);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper($row->Last_Name . ',' . $row->First_Name . '' . $row->Middle_Name));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $count);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row->ref_no);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row,  strtoupper($row->Last_Name . ',' . $row->First_Name . '' . $row->Middle_Name));
       if ($row->EXM_RF == NULL) {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row,  strtoupper($row->Course_1st));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row,  strtoupper($row->Course_1st));
       } else {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row,  strtoupper($row->Course));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row,  strtoupper($row->Course));
       }
-      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row,  strtoupper($OKS));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->CP_No);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $row->Email);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row,  strtoupper($OKS));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $row->CP_No);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $row->Email);
 
       if ($row->Transferee_Name == NULL || $row->Transferee_Name == 'N/A' || $row->Transferee_Name == '' || $row->Transferee_Name == '-') {
         if ($row->SHS_School_Name == NULL || $row->SHS_School_Name == 'N/A' || $row->SHS_School_Name == '' || $row->SHS_School_Name == '-') {
-          $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($row->Secondary_School_Name));
+          $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($row->Secondary_School_Name));
         } else {
-          $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($row->SHS_School_Name));
+          $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($row->SHS_School_Name));
         }
       } else {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($row->Transferee_Name));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($row->Transferee_Name));
       }
 
-      $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($row->Address_City . ',' . $row->Address_Province));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper($row->Address_City . ',' . $row->Address_Province));
 
       if ($row->Transferee_Name == NULL || $row->Transferee_Name == 'N/A' || $row->Transferee_Name == '' || $row->Transferee_Name == '-') {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper('N'));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper('N'));
       } else {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper('T'));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper('T'));
       }
 
       if ($row->EXM_RF == NULL) {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper('Follow Up'));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row,  strtoupper('Follow Up'));
       } else {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper('With Exam'));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row,  strtoupper('With Exam'));
       }
-      $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row,  strtoupper($row->Applied_SchoolYear));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row,  strtoupper($row->Applied_Semester));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row,  strtoupper($row->DateInquired));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row,  strtoupper($row->dswd_no ? $row->dswd_no : 'N/A'));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row,  strtoupper($row->Applied_SchoolYear));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row,  strtoupper($row->Applied_Semester));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row,  strtoupper($row->DateInquired));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row,  strtoupper($row->dswd_no ? $row->dswd_no : 'N/A'));
       $excel_row++;
       $count = $count + 1;
     }
-
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="HedInquiryExcel.xls"');
     $object_writer->save('php://output');
@@ -574,7 +597,6 @@ class Admission extends MY_Controller
     $exp     = $this->input->post('export');
 
     if (isset($Sb)) {
-
       $this->BED_Inquiry_Reports();
     } else if (isset($exp)) {
 
@@ -607,6 +629,7 @@ class Admission extends MY_Controller
     //  echo  $array['from'];
     //  echo  $array['to'];
     $this->data['get_inquiry']  = $this->Inquiry_Reports_Model->Select_BED_Inquiry($array);
+    // echo '<pre>'.print_r($this->data['get_inquiry'],1).'</pre>';exit;
     $this->render($this->set_views->ad_inquiry_reports_bed());
   }
 
@@ -636,10 +659,10 @@ class Admission extends MY_Controller
     $this->data['get_inquiry']  = $this->Inquiry_Reports_Model->Select_SHS_Inquiry($array);
 
 
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $object->getActiveSheet()->getStyle('A1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A1:J1');
     $object->getActiveSheet()->setCellValue('A1', 'Senior High School Inquiry');
     $object->getActiveSheet()->setCellValue('A2', '#');
@@ -660,7 +683,7 @@ class Admission extends MY_Controller
     $object->getActiveSheet()->getColumnDimension('F')->setWidth(30);
     $object->getActiveSheet()->getColumnDimension('G')->setWidth(45);
     $object->getActiveSheet()->getColumnDimension('H')->setWidth(45);
-
+    $column = 1;
     foreach ($table_columns as $field) {
       $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
       $column++;
@@ -681,22 +704,22 @@ class Admission extends MY_Controller
         $Strand = $row->Strand;
       }
 
-      $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $count);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper($row->Last_Name . ',' . $row->First_Name . '' . $row->Middle_Name));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper($row->Gradelevel));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row,  strtoupper($Strand));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row,  strtoupper($OKS));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->Mobile_No);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row,  strtoupper($row->Previous_School_Name1));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($row->City . ',' . $row->Province));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($row->Applied_Status));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper($row->Remarks));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper($row->dswd_no ? $row->dswd_no : 'N/A'));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $count);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper($row->Last_Name . ',' . $row->First_Name . '' . $row->Middle_Name));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row,  strtoupper($row->Gradelevel));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row,  strtoupper($Strand));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row,  strtoupper($OKS));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $row->Mobile_No);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($row->Previous_School_Name1));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($row->City . ',' . $row->Province));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper($row->Applied_Status));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper($row->Remarks));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row,  strtoupper($row->dswd_no ? $row->dswd_no : 'N/A'));
       $excel_row++;
       $count = $count + 1;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="SHSInquiryExcel.xls"');
     $object_writer->save('php://output');
@@ -767,10 +790,10 @@ class Admission extends MY_Controller
     $this->data['get_inquiry']  = $this->Inquiry_Reports_Model->Select_SHS_Inquiry($array);
 
 
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     $object->setActiveSheetIndex(0);
     $object->getActiveSheet()->getStyle('A1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     $object->getActiveSheet()->mergeCells('A1:J1');
     $object->getActiveSheet()->setCellValue('A1', 'Senior High School Inquiry');
     $object->getActiveSheet()->setCellValue('A2', '#');
@@ -791,7 +814,7 @@ class Admission extends MY_Controller
     $object->getActiveSheet()->getColumnDimension('F')->setWidth(30);
     $object->getActiveSheet()->getColumnDimension('G')->setWidth(45);
     $object->getActiveSheet()->getColumnDimension('H')->setWidth(45);
-
+    $column = 1;
     foreach ($table_columns as $field) {
       $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
       $column++;
@@ -812,22 +835,22 @@ class Admission extends MY_Controller
         $Strand = $row->Strand;
       }
 
-      $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $count);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper($row->Last_Name . ',' . $row->First_Name . '' . $row->Middle_Name));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper($row->Gradelevel));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row,  strtoupper($Strand));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row,  strtoupper($OKS));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->Mobile_No);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row,  strtoupper($row->Previous_School_Name1));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($row->City . ',' . $row->Province));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($row->Applied_Status));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper($row->Remarks));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper($row->dswd_no ? $row->dswd_no : 'N/A'));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $count);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper($row->Last_Name . ',' . $row->First_Name . '' . $row->Middle_Name));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row,  strtoupper($row->Gradelevel));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row,  strtoupper($Strand));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row,  strtoupper($OKS));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $row->Mobile_No);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($row->Previous_School_Name1));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($row->City . ',' . $row->Province));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper($row->Applied_Status));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper($row->Remarks));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row,  strtoupper($row->dswd_no ? $row->dswd_no : 'N/A'));
       $excel_row++;
       $count = $count + 1;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="SHSInquiryExcel.xls"');
     $object_writer->save('php://output');
@@ -1316,8 +1339,8 @@ class Admission extends MY_Controller
     );
 
 
-    $this->load->library("Excel");
-    $object = new PHPExcel();
+    // $this->load->library("Excel");
+    $object = new Spreadsheet();
     $table_columns = array("#", "NAME", "STUDENT NUMBER", "COURSE", "GENDER", "ADDRESS", "APPLIED STATUS", "YEAR", "CONTACT NUMBER", "HIGH SCHOOL", "TRANFERED SCHOOL ", "CURICULUM", "BIRTHDAY", "NATIONALITY");
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(40);
     $object->getActiveSheet()->getColumnDimension('C')->setWidth(25);
@@ -1340,7 +1363,7 @@ class Admission extends MY_Controller
     $object->getActiveSheet()->getColumnDimension('T')->setWidth(25);
     $object->getActiveSheet()->getColumnDimension('U')->setWidth(25);
 
-    $column = 0;
+    $column = 1;
 
     foreach ($table_columns1 as $field) {
       $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
@@ -1360,12 +1383,17 @@ class Admission extends MY_Controller
   //* Enrollment tracker get all report
   public function Enrollment_Summary_Report()
   {
+    // $this->data['get_sy']      = $this->Inquiry_Reports_Model->Select_Legends()->result_array();
+    // $this->data['get_course']  = $this->Inquiry_Reports_Model->Select_Course();
+    // foreach($this->data['get_sy'] as $row)  {
+    //   $this->data['schoolyear']  =  $row['SchoolYear'];
+    //   $this->data['semester'] =  $row['Semester'];
+    // }
     $array = array(
       'sy' => $this->input->post('sy'),
       'sem' => $this->input->post('sem'),
       'course' => $this->input->post('course'),
     );
-
     // $this->data['get_sy'][0]['SchoolYear'];
     if (isset($array['sy']) || isset($array['sy']) || isset($array['sy'])) {
       $this->data['Enrollment_Summary_Report_List'] = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Report_List($array);
@@ -1468,7 +1496,7 @@ class Admission extends MY_Controller
   // Enrollment Summary Excel
   public function enrollment_summary_excel($seperate, $tab)
   {
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     // SET FREEZE GRID
     $object->getActiveSheet()->freezePane("A3");
     // SET MERGE
@@ -1495,7 +1523,7 @@ class Admission extends MY_Controller
     $object->getActiveSheet()->getColumnDimension('T')->setWidth(10);
     // SET DATA CENTER
     $object->getActiveSheet()->getStyle('A1:T2')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     // SET DATA TO BOLD
     $object->getActiveSheet()->getStyle('A2:T2')->getFont()->setBold(true);
 
@@ -1525,7 +1553,7 @@ class Admission extends MY_Controller
       ->setCellValue('T2', 'Semester');
     $color_background = array(
       'fill' => array(
-        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'type' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
         'color' => array('rgb' => 'FF0000')
       )
     );
@@ -1535,52 +1563,52 @@ class Admission extends MY_Controller
     $count = 1;
     foreach ($seperate as $laman) {
       // echo $laman['Reference_Number']." ".$laman['First_Name'];
-      $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row,  $count);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  $count);
       if ($laman['Ref_Num_fec'] != null && $laman['Ref_Num_si'] != null && $laman['Ref_Num_ftc'] != null) {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper('Enrolled'));
-        $object->getActiveSheet()->getStyle('B' . $excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('75ff69');
+        $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper('Enrolled'));
+        $object->getActiveSheet()->getStyle('B' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('75ff69');
       } else if ($laman['Ref_Num_ftc'] != null) {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper('Payment'));
-        $object->getActiveSheet()->getStyle('B' . $excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('36cdff');
+        $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper('Payment'));
+        $object->getActiveSheet()->getStyle('B' . $excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('36cdff');
       } else {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper('Avising'));
-        // $object->getActiveSheet()->getStyle('B'.$excel_row)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('FF0000');
+        $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper('Avising'));
+        // $object->getActiveSheet()->getStyle('B'.$excel_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('FF0000');
       }
-      $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper($laman['Ref_Num_si']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row,  strtoupper($laman['Std_Num_si']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row,  strtoupper($laman['Last_Name']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row,  strtoupper($laman['First_Name']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row,  strtoupper($laman['Middle_Name']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($laman['Gender']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($laman['Nationality']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper($laman['YearLevel']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper($laman['Course_1st']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row,  strtoupper($laman['Course_2nd']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row,  strtoupper($laman['Course_3rd']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row,  strtoupper($laman['Ref_Num_si']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row,  strtoupper($laman['Std_Num_si']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row,  strtoupper($laman['Last_Name']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row,  strtoupper($laman['First_Name']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($laman['Middle_Name']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($laman['Gender']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper($laman['Nationality']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper($laman['YearLevel']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row,  strtoupper($laman['Course_1st']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row,  strtoupper($laman['Course_2nd']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row,  strtoupper($laman['Course_3rd']));
       if ($laman['Others_Know_SDCA'] == 'Come_All') {
         $object->getActiveSheet()->setCellValueByColumnAndRow(
-          13,
+          14,
           $excel_row,
           strtoupper(
             $laman['Others_Know_SDCA'] . " Referral Name: " . $laman['Referral_Name']
           )
         );
       } else {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row,  strtoupper($laman['Others_Know_SDCA']));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row,  strtoupper($laman['Others_Know_SDCA']));
       }
-      $object->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row, $laman['Tel_No']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row, $laman['CP_No']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(16, $excel_row, strtoupper($laman['Address_City']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(17, $excel_row, strtoupper($laman['Address_Province']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(18, $excel_row, strtoupper($laman['Applied_SchoolYear']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(19, $excel_row, strtoupper($laman['Applied_Semester']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row, $laman['Tel_No']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(16, $excel_row, $laman['CP_No']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(17, $excel_row, strtoupper($laman['Address_City']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(18, $excel_row, strtoupper($laman['Address_Province']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(19, $excel_row, strtoupper($laman['Applied_SchoolYear']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(20, $excel_row, strtoupper($laman['Applied_Semester']));
 
       $excel_row++;
       $excel_column++;
       $count++;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="' . $tab . '_Student_Data.xls"');
     $object_writer->save('php://output');
@@ -1589,7 +1617,7 @@ class Admission extends MY_Controller
   // Static Design
   public function excel_summary_static_design()
   {
-    $object = new PHPExcel();
+    $object = new Spreadsheet();
     // SET FREEZE GRID
     $object->getActiveSheet()->freezePane("A3");
     // Set WIDTH
@@ -1610,7 +1638,7 @@ class Admission extends MY_Controller
     $object->getActiveSheet()->getColumnDimension('P')->setWidth(12);
     // SET DATA CENTER
     $object->getActiveSheet()->getStyle('A1')->getAlignment()
-      ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+      ->setHorizontal('center');
     // SET DATA TO BOLD
     $object->getActiveSheet()->getStyle('A2:P2')->getFont()->setBold(true);
 
@@ -1647,474 +1675,112 @@ class Admission extends MY_Controller
     $count = 1;
     foreach ($seperate as $laman) {
       // echo $laman['Reference_Number']." ".$laman['First_Name'];
-      $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row,  $count);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  $count);
       if ($tab == 'Inquiry') {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper($laman['Ref_Num_si']));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper($laman['Ref_Num_si']));
       } else if ($tab == 'Advised') {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper($laman['Ref_Num_ftc']));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper($laman['Ref_Num_ftc']));
       } else if ($tab == 'Reserved') {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper($laman['Ref_No_rf']));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper($laman['Ref_No_rf']));
       } else if ($tab == 'Enrolled') {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row,  strtoupper($laman['Reference_Number']));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper($laman['Reference_Number']));
       }
-      $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row,  strtoupper($laman['Last_Name']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row,  strtoupper($laman['First_Name']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row,  strtoupper($laman['Middle_Name']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row,  strtoupper($laman['Gender']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row,  strtoupper($laman['Nationality']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($laman['YearLevel']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($laman['course']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row,  strtoupper($laman['Last_Name']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row,  strtoupper($laman['First_Name']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row,  strtoupper($laman['Middle_Name']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row,  strtoupper($laman['Gender']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  strtoupper($laman['Nationality']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row,  strtoupper($laman['YearLevel']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper($laman['course']));
       if ($laman['Others_Know_SDCA'] == 'Come_All') {
         $object->getActiveSheet()->setCellValueByColumnAndRow(
-          9,
+          10,
           $excel_row,
           strtoupper(
             $laman['Others_Know_SDCA'] . " Referral Name: " . $laman['Referral_Name']
           )
         );
       } else {
-        $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row,  strtoupper($laman['Others_Know_SDCA']));
+        $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row,  strtoupper($laman['Others_Know_SDCA']));
       }
-      $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, $laman['Tel_No']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row, $laman['CP_No']);
-      $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row, strtoupper($laman['Address_City']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row, strtoupper($laman['Address_Province']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row, strtoupper($laman['Applied_SchoolYear']));
-      $object->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row, strtoupper($laman['Applied_Semester']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row, $laman['Tel_No']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row, $laman['CP_No']);
+      $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row, strtoupper($laman['Address_City']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row, strtoupper($laman['Address_Province']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row, strtoupper($laman['Applied_SchoolYear']));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(16, $excel_row, strtoupper($laman['Applied_Semester']));
 
       $excel_row++;
       $excel_column++;
       $count++;
     }
 
-    $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+    $object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="' . $tab . '_Student_Data.xls"');
     $object_writer->save('php://output');
   }
 
-  // public function single_search_summary()
-  // {
-  //   $data = $this->input->post('search_text');
-  //   $single_search = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Like_Search($data);
-  //   echo json_encode($single_search);
-  // }
-
-  // public function single_search_inquiry()
-  // {
-  //   $data = $this->input->post('search_text');
-  //   $single_search = $this->Enrollment_Tracker_Report_Model->Inquiry_List_Like_Search($data);
-  //   echo json_encode($single_search);
-  // }
-
-  // public function single_search_advised()
-  // {
-  //   $data = $this->input->post('search_text');
-  //   $single_search = $this->Enrollment_Tracker_Report_Model->Advised_List_Like_Search($data);
-  //   echo json_encode($single_search);
-  // }
-
-  // public function single_search_reserved()
-  // {
-  //   $data = $this->input->post('search_text');
-  //   $single_search = $this->Enrollment_Tracker_Report_Model->Highered_Reserved_Like_Search($data);
-  //   echo json_encode($single_search);
-  // }
-
-  // public function single_search_enrolled()
-  // {
-  //   $data = $this->input->post('search_text');
-  //   $single_search = $this->Enrollment_Tracker_Report_Model->Enrolled_Student_List_Like_Search($data);
-  //   echo json_encode($single_search);
-  // }
-
-
-  // public function Count_Tally(){
-  //   // $array = array(
-  //   //   'from' => '2021-01-01',
-  //   //   'to' => '2021-12-30'
-  //   // );
-  //   $array = array(
-  //     'from' => $this->input->post('from'),
-  //     'to' => $this->input->post('to')
-  //   );
-  //   $transactions = $this->Enrollment_Tracker_Report_Model->Get_Transaction_log($array);
-  //   $programs = $this->Enrollment_Tracker_Report_Model->Get_All_Programs();
-  //   $program_array = array();
-  //   foreach($programs as $program ){
-  //     $counting = 0;
-  //     foreach($transactions as $transaction){
-  //       if($program['Program_Code'] == $transaction['Course']){
-  //         $counting +=1;
-  //       }
-  //     }
-  //     $program_array[$program['Program_Code']][]= $counting;
-  //   }
-  //   die(json_encode($program_array));
-  // }
-  // Enrollment Tally Report Landing page
-  public function Enrollment_Tally_Report()
+  public function HED_inquiryExport($ref = '')
   {
-    // $this->data['get_sy'] = $this->Inquiry_Reports_Model->Select_Legends()->result_array();
-    $this->data['get_course']  = $this->Inquiry_Reports_Model->Select_Course();
-    $this->data['get_province'] = $this->Enrollment_Tracker_Report_Model->Get_All_Province();
-
-    $this->render($this->set_views->Enrollment_Tally_Report());
-  }
-
-  public function Count_Program_Tally()
-  {
-    // $array = array(
-    //   'sy' => '2019-2020',
-    //   'sem' => '0',
-    //   'course' => '',
+    $info  = $this->Edit_Info_Model->Get_Info($ref)->result_array();
+    // $param = array(
+    //   'student_info' => $info[0],
+    //   'student_type' => 'HED',
     // );
-    $array = array(
-      'sy' => $this->input->post('sy'),
-      'sem' => $this->input->post('sem'),
-      // 'course' => $this->input->post('course'),
-    );
-    $program_array = $this->Program_Tally($array);
-    echo json_encode($program_array);
+    // $this->load->library('Student', $param);
+    // $this->load->library('Admission/InquiryExport', $param);
+    // $this->inquiryexport->Export();
+  }
+  public function BED_inquiryExport($ref = ''){
+    // $dompdf = new Dompdf();
+    
+
+    $info  = $this->Edit_Info_Model->Get_Info_BED($ref)->row_array();
+    $siblings = $this->Edit_Info_Model->getSiblings_BED($ref)->result_array();
+    $data['application_form'] = $info;
+    $data['siblings'] = $siblings;
+    // echo '<pre>'.print_r($data,1).'</pre>';exit;
+    $this->load->view('body/Admission/template/BED_Application_Form',$data);
+    
+    // $ci =& get_instance();
+    // $data['data'] = $data;
+    // $this->load->view('body/Admission/template/BED_Application_Form',$data);
+    // exit;
+    // $html = $ci->output->get_output();
+    // $ci->load->library('pdf');
+    // $ci->dompdf->loadHtml($html);
+    // $ci->dompdf->setPaper('Legal', 'portrait');
+    // $ci->dompdf->render();
+    // $ci->dompdf->stream('BED_applicationform.pdf',array("Attachment"=>0));
+    // if(!empty($info)){
+    //   $this->load->view('body/Admission/template/BED_Application_Form',$data);
+    // }
+    // else{
+    //   echo "There something's wrong";
+    // }
   }
 
-  public function Program_Tally($array)
-  {
-    $students = $this->Enrollment_Tracker_Report_Model->Enrollment_Summary_Report_List($array);
-    $reserved_students = $this->Enrollment_Tracker_Report_Model->Highered_Reserved($array);
-    // die(json_encode($students));
-    $programs = $this->Enrollment_Tracker_Report_Model->Get_All_Programs();
-    $program_array = array();
-    foreach ($programs as $program) {
-      $inquiry_count = 0;
-      $advising_count = 0;
-      $reserved_count = 0;
-      $enrolled_count = 0;
-      foreach ($students as $student) {
-        if ($program['Program_Code'] == $student['Course_1st']) {
-          $inquiry_count += 1;
-          // }
-          // if ($program['Program_Code'] == $student['Course']) {
-          if ($student['Ref_Num_fec'] != null && $student['Ref_Num_si'] != null && $student['Ref_Num_ftc'] != null) {
-            $enrolled_count += 1;
-          }
-          if ($student['Ref_Num_ftc'] != null) {
-            $advising_count += 1;
-          }
-        }
-      }
-      foreach ($reserved_students as $reserved_student) {
-        if ($program['Program_Code'] == $reserved_student['Course_1st']) {
-          $reserved_count += 1;
-        }
-      }
-      $counted_array = array($inquiry_count, $advising_count, $reserved_count, $enrolled_count);
-
-      $program_array[$program['Program_Code']][] = $counted_array;
+  public function SHS_inquiryExport($ref = ''){
+    $info  = $this->Edit_Info_Model->Get_Info_BED($ref)->row_array();
+    $siblings = $this->Edit_Info_Model->getSiblings_BED($ref)->result_array();
+    $data['application_form'] = $info;
+    $data['siblings'] = $siblings;
+    // echo '<pre>'.print_r($info,1).'</pre>';exit;
+    if(!empty($info)){
+      $this->load->view('body/Admission/template/SHS_Application_Form',$data);
     }
-    // die(json_encode($students));
-    return $program_array;
-  }
-  public function Count_City_Tally()
-  {
-    $array = array(
-      'sy' => $this->input->post('sy'),
-      'sem' => $this->input->post('sem'),
-    );
-    $students = $this->Enrollment_Tracker_Report_Model->City_Tally($array);
-    echo json_encode($students);
-  }
-
-  public function Program_Word_Export($sy, $sem)
-  {
-    // die('asdsad');
-    $array = array(
-      'sy' => $sy,
-      'sem' => $sem,
-    );
-    $program_tally = $this->Program_Tally($array);
-    // die(json_encode($program_tally));
-    $phpWord = new \PhpOffice\PhpWord\PhpWord();
-    // $phpWord->getCompatibility()->setOoxmlVersion(14);
-    // $phpWord->getCompatibility()->setOoxmlVersion(15);
-    $section = $phpWord->addSection();
-    $center_align = array(
-      'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER
-    );
-    $bold_text = array(
-      'name' => 'Arial',
-      'size' => 12,
-      'bold' => true,
-    );
-    $table_header = array(
-      'name' => 'Arial',
-      'size' => 9,
-      'bold' => true,
-    );
-    $table_body = array(
-      'name' => 'Arial',
-      'size' => 9,
-      // 'bold' => true,
-    );
-    $tableStyle = [
-      // 'borderSize' => 6,
-      'align' => 'center'
-    ];
-    $cell_tableStyle = [
-      'borderSize' => 6,
-    ];
-    $table_header_bottom = [
-      // 'borderTopSize' => 6,
-      'borderRightSize' => 6,
-      'borderBottomSize' => 6,
-      'borderLeftSize' => 6,
-      'gridSpan' => 5
-    ];
-    $table_header_top = [
-      'borderTopSize' => 6,
-      'borderRightSize' => 6,
-      // 'borderBottomSize' => 6,
-      'borderLeftSize' => 6,
-      'gridSpan' => 5
-    ];
-    $date_today = date("F j, Y");
-
-    // $image = $section->addTable();
-    $image = $section->addHeader();
-    $image = $image->addTable();
-    $image->addRow();
-    // $table->addCell(4500)->addText('This is the header.');
-    $image->addCell(5000)->addImage(
-      base_url() . '/img/word_header.jpg',
-      array(
-        'width'  => 450,
-        'height' => 60,
-        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER
-      )
-    );
-    // $table->addRow();
-
-    $section->addText(
-      'ENROLLMENT STATUS REPORT',
-      $bold_text,
-      $center_align
-    );
-
-    $section->addText(
-      'As of ' . $date_today,
-      array(
-        'name' => 'Arial',
-        'size' => 10
-      ),
-      $center_align
-    );
-
-    $phpWord->addTableStyle('myTable', $tableStyle);
-    $table = $section->addTable(
-      'myTable'
-    );
-
-    $cellRowSpan = array('vMerge' => 'restart');
-    $cellRowContinue = array('vMerge' => 'continue');
-    $cellColSpan = array('gridSpan' => 2);
-
-    $table->addRow();
-    $table_title_top = 'Higher Education AY ' . $array['sy'];
-    $table->addCell(null, $table_header_top)->addText($table_title_top, $bold_text, $center_align);
-
-    $table->addRow();
-    if ($array['sem'] == 'FIRST') {
-      $table_title_bottom = ' 1st Semester';
-    } else if ($array['sem'] == 'SECOND') {
-      $table_title_bottom = ' 2nd Semester';
-    } else {
-      $table_title_bottom = ' Summer';
+    else{
+      echo "There something's wrong";
     }
-    $table->addCell(null, $table_header_bottom)->addText($table_title_bottom, array(
-      'name' => 'Arial',
-      'size' => 10
-    ), $center_align);
-
-    $table->addRow();
-    $table->addCell(3000, $cell_tableStyle)->addText('Course', $table_header, $center_align);
-    $table->addCell(3000, $cell_tableStyle)->addText('Inquiry', $table_header, $center_align);
-    $table->addCell(3000, $cell_tableStyle)->addText('Advising', $table_header, $center_align);
-    $table->addCell(3000, $cell_tableStyle)->addText('Reserved', $table_header, $center_align);
-    $table->addCell(3000, $cell_tableStyle)->addText('Enrolled', $table_header, $center_align);
-    $total_inquiry = 0;
-    $total_advising = 0;
-    $total_reserved = 0;
-    $total_enrolled = 0;
-    foreach ($program_tally as $key => $product) {
-      $table->addRow();
-      $table->addCell(3000, $cell_tableStyle)->addText($key, $table_body, $center_align);
-      $table->addCell(3000, $cell_tableStyle)->addText($product[0][0], $table_body, $center_align);
-      $table->addCell(3000, $cell_tableStyle)->addText($product[0][1], $table_body, $center_align);
-      $table->addCell(3000, $cell_tableStyle)->addText($product[0][2], $table_body, $center_align);
-      $table->addCell(3000, $cell_tableStyle)->addText($product[0][3], $table_body, $center_align);
-      $total_inquiry += $product[0][0];
-      $total_advising += $product[0][1];
-      $total_reserved += $product[0][2];
-      $total_enrolled += $product[0][3];
-    }
-    $table->addRow();
-    $table->addCell(3000, $cell_tableStyle)->addText('Total', $table_header, $center_align);
-    $table->addCell(3000, $cell_tableStyle)->addText($total_inquiry, $table_body, $center_align);
-    $table->addCell(3000, $cell_tableStyle)->addText($total_advising, $table_body, $center_align);
-    $table->addCell(3000, $cell_tableStyle)->addText($total_reserved , $table_body, $center_align);
-    $table->addCell(3000, $cell_tableStyle)->addText($total_enrolled, $table_body, $center_align);
-    // header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-    // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-    // header('Expires: 0');
-    // header("Cache-Control: public");
-    // header("Content-Description: File Transfer");
-    // header("Content-Transfer-Encoding: binary");
-    // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-    header('Content-Disposition: attachment;filename="PROGRAMS-ENROLLMENT-STATUS-REPORT.docx"');
-    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-    $objWriter->save('php://output');
-    exit;
-  }
-
-  public function City_Word_Export($sy, $sem)
-  {
-    // die('asdsad');
-    $array = array(
-      'sy' => $sy,
-      'sem' => $sem,
-      // 'course' => $this->input->post('course'),
-    );
-    // $array = array(
-    //   'sy' => '2021-2022',
-    //   'sem' => 'FIRST',
-    //   // 'course' => $this->input->post('course'),
+    
+    
+    // $param = array(
+    //   'student_info' => $info[0],
+    //   'student_type' => 'SHS',
     // );
-    $city_tally = $this->Enrollment_Tracker_Report_Model->City_Tally($array);
-    // die(json_encode($program_tally));
-    $phpWord = new \PhpOffice\PhpWord\PhpWord();
-    // $phpWord->getCompatibility()->setOoxmlVersion(14);
-    // $phpWord->getCompatibility()->setOoxmlVersion(15);
-    $section = $phpWord->addSection();
-    $center_align = array(
-      'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER
-    );
-    $bold_text = array(
-      'name' => 'Arial',
-      'size' => 12,
-      'bold' => true,
-    );
-    $table_header = array(
-      'name' => 'Arial',
-      'size' => 9,
-      'bold' => true,
-    );
-    $table_body = array(
-      'name' => 'Arial',
-      'size' => 9,
-      // 'bold' => true,
-    );
-    $tableStyle = [
-      // 'borderSize' => 6,
-      'align' => 'center'
-    ];
-    $cell_tableStyle = [
-      'borderSize' => 6,
-    ];
-    $table_header_bottom = [
-      // 'borderTopSize' => 6,
-      'borderRightSize' => 6,
-      'borderBottomSize' => 6,
-      'borderLeftSize' => 6,
-      'gridSpan' => 5
-    ];
-    $table_header_top = [
-      'borderTopSize' => 6,
-      'borderRightSize' => 6,
-      // 'borderBottomSize' => 6,
-      'borderLeftSize' => 6,
-      'gridSpan' => 5
-    ];
-    $date_today = date("F j, Y");
-
-    $image = $section->addHeader();
-    $image = $image->addTable();
-    $image->addRow();
-    // $table->addCell(4500)->addText('This is the header.');
-    $image->addCell(5000)->addImage(
-      base_url() . '/img/word_header.jpg',
-      array(
-        'width'  => 450,
-        'height' => 60,
-        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER
-      )
-    );
-    // $table->addRow();
-
-    $section->addText(
-      'TOP 10 CITIES REPORT',
-      $bold_text,
-      $center_align
-    );
-
-    $section->addText(
-      'As of ' . $date_today,
-      array(
-        'name' => 'Arial',
-        'size' => 10
-      ),
-      $center_align
-    );
-
-    $phpWord->addTableStyle('myTable', $tableStyle);
-    $table = $section->addTable(
-      'myTable'
-    );
-
-    $cellRowSpan = array('vMerge' => 'restart');
-    $cellRowContinue = array('vMerge' => 'continue');
-    $cellColSpan = array('gridSpan' => 2);
-
-    $table->addRow();
-    $table_title_top = 'Higher Education AY ' . $array['sy'];
-    $table->addCell(null, $table_header_top)->addText($table_title_top, $bold_text, $center_align);
-
-    $table->addRow();
-    if ($array['sem'] == 'FIRST') {
-      $table_title_bottom = ' 1st Semester';
-    } else if ($array['sem'] == 'SECOND') {
-      $table_title_bottom = ' 2nd Semester';
-    } else {
-      $table_title_bottom = ' Summer';
-    }
-    $table->addCell(null, $table_header_bottom)->addText($table_title_bottom, array(
-      'name' => 'Arial',
-      'size' => 10
-    ), $center_align);
-
-    $table->addRow();
-    $table->addCell(3000, $cell_tableStyle)->addText('City', $table_header, $center_align);
-    $table->addCell(3000, $cell_tableStyle)->addText('Inquiry', $table_header, $center_align);
-    $total_inquiry = 0;
-    foreach ($city_tally as $tally) {
-      $table->addRow();
-      $table->addCell(3000, $cell_tableStyle)->addText($tally['Address_City'], $table_body, $center_align);
-      $table->addCell(3000, $cell_tableStyle)->addText($tally['count_student'], $table_body, $center_align);
-      $total_inquiry += $tally['count_student'];
-    }
-    $table->addRow();
-    $table->addCell(3000, $cell_tableStyle)->addText('Total', $table_header, $center_align);
-    $table->addCell(3000, $cell_tableStyle)->addText($total_inquiry, $table_body, $center_align);
-    // header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-    // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-    // header('Expires: 0');
-    // header("Cache-Control: public");
-    // header("Content-Description: File Transfer");
-    // header("Content-Transfer-Encoding: binary");
-    // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-    $file_name = '';
-    header('Content-Disposition: attachment;filename="CITIES-ENROLLMENT-STATUS-REPORT.docx"');
-    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-    $objWriter->save('php://output');
-    exit;
+    // $this->load->library('Student', $param);
+    // $this->load->library('Admission/InquiryExport', $param);
+    // $this->inquiryexport->Export();
   }
 }//end class

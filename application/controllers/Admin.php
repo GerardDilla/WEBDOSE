@@ -18,12 +18,18 @@ class Admin extends MY_Controller  {
 
         $this->load->model('Account_Model/User_verification');
         $this->load->model('Registrar_Models/Registrar_Model');
-       
+        
         
     }	
     
 	public function index()
 	{   
+        // echo base_url(uri_string());
+        $current_uri = base_url(uri_string());
+        $admin_uri = base_url('Admin');
+        if($current_uri!=$admin_uri){
+            redirect(base_url('index.php/Admin'));
+        }
         $this->load->library('form_validation');
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');

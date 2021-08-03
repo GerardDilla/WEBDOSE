@@ -23,25 +23,27 @@
         display: none;
     }
 
-    #filter_top{
+    #filter_top {
         position: relative;
         top: -180px;
     }
-    #table_top{
+
+    #table_top {
         position: relative;
         top: -100px;
     }
 
     @media screen and (max-width: 991px) {
-        #filter_top{
-        position: unset;
-        top: 0;
-    }
-    #table_top{
-        position: unset;
-        top: 0;
-    }
-        
+        #filter_top {
+            position: unset;
+            top: 0;
+        }
+
+        #table_top {
+            position: unset;
+            top: 0;
+        }
+
     }
 </style>
 <section id="top" class="content">
@@ -62,7 +64,7 @@
                             <div class="col-md-4">
                                 <div class="filter_table">
                                     <label for="data_from">Format</label>
-                                    <select name="date-format" class="form-control show-tick"  data-live-search="true" tabindex="-98">
+                                    <select name="date-format" class="form-control show-tick" data-live-search="true" tabindex="-98">
                                         <option value="Daily">Daily</option>
                                         <option value="Weekly">Weekly</option>
                                         <option value="Monthly">Monthly</option>
@@ -82,7 +84,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4" id="filter_top">
-                                <div class="col-md-8" >
+                                <div class="col-md-8">
                                     <!-- <label for="proof_of_payment_table_search">Search on TABLE</label> -->
                                     <input type="text" class="form-control" id="proof_of_payment_table_search" placeholder="Search on TABLE">
                                 </div>
@@ -138,37 +140,33 @@
         </div>
     </div>
 </section>
-<script src="<?php echo base_url('js/moment.min.js');?>"></script>
+<script src="<?php echo base_url('js/moment.min.js'); ?>"></script>
 <script>
     $(document).ready(function() {
         check_filter = "";
+
         function getDateOfWeek(w, y) {
             var d = (1 + (w - 1) * 7);
-            var new_date = ''+new Date(y, 0, d);
+            var new_date = '' + new Date(y, 0, d);
             var split_var = new_date.split(" ");
-            if(split_var[0]=="Sun"){
+            if (split_var[0] == "Sun") {
                 var day = 0;
-            }
-            else if(split_var[0]=="Mon"){
+            } else if (split_var[0] == "Mon") {
                 var day = 1;
-            }
-            else if(split_var[0]=="Tue"){
+            } else if (split_var[0] == "Tue") {
                 var day = 2;
-            }
-            else if(split_var[0]=="Wed"){
+            } else if (split_var[0] == "Wed") {
                 var day = 3;
-            }
-            else if(split_var[0]=="Thu"){
+            } else if (split_var[0] == "Thu") {
                 var day = 4;
-            }
-            else if(split_var[0]=="Fri"){
+            } else if (split_var[0] == "Fri") {
                 var day = 5;
-            }
-            else if(split_var[0]=="Sat"){
+            } else if (split_var[0] == "Sat") {
                 var day = 6;
             }
-            return new Date(y, 0, d-day);
+            return new Date(y, 0, d - day);
         }
+
         function error_modal(title, msg) {
             iziToast.show({
                 position: 'center',
@@ -177,37 +175,35 @@
                 message: msg
             });
         }
-        $('#monthly').on('change',function(){
+        $('#monthly').on('change', function() {
             console.log(this.value)
         });
-        $('#weekly').on('change',function(){
+        $('#weekly').on('change', function() {
             date_val = this.value;
             var w = date_val.split('-');
             var y = w[1].split('W');
-            var start_date = moment(new Date(Date.parse(getDateOfWeek(parseInt(y[1])+1,w[0])))).format('YYYY-MM-DD');
-            var end_date = moment(new Date(Date.parse(getDateOfWeek(parseInt(y[1])+1,w[0]))+(86400000*6))).format('YYYY-MM-DD');
+            var start_date = moment(new Date(Date.parse(getDateOfWeek(parseInt(y[1]) + 1, w[0])))).format('YYYY-MM-DD');
+            var end_date = moment(new Date(Date.parse(getDateOfWeek(parseInt(y[1]) + 1, w[0])) + (86400000 * 6))).format('YYYY-MM-DD');
             $('#data_from').val(start_date);
             $('#data_to').val(end_date);
         })
-        $('select[name=date-format]').on('change',function(){
+        $('select[name=date-format]').on('change', function() {
             $('.weekly').hide();
             $('.daily').hide();
             $('.monthly').hide();
-            $('.weekly').attr('required',false);
-            $('.daily').attr('required',false);
-            $('.monthly').attr('required',false);
+            $('.weekly').attr('required', false);
+            $('.daily').attr('required', false);
+            $('.monthly').attr('required', false);
             $('.date-format').val('');
-            if(this.value=="Weekly"){
+            if (this.value == "Weekly") {
                 $('.weekly').show();
-                $('.weekly').attr('required',true);
-            }
-            else if(this.value=="Monthly"){
+                $('.weekly').attr('required', true);
+            } else if (this.value == "Monthly") {
                 $('.monthly').show();
-                $('.monthly').attr('required',true);
-            }
-            else{
+                $('.monthly').attr('required', true);
+            } else {
                 $('.daily').show();
-                $('.daily').attr('required',true);
+                $('.daily').attr('required', true);
             }
         })
         $("#proof_search_button").on('click', function() {
@@ -224,16 +220,15 @@
             base_url = $('#base_url').data('baseurl');
             $data_table_var = $('#proof_of_payment_table');
             var empty_count = 0;
-            $('.date-format[required]').each(function(){
-                if(this.value==""){
+            $('.date-format[required]').each(function() {
+                if (this.value == "") {
                     ++empty_count;
                 }
             })
-            if(empty_count>0){
-                error_modal('Select Date', `You didn't pick TO: DATE ${empty_count}`);  
-            }
-            else if(empty_count==0){
-                if($('select[name=date-format]').val()=="Monthly"){
+            if (empty_count > 0) {
+                error_modal('Select Date', `You didn't pick TO: DATE ${empty_count}`);
+            } else if (empty_count == 0) {
+                if ($('select[name=date-format]').val() == "Monthly") {
                     from_date = $('#monthly').val();
                     to_date = '';
                 }
@@ -253,7 +248,7 @@
                         $('#proof_of_payment_tbody').empty();
                         if ($.trim(response) != "") {
 
-                            
+
                             html = add_to_table_body(response);
                             $('#proof_of_payment_tbody').html(html);
                             check_filter = 1;
@@ -301,10 +296,10 @@
                 html +=
                     '</td>' +
                     '<td>' +
-                    value['First_Name'] +' '+value['Middle_Name']+' '+value['Last_Name']+
+                    value['First_Name'] + ' ' + value['Middle_Name'] + ' ' + value['Last_Name'] +
                     '</td>' +
                     '<td>' +
-                    value['acc_num']+
+                    value['acc_num'] +
                     '</td>' +
                     '<td>' +
                     value['acc_holder_name'] +

@@ -73,7 +73,7 @@ public function GetMajor(){
 }
 
   /// GET ENROLLED
-  public function Get_students($sy,$sm,$major,$program,$Yl,$submit){
+  public function Get_students($array){
 
     $this->db->select('
     A.Student_Number,
@@ -108,13 +108,25 @@ public function GetMajor(){
     $this->db->join('`Program_Majors` AS K', '`K`.`ID` = `A`.`Major`','LEFT');
     // $this->db->join('`Programs` AS J', '`J`.`Program_Code` = `K`.`Program_Code`','LEFT');
     $this->db->join('`Programs` AS J', '`J`.`Program_Code` = `A`.`Course`','LEFT');
-    $this->db->where('B.Semester = ',  $sm);
-    $this->db->where('B.School_Year = ',$sy);
-    $this->db->where('C.semester = ',  $sm);
-    $this->db->where('C.SchoolYear = ',$sy);
-    $this->db->where('B.Program = ',$program);
-    $this->db->where('C.YearLevel = ',$Yl);
-    $this->db->where('A.Major = ',$major);
+
+    if($array['sm'] != ''){
+      $this->db->where('B.Semester = ',  $array['sm']);
+      $this->db->where('C.semester = ',  $array['sm']);
+    }
+    if($array['sy'] != '0'){
+      $this->db->where('B.School_Year = ',$array['sy']);
+      $this->db->where('C.SchoolYear = ',$array['sy']);
+    }
+    if($array['program'] != ''){
+      $this->db->where('B.Program = ',$array['program']);
+    }
+    if($array['Yl'] != ''){
+      $this->db->where('C.YearLevel = ',$array['Yl']);
+    }
+    if($array['major'] != '0'){
+      $this->db->where('A.Major = ',$array['major']);
+    }
+
     $this->db->where('B.Reference_Number != ','0');
     $this->db->where('A.Student_Number != ', '0');
     $this->db->where('B.Reference_Number   > ','1');
@@ -145,4 +157,3 @@ public function GetMajor(){
 
                           
 }
-?>

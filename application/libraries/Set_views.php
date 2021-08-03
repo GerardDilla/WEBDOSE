@@ -503,6 +503,8 @@ class set_views
 	{
 		return 'body/DoseAdmin/Adminpage_Resprint';
 	}
-	
-	
+	public function bypass_manager()
+	{
+		return 'body/registrar/BypassManager';
+	}
 }
