@@ -33,12 +33,14 @@
                             <tr>
                                 <th>Status</th>
                                 <th>Name (Last, First Middle)</th>
+                                <th>Reference Number</th>
                                 <th>Student Number</th>
                                 <th>Course</th>
                                 <th>Address</th>
                                 <th>Guardian Name</th>
                                 <th>Guardian Contact</th>
                                 <!-- <th>Guardian Email</th> -->
+                                <th>Email</th>
                                 <th width="5%">To Gdrive</th>
                                 <th colspan="2">Action</th>
                             </tr>
@@ -181,6 +183,12 @@
             success: function(response) {
                 $.each(response, function(key, value) {
                     student_name = value['Last_Name'] + ', ' + value['First_Name'] + ' ' + value['Middle_Name'];
+                    if(value['Address_Country'] != ''){
+                        country = '';
+                    }else{
+                        country = value['Address_Country'];
+                    }
+                    $address = value['Address_No'] + ' ' + value['Address_Street'] + ' ' + value['Address_Subdivision'] + ', ' + value['Address_Barangay'] + ' ' + value['Address_City'] + ' ' + value['Address_Province'] + ' ' + country + ', ' + value['Address_Zip'] 
                     checked = '';
                     class_check = '';
                     if (value['status'] == 'done') {
@@ -210,9 +218,9 @@
                         '<td>' +
                         value['Guardian_Contact'] +
                         '</td>' +
-                        // '<td>' +
-                        //     value['Guardian_Email'] +
-                        // '</td>'+
+                        '<td>' +
+                            value['Email'] +
+                        '</td>'+
                         '<td>' +
                         '<a href="https://drive.google.com/drive/folders/' + value['gdrive_folder_id'] + '" target="_blank">' +
                         '<button class="btn action_button">Link</button>' +
