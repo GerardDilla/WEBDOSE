@@ -3394,6 +3394,7 @@ class Registrar extends MY_Controller
 
 
   ///REGISTRAR ENROLLED STUDENT REPORT MODULE
+  // dito
   public function EnrolledStudent()
   {
 
@@ -3414,9 +3415,13 @@ class Registrar extends MY_Controller
       'Sec'        => $this->input->post('Section'),
       'submit'     => $this->input->post('search_button'),
       'search'       => '0',
+      'excel'       => '0',
     );
     if ($this->input->post('search_button') !== null) {
       $array['search'] = '1';
+    }
+    if ($this->input->post('export') !== null) {
+      $array['excel'] = '1';
     }
     // die(json_encode($array));
     $this->data['GetStudent'] = $this->EnrolledStudent_Model->GetStudentList($array);
@@ -3446,8 +3451,16 @@ class Registrar extends MY_Controller
       'Gender'     => $this->input->post('Gender'),
       'YL'         => $this->input->post('YL'),
       'Sec'        => $this->input->post('Section'),
-      'submit'     => $this->input->post('search_button')
+      'submit'     => $this->input->post('search_button'),
+      'search'       => '0',
+      'excel'       => '0',
     );
+    if ($this->input->post('search_button') !== null) {
+      $array['search'] = '1';
+    }
+    if ($this->input->post('export') !== null) {
+      $array['excel'] = '1';
+    }
 
 
     // $this->load->library("Excel");
