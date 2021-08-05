@@ -34,13 +34,13 @@ class MY_Controller extends CI_Controller {
         }
 
       $this->data['admin_data'] = $this->set_custom_session->admin_session();
-        
+        // die(json_encode($this->data['admin_data']));
       //set user accessibility for nav bar
       $this->data['module_list'] = $this->user_accessibility->get_module_list();
     //   echo '<pre>'.print_r($this->data['module_list'],1).'</pre>';
     //   exit;
       $this->data['user_module_access'] = $this->user_accessibility->get_user_module_access($this->data['admin_data']['userid']);
-
+    //   die(json_encode($this->data['user_module_access']));
            $this->template['header'] = $this->load->view('layout/header.php', $this->data, true);
            $this->template['navbar'] = $this->load->view('layout/nav.php', $this->data, true);
            $this->template['sidebar'] = $this->load->view('layout/side.php', $this->data, true);

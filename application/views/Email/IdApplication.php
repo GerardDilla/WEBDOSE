@@ -9,7 +9,7 @@
         Great day!
         <br>
         <br>
-        Hi, This is ______ from the Digital Education Solutions unit of the ICT Department.
+        Hi, This is <?php echo $fullname; ?> from the Digital Education Solutions unit of the ICT Department.
         <br>
         We are glad to inform you that we have successfully printed your ID, you may now claim it at DES Office located at the Computer Laboratory 2, 5th Floor, GD 1
         <br>

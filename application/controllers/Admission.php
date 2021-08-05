@@ -460,7 +460,7 @@ class Admission extends MY_Controller
     $sheet = $spreadsheet->getActiveSheet();
     $sheet->setCellValue('A1', 'Hello World !');
 
-    $writer = new Xlsx($spreadsheet);
+    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($spreadsheet);
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="teststes.xlsx"');
     header('Cache-Control: max-age=0');

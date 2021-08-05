@@ -3394,6 +3394,7 @@ class Registrar extends MY_Controller
 
 
   ///REGISTRAR ENROLLED STUDENT REPORT MODULE
+  // dito
   public function EnrolledStudent()
   {
 
@@ -3414,13 +3415,17 @@ class Registrar extends MY_Controller
       'Sec'        => $this->input->post('Section'),
       'submit'     => $this->input->post('search_button'),
       'search'       => '0',
+      'excel'       => '0',
     );
-    if($this->input->post('search_button')!== null){
+    if ($this->input->post('search_button') !== null) {
       $array['search'] = '1';
     }
+    if ($this->input->post('export') !== null) {
+      $array['excel'] = '1';
+    }
     // die(json_encode($array));
-      $this->data['GetStudent'] = $this->EnrolledStudent_Model->GetStudentList($array);
-      
+    $this->data['GetStudent'] = $this->EnrolledStudent_Model->GetStudentList($array);
+
 
     // die($this->data['GetStudent']);
 
@@ -3446,8 +3451,16 @@ class Registrar extends MY_Controller
       'Gender'     => $this->input->post('Gender'),
       'YL'         => $this->input->post('YL'),
       'Sec'        => $this->input->post('Section'),
-      'submit'     => $this->input->post('search_button')
+      'submit'     => $this->input->post('search_button'),
+      'search'       => '0',
+      'excel'       => '0',
     );
+    if ($this->input->post('search_button') !== null) {
+      $array['search'] = '1';
+    }
+    if ($this->input->post('export') !== null) {
+      $array['excel'] = '1';
+    }
 
 
     // $this->load->library("Excel");
@@ -4719,6 +4732,77 @@ class Registrar extends MY_Controller
     if ($dissolve_checker === 1) {
       # code...
       $this->set_sched_dissolved($array_merge_into_sched_info[0]['Instructor_ID'], 829, $schedule_obj->get_merge_into_sched_code());
+    }
+  }
+
+  //  Instructor Manager Functions
+  public function BypassManager()
+  {
+
+    $this->Departments = $this->Registrar_Model->get_departments_choice();
+    $this->render($this->set_views->bypass_manager());
+  }
+  public function BypassAPI($command)
+  {
+    switch ($command) {
+
+        #Gets list of Users
+      case 'list':
+
+        $Filters = array(
+          'Searchkey' => $this->input->get('Searchkey'),
+          'Department' => $this->input->get('Department'),
+        );
+        $Users = $this->Registrar_Model->get_bypass_users($Filters);
+        echo json_encode($Users);
+
+        break;
+
+        #Gets Info of Selected User
+      case 'info':
+
+        $Inputs = array(
+          'UserID' => $this->input->get('UserID'),
+        );
+        $UserInfo = $this->Registrar_Model->get_user_info($Inputs);
+        echo json_encode($UserInfo);
+
+        break;
+
+        #Updates Selected User
+      case 'update':
+
+        $params = array();
+        parse_str($this->input->post('formdata'), $params);
+        echo $params['user_id'];
+        #Make Array of Schools Bypass
+        $School = array();
+        foreach ($params as $index => $value) {
+          if ($index != 'user_id') {
+            $School[$index] = $value;
+          }
+        }
+
+        #Disable all bypass
+        $this->Registrar_Model->disable_permissions($params['user_id']);
+        if (!empty($School)) {
+          foreach ($School as $index => $value) {
+            $School_Code = $this->Registrar_Model->get_school_id($index);
+            $insert = array(
+              'School_ID' => $School_Code,
+              'User_ID' => $params['user_id'],
+              'valid' => 1,
+            );
+            $this->Registrar_Model->insert_permission($insert);
+          }
+        }
+
+        break;
+
+        #Invalid Handler
+      default:
+        echo 'Invalid Command';
+        break;
     }
   }
 }//end class
