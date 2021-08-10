@@ -148,21 +148,13 @@
             <div class="collapse navbar-collapse" id="navbar-collapse">
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li style="position:relative;" class="dropdown">
+                    <!-- <li style="position:relative;" class="dropdown">
                         <div class="notification-number">9</div>
                         <br><i class="material-icons js-search notification-icon">notifications</i>
                         <div class="dropdown-content" id="notification-div">
-                            <!-- <a href="#" class="notification-info">
-                                <div class="notification-student-name">Jhon Norman Fabregas</div><div class="notification-student-message">Hi ask lang po if ano po yung status ng enrollment ko?.</div><span class="notification-time">5 hrs ago</span>
-                            </a> -->
-                            <!-- <a href="#" class="notification-info">
-                            <div class="notification-student-name">Jhon Norman Fabregas</div> has <b>6</b> unread messages<span class="notification-time">5 hrs ago</span>
-                            </a>
-                            <a href="#" class="notification-info">
-                            <div class="notification-student-name">Jhon Norman Fabregas</div> has <b>6</b> unread messages<span class="notification-time">5 hrs ago</span>
-                            </a> -->
+                            
                         </div>
-                    </li>
+                    </li> -->
                     <li>
                         <!--
                         <a href="javascript:void(0);" class="js-search" data-toggle="modal" data-target="#studentsearch_modal">

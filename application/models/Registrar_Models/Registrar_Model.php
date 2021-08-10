@@ -234,9 +234,9 @@ class Registrar_Model extends CI_Model
     $dayget = '';
     foreach ($day_array as $data) {
       if ($count == 0) {
-        $dayget .= "`Day` LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "`Day` LIKE '$data -%' ESCAPE '!'";
       } else {
-        $dayget .= "OR `Day`LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "OR `Day`LIKE '$data -%' ESCAPE '!'";
       }
       $count++;
     }
@@ -274,10 +274,10 @@ class Registrar_Model extends CI_Model
     $dayget = '';
     foreach ($day_array as $data) {
       if ($count == 0) {
-        $dayget .= "`Day` LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "`Day` LIKE '$data -%' ESCAPE '!'";
         $count++;
       } else {
-        $dayget .= "OR `Day`LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "OR `Day`LIKE '$data -%' ESCAPE '!'";
       }
     }
     $this->db->where('(' . $dayget . ')');
@@ -321,10 +321,10 @@ class Registrar_Model extends CI_Model
     $dayget = '';
     foreach ($day_array as $data) {
       if ($count == 0) {
-        $dayget .= "`Day` LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "`Day` LIKE '$data -%' ESCAPE '!'";
         $count++;
       } else {
-        $dayget .= "OR `Day`LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "OR `Day`LIKE '$data -%' ESCAPE '!'";
       }
     }
     $this->db->where('(' . $dayget . ')');
@@ -393,10 +393,10 @@ class Registrar_Model extends CI_Model
     $dayget = '';
     foreach ($day_array as $data) {
       if ($count == 0) {
-        $dayget .= "`Day` LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "`Day` LIKE '$data' ESCAPE '!'";
         $count++;
       } else {
-        $dayget .= "OR `Day`LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "OR `Day`LIKE '$data' ESCAPE '!'";
       }
     }
     $this->db->where('(' . $dayget . ')');
@@ -440,10 +440,10 @@ class Registrar_Model extends CI_Model
     $dayget = '';
     foreach ($day_array as $data) {
       if ($count == 0) {
-        $dayget .= "`Day` LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "`Day` LIKE '$data -%' ESCAPE '!'";
         $count++;
       } else {
-        $dayget .= "OR `Day`LIKE '%$data%' ESCAPE '!'";
+        $dayget .= "OR `Day`LIKE '$data -%' ESCAPE '!'";
       }
     }
     $this->db->where('(' . $dayget . ')');
