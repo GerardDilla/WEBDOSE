@@ -54,7 +54,18 @@ class Admin extends MY_Controller  {
                 }
                 $this->session->set_userdata('logged_in',$array);
                 $this->user_data = $this->set_custom_session->admin_session();
-                redirect('Registrar/Create_Sched','refresh');
+                $check = $this->User_verification->check_module_assignment($array['userid']);
+                $only_des = 0;
+                foreach($check->result_array() as $row){
+                    if($row['parent_module_id'] != 10){
+                        $only_des ++;
+                    }
+                }
+                if($only_des == 0){
+                    redirect('Des/digital_citizenship','refresh');
+                }else{
+                    redirect('Registrar/Create_Sched','refresh');
+                }
             }else{
                 $this->session->set_flashdata('login_message','Invalid Username or Password');
                 

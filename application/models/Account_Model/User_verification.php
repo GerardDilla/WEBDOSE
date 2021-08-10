@@ -22,6 +22,15 @@ class User_verification extends CI_Model
 
         return $query;
     }
+    public function check_module_assignment($userid)
+    {
+        $this->db->select('*');
+        $this->db->where('User_id',$userid);
+        $this->db->where('valid',1);
+        $this->db->from('module_assignment');
+        $query = $this->db->get();
+        return $query;
+    }
 
     public function get_user_info($array_data)
     {
