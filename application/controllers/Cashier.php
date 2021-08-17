@@ -1696,7 +1696,7 @@ class Cashier extends MY_Controller  {
     public function proof_of_payment(){
         $this->render($this->set_views->proof_of_payment());
     }
-
+    
     public function proof_of_payment_ajax(){
         $array = array(
             'from'=>$this->input->post('from'),

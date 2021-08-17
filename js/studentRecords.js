@@ -28,7 +28,7 @@ $("#exportFormButton").click(function(){
     }
 
     //check if student is elementary or juniorhigh
-    arrayElem = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6'];
+    arrayElem = ['K1','K2','G1', 'G2', 'G3', 'G4', 'G5', 'G6'];
     arrayJuniorSHS = ['G7', 'G8', 'G9', 'G10', 'G11', 'G12'];
 
     if( $.inArray($("#studentGradeLevel").val(), arrayElem) != -1 )
