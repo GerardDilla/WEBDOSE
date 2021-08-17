@@ -148,13 +148,13 @@
             <div class="collapse navbar-collapse" id="navbar-collapse">
 
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- <li style="position:relative;" class="dropdown">
+                    <li style="position:relative;" class="dropdown">
                         <div class="notification-number">9</div>
                         <br><i class="material-icons js-search notification-icon">notifications</i>
                         <div class="dropdown-content" id="notification-div">
                             
                         </div>
-                    </li> -->
+                    </li>
                     <li>
                         <!--
                         <a href="javascript:void(0);" class="js-search" data-toggle="modal" data-target="#studentsearch_modal">
