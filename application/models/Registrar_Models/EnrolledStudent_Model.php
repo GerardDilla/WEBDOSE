@@ -101,7 +101,7 @@ class EnrolledStudent_Model extends CI_Model
     $this->db->from('Fees_Enrolled_College');
     $this->db->join('Student_Info', 'Student_Info.Reference_Number = Fees_Enrolled_College.Reference_Number', 'INNER');
     $this->db->join('Program_Majors', 'Program_Majors.ID = Student_Info.Major', 'LEFT');
-    if ($array['search'] == '1') {
+    if ($array['search'] == '1' || $array['excel'] == '1') {
       if ($array['sm'] != '') {
         $this->db->where('Fees_Enrolled_College.semester', $array['sm']);
       }

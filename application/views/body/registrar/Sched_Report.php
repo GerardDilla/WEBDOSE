@@ -37,6 +37,8 @@
 					<br>
 					<select id="schedsy_report" tabindex="1" required class="form-control show-tick" data-live-search="true" name="sy">
 						<option disabled selected> Select School Year</option>
+						<option>2015-2016</option>
+						<option>2016-2017</option>
 						<option>2017-2018</option>
 						<option>2018-2019</option>
 						<option>2019-2020</option>

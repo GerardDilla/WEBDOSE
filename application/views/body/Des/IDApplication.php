@@ -16,7 +16,15 @@
             <h1> <i class="material-icons" style="font-size:100%">label</i>ID Application</h1>
         </div>
         <!--/ MODULE TITLE-->
+        <?php
+        $id_msg = "     Hi, This is ____ from the Digital Education Solutions unit of the ICT Department.
+    We are glad to inform you that we have successfully printed your ID, you may now claim it at DES Office located at the Computer Laboratory 2, 5th Floor, GD 1 Should you have any concerns, please don't hesitate to email us.
 
+";
+        ?>
+        <div>
+            <textarea id="id_msg" class="form-control id_msg" rows="3" placeholder="<?php echo $id_msg ?>"></textarea>
+        </div>
         <div class="card">
             <div class="body">
                 <div class="card-body table-responsive">
@@ -117,7 +125,6 @@
                         source: '',
                         onClose: function() {}
                     });
-
                     $.ajax({
                         url: 'updateIdApplication',
                         dataType: 'json',
@@ -125,10 +132,12 @@
                         // async: false,
                         data: {
                             'id_application': id,
-                            'status': status
+                            'status': status,
+                            'custom_msg': $('#id_msg').val()
                         },
                         success: function(response) {
-                            alert(response);
+                            // alert(response);
+
                         },
                         complete: function() {
                             // alert('Done');
@@ -172,6 +181,7 @@
             success: function(response) {
                 $.each(response, function(key, value) {
                     student_name = value['Last_Name'] + ', ' + value['First_Name'] + ' ' + value['Middle_Name'];
+                    $address = value['Address_No'] + ' ' + value['Address_Street'] + ' ' + value['Address_Subdivision'] + ', ' + value['Address_Barangay'] + ' ' + value['Address_City'] + ' ' + value['Address_Province'] + ' ' + value['Address_Country'] + ', ' + value['Address_Zip'] 
                     checked = '';
                     class_check = '';
                     if (value['status'] == 'done') {
@@ -186,14 +196,16 @@
                         student_name +
                         '</td>' +
                         '<td>' +
+                        value['Reference_Number'] +
+                        '</td>' +
+                        '<td>' +
                         value['Student_Number'] +
                         '</td>' +
                         '<td>' +
                         value['Course'] +
                         '</td>' +
                         '<td>' +
-                        'Address' +
-                        // value['Student_Number'] +
+                        $address +
                         '</td>' +
                         '<td>' +
                         value['Guardian_Name'] +

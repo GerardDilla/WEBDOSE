@@ -4,7 +4,7 @@
         Great day!
         <br>
         <br>
-        Hi, This is ______ from the Digital Education Solutions unit of the ICT Department. 
+        Hi, This is <?php echo $fullname; ?> from the Digital Education Solutions unit of the ICT Department. 
         <br>
         Your ID photo and signature don't seem to appear on our ID Application Responses. Kindly provide us the picture needed for your student ID. 
         <br>
