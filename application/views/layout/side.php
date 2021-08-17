@@ -506,7 +506,7 @@
             <li>
                 <a href="javascript:void(0);" class="menu-toggle">
                     <i class="material-icons">label</i>
-                    <span>Des Module</span>
+                    <span>DES Module</span>
                 </a>
                 <ul class="ml-menu">
                     <li>

@@ -13,6 +13,7 @@ class Des extends MY_Controller
 		$this->load->library('set_custom_session');
 		$this->load->library('email');
 		$this->load->library('sdca_mailer', array('email' => $this->email, 'load' => $this->load));
+		$this->date_today = date("Y-m-d");
 	}
 	public function index()
 	{
@@ -20,10 +21,6 @@ class Des extends MY_Controller
 	public function digital_citizenship()
 	{
 		$this->render($this->set_views->digital_citizenship());
-	}
-	public function id_application()
-	{
-		$this->render($this->set_views->id_application());
 	}
 	// DIgital
 	public function getDigitalCitizenship()
@@ -54,11 +51,33 @@ class Des extends MY_Controller
 		);
 		$this->Forms_Model->updateDigitalCitizenshipAccount($array);
 	}
-	// ID 
+	// ID
+	public function id_application()
+	{
+		// $this->data['student'] = $this->getIdApplication();
+		// if(!empty($this->input->post('search_button')))
+		// 	$this->data['student'] = $this->getIdApplication();
+		// else
+		if(!empty($this->input->post('export')))
+			$this->data['student'] = $this->getIdApplication();
+		else
+			$this->data['student'] = $this->getIdApplication();
+		
+		// die(json_encode($this->data['student']));
+		$this->render($this->set_views->id_application());
+	}
 	public function getIdApplication()
 	{
-		$getIdApplication = $this->Forms_Model->getIdApplication();
-		echo json_encode($getIdApplication);
+		$array = array(
+			'date_today' => date("Y-m-d"),
+			'inquiry_from' => $this->input->post('inquiry_from'),
+			'inquiry_to' => $this->input->post('inquiry_to'),
+			'identity_no' => $this->input->post('identity_no'),
+			'search' => $this->input->post('search_button'),
+		);
+		$getIdApplication = $this->Forms_Model->getIdApplication($array);
+		return $getIdApplication;
+		// echo json_encode($getIdApplication);
 	}
 	public function updateIdApplication()
 	{
