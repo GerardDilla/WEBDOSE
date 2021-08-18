@@ -474,6 +474,24 @@
                 </a>
             </li>
         <?php endif ?>
+        <!-- Treasury Module -->
+        <?php if (in_array($this->data['module_list']['treasury'], $this->data['user_module_access'])) : ?>
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <i class="material-icons">receipt_long</i>
+                <span>Treasury</span>
+            </a>
+            <ul class="ml-menu">
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php/Treasury" class="">
+                        <span>- For Approval of Proof of Payment</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <?php
+        endif
+        ?>
         <!-- Student Inquiry Module -->
         <?php
         // if (in_array($this->data['module_list']['admission'], $this->data['user_module_access'])) : 

@@ -34,9 +34,9 @@
                                  <?php 
 
                                     $prevyear = date('Y', strtotime('-3 Years'));
-                                    $currentyear = date('Y');
+                                    $currentyear = date('Y',strtotime('2 Years'));
                                     $options = array(''=>'Select School Year');
-                                    for($prevyear; $prevyear<$currentyear;$prevyear++){
+                                    for($prevyear; $prevyear<=$currentyear;$prevyear++){
 
                                         $yearoption = ''.$prevyear.'-'.($prevyear+1).'';
                                         $options[$yearoption] = $yearoption;

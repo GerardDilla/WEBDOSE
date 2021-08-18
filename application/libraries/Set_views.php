@@ -428,7 +428,7 @@ class set_views
 
 	public function proof_of_payment()
 	{
-		return 'body/Cashier/ProofOfPayment';
+		return 'body/Treasury/ProofOfPayment';
 	}
 
 	//////////////////////////// User Accessibility  TAB ////////////////////////

@@ -23,10 +23,11 @@ class User_accessibility
             'cashier' => 7,
             'program_chair' => 8,
             'accounting' => 9,
-            'des' => 10
+            'des' => 10,
+            'treasury' => 11
         );
     }
-
+    
     public function module_admin_access($user_id)
     {
         $array_data = array(
@@ -147,7 +148,24 @@ class User_accessibility
             redirect('Executive/enrollment_report');
         }
     }
+    
+    public function module_treasury_access($user_id)
+    {
 
+        $array_data = array(
+            'user_id' => $user_id,
+            'module_id' => $this->module['treasury']
+        );
+
+        $output = $this->CI->User_Accessibility_Model->get_module_access($array_data);
+
+        if ($output == 0) {
+            # code...
+
+            redirect('Treasury/');
+        }
+    }
+    
     public function get_module_list()
     {
         return $this->module;

@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+
 <style>
     .display_hidden {
         display: none;
@@ -243,7 +245,7 @@
                     success: function(response) {
                         console.log(response)
                         // alert(response);
-                        // console.log(response);
+                        console.log(response);
                         $data_table_var.DataTable().destroy();
                         $('#proof_of_payment_tbody').empty();
                         if ($.trim(response) != "") {
@@ -264,7 +266,35 @@
                 })
             }
         })
-
+        function verifyProofofPayment(id){
+            iziToast.show({
+                theme: 'dark',
+                icon: 'icon-person',
+                title: 'Hey',
+                message: 'Welcome!',
+                position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
+                progressBarColor: 'rgb(0, 255, 184)',
+                buttons: [
+                    ['<button>Ok</button>', function (instance, toast) {
+                        alert("Hello world!");
+                    }, true], // true to focus
+                    ['<button>Close</button>', function (instance, toast) {
+                        instance.hide({
+                            transitionOut: 'fadeOutUp',
+                            onClosing: function(instance, toast, closedBy){
+                                console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
+                            }
+                        }, toast, 'buttonName');
+                    }]
+                ],
+                onOpening: function(instance, toast){
+                    console.info('callback abriu!');
+                },
+                onClosing: function(instance, toast, closedBy){
+                    console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
+                }
+            });
+        }
         function add_to_table_body(response) {
             html = "";
             count = 1;
@@ -272,6 +302,7 @@
                 "July", "August", "September", "October", "November", "December"
             ];
             $.each(response, function(key, value) {
+                console.log(value['proof_status']=='1'?'':'<button class="btn btn-info">Validate</button>');
                 // alert(key + ": " + value['Reference_Number']);
                 datetime = new Date(value['requirements_date']);
 
@@ -315,9 +346,17 @@
                     '</td>' +
                     '<td><a target="_blank" href="https://drive.google.com/drive/u/0/folders/' +
                     value['gdrive_folder_id'] + '">' +
-                    '<button class="btn btn-lrg btn-info">View in GDrive</button>' +
-                    '</a>' +
-                    '</td>' +
+                    '<button class="btn btn-info">View in GDrive</button>' +
+                    '</a>';
+                    if(value['proof_status']=='1'){
+                        
+                        html += '<br><button class="btn btn-default" disabled="disabled" style="color:green;">Verified <i class="material-icons">verified</i></button>'
+                    }
+                    else{
+                        html += `<br><button class="btn btn-warning" onclick="verifyProofofPayment('')">Verify</button>`;
+                    }
+                    
+                    html += '</td>' +
                     '</tr>';
                 count++;
             });
@@ -325,4 +364,3 @@
         }
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
