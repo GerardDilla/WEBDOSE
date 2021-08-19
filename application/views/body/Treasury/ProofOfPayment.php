@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+
 
 <style>
     .display_hidden {
@@ -71,11 +71,11 @@
                                         <option value="Weekly">Weekly</option>
                                         <option value="Monthly">Monthly</option>
                                     </select>
-                                    <label class="daily" for="data_from">From:</label>
-                                    <input type="date" id="data_from" class="form-control daily date-format" required>
+                                    <label class="daily" for="date_from">From:</label>
+                                    <input type="date" id="date_from" class="form-control daily date-format" required>
                                     <label class="daily" for="data_to">To: </label>
-                                    <input type="date" id="data_to" class="form-control daily date-format" required>
-                                    <label class="monthly" for="data_from" style="display:none;">Month:</label>
+                                    <input type="date" id="date_to" class="form-control daily date-format" required>
+                                    <label class="monthly" for="date_from" style="display:none;">Month:</label>
                                     <input type="month" id="monthly" class="form-control monthly date-format" style="display:none;">
                                     <label class="weekly" for="data_to" style="display:none;">Week: </label>
                                     <input type="week" id="weekly" class="form-control weekly date-format" style="display:none;">
@@ -144,6 +144,70 @@
 </section>
 <script src="<?php echo base_url('js/moment.min.js'); ?>"></script>
 <script>
+    // function sendEmail
+    function verifyProofofPayment(req_id){
+        iziToast.show({
+            theme: 'light',
+            icon: 'icon-person',
+            title: 'Are you sure you want to verify this proof of payment?',
+        //     message: 'Welcome!',
+            position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
+            progressBarColor: '#cc0000',
+            overlay:true,
+            timeout:false,
+            buttons: [
+                ['<button>Ok</button>', function (instance, toast) {
+                    
+                    $.ajax({
+                        type: "GET",
+                        url: base_url + "index.php/Treasury/verifyProofofPayment",
+                        data: {
+                            req_id: req_id,
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if(response['msg']=="success"){
+                                $('#proof_filter_button').trigger('click');
+                            }
+                            else{
+                                iziToast.warning({
+                                    title: 'Error: ',
+                                    message: response['msg'],
+                                    position: 'topCenter',
+                                });
+                            }
+                        },error:function(response){
+                            iziToast.warning({
+                                title: 'Error: ',
+                                message: response,
+                                position: 'topCenter',
+                            });
+                        }
+                    })
+                    instance.hide({
+                        transitionOut: 'fadeOutUp',
+                        onClosing: function(instance, toast, closedBy){
+        //                     console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
+                        }
+                    }, toast, 'buttonName');
+                }, true], // true to focus
+                ['<button>Close</button>', function (instance, toast) {
+                    instance.hide({
+                        transitionOut: 'fadeOutUp',
+                        onClosing: function(instance, toast, closedBy){
+        //                     console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
+                        }
+                    }, toast, 'buttonName');
+                }]
+            ],
+            onOpening: function(instance, toast){
+                console.info('callback abriu!');
+            },
+            onClosing: function(instance, toast, closedBy){
+                console.info('closedBy: ' + closedBy);
+            }
+        });
+    }
     $(document).ready(function() {
         check_filter = "";
 
@@ -168,7 +232,7 @@
             }
             return new Date(y, 0, d - day);
         }
-
+        
         function error_modal(title, msg) {
             iziToast.show({
                 position: 'center',
@@ -217,8 +281,8 @@
         });
 
         $('#proof_filter_button').on('click', function() {
-            from_date = $('#date_from').val();
-            to_date = $('#date_to').val();
+            var from_date = $('#date_from').val();
+            var to_date = $('#date_to').val();
             base_url = $('#base_url').data('baseurl');
             $data_table_var = $('#proof_of_payment_table');
             var empty_count = 0;
@@ -234,6 +298,7 @@
                     from_date = $('#monthly').val();
                     to_date = '';
                 }
+                
                 $.ajax({
                     type: "POST",
                     url: base_url + "index.php/Treasury/proof_of_payment_ajax",
@@ -243,9 +308,8 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response)
+                        // console.log(response)
                         // alert(response);
-                        console.log(response);
                         $data_table_var.DataTable().destroy();
                         $('#proof_of_payment_tbody').empty();
                         if ($.trim(response) != "") {
@@ -266,35 +330,9 @@
                 })
             }
         })
-        function verifyProofofPayment(id){
-            iziToast.show({
-                theme: 'dark',
-                icon: 'icon-person',
-                title: 'Hey',
-                message: 'Welcome!',
-                position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
-                progressBarColor: 'rgb(0, 255, 184)',
-                buttons: [
-                    ['<button>Ok</button>', function (instance, toast) {
-                        alert("Hello world!");
-                    }, true], // true to focus
-                    ['<button>Close</button>', function (instance, toast) {
-                        instance.hide({
-                            transitionOut: 'fadeOutUp',
-                            onClosing: function(instance, toast, closedBy){
-                                console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
-                            }
-                        }, toast, 'buttonName');
-                    }]
-                ],
-                onOpening: function(instance, toast){
-                    console.info('callback abriu!');
-                },
-                onClosing: function(instance, toast, closedBy){
-                    console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
-                }
-            });
-        }
+        $('.verify-proof-payment').on('click',function(){
+            console.log('hesss')
+        })
         function add_to_table_body(response) {
             html = "";
             count = 1;
@@ -302,10 +340,9 @@
                 "July", "August", "September", "October", "November", "December"
             ];
             $.each(response, function(key, value) {
-                console.log(value['proof_status']=='1'?'':'<button class="btn btn-info">Validate</button>');
+                // console.log(value['proof_status']=='1'?'':'<button class="btn btn-info">Validate</button>');
                 // alert(key + ": " + value['Reference_Number']);
                 datetime = new Date(value['requirements_date']);
-
                 date = datetime.getDate().toString();
                 month = monthNames[datetime.getMonth()].toString();
                 year = datetime.getFullYear().toString();
@@ -353,7 +390,7 @@
                         html += '<br><button class="btn btn-default" disabled="disabled" style="color:green;">Verified <i class="material-icons">verified</i></button>'
                     }
                     else{
-                        html += `<br><button class="btn btn-warning" onclick="verifyProofofPayment('')">Verify</button>`;
+                        html += `<br><button type="button" class="btn btn-warning" onclick="verifyProofofPayment('${value['req_id']}')">Verify</button>`;
                     }
                     
                     html += '</td>' +
@@ -364,3 +401,6 @@
         }
     });
 </script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script> -->
+
+
