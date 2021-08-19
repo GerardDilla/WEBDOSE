@@ -3,13 +3,27 @@
 
 class Forms_Model extends CI_Model
 {
-    public function getDigitalCitizenship()
+    public function getDigitalCitizenship($array)
     {
+        $date_tom = Date('Y-m-d', strtotime($array['date_today'] . ' + 1 days'));
         $this->db->select('*');
         $this->db->from('digital_citizenship dc');
         $this->db->join('Student_Info si', 'dc.reference_number = si.Reference_Number', 'LEFT');
         $this->db->where('dc.id >', '0');
         $this->db->where('dc.reference_number >', '0');
+        if (!empty($array['inquiry_from']) && !empty($array['inquiry_to'])) {
+            $this->db->where('dc.created_at >=', $array['inquiry_from']);
+            $this->db->where('dc.created_at <=', $array['inquiry_to']);
+        }
+        if (!empty($array['identity_no'])) {
+            $this->db->where('dc.reference_number', $array['identity_no']);
+            $this->db->or_Where('si.Student_Number', $array['identity_no']);
+            $this->db->group_by('si.Student_Number', 'ASC');
+        }
+        if(empty($this->input->post('search_button'))){
+            $this->db->where('dc.created_at <', $date_tom);
+            $this->db->where('dc.created_at >=', $array['date_today']);
+        }
         return $this->db->get()->result_array();
     }
     public function getDigitalCitizenshipAccount($digital_id)
@@ -31,10 +45,7 @@ class Forms_Model extends CI_Model
     public function getIdApplication($array)
     {
         $date_tom = Date('Y-m-d', strtotime($array['date_today'] . ' + 1 days'));
-        $this->db->select('
-        ia.*,
-        si.*
-        ');
+        $this->db->select('*');
         $this->db->from('id_application ia');
         $this->db->join('Student_Info si', 'ia.reference_number = si.Reference_Number', 'LEFT');
         $this->db->where('ia.id >', '0');

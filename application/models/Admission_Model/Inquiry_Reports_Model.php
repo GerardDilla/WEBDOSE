@@ -96,7 +96,6 @@ class Inquiry_Reports_Model extends CI_Model
       $this->db->group_by('A.Student_Number','ASC');
     }
     
-
     // die();
 
     $this->db->where('A.Course !=', '0');

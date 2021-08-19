@@ -20,19 +20,32 @@ class Des extends MY_Controller
 	}
 	public function digital_citizenship()
 	{
+		if(!empty($this->input->post('export')))
+			$this->data['student'] = $this->getDigitalCitizenship();
+		else
+			$this->data['student'] = $this->getDigitalCitizenship();
+
 		$this->render($this->set_views->digital_citizenship());
 	}
 	// DIgital
 	public function getDigitalCitizenship()
 	{
-		$getDigitalCitizenship = $this->Forms_Model->getDigitalCitizenship();
+		$array = array(
+			'date_today' => date("Y-m-d"),
+			'inquiry_from' => $this->input->post('inquiry_from'),
+			'inquiry_to' => $this->input->post('inquiry_to'),
+			'identity_no' => $this->input->post('identity_no'),
+			'search' => $this->input->post('search_button'),
+		);
+		$getDigitalCitizenship = $this->Forms_Model->getDigitalCitizenship($array);
+		return $getDigitalCitizenship;
 
 		// $student = $this->AssesmentModel->get_student_with_course($getDigitalCitizenship['reference_number']);
 		// $first_name = $this->clean($student['First_Name']);
 		// $last_name = $this->clean($student['Last_Name']);
 		// $getDigitalCitizenship['email'] = $first_name.'.'.$last_name.'@sdca.edu.ph';
 
-		echo json_encode($getDigitalCitizenship);
+		// echo json_encode($getDigitalCitizenship);
 	}
 	public function getDigitalCitizenshipAccount()
 	{

@@ -16,6 +16,8 @@
         <div class="block-header">
             <h1> <i class="material-icons" style="font-size:100%">label</i>ID Application</h1>
         </div>
+        <!--/ MODULE TITLE-->
+        
         <div class="col-md-8">
         </div>
         <div class="col-md-4">
@@ -75,7 +77,7 @@
             </form>
             <!-- </div> -->
         </div>
-        <!--/ MODULE TITLE-->
+        
         <?php
         $id_msg = "     Hi, This is ____ from the Digital Education Solutions unit of the ICT Department.
     We are glad to inform you that we have successfully printed your ID, you may now claim it at DES Office located at the Computer Laboratory 2, 5th Floor, GD 1 Should you have any concerns, please don't hesitate to email us.

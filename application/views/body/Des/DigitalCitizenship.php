@@ -8,7 +8,67 @@
         </div>
         <!--/ MODULE TITLE-->
 
-        <div class="card">
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-4">
+            <!-- <div class="row"> -->
+            <h5>Choose Filter:</h5>
+            <form action="<?php echo base_url(); ?>index.php/Des/digital_citizenship" method="post">
+                <div class="col-md-8">
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="inquiry_from">From: </label>
+                                <?php if (!empty($this->input->post('inquiry_from'))) : ?>
+                                    <input type="date" id="inquiry_from" class="form-control" name="inquiry_from" data-date-format="yyyy-mm-dd" value="<?php echo $this->input->post('inquiry_from'); ?>">
+                                <?php else : ?>
+                                    <input type="date" id="inquiry_from" class="form-control" name="inquiry_from" data-date-format="yyyy-mm-dd">
+                                <?php endif ?>
+                            </td>
+                            <td>
+                                <!-- <button>Clear</button> -->
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label for="inquiry_to">To: </label>
+                                <?php if (!empty($this->input->post('inquiry_to'))) : ?>
+                                    <input type="date" id="inquiry_to" class="form-control" name="inquiry_to" data-date-format="yyyy-mm-dd" value="<?php echo $this->input->post('inquiry_to'); ?>">
+                                <?php else : ?>
+                                    <input type="date" id="inquiry_to" class="form-control" name="inquiry_to" data-date-format="yyyy-mm-dd">
+                                <?php endif ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="inquiry_to">Reference / Student No.: </label>
+                                <?php if (!empty($this->input->post('identity_no'))) : ?>
+                                    <input type="text" id="identity_no" class="form-control" name="identity_no" value="<?php echo $this->input->post('identity_no'); ?>">
+                                <?php else : ?>
+                                    <input type="text" id="identity_no" class="form-control" name="identity_no">
+                                <?php endif ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <hr>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="col-md-4">
+                    <br>
+                    <button type="submit" name="search_button" class="btn btn-lg btn-danger"> Search </button>
+                    <br><br>
+                    <button class="btn btn-lg  btn-success" type="submit" name="export" value="Export"> Excel </button>
+                </div>
+            </form>
+            <!-- </div> -->
+        </div>
+
+        <!-- <div class="card"> -->
             <div class="body">
                 <div>
                     <div id="sdcapassword"></div>
@@ -29,15 +89,50 @@
                         </tr>
                     </thead>
                     <tbody id="adminDigitalTbody">
+                        <?php
+                        foreach ($this->data['student'] as $student) {
+                        $year = '';
+                        $date_created = $student['created_at'];
+                        $year = Date('Y');
+                        // ajax_digital_account(value);
+                        $sdca_email = '';
+                        $replace_regex = '/\s+/';
+                        $sdca_email = preg_replace($replace_regex, '', $student['First_Name']) . preg_replace($replace_regex, '', $student['Last_Name']) . '@sdca.edu.ph';
+                        // console.log(sdca_email);
+                        echo '<tr>
+                            <td>' .
+                            $student['Last_Name'] . ', ' . $student['First_Name'] . ' ' . $student['Middle_Name'] .
+                            '</td>
+                            <td>' .
+                            $student['Course'] .
+                            '</td>
+                            <td>' .
+                            $student['Student_Number'] .
+                            '</td>
+                            <td>' .
+                            $sdca_email .
+                            '</td>
+                            <td>
+                            sdca'.+ $year .
+                            '</td>' .
+                            // html += '<td><label class="switch">' +
+                            //     '<input type="checkbox">' +
+                            //     '<span class="slider round"></span>' +
+                            //     '</label>' +
+                            //     '</td>';
+                            '</tr>';
+                        // $('#adminDigitalTbody').append(html);
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
-        </div>
+        <!-- </div> -->
     </div>
     <!--/CONTENT GRID-->
 </section>
 <script>
-    ajax_digital()
+    // ajax_digital()
     var new_date = new Date();
     year_today = new_date.getFullYear();
     sdca_pass = 'Password this year : sdca' + year_today;
