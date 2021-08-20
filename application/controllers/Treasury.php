@@ -85,8 +85,8 @@ class Treasury extends MY_Controller  {
         $req_id = $this->input->get('req_id');
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
         $email_data = array(
-            // 'from' => 'treasuryoffice@sdca.edu.ph',
-            'from' => 'jfabregas@sdca.edu.ph',
+            'from' => 'treasuryoffice@sdca.edu.ph',
+            // 'from' => 'jfabregas@sdca.edu.ph',
             'from_name' => 'SDCA Treasury',
             // 'send_to' => 'jhonnormanfabregas@gmail.com',
             'send_to' => $getStudentInfowithReqID['Student_Email'],
