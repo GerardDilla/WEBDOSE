@@ -36,6 +36,7 @@ class Des extends MY_Controller
 		if(!empty($this->input->post('search_button'))){
 			$array['search'] = 1;
 		}
+		
 		if (!empty($this->input->post('export')))
 			$this->data['student'] = $this->digitalExcel($array);
 		else
@@ -62,18 +63,31 @@ class Des extends MY_Controller
 		$object->setActiveSheetIndex(0);
 
 		$object->getActiveSheet()->setCellValue('A1', 'Student Number');
-		$object->getActiveSheet()->setCellValue('A2', 'Last Name');
-		$object->getActiveSheet()->setCellValue('A3', 'First Name');
-		$object->getActiveSheet()->setCellValue('A4', 'Middle Name');
-		$object->getActiveSheet()->setCellValue('A5', 'YEAR/LEVEL');
-		$object->getActiveSheet()->setCellValue('A6', 'COURSE');
-		$object->getActiveSheet()->setCellValue('A7', 'New/OLD');
+		$object->getActiveSheet()->setCellValue('B1', 'Last Name');
+		$object->getActiveSheet()->setCellValue('C1', 'First Name');
+		$object->getActiveSheet()->setCellValue('D1', 'Middle Name');
+		$object->getActiveSheet()->setCellValue('E1', 'YEAR/LEVEL');
+		$object->getActiveSheet()->setCellValue('F1', 'COURSE');
+		$object->getActiveSheet()->setCellValue('G1', 'New/OLD');
 
 		$this->data['student'] = $this->getDigitalCitizenship($array);
+		$count = 1;
+		$excel_row = 2;
+		foreach ($this->data['student']  as $student) {
+			$object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $student['Student_Number']);
+			$object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $student['Last_Name']);
+			$object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $student['First_Name']);
+			$object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $student['Middle_Name']);
+			$object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $student['YearLevel']);
+			$object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $student['Course']);
+			$object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, 'New');
+			$excel_row++;
+			$count = $count + 1;
+		}
 
 		$object_writer =  new \PhpOffice\PhpSpreadsheet\Writer\Xls($object);
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="BasicEdEnrollmentSummary.xls"');
+		header('Content-Disposition: attachment;filename="digital_citizenship.xls"');
 		$object_writer->save('php://output');
 	}
 	public function getDigitalCitizenshipAccount()
