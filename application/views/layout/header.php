@@ -103,7 +103,7 @@
     <link rel="stylesheet" href="<?php echo base_url('css/toggleableSwitch.css'); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
     <link rel="stylesheet" href="<?php echo base_url('plugins/waitme/waitMe.min.css'); ?>">
-
+    <script type="text/javascript" src="<?= base_url('plugins/waitme/waitMe.min.js'); ?>"></script>
     <?php
     if (isset($_SERVER["REQUEST_URI"])) 
         // echo stripos($_SERVER["REQUEST_URI"], '/DoseEnrollment');

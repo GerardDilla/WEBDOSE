@@ -144,7 +144,6 @@
 </section>
 <script src="<?php echo base_url('js/moment.min.js'); ?>"></script>
 <script>
-    // function sendEmail
     function verifyProofofPayment(req_id){
         iziToast.show({
             theme: 'light',
@@ -157,7 +156,20 @@
             timeout:false,
             buttons: [
                 ['<button>Ok</button>', function (instance, toast) {
-                    
+                    $('body').waitMe({
+                        effect: 'win8',
+                        text: 'Please wait...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#cc0000',
+                        maxSize: '',
+                        waitTime: -1,
+                        textPos: 'vertical',
+                        fontSize: '',
+                        source: '',
+                        onClose: function() {
+
+                        }
+                    });
                     $.ajax({
                         type: "GET",
                         url: base_url + "index.php/Treasury/verifyProofofPayment",
@@ -166,6 +178,7 @@
                         },
                         dataType: 'json',
                         success: function(response) {
+                            $('body').waitMe('hide');
                             if(response['msg']=="success"){
                                 $('#proof_filter_button').trigger('click');
                             }
@@ -177,6 +190,7 @@
                                 });
                             }
                         },error:function(response){
+                            $('body').waitMe('hide');
                             iziToast.warning({
                                 title: 'Error: ',
                                 message: response,

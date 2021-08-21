@@ -76,14 +76,33 @@ class Treasury extends MY_Controller  {
         echo json_encode($proofs);
     }
     public function sampleView(){
-        $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID('9');
-        echo '<pre>'.print_r($getStudentInfowithReqID,1).'</pre>';
-        exit;
-        $this->load->view('Email/ValidatedProofofPayment',array('data'=>$getStudentInfowithReqID));
+        $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID('10');
+        // echo '<pre>'.print_r($getStudentInfowithReqID,1).'</pre>';
+        // exit;
+        $all_uploadeddata = array(
+            'parent_id' => '1lLObKQNw6GZqFu5x-qtoFtkXyaK60pzH',
+            'folder_id' => $getStudentInfowithReqID['gdrive_folder_id'],
+            'token_type' => ''
+        );
+        
+        $string = http_build_query($all_uploadeddata);
+        $ch = curl_init("http://localhost:4004/gdriveuploader/move");
+        // $ch = curl_init("http://localhost:4004/gdriveuploader/");
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$string);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        // curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        $result = curl_exec($ch);
+        echo $result;
+        curl_close($ch);
+        // $this->load->view('Email/ValidatedProofofPayment',array('data'=>$getStudentInfowithReqID));
     }
     public function verifyProofofPayment(){
         $req_id = $this->input->get('req_id');
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
+
+        // $main_folder_id = $this->config['folder_id'];
         $email_data = array(
             'from' => 'treasuryoffice@sdca.edu.ph',
             // 'from' => 'jfabregas@sdca.edu.ph',
@@ -94,13 +113,36 @@ class Treasury extends MY_Controller  {
             'message' => 'Email/ValidatedProofofPayment',
             'data' => array('data'=>$getStudentInfowithReqID)
         );
-        $email_status = $this->sendEMail($email_data);
-        if($email_status['msg']=='success'){
-            $this->Treasury_Model->updateProofofPaymentWithReqID(array('proof_status'=>1),$req_id);
-            echo json_encode(array('msg'=>'success'));
+        $all_uploadeddata = array(
+            'parent_id' => '1lLObKQNw6GZqFu5x-qtoFtkXyaK60pzH',
+            'folder_id' => $getStudentInfowithReqID['gdrive_folder_id'],
+            'token_type' => ''
+        );
+        
+        $string = http_build_query($all_uploadeddata);
+        $ch = curl_init("http://localhost:4004/gdriveuploader/move");
+        // $ch = curl_init("http://localhost:4004/gdriveuploader/");
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$string);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        // curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        $result = curl_exec($ch);
+        if($result=="success"){
+            $email_status = $this->sendEMail($email_data);
+            if($email_status['msg']=='success'){
+                $this->Treasury_Model->updateProofofPaymentWithReqID(array('proof_status'=>1),$req_id);
+                echo json_encode(array('msg'=>'success'));
+            }
+            else{
+                echo json_encode(array('msg'=>$email_status['msg']));
+            }
         }
         else{
-            echo json_encode(array('msg'=>$email_status['msg']));
+            echo json_encode(array('msg'=>"There's a problem on Google Drive Api"));
         }
+        curl_close($ch);
+
+        
     }
 }
