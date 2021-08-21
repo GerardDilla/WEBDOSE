@@ -14,13 +14,14 @@ class Forms_Model extends CI_Model
         if (!empty($array['inquiry_from']) && !empty($array['inquiry_to'])) {
             $this->db->where('dc.created_at >=', $array['inquiry_from']);
             $this->db->where('dc.created_at <=', $array['inquiry_to']);
+            // die('asdasd');
         }
         if (!empty($array['identity_no'])) {
             $this->db->where('dc.reference_number', $array['identity_no']);
             $this->db->or_Where('si.Student_Number', $array['identity_no']);
             $this->db->group_by('si.Student_Number', 'ASC');
         }
-        if(empty($this->input->post('search_button'))){
+        if ($array['search'] == 0) {
             $this->db->where('dc.created_at <', $date_tom);
             $this->db->where('dc.created_at >=', $array['date_today']);
         }
@@ -44,7 +45,10 @@ class Forms_Model extends CI_Model
     }
     public function getIdApplication($array)
     {
+        // echo $array['search'];
+        // die($array['search']);
         $date_tom = Date('Y-m-d', strtotime($array['date_today'] . ' + 1 days'));
+        // die($array['date_today']);
         $this->db->select('*');
         $this->db->from('id_application ia');
         $this->db->join('Student_Info si', 'ia.reference_number = si.Reference_Number', 'LEFT');
@@ -53,13 +57,14 @@ class Forms_Model extends CI_Model
         if (!empty($array['inquiry_from']) && !empty($array['inquiry_to'])) {
             $this->db->where('ia.created_at >=', $array['inquiry_from']);
             $this->db->where('ia.created_at <=', $array['inquiry_to']);
+            // die('asdasds');
         }
         if (!empty($array['identity_no'])) {
             $this->db->where('ia.reference_number', $array['identity_no']);
             $this->db->or_Where('si.Student_Number', $array['identity_no']);
             $this->db->group_by('si.Student_Number', 'ASC');
         }
-        if(empty($this->input->post('search_button'))){
+        if ($array['search'] == 0) {
             $this->db->where('ia.created_at <', $date_tom);
             $this->db->where('ia.created_at >=', $array['date_today']);
         }

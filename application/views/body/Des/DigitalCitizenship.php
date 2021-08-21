@@ -60,9 +60,9 @@
 
                 <div class="col-md-4">
                     <br>
-                    <button type="submit" name="search_button" class="btn btn-lg btn-danger"> Search </button>
+                    <button type="submit" name="search_button" value="search_button" class="btn btn-lg btn-danger"> Search </button>
                     <br><br>
-                    <button class="btn btn-lg  btn-success" type="submit" name="export" value="Export"> Excel </button>
+                    <button class="btn btn-lg  btn-success" type="submit" name="export" value="esxport"> Excel </button>
                 </div>
             </form>
             <!-- </div> -->
