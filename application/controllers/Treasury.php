@@ -76,24 +76,24 @@ class Treasury extends MY_Controller  {
         echo json_encode($proofs);
     }
     public function sampleView(){
-        $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID('10');
-        // echo '<pre>'.print_r($getStudentInfowithReqID,1).'</pre>';
-        // exit;
+        $req_id = $this->input->get('id');
         $all_uploadeddata = array(
-            'parent_id' => '1lLObKQNw6GZqFu5x-qtoFtkXyaK60pzH',
+            'parent_id' => '1aNXXe7fO_amTVsXYFMz8yz36NqeYCXnu',
             'folder_id' => $getStudentInfowithReqID['gdrive_folder_id'],
-            'token_type' => ''
+            'token_type' => 'treasury'
         );
-        
         $string = http_build_query($all_uploadeddata);
-        $ch = curl_init("http://localhost:4004/gdriveuploader/move");
-        // $ch = curl_init("http://localhost:4004/gdriveuploader/");
+        // $ch = curl_init("http://localhost:4004/gdriveuploader/move");
+        $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/move");
         curl_setopt($ch,CURLOPT_POST,true);
         curl_setopt($ch,CURLOPT_POSTFIELDS,$string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
         // curl_setopt($ch, CURLOPT_FAILONERROR, true);
         $result = curl_exec($ch);
+        if($result=="success"){
+            $this->Treasury_Model->updateProofofPaymentWithReqID(array('proof_status'=>0),$req_id);
+        }
         echo $result;
         curl_close($ch);
         // $this->load->view('Email/ValidatedProofofPayment',array('data'=>$getStudentInfowithReqID));
@@ -116,12 +116,12 @@ class Treasury extends MY_Controller  {
         $all_uploadeddata = array(
             'parent_id' => '1lLObKQNw6GZqFu5x-qtoFtkXyaK60pzH',
             'folder_id' => $getStudentInfowithReqID['gdrive_folder_id'],
-            'token_type' => ''
+            'token_type' => 'treasury'
         );
         
         $string = http_build_query($all_uploadeddata);
-        $ch = curl_init("http://localhost:4004/gdriveuploader/move");
-        // $ch = curl_init("http://localhost:4004/gdriveuploader/");
+        // $ch = curl_init("http://localhost:4004/gdriveuploader/move");
+        $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/move");
         curl_setopt($ch,CURLOPT_POST,true);
         curl_setopt($ch,CURLOPT_POSTFIELDS,$string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
