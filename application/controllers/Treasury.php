@@ -89,12 +89,18 @@ class Treasury extends MY_Controller  {
         curl_setopt($ch,CURLOPT_POSTFIELDS,$string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-        // curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
         $result = curl_exec($ch);
         if($result=="success"){
             $this->Treasury_Model->updateProofofPaymentWithReqID(array('proof_status'=>0),$req_id);
         }
-        echo $result;
+        if (curl_errno($ch)) {
+            $error_msg = curl_error($ch);
+            echo $error_msg;
+        }
+        else{
+            echo $result;
+        }
         curl_close($ch);
         // $this->load->view('Email/ValidatedProofofPayment',array('data'=>$getStudentInfowithReqID));
     }
