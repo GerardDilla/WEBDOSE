@@ -114,7 +114,7 @@ class Treasury extends MY_Controller  {
             'data' => array('data'=>$getStudentInfowithReqID)
         );
         $all_uploadeddata = array(
-            'parent_id' => '1lLObKQNw6GZqFu5x-qtoFtkXyaK60pzH',
+            'parent_id' => '1f6rcykwmcgbePXKPLR6cpzymPPjX8ayd',
             'folder_id' => $getStudentInfowithReqID['gdrive_folder_id'],
             'token_type' => 'treasury'
         );
