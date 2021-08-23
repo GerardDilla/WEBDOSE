@@ -179,6 +179,7 @@
                         dataType: 'json',
                         success: function(response) {
                             $('body').waitMe('hide');
+                            console.log(response['error']==""?"":response['error'])
                             if(response['msg']=="success"){
                                 $('#proof_filter_button').trigger('click');
                             }

@@ -126,7 +126,7 @@ class Treasury extends MY_Controller  {
         curl_setopt($ch,CURLOPT_POSTFIELDS,$string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-        // curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
         $result = curl_exec($ch);
         if($result=="success"){
             $email_status = $this->sendEMail($email_data);
@@ -139,7 +139,7 @@ class Treasury extends MY_Controller  {
             }
         }
         else{
-            echo json_encode(array('msg'=>"There's a problem on Google Drive Api"));
+            echo json_encode(array('msg'=>"There's a problem on Google Drive Api",'error'=>empty(curl_error($ch))?'':curl_error($ch)));
         }
         curl_close($ch);
 
