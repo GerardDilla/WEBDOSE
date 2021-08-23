@@ -57,7 +57,7 @@
                                                 <tr>
                                                     <td>
                                                         <label for="inquiry_to">To: </label>
-                                                        <?php if (!empty($this->input->post('inquiry_from'))) : ?>
+                                                        <?php if (!empty($this->input->post('inquiry_to'))) : ?>
                                                             <input type="date" id="inquiry_to" class="form-control" name="inquiry_to" data-date-format="yyyy-mm-dd" value="<?php echo $this->input->post('inquiry_to'); ?>">
                                                         <?php else : ?>
                                                             <input type="date" id="inquiry_to" class="form-control" name="inquiry_to" data-date-format="yyyy-mm-dd">
