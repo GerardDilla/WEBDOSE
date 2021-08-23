@@ -77,6 +77,7 @@ class Treasury extends MY_Controller  {
     }
     public function sampleView(){
         $req_id = $this->input->get('id');
+        $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
         $all_uploadeddata = array(
             'parent_id' => '1aNXXe7fO_amTVsXYFMz8yz36NqeYCXnu',
             'folder_id' => $getStudentInfowithReqID['gdrive_folder_id'],
