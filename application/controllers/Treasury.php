@@ -107,8 +107,11 @@ class Treasury extends MY_Controller  {
     }
     public function verifyProofofPayment(){
         $req_id = $this->input->get('req_id');
+        $amount_paid = $this->input->get('amount_paid');
+        $this->Treasury_Model->updateProofofPaymentWithReqID(array('amount_paid'=>$amount_paid),$req_id);
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
-
+        // echo json_encode(array('msg'=>'success','data'=>$getStudentInfowithReqID));
+        // exit;
         // $main_folder_id = $this->config['folder_id'];
         $email_data = array(
             'from' => 'treasuryoffice@sdca.edu.ph',
@@ -125,7 +128,7 @@ class Treasury extends MY_Controller  {
             'folder_id' => $getStudentInfowithReqID['gdrive_folder_id'],
             'token_type' => 'treasury'
         );
-        
+        // echo json_encode(array('msg'=>'success'));
         $string = http_build_query($all_uploadeddata);
         // $ch = curl_init("http://localhost:4004/gdriveuploader/move");
         $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/move");

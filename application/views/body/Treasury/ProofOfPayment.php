@@ -121,8 +121,8 @@
                                                 <th>Reference Number</th>
                                                 <th>Student Number</th>
                                                 <th>Student Name</th>
-                                                <th>Account Number</th>
-                                                <th>Account Holder Name</th>
+                                                <th>Payment Type</th>
+                                                <th>Bank Name</th>
                                                 <th>Receipt No.</th>
                                                 <th>Amount</th>
                                                 <th>Date Uploaded</th>
@@ -142,9 +142,36 @@
         </div>
     </div>
 </section>
+<div class="modal fade" id="verifyProofModal" tabindex="1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel16">Verify Payment Amount</h4>
+                <!-- <button type="button" class="close btn btn-sm btn-default" >
+                Close
+                </button> -->
+            </div>
+        <div class="modal-body">
+            <input type="hidden" id="req_id" value="">
+            <input style="text-align:right;" type="text" id="proofOfPaymentAmount" class="form-control" value="" tabindex="15">
+        </div>
+        <div class="modal-footer" align="right">
+        <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Close</button><button class="btn btn-warning" onclick="verifyProofofPayment()">Submit</button>
+        </div>
+    </div>
+</div>
 <script src="<?php echo base_url('js/moment.min.js'); ?>"></script>
 <script>
-    function verifyProofofPayment(req_id){
+    $('#proofOfPaymentAmount').on('focus',function(){
+        $('#proofOfPaymentAmount').select();
+    })
+    function verifyPayment(req_id,amount){
+        $('#req_id').val(req_id)
+        $('#proofOfPaymentAmount').val(parseFloat(amount).toFixed(2));
+        $('#verifyProofModal').modal('show');
+    }
+    function verifyProofofPayment(){
+        
         iziToast.show({
             theme: 'light',
             icon: 'icon-person',
@@ -155,7 +182,7 @@
             overlay:true,
             timeout:false,
             buttons: [
-                ['<button>Ok</button>', function (instance, toast) {
+                ['<button>Ok</button>', function (instance,toast,button,e,inputs) {
                     $('body').waitMe({
                         effect: 'win8',
                         text: 'Please wait...',
@@ -174,14 +201,23 @@
                         type: "GET",
                         url: base_url + "index.php/Treasury/verifyProofofPayment",
                         data: {
-                            req_id: req_id,
+                            req_id: $('#req_id').val(),
+                            amount_paid:$('#proofOfPaymentAmount').val()
                         },
                         dataType: 'json',
                         success: function(response) {
+                            // console.log(response);
                             $('body').waitMe('hide');
                             console.log(response['error']==""?"":response['error'])
                             if(response['msg']=="success"){
                                 $('#proof_filter_button').trigger('click');
+                                $('#verifyProofModal').modal('hide');
+                                iziToast.show({
+                                    theme:'light',
+                                    title: '<i class="material-icons">task_alt</i> ',
+                                    message: "<b>You successfully verify a payment !</b>",
+                                    position: 'topCenter',
+                                });
                             }
                             else{
                                 iziToast.warning({
@@ -205,15 +241,7 @@
         //                     console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
                         }
                     }, toast, 'buttonName');
-                }, true], // true to focus
-                ['<button>Close</button>', function (instance, toast) {
-                    instance.hide({
-                        transitionOut: 'fadeOutUp',
-                        onClosing: function(instance, toast, closedBy){
-        //                     console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
-                        }
-                    }, toast, 'buttonName');
-                }]
+                }, true]
             ],
             onOpening: function(instance, toast){
                 console.info('callback abriu!');
@@ -382,10 +410,10 @@
                     value['First_Name'] + ' ' + value['Middle_Name'] + ' ' + value['Last_Name'] +
                     '</td>' +
                     '<td>' +
-                    value['acc_num'] +
+                    value['payment_type'] +
                     '</td>' +
                     '<td>' +
-                    value['acc_holder_name'] +
+                    value['bank_type'] +
                     '</td>' +
                     '<td>' +
                     value['payment_reference_no'] +
@@ -405,7 +433,7 @@
                         html += '<br><button class="btn btn-default" disabled="disabled" style="color:green;">Verified <i class="material-icons">verified</i></button>'
                     }
                     else{
-                        html += `<br><button type="button" class="btn btn-warning" onclick="verifyProofofPayment('${value['req_id']}')">Verify</button>`;
+                        html += `<br><button type="button" class="btn btn-warning" onclick="verifyPayment('${value['req_id']}',${value['amount_paid']})">Verify</button>`;
                     }
                     
                     html += '</td>' +
@@ -416,6 +444,6 @@
         }
     });
 </script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
 
 
