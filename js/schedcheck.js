@@ -1,18 +1,5 @@
 ﻿function searchsched(){
-    $('body').waitMe({
-        effect: 'win8',
-        text: 'Please wait...',
-        bg: 'rgba(255,255,255,0.7)',
-        color: '#cc0000',
-        maxSize: '',
-        waitTime: -1,
-        textPos: 'vertical',
-        fontSize: '',
-        source: '',
-        onClose: function() {
-
-        }
-    });
+    
     //Sets inputs
     arrayData = {
         url:$('#ajaxurl').val(),
@@ -32,8 +19,27 @@
         alert('Please Select a Semester');
         return;
     }
+    $('body').waitMe({
+        effect: 'win8',
+        text: 'Please wait...',
+        bg: 'rgba(255,255,255,0.7)',
+        color: '#cc0000',
+        maxSize: '',
+        waitTime: -1,
+        textPos: 'vertical',
+        fontSize: '',
+        source: '',
+        onClose: function() {
+
+        }
+    });
     counter = ajax_getsched_pages(arrayData);
+    console.log(counter)
+    if(counter==0){
+        $('body').waitMe('hide');
+    }
     counter.success(function(pages){
+        console.log(pages)
         content = ajax_getsched(arrayData);
         content.success(function(response){
             
@@ -83,6 +89,7 @@ function ajax_getsched(arrayData){
             result = response;
             result = JSON.parse(result);
             display_sched_table(result.sched,result.total_enrolled);
+            $('body').waitMe('hide');
 
         },
         complete:function(response){
