@@ -313,7 +313,7 @@
 				<h1 class="modal-title" id="largeModalLabel">CHECK / UPDATE SCHEDULE
 				
 				<span class="searchloader" style="padding: 1%; display:none">
-					: LOADING <img src="<?php echo base_url(); ?>img/ajax-loader.gif" />
+					<!-- : LOADING <img src="<?php echo base_url(); ?>img/ajax-loader.gif" /> -->
 				</span>
 				
 				</h1> 				

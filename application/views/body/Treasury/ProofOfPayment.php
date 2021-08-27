@@ -206,7 +206,7 @@
                         },
                         dataType: 'json',
                         success: function(response) {
-                            // console.log(response);
+                            console.log(response);
                             $('body').waitMe('hide');
                             console.log(response['error']==""?"":response['error'])
                             if(response['msg']=="success"){

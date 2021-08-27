@@ -1,5 +1,18 @@
 ﻿function searchsched(){
-    
+    $('body').waitMe({
+        effect: 'win8',
+        text: 'Please wait...',
+        bg: 'rgba(255,255,255,0.7)',
+        color: '#cc0000',
+        maxSize: '',
+        waitTime: -1,
+        textPos: 'vertical',
+        fontSize: '',
+        source: '',
+        onClose: function() {
+
+        }
+    });
     //Sets inputs
     arrayData = {
         url:$('#ajaxurl').val(),
@@ -56,6 +69,10 @@ function ajax_getsched(arrayData){
             result = response;
             result = JSON.parse(result);
             display_sched_table(result.sched,result.total_enrolled);
+
+        },
+        complete:function(response){
+            $('body').waitMe('hide');
         }
     });
 }
