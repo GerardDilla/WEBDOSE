@@ -42,6 +42,20 @@
                 itemsOnPage: arrayData.perPage,
                 cssStyle: 'light-theme',
                 onPageClick: function(pageNumber){
+                    $('body').waitMe({
+                        effect: 'win8',
+                        text: 'Please wait...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#cc0000',
+                        maxSize: '',
+                        waitTime: -1,
+                        textPos: 'vertical',
+                        fontSize: '',
+                        source: '',
+                        onClose: function() {
+                
+                        }
+                    });
                     arrayData['pageNumber'] = pageNumber;
                     ajax_getsched(arrayData);
                 }
