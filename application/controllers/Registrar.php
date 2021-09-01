@@ -4792,6 +4792,7 @@ class Registrar extends MY_Controller
               'School_ID' => $School_Code,
               'User_ID' => $params['user_id'],
               'valid' => 1,
+              'parent_module_id' => 2,
             );
             $this->Registrar_Model->insert_permission($insert);
           }
