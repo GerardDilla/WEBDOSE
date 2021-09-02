@@ -35,6 +35,7 @@ class Treasury_Model extends CI_Model
     public function getStudentInfowithReqID($id){
         $this->db->select('*,si.Email as Student_Email');
         $this->db->from('proof_of_payment_info as pi');
+        $this->db->join('requirements_log as rl','pi.req_id = rl.id','left');
         $this->db->join('Student_Info as si','pi.ref_no = si.Reference_Number','left');
         $this->db->where('pi.req_id',$id);
         $query = $this->db->get();

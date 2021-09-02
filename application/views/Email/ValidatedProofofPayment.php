@@ -29,15 +29,16 @@
             <tr>
                 <th style="border:1px solid black;background:#ddd;">Payment Type</th>
                 <?php
-                if($data['payment_type']=='online_payment'){
+                if($data['payment_type']=='Online Payment'){
                 ?>
-                <th style="border:1px solid black;background:#ddd;">Bank Type</th>
+                <th style="border:1px solid black;background:#ddd;">Bank Name</th>
                 <th style="border:1px solid black;background:#ddd;">Card No.</th>
                 <th style="border:1px solid black;background:#ddd;">Card Holder Name</th>
                 <?php
                 }
                 else{
                 ?>
+                <th style="border:1px solid black;background:#ddd;">Payment Method</th>
                 <th style="border:1px solid black;background:#ddd;">Payment Ref. Number</th>
                 <?php
                 }
@@ -45,9 +46,9 @@
                 <th style="border:1px solid black;background:#ddd;">Total_amount paid</th>
             </tr>
             <tr>
-                <td style="text-align:center;"><?= $data['payment_type']=='online_payment'?'Online Payment':'Over the Counter'; ?></td>
+                <td style="text-align:center;"><?= $data['payment_type'];?></td>
                 <?php
-                if($data['payment_type']=='online_payment'){
+                if($data['payment_type']=='Online Payment'){
                 ?>
                 <td style="text-align:center;"><?= strtoupper($data['bank_type']) ?></td>
                 <td style="text-align:center;"><?= strtoupper($data['acc_num']) ?></td>
@@ -56,6 +57,8 @@
                 }
                 else{
                 ?>
+                
+                <td style="text-align:center;"><?= $data['payment_type']=="SDCA Online Payment"?$data['payment_type']:$data['bank_type'] ;?></td>
                 <td style="text-align:center;"><?= strtoupper($data['payment_reference_no']) ?></td>
                 <?php
                 }

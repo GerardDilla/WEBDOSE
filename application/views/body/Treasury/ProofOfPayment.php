@@ -113,7 +113,7 @@
                                 Loading Data ...
                             </div>
                             <div class="col-md-12" id="table_top">
-                                <div class="body table-responsive" style="overflow:auto; max-height:400px" id="table-header-freeze">
+                                <div class="body table-responsive" id="table-header-freeze">
                                     <table class="table table-bordered" id="proof_of_payment_table">
                                         <thead>
                                             <tr>
@@ -362,9 +362,10 @@
                             $('#proof_of_payment_tbody').html(html);
                             check_filter = 1;
                             $data_table_var.DataTable({
-                                paging: false,
+                                paging: true,
                                 searching: true,
-                                responsive: false,
+                                responsive: true,
+                                lengthMenu:[[5,10,25,50,-1],[5,10,25,50,"All"]]
                             });
                         } else {
                             // none
@@ -424,8 +425,7 @@
                     '<td>' +
                     month + " " + date + " " + year +
                     '</td>' +
-                    '<td><a target="_blank" href="https://drive.google.com/drive/u/0/folders/' +
-                    value['gdrive_folder_id'] + '">' +
+                    '<td><a target="_blank" href="<?= base_url('index.php/Treasury/viewProofOfPaymentImage?id='); ?>'+value['req_id']+'">' +
                     '<button class="btn btn-info">View in GDrive</button>' +
                     '</a>';
                     if(value['proof_status']=='1'){
