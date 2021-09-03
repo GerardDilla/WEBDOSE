@@ -393,10 +393,16 @@ class Registrar_Model extends CI_Model
     $dayget = '';
     foreach ($day_array as $data) {
       if ($count == 0) {
-        $dayget .= "`Day` LIKE '$data' ESCAPE '!'";
+        $dayget .= "`Day` LIKE '%$data%' ESCAPE '!'";
+        if($data=="S"){
+          $dayget .= "AND `Day` NOT LIKE '%Sun%' ESCAPE '!'";
+        }
         $count++;
       } else {
-        $dayget .= "OR `Day`LIKE '$data' ESCAPE '!'";
+        $dayget .= "OR `Day`LIKE '%$data%' ESCAPE '!'";
+        if($data=="S"){
+          $dayget .= "AND `Day` NOT LIKE '%Sun%' ESCAPE '!'";
+        }
       }
     }
     $this->db->where('(' . $dayget . ')');
