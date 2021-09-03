@@ -213,7 +213,7 @@
                                 iziToast.show({
                                     theme:'light',
                                     title: '<i class="material-icons">task_alt</i> ',
-                                    message: "<b>You successfully verify a payment !</b>",
+                                    message: "<b>Successfully Rejected!</b>",
                                     position: 'topCenter',
                                 });
                             }

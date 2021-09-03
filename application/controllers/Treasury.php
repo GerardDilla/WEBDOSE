@@ -164,14 +164,16 @@ class Treasury extends MY_Controller  {
         
     }
     public function rejectProofOfPayment(){
-        $req_id = $this->input->get('id');
+        $req_id = $this->input->get('req_id');
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
+        // echo '<pre>'.print_r($getStudentInfowithReqID,1).'</pre>';
+        // exit;
         $email_data = array(
-            // 'from' => 'treasuryoffice@sdca.edu.ph',
-            'from' => 'jfabregas@sdca.edu.ph',
+            'from' => 'treasuryoffice@sdca.edu.ph',
+            // 'from' => 'jfabregas@sdca.edu.ph',
             'from_name' => 'SDCA Treasury',
-            'send_to' => 'jhonnormanfabregas@gmail.com',
-            // 'send_to' => $getStudentInfowithReqID['Student_Email'],
+            // 'send_to' => 'jhonnormanfabregas@gmail.com',
+            'send_to' => $getStudentInfowithReqID['Student_Email'],
             'subject' => 'Validate Proof of Payment',
             'message' => 'Email/RejectedProofOfPayment',
             'data' => array('data'=>$getStudentInfowithReqID)
@@ -193,8 +195,8 @@ class Treasury extends MY_Controller  {
         // $all_uploadeddata = array('file_name'=>$data['file_name'],"folder_id"=>'','token_type'=>'treasury');
         $all_uploadeddata = array('file_name'=>$getStudentInfowithReqID['file_submitted'],"folder_id"=>'','token_type'=>'treasury');
         $string = http_build_query($all_uploadeddata);
-        // $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/get_id");
-        $ch = curl_init("http://localhost:4004/gdriveuploader/get_id");
+        $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/get_id");
+        // $ch = curl_init("http://localhost:4004/gdriveuploader/get_id");
         curl_setopt($ch,CURLOPT_POST,true);
         curl_setopt($ch,CURLOPT_POSTFIELDS,$string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));

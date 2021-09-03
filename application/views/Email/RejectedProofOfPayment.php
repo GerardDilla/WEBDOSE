@@ -29,7 +29,7 @@
             <tr>
                 <th style="border:1px solid black;background:#ddd;">Payment Type</th>
                 <?php
-                if($data['payment_type']=='Online Payment'){
+                if($data['payment_type']=='Bank Deposit'){
                 ?>
                 <th style="border:1px solid black;background:#ddd;">Bank Name</th>
                 <th style="border:1px solid black;background:#ddd;">Card No.</th>
@@ -48,7 +48,7 @@
             <tr>
                 <td style="text-align:center;"><?= $data['payment_type'];?></td>
                 <?php
-                if($data['payment_type']=='Online Payment'){
+                if($data['payment_type']=='Bank Deposit'){
                 ?>
                 <td style="text-align:center;"><?= strtoupper($data['bank_type']) ?></td>
                 <td style="text-align:center;"><?= strtoupper($data['acc_num']) ?></td>
