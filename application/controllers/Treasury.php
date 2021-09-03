@@ -171,8 +171,8 @@ class Treasury extends MY_Controller  {
         // $all_uploadeddata = array('file_name'=>$data['file_name'],"folder_id"=>'','token_type'=>'treasury');
         $all_uploadeddata = array('file_name'=>$getStudentInfowithReqID['file_submitted'],"folder_id"=>'','token_type'=>'treasury');
         $string = http_build_query($all_uploadeddata);
-        $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/");
-        // $ch = curl_init("http://localhost:4004/gdriveuploader/get_id");
+        // $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/get_id");
+        $ch = curl_init("http://localhost:4004/gdriveuploader/get_id");
         curl_setopt($ch,CURLOPT_POST,true);
         curl_setopt($ch,CURLOPT_POSTFIELDS,$string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));

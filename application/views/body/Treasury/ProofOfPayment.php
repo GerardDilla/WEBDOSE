@@ -378,6 +378,7 @@
             console.log('hesss')
         })
         function add_to_table_body(response) {
+            console.log(response)
             html = "";
             count = 1;
             monthNames = ["January", "February", "March", "April", "May", "June",
@@ -390,11 +391,19 @@
                 date = datetime.getDate().toString();
                 month = monthNames[datetime.getMonth()].toString();
                 year = datetime.getFullYear().toString();
-
+                term = value['file_submitted'].slice(0,2);
+                console.log(term)
+                const zeroPad = (num, places) => String(num).padStart(places, '0')
+                if(term=="DP"||term=="PT"||term=="MT"||term=="FT"||term=="FP"){
+                    proof_id = term+''+zeroPad(value['req_id'],6);
+                }
+                else{
+                    proof_id = 'DP'+zeroPad(value['req_id'],6);
+                }
                 html +=
                     '<tr>' +
                     '<td>' +
-                    count +
+                    proof_id +
                     '</td>' +
                     '<td>' +
                     value['Reference_Number'] +
@@ -430,10 +439,10 @@
                     '</a>';
                     if(value['proof_status']=='1'){
                         
-                        html += '<br><button class="btn btn-default" disabled="disabled" style="color:green;">Verified <i class="material-icons">verified</i></button>'
+                        html += '<br><br><button class="btn btn-default" disabled="disabled" style="color:green;">Verified <i class="material-icons">verified</i></button>'
                     }
                     else{
-                        html += `<br><button type="button" class="btn btn-warning" onclick="verifyPayment('${value['req_id']}',${value['amount_paid']})">Verify</button>`;
+                        html += `<br><br><button type="button" class="btn btn-warning" onclick="verifyPayment('${value['req_id']}',${value['amount_paid']})">Verify</button>`;
                     }
                     
                     html += '</td>' +
