@@ -208,22 +208,22 @@ function setCourseSchedList()
         enable_button(button);
         $("#plan").prop('disabled', false);
     }
-    setTimeout(() => {
-        $('body').waitMe({
-            effect: 'win8',
-            text: 'Please wait...',
-            bg: 'rgba(255,255,255,0.7)',
-            color: '#cc0000',
-            maxSize: '',
-            waitTime: -1,
-            textPos: 'vertical',
-            fontSize: '',
-            source: '',
-            onClose: function() {
+    // setTimeout(() => {
+    //     $('body').waitMe({
+    //         effect: 'win8',
+    //         text: 'Please wait...',
+    //         bg: 'rgba(255,255,255,0.7)',
+    //         color: '#cc0000',
+    //         maxSize: '',
+    //         waitTime: -1,
+    //         textPos: 'vertical',
+    //         fontSize: '',
+    //         source: '',
+    //         onClose: function() {
 
-            }
-        }); 
-    }, 500);   
+    //         }
+    //     }); 
+    // }, 500);   
     //Gets open or block choice
     studType = $("input[name='stud_type']:checked").val();
 

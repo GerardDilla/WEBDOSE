@@ -164,7 +164,7 @@ class Treasury extends MY_Controller  {
         
     }
     public function rejectProofOfPayment(){
-        $id = $this->input->get('id');
+        $req_id = $this->input->get('id');
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
         $email_data = array(
             // 'from' => 'treasuryoffice@sdca.edu.ph',
