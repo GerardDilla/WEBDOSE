@@ -163,6 +163,28 @@ class Treasury extends MY_Controller  {
 
         
     }
+    public function rejectProofOfPayment(){
+        $id = $this->input->get('id');
+        $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
+        $email_data = array(
+            // 'from' => 'treasuryoffice@sdca.edu.ph',
+            'from' => 'jfabregas@sdca.edu.ph',
+            'from_name' => 'SDCA Treasury',
+            'send_to' => 'jhonnormanfabregas@gmail.com',
+            // 'send_to' => $getStudentInfowithReqID['Student_Email'],
+            'subject' => 'Validate Proof of Payment',
+            'message' => 'Email/RejectedProofOfPayment',
+            'data' => array('data'=>$getStudentInfowithReqID)
+        );
+        $email_status = $this->sendEMail($email_data);
+        if($email_status['msg']=='success'){
+            $this->Treasury_Model->updateProofofPaymentWithReqID(array('proof_status'=>-1),$req_id);
+            echo json_encode(array('msg'=>'success'));
+        }
+        else{
+            echo json_encode(array('msg'=>$email_status['msg']));
+        }
+    }
     public function viewProofOfPaymentImage(){
         $id = $this->input->get('id');
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($id);

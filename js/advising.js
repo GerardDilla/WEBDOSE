@@ -154,6 +154,20 @@ function checker()
 
 function checkSchedList()
 {
+    // $('body').waitMe({
+    //     effect: 'win8',
+    //     text: 'Please wait...',
+    //     bg: 'rgba(255,255,255,0.7)',
+    //     color: '#cc0000',
+    //     maxSize: '',
+    //     waitTime: -1,
+    //     textPos: 'vertical',
+    //     fontSize: '',
+    //     source: '',
+    //     onClose: function() {
+
+    //     }
+    // });
     if ($("#section").val() && $("input[name='stud_type']:checked").val() && $("#referenceNo").val() && $("#semester").val() && $("#schoolYear").val()) 
     {
         toggleAddAllButton();
@@ -180,6 +194,7 @@ function checkinputs(){
 
 function setCourseSchedList()
 {
+    
     //Clear table
     $("#tableSelectSchedule tbody").remove();
 
@@ -193,7 +208,22 @@ function setCourseSchedList()
         enable_button(button);
         $("#plan").prop('disabled', false);
     }
+    setTimeout(() => {
+        $('body').waitMe({
+            effect: 'win8',
+            text: 'Please wait...',
+            bg: 'rgba(255,255,255,0.7)',
+            color: '#cc0000',
+            maxSize: '',
+            waitTime: -1,
+            textPos: 'vertical',
+            fontSize: '',
+            source: '',
+            onClose: function() {
 
+            }
+        }); 
+    }, 500);   
     //Gets open or block choice
     studType = $("input[name='stud_type']:checked").val();
 
@@ -204,34 +234,51 @@ function setCourseSchedList()
         semester: $("#semester").val(),
         schoolYear: $("#schoolYear").val(), 
     };
-    
+    const creatListTable = (dataList) => {
+        if(dataList == 0) 
+        {
+            return false;
+            exit;
+        }
+        
+        dataList = JSON.parse(dataList);
+        //set table display
+        $(".searchloader").show();
+        createSchedListTable(dataList);
+    }
     //Gets course list for the block section
     if (studType == "block") 
     {
         toggleAddAllButton();
-        arraySchedList = getSectionCourseList(arrayData);
+        // arraySchedList = getSectionCourseList(arrayData);
+        (async()=>{
+            await getSectionCourseList(arrayData).then(data=>{
+                creatListTable(data)
+            })
+        })()
+
+        
         $("#openSchedPagination").empty();
         $('#largeModal').modal('show');
     }
     else
     {
         //Get all course list
-        arraySchedList = getOpenCourseList(arrayData);
+        // arraySchedList = getOpenCourseList(arrayData);
+        (async()=>{
+            await getOpenCourseList(arrayData).then(data=>{
+                creatListTable(data)
+            })
+        })()
         //set pagination
         setOpenSectionPagination(arrayData);
         $('#largeModal').modal('show');
     }
 
-    if(arraySchedList == 0) 
-    {
-        return;    
-    }
-
-    arraySchedList = JSON.parse(arraySchedList);
-    //set table display
-    $(".searchloader").show();
-    createSchedListTable(arraySchedList);
-
+    // const
+    
+    
+    $('body').waitMe('hide')
 }
 
 function searchOpenSchedList()
@@ -256,7 +303,6 @@ function searchOpenSchedList()
         searchType: $("#schedSearchType").val(),
         searchValue: $("#schedSearchValue").val()
     };
-    
     ajax = $.ajax({
         async: false,
         url: arrayData.addressUrl+"/get_course_sched_open",
@@ -285,11 +331,16 @@ function searchOpenSchedList()
     resultCount = setOpenSectionPagination(arrayData);
 
     alert('Returned With '+resultCount+' Results');
-
+    $('body').waitMe('hide');
 }
-
+// $('#add_sched_button').on('click',function(){
+//     if(!$(this).is('[disabled]')){
+        
+//     }
+// })
 function createSchedListTable(arraySchedList)
 {
+    
     //set tbody
     tbody = $("<tbody/>");
     rowChecker = "";
@@ -359,6 +410,7 @@ function createSchedListTable(arraySchedList)
     $(".searchloader").hide();
     console.log(tbody);
     $("#tableSelectSchedule").append(tbody);
+    $('body').waitMe('hide');
     
 }
 
@@ -864,56 +916,78 @@ function removeSched(sessionId)
     
 }
 
-function getSectionCourseList(arrayData)
+async function getSectionCourseList(arrayData)
 {
+    // $('body').waitMe({
+    //     effect: 'win8',
+    //     text: 'Please wait...',
+    //     bg: 'rgba(255,255,255,0.7)',
+    //     color: '#cc0000',
+    //     maxSize: '',
+    //     waitTime: -1,
+    //     textPos: 'vertical',
+    //     fontSize: '',
+    //     source: '',
+    //     onClose: function() {
 
-    ajax = $.ajax({
-        async: false,
-        url: arrayData.addressUrl+"/get_course_sched_block",
-        type: 'GET',
-        data: {
-            section: arrayData.section,
-            semester: arrayData.semester,
-            schoolYear: arrayData.schoolYear  
-        },
-        success: function(response){
-            //alert(response);
-            arraySchedList = response;
-        },
-        fail: function(){
-            alert('request failed');
-        }
-    });
-    return arraySchedList;
+    //     }
+    // });
+    return new Promise((resolve,reject)=>{
+        $.ajax({
+            // async: false,
+            url: arrayData.addressUrl+"/get_course_sched_block",
+            type: 'GET',
+            data: {
+                section: arrayData.section,
+                semester: arrayData.semester,
+                schoolYear: arrayData.schoolYear  
+            },
+            beforeSend:function(){
+    
+            },
+            success: function(response){
+                //alert(response);
+                arraySchedList = response;
+                resolve(response)
+            },
+            fail: function(){
+                alert('request failed');
+            }
+        });
+    })
+    // ajax = 
+    // return arraySchedList;
    
     //alert(arraySchedList);
     
 }
 
-function getOpenCourseList(arrayData)
+async function getOpenCourseList(arrayData)
 {
-    
+    return new Promise((resolve,reject)=>{
+        $.ajax({
+            // async: false,
+            url: arrayData.addressUrl+"/get_course_sched_open",
+            type: 'GET',
+            data: {
+                semester: arrayData.semester,
+                schoolYear: arrayData.schoolYear
+                
+            },
+            success: function(response){
+                
+                //alert(response);
+                arraySchedList = response;
+                resolve(response)
+            },
+            fail: function(){
+                alert('request failed');
+            }
+        });
+    })
 
-    ajax = $.ajax({
-        async: false,
-        url: arrayData.addressUrl+"/get_course_sched_open",
-        type: 'GET',
-        data: {
-            semester: arrayData.semester,
-            schoolYear: arrayData.schoolYear
-            
-        },
-        success: function(response){
-            
-            //alert(response);
-            arraySchedList = response;
-        },
-        fail: function(){
-            alert('request failed');
-        }
-    });
     
-    return arraySchedList;
+    // return arraySchedList;
     //alert(arraySchedList);
     
 }

@@ -156,7 +156,7 @@
             <input style="text-align:right;" type="text" id="proofOfPaymentAmount" class="form-control" value="" tabindex="15">
         </div>
         <div class="modal-footer" align="right">
-        <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Close</button><button class="btn btn-warning" onclick="verifyProofofPayment()">Submit</button>
+        <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Close</button><button type="button" class="btn btn-danger" onclick="rejectProofofPayment()">Reject</button><button class="btn btn-warning" onclick="verifyProofofPayment()">Submit</button>
         </div>
     </div>
 </div>
@@ -170,9 +170,91 @@
         $('#proofOfPaymentAmount').val(parseFloat(amount).toFixed(2));
         $('#verifyProofModal').modal('show');
     }
+    function rejectProofofPayment(){
+        // alert('hello')
+        // return false;
+        iziToast.show({
+            zindex:99999,
+            theme: 'light',
+            icon: 'icon-person',
+            title: 'Are you sure you want to reject this?',
+        //     message: 'Welcome!',
+            position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
+            progressBarColor: '#cc0000',
+            overlay:true,
+            timeout:false,
+            buttons: [
+                ['<button>Ok</button>', function (instance,toast,button,e,inputs) {
+                    $('body').waitMe({
+                        effect: 'win8',
+                        text: 'Please wait...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#cc0000',
+                        maxSize: '',
+                        waitTime: -1,
+                        textPos: 'vertical',
+                        fontSize: '',
+                        source: '',
+                        onClose: function() {
+
+                        }
+                    });
+                    $.ajax({
+                        type: "GET",
+                        url: base_url + "index.php/Treasury/rejectProofOfPayment",
+                        data: {
+                            req_id: $('#req_id').val()
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if(response['msg']=="success"){
+                                $('#proof_filter_button').trigger('click');
+                                $('#verifyProofModal').modal('hide');
+                                iziToast.show({
+                                    theme:'light',
+                                    title: '<i class="material-icons">task_alt</i> ',
+                                    message: "<b>You successfully verify a payment !</b>",
+                                    position: 'topCenter',
+                                });
+                            }
+                            else{
+                                iziToast.warning({
+                                    title: 'Error: ',
+                                    message: response['msg'],
+                                    position: 'topCenter',
+                                });
+                            }
+                            $('body').waitMe('hide');
+                        },
+                        error: function(response){
+                            $('body').waitMe('hide');
+                            iziToast.warning({
+                                title: 'Error: ',
+                                message: response,
+                                position: 'topCenter',
+                            });
+                        }
+                    });
+                    instance.hide({
+                        transitionOut: 'fadeOutUp',
+                        onClosing: function(instance, toast, closedBy){
+        //                     console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
+                        }
+                    }, toast, 'buttonName');
+                }, true]
+            ],
+            onOpening: function(instance, toast){
+                console.info('callback abriu!');
+            },
+            onClosing: function(instance, toast, closedBy){
+                console.info('closedBy: ' + closedBy);
+            }
+        });
+    }
     function verifyProofofPayment(){
         
         iziToast.show({
+            zindex:99999,
             theme: 'light',
             icon: 'icon-person',
             title: 'Are you sure you want to verify this proof of payment?',
@@ -440,6 +522,9 @@
                     if(value['proof_status']=='1'){
                         
                         html += '<br><br><button class="btn btn-default" disabled="disabled" style="color:green;">Verified <i class="material-icons">verified</i></button>'
+                    }
+                    else if(value['proof_status']=='-1'){
+                        html += '<br><br><button class="btn btn-default" disabled="disabled" style="color:red;">Rejected <i class="material-icons">thumb_down_off_alt</i></button>'
                     }
                     else{
                         html += `<br><br><button type="button" class="btn btn-warning" onclick="verifyPayment('${value['req_id']}',${value['amount_paid']})">Verify</button>`;
