@@ -41,4 +41,7 @@ class Treasury_Model extends CI_Model
         $query = $this->db->get();
         return $query->row_array();
     }
+    public function insertTransactionLog($data){
+        $this->db->insert('Transaction_Log',$data);
+    }
 }

@@ -151,12 +151,33 @@
                 Close
                 </button> -->
             </div>
-        <div class="modal-body">
+        <div class="modal-body row">
             <input type="hidden" id="req_id" value="">
-            <input style="text-align:right;" type="text" id="proofOfPaymentAmount" class="form-control" value="" tabindex="15">
+            <div class="col-md-12">
+                <input style="text-align:right;" type="text" id="proofOfPaymentAmount" class="form-control number-format" value="" tabindex="15">
+            </div>
+            <div class="col-md-12">
+                <label class="input-label"></label>
+                <input type="text" class="form-control" name="pp_school_year" value="" readonly>
+            </div>
+            <div class="col-md-12">
+                <label class="input-label"></label>
+                <input type="text" class="form-control" name="pp_semester" value="" readonly>
+            </div>
+            <br>
+            <div class="col-md-12">
+                <h5>Clarify Proof Of Payment Email Template</h5>
+            </div>
+            <div class="col-md-12">
+                <textarea class="form-control" maxlength="300" id="clarify_email_message"></textarea><br>
+                <!-- <input type="checkbox" class="form-check-input" id="exampleCheck1"> Add Proof Info Table -->
+                <!-- <div class="checkbox">
+                <input type="checkbox" checked data-toggle="toggle">
+                </div> -->
+            </div>            
         </div>
         <div class="modal-footer" align="right">
-        <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Close</button><button type="button" class="btn btn-danger" onclick="rejectProofofPayment()">Reject</button><button class="btn btn-warning" onclick="verifyProofofPayment()">Submit</button>
+        <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Close</button><button type="button" class="btn btn-danger" onclick="rejectProofofPayment()">Reject</button><button type="button" class="btn btn-warning" onclick="clarifyProofOfPayment()">Clarify</button><button class="btn btn-info" onclick="verifyProofofPayment()">Submit</button>
         </div>
     </div>
 </div>
@@ -165,11 +186,33 @@
     $('#proofOfPaymentAmount').on('focus',function(){
         $('#proofOfPaymentAmount').select();
     })
-    function verifyPayment(req_id,amount){
+    async function getProofInfo(req_id){
+        return new Promise((resolve,reject)=>{
+            $.ajax({
+                type: "GET",
+                url: base_url + "index.php/Treasury/getProofInfo",
+                data: {
+                    req_id: req_id
+                },
+                dataType: 'json',
+                success: function(response) {
+                    resolve(response)
+                },
+                error: function(response){
+                    console.log(response)
+                }
+            });
+        }).then(data=>{return data});
+    }
+    async function verifyPayment(req_id,amount){
+        const info = await getProofInfo(req_id);
+        $('input[name=pp_school_year]').val(info.school_year);
+        $('input[name=pp_semester]').val(info.semester);
         $('#req_id').val(req_id)
         $('#proofOfPaymentAmount').val(parseFloat(amount).toFixed(2));
         $('#verifyProofModal').modal('show');
     }
+    
     function rejectProofofPayment(){
         // alert('hello')
         // return false;
@@ -214,6 +257,88 @@
                                     theme:'light',
                                     title: '<i class="material-icons">task_alt</i> ',
                                     message: "<b>Successfully Rejected!</b>",
+                                    position: 'topCenter',
+                                });
+                            }
+                            else{
+                                iziToast.warning({
+                                    title: 'Error: ',
+                                    message: response['msg'],
+                                    position: 'topCenter',
+                                });
+                            }
+                            $('body').waitMe('hide');
+                        },
+                        error: function(response){
+                            $('body').waitMe('hide');
+                            iziToast.warning({
+                                title: 'Error: ',
+                                message: response,
+                                position: 'topCenter',
+                            });
+                        }
+                    });
+                    instance.hide({
+                        transitionOut: 'fadeOutUp',
+                        onClosing: function(instance, toast, closedBy){
+        //                     console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
+                        }
+                    }, toast, 'buttonName');
+                }, true]
+            ],
+            onOpening: function(instance, toast){
+                console.info('callback abriu!');
+            },
+            onClosing: function(instance, toast, closedBy){
+                console.info('closedBy: ' + closedBy);
+            }
+        });
+    }
+    function clarifyProofOfPayment(){
+        // alert('hello')
+        // return false;
+        iziToast.show({
+            zindex:99999,
+            theme: 'light',
+            icon: 'icon-person',
+            title: 'Are you sure you want to clarify this proof of payment?',
+        //     message: 'Welcome!',
+            position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
+            progressBarColor: '#cc0000',
+            overlay:true,
+            timeout:false,
+            buttons: [
+                ['<button>Ok</button>', function (instance,toast,button,e,inputs) {
+                    $('body').waitMe({
+                        effect: 'win8',
+                        text: 'Please wait...',
+                        bg: 'rgba(255,255,255,0.7)',
+                        color: '#cc0000',
+                        maxSize: '',
+                        waitTime: -1,
+                        textPos: 'vertical',
+                        fontSize: '',
+                        source: '',
+                        onClose: function() {
+
+                        }
+                    });
+                    $.ajax({
+                        type: "GET",
+                        url: base_url + "index.php/Treasury/clarifyProofOfPayment",
+                        data: {
+                            req_id: $('#req_id').val(),
+                            message:$('#clarify_email_message').val()
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if(response['msg']=="success"){
+                                $('#proof_filter_button').trigger('click');
+                                $('#verifyProofModal').modal('hide');
+                                iziToast.show({
+                                    theme:'light',
+                                    title: '<i class="material-icons">task_alt</i> ',
+                                    message: "<b>Email has been sent to Student!</b>",
                                     position: 'topCenter',
                                 });
                             }

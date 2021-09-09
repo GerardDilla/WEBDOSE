@@ -115,10 +115,15 @@ class Treasury extends MY_Controller  {
         $amount_paid = $this->input->get('amount_paid');
         $this->Treasury_Model->updateProofofPaymentWithReqID(array('amount_paid'=>$amount_paid),$req_id);
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
+        
         // $folder_name = $this->session->userdata('last_name').', '.$this->session->userdata('first_name') . ' ' . $this->session->userdata('middle_name');
         $folder_name = $getStudentInfowithReqID['ref_no'].'/'.$getStudentInfowithReqID['Last_Name'].', '.$getStudentInfowithReqID['First_Name'] . ' ' . $getStudentInfowithReqID['Middle_Name'];
-        // echo json_encode(array('msg'=>'success','data'=>$getStudentInfowithReqID));
-        // exit;
+        $term = substr($getStudentInfowithReqID['file_submitted'], 0, 2);
+        if($term!="DP"&&$term!="PT"&&$term!="MT"&&$term!="FT"&&$term!="FP"){
+           $term = 'DP'; 
+        }
+        $proof_id = $term.''.$req_id;
+
         $email_data = array(
             'from' => 'treasuryoffice@sdca.edu.ph',
             // 'from' => 'jfabregas@sdca.edu.ph',
@@ -150,6 +155,14 @@ class Treasury extends MY_Controller  {
             $email_status = $this->sendEMail($email_data);
             if($email_status['msg']=='success'){
                 $this->Treasury_Model->updateProofofPaymentWithReqID(array('proof_status'=>1),$req_id);
+                $this->Treasury_Model->insertTransactionLog(array(
+                    'Reference_Number' => $getStudentInfowithReqID['Reference_Number'],
+                    'Student_Number' => $getStudentInfowithReqID['Student_Number'],
+                    'Student_Type' => 'HIGHERED',
+                    'Transaction_Detail' => 'VERIFY PROOF OF OF PAYMENT: proof_id = '.$proof_id,
+                    'Transaction_Attendant' => $this->session->userdata('userid'),
+                    'Date' => date("Y-m-d H:i:s")
+                ));
                 echo json_encode(array('msg'=>'success'));
             }
             else{
@@ -163,11 +176,52 @@ class Treasury extends MY_Controller  {
 
         
     }
+    public function clarifyProofOfPayment(){
+        $req_id = $this->input->get('req_id');
+        $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
+        $message = $this->input->get('message');
+        $email_data = array(
+            'from' => 'treasuryoffice@sdca.edu.ph',
+            // 'from' => 'jfabregas@sdca.edu.ph',
+            'from_name' => 'SDCA Treasury',
+            // 'send_to' => 'jhonnormanfabregas@gmail.com',
+            'send_to' => $getStudentInfowithReqID['Student_Email'],
+            'subject' => 'Validate Proof of Payment',
+            'message' => 'Email/ClarifyProofOfPayment',
+            'data' => array('data'=>$getStudentInfowithReqID,'proof_table'=>'yes','message'=>$message)
+        );
+        $term = substr($getStudentInfowithReqID['file_submitted'], 0, 2);
+        if($term!="DP"&&$term!="PT"&&$term!="MT"&&$term!="FT"&&$term!="FP"){
+           $term = 'DP'; 
+        }
+        $proof_id = $term.''.$req_id;
+        $email_status = $this->sendEMail($email_data);
+        if($email_status['msg']=='success'){
+            // $this->Treasury_Model->updateProofofPaymentWithReqID(array('proof_status'=>-1),$req_id);
+            $this->Treasury_Model->insertTransactionLog(array(
+                'Reference_Number' => $getStudentInfowithReqID['Reference_Number'],
+                'Student_Number' => $getStudentInfowithReqID['Student_Number'],
+                'Student_Type' => 'HIGHERED',
+                'Transaction_Detail' => 'CLARIFY PROOF OF OF PAYMENT: proof_id = '.$proof_id,
+                'Transaction_Attendant' => $this->session->userdata('userid'),
+                'Date' => date("Y-m-d H:i:s")
+            ));
+            echo json_encode(array('msg'=>'success'));
+        }
+        else{
+            echo json_encode(array('msg'=>$email_status['msg']));
+        }
+    }
     public function rejectProofOfPayment(){
         $req_id = $this->input->get('req_id');
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
         // echo '<pre>'.print_r($getStudentInfowithReqID,1).'</pre>';
         // exit;
+        $term = substr($getStudentInfowithReqID['file_submitted'], 0, 2);
+        if($term!="DP"&&$term!="PT"&&$term!="MT"&&$term!="FT"&&$term!="FP"){
+           $term = 'DP'; 
+        }
+        $proof_id = $term.''.$req_id;
         $email_data = array(
             'from' => 'treasuryoffice@sdca.edu.ph',
             // 'from' => 'jfabregas@sdca.edu.ph',
@@ -181,6 +235,14 @@ class Treasury extends MY_Controller  {
         $email_status = $this->sendEMail($email_data);
         if($email_status['msg']=='success'){
             $this->Treasury_Model->updateProofofPaymentWithReqID(array('proof_status'=>-1),$req_id);
+            $this->Treasury_Model->insertTransactionLog(array(
+                'Reference_Number' => $getStudentInfowithReqID['Reference_Number'],
+                'Student_Number' => $getStudentInfowithReqID['Student_Number'],
+                'Student_Type' => 'HIGHERED',
+                'Transaction_Detail' => 'REJECT PROOF OF OF PAYMENT: proof_id = '.$proof_id,
+                'Transaction_Attendant' => $this->session->userdata('userid'),
+                'Date' => date("Y-m-d H:i:s")
+            ));
             echo json_encode(array('msg'=>'success'));
         }
         else{
@@ -192,7 +254,7 @@ class Treasury extends MY_Controller  {
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($id);
         // echo '<pre>'.print_r($getStudentInfowithReqID,1).'</pre>';
         // exit;
-        // $all_uploadeddata = array('file_name'=>$data['file_name'],"folder_id"=>'','token_type'=>'treasury');
+        // $all_uploadeddata = array('file_name'=>$getStudentInfowithReqID['file_submitted'],"folder_id"=>'','token_type'=>'');
         $all_uploadeddata = array('file_name'=>$getStudentInfowithReqID['file_submitted'],"folder_id"=>'','token_type'=>'treasury');
         $string = http_build_query($all_uploadeddata);
         $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/get_id");
@@ -225,5 +287,14 @@ class Treasury extends MY_Controller  {
             echo '<strong>ERROR:Google Drive API is Offline!!</strong>';
         }
         curl_close($ch);
+    }
+    public function getProofInfo(){
+        $req_id = $this->input->get('req_id');
+        $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
+        echo json_encode($getStudentInfowithReqID);
+    }
+    public function testOnly(){
+        $rest = substr("DP120210826105349.png", 0, 2);
+        echo $rest;
     }
 }
