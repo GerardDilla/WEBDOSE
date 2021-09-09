@@ -160,7 +160,7 @@ class Treasury extends MY_Controller  {
                     'Student_Number' => $getStudentInfowithReqID['Student_Number'],
                     'Student_Type' => 'HIGHERED',
                     'Transaction_Detail' => 'VERIFY PROOF OF OF PAYMENT: proof_id = '.$proof_id,
-                    'Transaction_Attendant' => $this->session->userdata('userid'),
+                    'Transaction_Attendant' => $this->session->userdata('logged_in')['userid'],
                     'Date' => date("Y-m-d H:i:s")
                 ));
                 echo json_encode(array('msg'=>'success'));
@@ -203,7 +203,7 @@ class Treasury extends MY_Controller  {
                 'Student_Number' => $getStudentInfowithReqID['Student_Number'],
                 'Student_Type' => 'HIGHERED',
                 'Transaction_Detail' => 'CLARIFY PROOF OF OF PAYMENT: proof_id = '.$proof_id,
-                'Transaction_Attendant' => $this->session->userdata('userid'),
+                'Transaction_Attendant' => $this->session->userdata('logged_in')['userid'],
                 'Date' => date("Y-m-d H:i:s")
             ));
             echo json_encode(array('msg'=>'success'));
@@ -240,7 +240,7 @@ class Treasury extends MY_Controller  {
                 'Student_Number' => $getStudentInfowithReqID['Student_Number'],
                 'Student_Type' => 'HIGHERED',
                 'Transaction_Detail' => 'REJECT PROOF OF OF PAYMENT: proof_id = '.$proof_id,
-                'Transaction_Attendant' => $this->session->userdata('userid'),
+                'Transaction_Attendant' => $this->session->userdata('logged_in')['userid'],
                 'Date' => date("Y-m-d H:i:s")
             ));
             echo json_encode(array('msg'=>'success'));
@@ -294,7 +294,7 @@ class Treasury extends MY_Controller  {
         echo json_encode($getStudentInfowithReqID);
     }
     public function testOnly(){
-        $rest = substr("DP120210826105349.png", 0, 2);
-        echo $rest;
+        // $rest = substr("DP120210826105349.png", 0, 2);
+        echo $this->session->userdata('logged_in')['userid'];
     }
 }
