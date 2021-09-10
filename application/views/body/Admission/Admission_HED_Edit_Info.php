@@ -415,7 +415,12 @@
                                                <option><?php echo $row->item;   ?></option>    
                                             <?php endforeach ?>
                                            </select>
-                                            
+                                           <?php if($this->data['get_info'][0]['Others_Know_SDCA'] == 'COME_ALL'){?>
+                                           <p>
+                                                <b class="red">Referral Name</b>
+                                            </p>
+                                            <input type="text" name="referral_name" id="referral_name" value="<?php echo $this->data['get_info'][0]['Referral_Name'] ?>" class="form-control InfoEnabled" disabled>
+                                            <?php } ?>
                                         </div>
 
                                          <div class="col-md-6">

@@ -962,7 +962,8 @@ class Admission extends MY_Controller
       'guardian_relationship'      => $this->input->post('guardian_relationship'),
       'shs_name'                   => $this->input->post('shs_name'),
       'shs_address'                => $this->input->post('shs_address'),
-      'shs_grad'                   => $this->input->post('shs_grad')
+      'shs_grad'                   => $this->input->post('shs_grad'),
+      'referral_name'              => $this->input->post('referral_name')
     );
     $this->array_logs['action'] =   $this->Edit_Info_Model->Update_Info($array);
     $this->array_logs['module'] = 'EDIT INFO HED';
