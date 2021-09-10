@@ -415,7 +415,7 @@
                                                <option><?php echo $row->item;   ?></option>    
                                             <?php endforeach ?>
                                            </select>
-                                           <?php if($this->data['get_info'][0]['Others_Know_SDCA'] == 'COME_ALL'){?>
+                                           <?php if($this->data['get_info'][0]['Others_Know_SDCA'] == 'Come_All'){?>
                                            <p>
                                                 <b class="red">Referral Name</b>
                                             </p>
