@@ -520,6 +520,8 @@ class Admission extends MY_Controller
     $object->getActiveSheet()->setCellValue('M2', 'Applied Semester');
     $object->getActiveSheet()->setCellValue('N2', 'Date Inquired');
     $object->getActiveSheet()->setCellValue('O2', 'DSWD Number');
+    $object->getActiveSheet()->setCellValue('P2', 'Fathers Income');
+    $object->getActiveSheet()->setCellValue('Q2', 'Mothers Income');
     $object->getActiveSheet()->getColumnDimension('B')->setWidth(20);
     $object->getActiveSheet()->getColumnDimension('C')->setWidth(40);
     $object->getActiveSheet()->getColumnDimension('D')->setWidth(20);
@@ -529,6 +531,8 @@ class Admission extends MY_Controller
     $object->getActiveSheet()->getColumnDimension('H')->setWidth(30);
     $object->getActiveSheet()->getColumnDimension('J')->setWidth(40);
     $object->getActiveSheet()->getColumnDimension('K')->setWidth(40);
+    $object->getActiveSheet()->getColumnDimension('P')->setWidth(35);
+    $object->getActiveSheet()->getColumnDimension('Q')->setWidth(35);
     $column = 1;
     foreach ($table_columns as $field) {
       $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
@@ -583,6 +587,8 @@ class Admission extends MY_Controller
       $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row,  strtoupper($row->Applied_Semester));
       $object->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row,  strtoupper($row->DateInquired));
       $object->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row,  strtoupper($row->dswd_no ? $row->dswd_no : 'N/A'));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(16, $excel_row,  strtoupper($row->Father_Income ? $row->Father_Income : 'N/A'));
+      $object->getActiveSheet()->setCellValueByColumnAndRow(17, $excel_row,  strtoupper($row->Mother_Income ? $row->Mother_Income : 'N/A'));
       $excel_row++;
       $count = $count + 1;
     }
