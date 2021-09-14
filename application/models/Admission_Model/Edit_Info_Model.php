@@ -96,6 +96,7 @@ class Edit_Info_Model extends CI_Model
     $this->db->set('SHS_School_Name', $array['shs_name']);
     $this->db->set('SHS_School_Grad', $array['shs_grad']);
     $this->db->set('SHS_School_Address', $array['shs_address']);
+    $this->db->set('Referral_Name', $array['referral_name']);
     $this->db->where('Reference_Number', $array['ref_num']);
     $this->db->update('Student_Info');
 
