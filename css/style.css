@@ -10046,7 +10046,7 @@ fieldset[disabled] .form-control {
     min-width: 270px;
     border-bottom: 1px solid #eee;
     text-align: center;
-    <<<<<<< HEAD padding: 4px 0 6px 0;
+    padding: 4px 0 6px 0;
 }
 
 .dropdown-menu ul.menu {
@@ -10134,7 +10134,7 @@ fieldset[disabled] .form-control {
 }
 
 .dropdown-menu .footer a {
-    =======padding: 4px 0 6px 0;
+    padding: 4px 0 6px 0;
 }
 
 .dropdown-menu ul.menu {
@@ -10222,11 +10222,11 @@ fieldset[disabled] .form-control {
 }
 
 .dropdown-menu .footer a {
-    >>>>>>>jhon-search-student text-align: center;
+    text-align: center;
     border-top: 1px solid #eee;
     padding: 5px 0 5px 0;
     font-size: 12px;
-    <<<<<<< HEAD margin-bottom: -5px;
+    margin-bottom: -5px;
 }
 
 .dropdown-menu .footer a:hover {
@@ -10234,7 +10234,7 @@ fieldset[disabled] .form-control {
 }
 
 .dropdown-menu>li>a {
-    =======margin-bottom: -5px;
+    margin-bottom: -5px;
 }
 
 .dropdown-menu .footer a:hover {
@@ -10242,13 +10242,13 @@ fieldset[disabled] .form-control {
 }
 
 .dropdown-menu>li>a {
-    >>>>>>>jhon-search-student padding: 7px 18px;
+    padding: 7px 18px;
     color: #666;
     -moz-transition: all 0.5s;
     -o-transition: all 0.5s;
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
-    <<<<<<< HEAD=======font-size: 14px;
+    font-size: 14px;
     line-height: 25px;
 }
 
@@ -10533,7 +10533,7 @@ fieldset[disabled] .form-control {
 .sidebar .menu .list .ml-menu span:hover {
     color: #800;
     font-weight: bolder;
-    >>>>>>>jhon-search-student font-size: 14px;
+    font-size: 14px;
     line-height: 25px;
 }
 
@@ -10836,9 +10836,6 @@ fieldset[disabled] .form-control {
     margin: 3px 0 1px 6px;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 .sidebar {
   -moz-transition: all 0.5s;
   -o-transition: all 0.5s;
@@ -11071,11 +11068,6 @@ fieldset[disabled] .form-control {
           color: #fff;
 
         }
-=======
->>>>>>> student-inquiry-module
-
-}
->>>>>>> feature-soa-jhon-v1.1
 .sidebar .menu .list .ml-menu li.active a.toggled:not(.menu-toggle):before {
     content: '\E315';
     color: #fff;
@@ -11872,23 +11864,17 @@ input[type="date"]:focus::before {
 .modal-title span {
     color: #666;
 }
-<<<<<<< HEAD
 
 .sidebar .user-info .info-container {
     position: static;
     margin-top: 5px;
-=======
-<<<<<<< HEAD
+}
 .modal-title span{
   color: #666;
 }
 .sidebar .user-info .info-container{
   position:static;
   margin-top:5px;
-=======
-.sidebar .user-info .info-container {
-    position: static;
-    padding-top: 5px;
->>>>>>> student-inquiry-module
->>>>>>> feature-soa-jhon-v1.1
+  position: static;
+  padding-top: 5px;
 }

@@ -80,17 +80,18 @@ class Treasury extends MY_Controller  {
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
         $folder_name = $getStudentInfowithReqID['ref_no'].'/'.$getStudentInfowithReqID['Last_Name'].', '.$getStudentInfowithReqID['First_Name'] . ' ' . $getStudentInfowithReqID['Middle_Name'];
         $all_uploadeddata = array(
-            // 'parent_id' => '1Hrg19tx5YgsxFJ2T--HblVRmoJtfnhhj',
-            'parent_id' => '1aNXXe7fO_amTVsXYFMz8yz36NqeYCXnu',
+            'parent_id' => '1Hrg19tx5YgsxFJ2T--HblVRmoJtfnhhj',
+            // 'parent_id' => '1aNXXe7fO_amTVsXYFMz8yz36NqeYCXnu',
             'folder_name' => $folder_name,
-            'token_type' => 'treasury',
+            // 'token_type' => 'treasury',
+            'token_type' => '',
             'file_name' => $getStudentInfowithReqID['file_submitted'],
         );
         // echo '<pre>'.print_r($getStudentInfowithReqID,1).'</pre>';
         // exit;
         $string = http_build_query($all_uploadeddata);
-        // $ch = curl_init("http://localhost:4004/gdriveuploader/move");
-        $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/move");
+        $ch = curl_init("http://localhost:4004/gdriveuploader/move");
+        // $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/move");
         curl_setopt($ch,CURLOPT_POST,true);
         curl_setopt($ch,CURLOPT_POSTFIELDS,$string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
@@ -125,25 +126,26 @@ class Treasury extends MY_Controller  {
         $proof_id = $term.''.$req_id;
 
         $email_data = array(
-            'from' => 'treasuryoffice@sdca.edu.ph',
-            // 'from' => 'jfabregas@sdca.edu.ph',
+            // 'from' => 'treasuryoffice@sdca.edu.ph',
+            'from' => 'jfabregas@sdca.edu.ph',
             'from_name' => 'SDCA Treasury',
-            // 'send_to' => 'jhonnormanfabregas@gmail.com',
-            'send_to' => $getStudentInfowithReqID['Student_Email'],
+            'send_to' => 'jhonnormanfabregas@gmail.com',
+            // 'send_to' => $getStudentInfowithReqID['Student_Email'],
             'subject' => 'Validate Proof of Payment',
             'message' => 'Email/ValidatedProofofPayment',
             'data' => array('data'=>$getStudentInfowithReqID)
         );
         $all_uploadeddata = array(
-            'parent_id' => '1f6rcykwmcgbePXKPLR6cpzymPPjX8ayd',
-            // 'parent_id' => '1lLObKQNw6GZqFu5x-qtoFtkXyaK60pzH',
+            // 'parent_id' => '1f6rcykwmcgbePXKPLR6cpzymPPjX8ayd',
+            'parent_id' => '1lLObKQNw6GZqFu5x-qtoFtkXyaK60pzH',
             'folder_name' => $folder_name,
-            'token_type' => 'treasury',
+            // 'token_type' => 'treasury',
+            'token_type' => '',
             'file_name' => $getStudentInfowithReqID['file_submitted'],
         );
         $string = http_build_query($all_uploadeddata);
-        // $ch = curl_init("http://localhost:4004/gdriveuploader/move");
-        $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/move");
+        $ch = curl_init("http://localhost:4004/gdriveuploader/move");
+        // $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/move");
         curl_setopt($ch,CURLOPT_POST,true);
         curl_setopt($ch,CURLOPT_POSTFIELDS,$string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
@@ -181,11 +183,11 @@ class Treasury extends MY_Controller  {
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
         $message = $this->input->get('message');
         $email_data = array(
-            'from' => 'treasuryoffice@sdca.edu.ph',
-            // 'from' => 'jfabregas@sdca.edu.ph',
-            'from_name' => 'SDCA Treasury',
-            // 'send_to' => 'jhonnormanfabregas@gmail.com',
-            'send_to' => $getStudentInfowithReqID['Student_Email'],
+            // 'from' => 'treasuryoffice@sdca.edu.ph',
+            'from' => 'jfabregas@sdca.edu.ph',
+            // 'from_name' => 'SDCA Treasury',
+            'send_to' => 'jhonnormanfabregas@gmail.com',
+            // 'send_to' => $getStudentInfowithReqID['Student_Email'],
             'subject' => 'Validate Proof of Payment',
             'message' => 'Email/ClarifyProofOfPayment',
             'data' => array('data'=>$getStudentInfowithReqID,'proof_table'=>'yes','message'=>$message)
@@ -223,11 +225,11 @@ class Treasury extends MY_Controller  {
         }
         $proof_id = $term.''.$req_id;
         $email_data = array(
-            'from' => 'treasuryoffice@sdca.edu.ph',
-            // 'from' => 'jfabregas@sdca.edu.ph',
+            // 'from' => 'treasuryoffice@sdca.edu.ph',
+            'from' => 'jfabregas@sdca.edu.ph',
             'from_name' => 'SDCA Treasury',
-            // 'send_to' => 'jhonnormanfabregas@gmail.com',
-            'send_to' => $getStudentInfowithReqID['Student_Email'],
+            'send_to' => 'jhonnormanfabregas@gmail.com',
+            // 'send_to' => $getStudentInfowithReqID['Student_Email'],
             'subject' => 'Validate Proof of Payment',
             'message' => 'Email/RejectedProofOfPayment',
             'data' => array('data'=>$getStudentInfowithReqID)
@@ -254,11 +256,11 @@ class Treasury extends MY_Controller  {
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($id);
         // echo '<pre>'.print_r($getStudentInfowithReqID,1).'</pre>';
         // exit;
-        // $all_uploadeddata = array('file_name'=>$getStudentInfowithReqID['file_submitted'],"folder_id"=>'','token_type'=>'');
-        $all_uploadeddata = array('file_name'=>$getStudentInfowithReqID['file_submitted'],"folder_id"=>'','token_type'=>'treasury');
+        $all_uploadeddata = array('file_name'=>$getStudentInfowithReqID['file_submitted'],"folder_id"=>'','token_type'=>'');
+        // $all_uploadeddata = array('file_name'=>$getStudentInfowithReqID['file_submitted'],"folder_id"=>'','token_type'=>'treasury');
         $string = http_build_query($all_uploadeddata);
-        $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/get_id");
-        // $ch = curl_init("http://localhost:4004/gdriveuploader/get_id");
+        // $ch = curl_init("http://stdominiccollege.edu.ph:4004/gdriveuploader/get_id");
+        $ch = curl_init("http://localhost:4004/gdriveuploader/get_id");
         curl_setopt($ch,CURLOPT_POST,true);
         curl_setopt($ch,CURLOPT_POSTFIELDS,$string);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
