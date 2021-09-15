@@ -79,6 +79,13 @@
                                     <input type="month" id="monthly" class="form-control monthly date-format" style="display:none;">
                                     <label class="weekly" for="data_to" style="display:none;">Week: </label>
                                     <input type="week" id="weekly" class="form-control weekly date-format" style="display:none;">
+                                    <label for="data_from">Status</label>
+                                    <select name="proof-status" class="form-control show-tick" data-live-search="true" tabindex="-98">
+                                        <option value="ALL">ALL</option>
+                                        <option value="0">Non Validated</option>
+                                        <option value="1">Validated</option>
+                                        <option value="-1">Rejected</option>
+                                    </select>
                                 </div>
                                 <br>
                                 <button class="btn btn-lg btn-danger" id="proof_filter_button">Search</button>
@@ -555,6 +562,7 @@
                     data: {
                         from: from_date,
                         to: to_date,
+                        status:$('select[name=proof-status]').val()
                     },
                     dataType: 'json',
                     success: function(response) {

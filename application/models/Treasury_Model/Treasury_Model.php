@@ -22,6 +22,9 @@ class Treasury_Model extends CI_Model
             $this->db->like('rl.requirements_date',$array['from']);
         }
         $this->db->where('rl.requirements_name','proof_of_payment');
+        if($array['status']!="ALL"){
+            $this->db->where('proof_status',$array['status']);
+        }
         // $this->db->where('si.Student_Number <=', 0);
         $this->db->where('si.Reference_Number >', 0);
         $this->db->group_by('rl.id');
