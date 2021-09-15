@@ -440,7 +440,8 @@
                                     position: 'topCenter',
                                 });
                             }
-                        },error:function(response){
+                        },
+                        error:function(response){
                             $('body').waitMe('hide');
                             iziToast.warning({
                                 title: 'Error: ',
@@ -555,7 +556,7 @@
                     from_date = $('#monthly').val();
                     to_date = '';
                 }
-                
+                $('#proof_filter_button').attr('disabled',true)
                 $.ajax({
                     type: "POST",
                     url: base_url + "index.php/Treasury/proof_of_payment_ajax",
@@ -566,7 +567,7 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        // console.log(response)
+                        console.log(response)
                         // alert(response);
                         $data_table_var.DataTable().destroy();
                         $('#proof_of_payment_tbody').empty();
@@ -586,6 +587,12 @@
                             // none
                         }
                     },
+                    complete: function(response){
+                        $('#proof_filter_button').prop('disabled',false)
+                    },
+                    error: function(response){
+                        $('#proof_filter_button').prop('disabled',false)
+                    }
                 })
             }
         })

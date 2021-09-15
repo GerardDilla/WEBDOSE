@@ -64,9 +64,9 @@ class Treasury extends MY_Controller  {
     }
     public function proof_of_payment_ajax(){
         $array = array(
-            'from'=>$this->input->post('from'),
-            'to'=>$this->input->post('to'),
-            'status'=>$this->input->post('status')
+            'from'=>$this->input->POST('from'),
+            'to'=>$this->input->POST('to'),
+            'status'=>$this->input->POST('status')
         );
         // $array = array(
         //     'from'=>'2021-05-11',

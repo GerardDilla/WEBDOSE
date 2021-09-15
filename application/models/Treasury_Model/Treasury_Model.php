@@ -14,6 +14,14 @@ class Treasury_Model extends CI_Model
         $this->db->join('Student_Info si', 'rl.reference_no = si.Reference_Number', 'LEFT');
         $this->db->join('student_account sa', 'sa.reference_no = si.Reference_Number', 'LEFT');
         // $this->db->where('si.Student_Number !=', '');
+        $this->db->where('rl.requirements_name','proof_of_payment');
+        if($array['status']!="ALL"){
+            $this->db->where('proof_status ="'.$array['status'].'"');
+            if($array['status']=="0"){
+                $this->db->or_where('proof_status IS NULL');
+            }
+            
+        }
         if(!empty($array['to'])){
             $this->db->where('rl.requirements_date >=', $array['from']);
             $this->db->where('rl.requirements_date <', $array['to']);
@@ -21,10 +29,7 @@ class Treasury_Model extends CI_Model
         else{
             $this->db->like('rl.requirements_date',$array['from']);
         }
-        $this->db->where('rl.requirements_name','proof_of_payment');
-        if($array['status']!="ALL"){
-            $this->db->where('proof_status',$array['status']);
-        }
+        
         // $this->db->where('si.Student_Number <=', 0);
         $this->db->where('si.Reference_Number >', 0);
         $this->db->group_by('rl.id');
