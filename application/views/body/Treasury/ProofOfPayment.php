@@ -173,7 +173,12 @@
             </div>
             <br>
             <div class="col-md-12">
-                <h5>Clarify Proof Of Payment Email Template</h5>
+                <h5>Proof Of Payment Email Template</h5>
+                <strong>NOTE:</strong>
+                <ol>
+                    <li>This is only applicable for Verify and Reject option.</li>
+                    <li>If you want to submit a default email make this field empty (For Reject Only).</li>
+                </ol>
             </div>
             <div class="col-md-12">
                 <textarea class="form-control" maxlength="300" id="clarify_email_message"></textarea><br>
@@ -217,6 +222,7 @@
         $('input[name=pp_semester]').val(info.semester);
         $('#req_id').val(req_id)
         $('#proofOfPaymentAmount').val(parseFloat(amount).toFixed(2));
+        $('#clarify_email_message').val('')
         $('#verifyProofModal').modal('show');
     }
     
@@ -253,7 +259,8 @@
                         type: "GET",
                         url: base_url + "index.php/Treasury/rejectProofOfPayment",
                         data: {
-                            req_id: $('#req_id').val()
+                            req_id: $('#req_id').val(),
+                            message:$('#clarify_email_message').val()
                         },
                         dataType: 'json',
                         success: function(response) {
@@ -302,86 +309,93 @@
         });
     }
     function clarifyProofOfPayment(){
-        // alert('hello')
-        // return false;
-        iziToast.show({
-            zindex:99999,
-            theme: 'light',
-            icon: 'icon-person',
-            title: 'Are you sure you want to clarify this proof of payment?',
-        //     message: 'Welcome!',
-            position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
-            progressBarColor: '#cc0000',
-            overlay:true,
-            timeout:false,
-            buttons: [
-                ['<button>Ok</button>', function (instance,toast,button,e,inputs) {
-                    $('body').waitMe({
-                        effect: 'win8',
-                        text: 'Please wait...',
-                        bg: 'rgba(255,255,255,0.7)',
-                        color: '#cc0000',
-                        maxSize: '',
-                        waitTime: -1,
-                        textPos: 'vertical',
-                        fontSize: '',
-                        source: '',
-                        onClose: function() {
+        if($('#clarify_email_message').val()!=""){
+            iziToast.show({
+                zindex:99999,
+                theme: 'light',
+                icon: 'icon-person',
+                title: 'Are you sure you want to clarify this proof of payment?',
+            //     message: 'Welcome!',
+                position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
+                progressBarColor: '#cc0000',
+                overlay:true,
+                timeout:false,
+                buttons: [
+                    ['<button>Ok</button>', function (instance,toast,button,e,inputs) {
+                        $('body').waitMe({
+                            effect: 'win8',
+                            text: 'Please wait...',
+                            bg: 'rgba(255,255,255,0.7)',
+                            color: '#cc0000',
+                            maxSize: '',
+                            waitTime: -1,
+                            textPos: 'vertical',
+                            fontSize: '',
+                            source: '',
+                            onClose: function() {
 
-                        }
-                    });
-                    $.ajax({
-                        type: "GET",
-                        url: base_url + "index.php/Treasury/clarifyProofOfPayment",
-                        data: {
-                            req_id: $('#req_id').val(),
-                            message:$('#clarify_email_message').val()
-                        },
-                        dataType: 'json',
-                        success: function(response) {
-                            if(response['msg']=="success"){
-                                $('#proof_filter_button').trigger('click');
-                                $('#verifyProofModal').modal('hide');
-                                iziToast.show({
-                                    theme:'light',
-                                    title: '<i class="material-icons">task_alt</i> ',
-                                    message: "<b>Email has been sent to Student!</b>",
-                                    position: 'topCenter',
-                                });
                             }
-                            else{
+                        });
+                        $.ajax({
+                            type: "GET",
+                            url: base_url + "index.php/Treasury/clarifyProofOfPayment",
+                            data: {
+                                req_id: $('#req_id').val(),
+                                message:$('#clarify_email_message').val()
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if(response['msg']=="success"){
+                                    $('#proof_filter_button').trigger('click');
+                                    $('#verifyProofModal').modal('hide');
+                                    iziToast.show({
+                                        theme:'light',
+                                        title: '<i class="material-icons">task_alt</i> ',
+                                        message: "<b>Email has been sent to Student!</b>",
+                                        position: 'topCenter',
+                                    });
+                                }
+                                else{
+                                    iziToast.warning({
+                                        title: 'Error: ',
+                                        message: response['msg'],
+                                        position: 'topCenter',
+                                    });
+                                }
+                                $('body').waitMe('hide');
+                            },
+                            error: function(response){
+                                $('body').waitMe('hide');
                                 iziToast.warning({
                                     title: 'Error: ',
-                                    message: response['msg'],
+                                    message: response,
                                     position: 'topCenter',
                                 });
                             }
-                            $('body').waitMe('hide');
-                        },
-                        error: function(response){
-                            $('body').waitMe('hide');
-                            iziToast.warning({
-                                title: 'Error: ',
-                                message: response,
-                                position: 'topCenter',
-                            });
-                        }
-                    });
-                    instance.hide({
-                        transitionOut: 'fadeOutUp',
-                        onClosing: function(instance, toast, closedBy){
-        //                     console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
-                        }
-                    }, toast, 'buttonName');
-                }, true]
-            ],
-            onOpening: function(instance, toast){
-                console.info('callback abriu!');
-            },
-            onClosing: function(instance, toast, closedBy){
-                console.info('closedBy: ' + closedBy);
-            }
-        });
+                        });
+                        instance.hide({
+                            transitionOut: 'fadeOutUp',
+                            onClosing: function(instance, toast, closedBy){
+            //                     console.info('closedBy: ' + closedBy); // The return will be: 'closedBy: buttonName'
+                            }
+                        }, toast, 'buttonName');
+                    }, true]
+                ],
+                onOpening: function(instance, toast){
+                    console.info('callback abriu!');
+                },
+                onClosing: function(instance, toast, closedBy){
+                    console.info('closedBy: ' + closedBy);
+                }
+            });
+        }
+        else{
+            iziToast.warning({
+                title: '',
+                message: "<b>You need to input value for Proof of Payment Email Template Field!</b>",
+                position: 'topCenter',
+            });
+        }
     }
     function verifyProofofPayment(){
         

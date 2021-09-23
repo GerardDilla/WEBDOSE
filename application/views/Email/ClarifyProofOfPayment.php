@@ -69,6 +69,7 @@
         </table>
         <?php endif; ?>
         <br>
+        <br>
         If you have any concerns, please don't hesitate to email us.
         <br>
         Thank you.

@@ -76,7 +76,7 @@ class Treasury extends MY_Controller  {
         // echo '<pre>'.print_r($proofs,1).'</pre>';
         echo json_encode($proofs);
     }
-    public function sampleView(){
+    public function backup(){
         $req_id = $this->input->get('id');
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
         $folder_name = $getStudentInfowithReqID['ref_no'].'/'.$getStudentInfowithReqID['Last_Name'].', '.$getStudentInfowithReqID['First_Name'] . ' ' . $getStudentInfowithReqID['Middle_Name'];
@@ -98,7 +98,7 @@ class Treasury extends MY_Controller  {
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         $result = curl_exec($ch);
         if($result=="success"){
-            $this->Treasury_Model->updateProofofPaymentWithReqID(array('proof_status'=>0),$req_id);
+            $this->Treasury_Model->updateProofofPaymentWithReqID(array('proof_status'=>NULL),$req_id);
         }
         if (curl_errno($ch)) {
             $error_msg = curl_error($ch);
@@ -187,9 +187,9 @@ class Treasury extends MY_Controller  {
             'from_name' => 'SDCA Treasury',
             // 'send_to' => 'jhonnormanfabregas@gmail.com',
             'send_to' => $getStudentInfowithReqID['Student_Email'],
-            'subject' => 'Validate Proof of Payme                    nt',
+            'subject' => 'Validate Proof of Payment',
             'message' => 'Email/ClarifyProofOfPayment',
-            'data' => array('data'=>$getStudentInfowithReqID,'proof_table'=>'yes','message'=>$message)
+            'data' => array('data'=>$getStudentInfowithReqID,'proof_table'=>null,'message'=>$message)
         );
         $term = substr($getStudentInfowithReqID['file_submitted'], 0, 2);
         if($term!="DP"&&$term!="PT"&&$term!="MT"&&$term!="FT"&&$term!="FP"){
@@ -216,6 +216,7 @@ class Treasury extends MY_Controller  {
     public function rejectProofOfPayment(){
         $req_id = $this->input->get('req_id');
         $getStudentInfowithReqID = $this->Treasury_Model->getStudentInfowithReqID($req_id);
+        $message = $this->input->get('message');
         // echo '<pre>'.print_r($getStudentInfowithReqID,1).'</pre>';
         // exit;
         $term = substr($getStudentInfowithReqID['file_submitted'], 0, 2);
@@ -231,7 +232,7 @@ class Treasury extends MY_Controller  {
             'send_to' => $getStudentInfowithReqID['Student_Email'],
             'subject' => 'Validate Proof of Payment',
             'message' => 'Email/RejectedProofOfPayment',
-            'data' => array('data'=>$getStudentInfowithReqID)
+            'data' => array('data'=>$getStudentInfowithReqID,'message'=>$message)
         );
         $email_status = $this->sendEMail($email_data);
         if($email_status['msg']=='success'){

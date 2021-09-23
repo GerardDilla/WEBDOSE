@@ -16,10 +16,14 @@ class Treasury_Model extends CI_Model
         // $this->db->where('si.Student_Number !=', '');
         $this->db->where('rl.requirements_name','proof_of_payment');
         if($array['status']!="ALL"){
-            $this->db->where('proof_status ="'.$array['status'].'"');
             if($array['status']=="0"){
-                $this->db->or_where('proof_status IS NULL');
+                $this->db->where('proof_status IS NULL');
+            }else{
+                $this->db->where('proof_status ="'.$array['status'].'"');
             }
+            // if($array['status']=="0"){
+            //     $this->db->or_where('proof_status IS NULL');
+            // }
             
         }
         if(!empty($array['to'])){

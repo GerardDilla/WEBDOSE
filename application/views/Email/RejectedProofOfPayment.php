@@ -23,7 +23,15 @@
         <!-- Hi, This is <?php echo $fullname; ?> from the Digital Education Solutions unit of the ICT Department.
         <br> -->
         <!-- We are glad to inform you that we have successfully printed your ID, you may now claim it at DES Office located at the Computer Laboratory 2, 5th Floor, GD 1 -->
-        We would like to inform you that your proof of payment has been rejected, please upload a valid proof of payment.
+        <?php
+            if(empty($message)){
+                echo 'We would like to inform you that your proof of payment has been rejected, please upload a valid proof of payment.';
+            }
+            else{
+                echo $message;
+            }
+        ?>
+        
 
         <table width="80%" cellspacing="0">
             <tr>
