@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '4bfe3c27e32730af52a65ba579899a343d2be3ca',
+    'reference' => 'cade7d084e1c7fe31cc1fbad1539c2f0924af387',
     'name' => 'codeigniter/framework',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '4bfe3c27e32730af52a65ba579899a343d2be3ca',
+      'reference' => 'cade7d084e1c7fe31cc1fbad1539c2f0924af387',
     ),
     'doctrine/instantiator' => 
     array (
@@ -112,12 +112,12 @@
     ),
     'mpdf/mpdf' => 
     array (
-      'pretty_version' => 'v8.0.11',
-      'version' => '8.0.11.0',
+      'pretty_version' => 'v8.0.13',
+      'version' => '8.0.13.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'af17afbbfa0b6ce76defc8da5d02a73d54f94c64',
+      'reference' => '42f145615cfe830fd432474da1d2e1f927efe402',
     ),
     'myclabs/deep-copy' => 
     array (
@@ -134,12 +134,12 @@
     ),
     'myclabs/php-enum' => 
     array (
-      'pretty_version' => '1.7.7',
-      'version' => '1.7.7.0',
+      'pretty_version' => '1.8.3',
+      'version' => '1.8.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'd178027d1e679832db9f38248fcc7200647dc2b7',
+      'reference' => 'b942d263c641ddb5190929ff840c68f78713e937',
     ),
     'paragonie/random_compat' => 
     array (
@@ -188,12 +188,12 @@
     ),
     'phpdocumentor/type-resolver' => 
     array (
-      'pretty_version' => '1.4.0',
-      'version' => '1.4.0.0',
+      'pretty_version' => '1.5.0',
+      'version' => '1.5.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0',
+      'reference' => '30f38bffc6f24293dadd1823936372dfa9e86e2f',
     ),
     'phpoffice/phpspreadsheet' => 
     array (
@@ -461,12 +461,12 @@
     ),
     'stichoza/google-translate-php' => 
     array (
-      'pretty_version' => 'v4.1.4',
-      'version' => '4.1.4.0',
+      'pretty_version' => 'v4.1.5',
+      'version' => '4.1.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9e4808cf6f3f1e89f06e2129c46f58eeca658428',
+      'reference' => '85039e0af473e58cc9f42d58e36d9d534a6a6431',
     ),
     'symfony/polyfill-ctype' => 
     array (
@@ -479,21 +479,21 @@
     ),
     'symfony/polyfill-mbstring' => 
     array (
-      'pretty_version' => 'v1.23.0',
-      'version' => '1.23.0.0',
+      'pretty_version' => 'v1.23.1',
+      'version' => '1.23.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '2df51500adbaebdc4c38dea4c89a2e131c45c8a1',
+      'reference' => '9174a3d80210dca8daa7f31fec659150bbeabfc6',
     ),
     'symfony/yaml' => 
     array (
-      'pretty_version' => 'v4.4.26',
-      'version' => '4.4.26.0',
+      'pretty_version' => 'v4.4.29',
+      'version' => '4.4.29.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e096ef4b4c4c9a2f72c2ac660f54352cd31c60f8',
+      'reference' => '3abcc4db06d4e776825eaa3ed8ad924d5bc7432a',
     ),
     'tnkemdilim/money-to-words-converter' => 
     array (

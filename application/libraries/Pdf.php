@@ -21,7 +21,6 @@ class Pdf
         $pdf = new DOMPDF();
         $ci =& get_instance();
         $ci->dompdf = $pdf;
-
     }
 }
 ?>

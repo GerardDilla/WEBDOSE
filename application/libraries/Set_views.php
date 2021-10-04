@@ -507,4 +507,8 @@ class set_views
 	{
 		return 'body/registrar/BypassManager';
 	}
+	public function UpdateSATEForm(){
+		return 'body/EvaluationForm/UpdateSATEForm';
+	}
+	
 }

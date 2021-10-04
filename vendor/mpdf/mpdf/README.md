@@ -22,6 +22,7 @@ PHP versions and extensions
 - `PHP 7.3` is supported since `mPDF v7.1.7`
 - `PHP 7.4` is supported since `mPDF v8.0.4`
 - `PHP 8.0` is supported since `mPDF v8.0.10`
+- `PHP 8.1` is supported as of `mPDF v8.0.13`
 
 PHP `mbstring` and `gd` extensions have to be loaded.
 
@@ -103,7 +104,12 @@ Online manual
 
 Online manual is available at https://mpdf.github.io/.
 
-For general questions or troubleshooting please use the [mpdf tag](https://stackoverflow.com/questions/tagged/mpdf) at Stack Overflow (and not the project's issue tracker).
+General troubleshooting
+=============
+
+For general questions or troubleshooting please use [Discussions](https://github.com/mpdf/mpdf/discussions).
+
+You can also use the [mpdf tag](https://stackoverflow.com/questions/tagged/mpdf) at Stack Overflow as the StackOverflow user base is more likely to answer you in a timely manner.
 
 Contributing
 ============
